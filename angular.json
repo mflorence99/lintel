@@ -49,7 +49,7 @@
             "polyfills": "src/polyfills.ts",
             "scripts": [],
             "styles": [
-              "src/styles.scss"
+              "src/theme.scss"
             ],
             "tsConfig": "tsconfig.app.json"
           }

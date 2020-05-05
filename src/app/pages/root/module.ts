@@ -1,5 +1,4 @@
 import { BarrelModule } from '../../barrel';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RootPageComponent } from './page';
 
@@ -12,8 +11,7 @@ const COMPONENTS = [
 ];
 
 const MODULES = [
-  BarrelModule,
-  BrowserModule
+  BarrelModule
 ];
 
 @NgModule({
