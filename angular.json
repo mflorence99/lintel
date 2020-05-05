@@ -1,0 +1,90 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "defaultProject": "lintel",
+  "newProjectRoot": "projects",
+  "projects": {
+    "lintel": {
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "maximumError": "5mb",
+                  "maximumWarning": "2mb",
+                  "type": "initial"
+                },
+                {
+                  "maximumError": "10kb",
+                  "maximumWarning": "6kb",
+                  "type": "anyComponentStyle"
+                }
+              ],
+              "buildOptimizer": true,
+              "extractCss": true,
+              "extractLicenses": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "namedChunks": false,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "vendorChunk": false
+            }
+          },
+          "options": {
+            "aot": true,
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "outputPath": "dist/lintel",
+            "polyfills": "src/polyfills.ts",
+            "scripts": [],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "tsConfig": "tsconfig.app.json"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "lintel:build"
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "lintel:build:production"
+            }
+          },
+          "options": {
+            "browserTarget": "lintel:build"
+          }
+        }
+      },
+      "prefix": "app",
+      "projectType": "application",
+      "root": "",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "sourceRoot": "src"
+    }
+  },
+  "version": 1,
+  "cli": {
+    "analytics": "e1797a63-90dc-4047-b3ed-706096956513"
+  }
+}
