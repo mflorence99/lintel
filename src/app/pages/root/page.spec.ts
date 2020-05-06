@@ -30,4 +30,5 @@ describe('RootPageComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('p').textContent).toContain('Hello, Lintel!');
   });
+
 });

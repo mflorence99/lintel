@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceRoot}"
+            ],
+            "name": "Run Extension",
+            "outFiles": [
+                "${workspaceFolder}/dist/ext/**/*.js"
+            ],
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "type": "extensionHost"
+        }
+    ],
+    "version": "0.2.0"
+}

@@ -8,7 +8,7 @@ module.exports = {
     prefix: '<rootDir>/'
   }),
   preset: 'jest-preset-angular',
-  roots: ['<rootDir>/src/'],
+  roots: ['<rootDir>/ext/', '<rootDir>/src/'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
   setupFilesAfterEnv: ['<rootDir>/src/test.ts']
 };
