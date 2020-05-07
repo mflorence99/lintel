@@ -72,9 +72,9 @@
   "scripts": {
     "clean": "rm -rf node_modules && rm package-lock.json && npm install",
     "build": "ng build && tsc -p tsconfig.ext.json",
-    "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.scss' --fix && ./node_modules/.bin/htmlhint src/**/*.html",
+    "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix && ./node_modules/.bin/htmlhint src/**/*.html",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --open",
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
     "vscode:prepublish": "npm run build"
   },

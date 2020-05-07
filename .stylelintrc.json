@@ -5,6 +5,7 @@
     "stylelint-scss"
   ],
   "rules": {
+    "color-hex-length": "long",
     "order/order": [
       "custom-properties",
       "declarations"

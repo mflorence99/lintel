@@ -1,0 +1,3 @@
+const acquireVsCodeApi = (function () {
+  // TBD
+})();

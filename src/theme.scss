@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'colors.scss';
+
+body.vscode-dark {
+  /* TODO: any necessary styling here */
+  background-color: var(--vscode-editor-background);
+}
+
+body.vscode-high-contrast {
+  /* TODO: any necessary styling here */
+  background-color: var(--vscode-editor-background);
+}
+
+body.vscode-light {
+  /* TODO: any necessary styling here */
+  background-color: var(--vscode-editor-background);
+}
