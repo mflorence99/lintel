@@ -1,30 +1,40 @@
+import '../../../assets/eslint-schema.js';
+
+import { NgxsDataPluginModule } from '@ngxs-labs/data';
+import { NgxsModule } from '@ngxs/store';
 import { RootPageComponent } from './page';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
+import { states } from '../../state/app';
 
 describe('RootPageComponent', () => {
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         RootPageComponent
       ],
+      imports: [
+        NgxsModule.forRoot(states),
+        NgxsDataPluginModule.forRoot(),
+      ]
     }).compileComponents();
   }));
 
-  test('should create the app', () => {
+  test('App is created', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  test('should have as title \'lintel\'', () => {
+  test('Schema state is initialized', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('lintel');
+    expect(app.schemas.snapshot['eslint']).toBeTruthy();
   });
 
-  test('should render title', () => {
+  test('Dummy contents are set', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
