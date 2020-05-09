@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ConfigsState } from '../../state/configs';
 import { SchemasState } from '../../state/schemas';
 
 /**
@@ -14,7 +15,9 @@ import { SchemasState } from '../../state/schemas';
 export class RootPageComponent {
 
   /** ctor */
-  constructor(public schemas: SchemasState) {
+  constructor(public configs: ConfigsState,
+              public schemas: SchemasState) {
+    this.configs.initialize();
     this.schemas.initialize();
   }
 

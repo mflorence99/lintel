@@ -1,4 +1,5 @@
 import '../../../assets/eslint-schema.js';
+import '../../../assets/eslintrc-files.js';
 
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
@@ -28,9 +29,10 @@ describe('RootPageComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  test('Schema state is initialized', () => {
+  test('Config and Schema states are initialized', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
     const app = fixture.componentInstance;
+    expect(app.configs.snapshot['package.json']).toBeTruthy();
     expect(app.schemas.snapshot['eslint']).toBeTruthy();
   });
 

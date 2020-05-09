@@ -6,7 +6,7 @@
 
 eslintSchema = {
   "@typescript-eslint": {
-    "scheme": {
+    "rules": {
       "@typescript-eslint/adjacent-overload-signatures": {
         "meta": {
           "docs": {
@@ -6896,7 +6896,7 @@ eslintSchema = {
     "version": "2.31.0"
   },
   "eslint": {
-    "scheme": {
+    "rules": {
       "accessor-pairs": {
         "meta": {
           "docs": {

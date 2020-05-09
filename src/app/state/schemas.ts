@@ -7,18 +7,48 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 // NOTE: schema content is provided statically in index.html
 declare const eslintSchema: SchemasStateModel;
 
-export interface Scheme {
-  [rule: string]: { meta: any };
+export interface Rule {
+  meta: {
+    deprecated: boolean;
+    docs: {
+      category: string;
+      descripotion: string;
+      extendsBasicRule: boolean;
+      recommended: 'error' | 'warn' | 'off' | boolean;
+      requiresTypeChecking: boolean;
+      url: string;
+    };
+    replacedBy: string[];
+    schema: RuleOption | RuleOption[] | RuleOptions;
+    type: 'problem' | 'suggestion' | 'layout';
+  };
+}
+
+export type RuleOption = RuleOptionEnum | RuleOptionItems | RuleOptionObject;
+
+export interface RuleOptionEnum {
+  enum: string[];
+}
+
+export interface RuleOptionItems {
+  // TODO: more analysis
+}
+
+export interface RuleOptionObject {
+  // TODO: more analysis
+}
+
+export interface RuleOptions {
+  anyOf?: RuleOption[];
+  oneOf?: RuleOption[];
 }
 
 export interface Schema {
-  schema: Schema;
+  rules: Record<string, Rule>;
   version: string;
 }
 
-export interface SchemasStateModel {
-  [extension: string]: Schema;
-}
+export type SchemasStateModel = Record<string, Schema>;
 
 @Injectable({ providedIn: 'root' })
 @StateRepository()

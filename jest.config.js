@@ -10,5 +10,6 @@ module.exports = {
   preset: 'jest-preset-angular',
   roots: ['<rootDir>/ext/', '<rootDir>/src/'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
+  transformIgnorePatterns: ['^.+\\.js$'],
   setupFilesAfterEnv: ['<rootDir>/src/test.ts']
 };
