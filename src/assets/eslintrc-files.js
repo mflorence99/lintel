@@ -194,14 +194,16 @@ eslintrcFiles = {
           "always"
         ]
       }
-    }
+    },
+    "root": true
   },
   "ext/.eslintrc.json": {
     "config": {
       "rules": {
         "@typescript-eslint/brace-style": "warning",
       }
-    }
+    },
+    "parent": "package.json"
   },
   "src/.eslintrc.yml": {
     "children": ["src/app/.eslintrc.js"],
@@ -209,7 +211,8 @@ eslintrcFiles = {
       "rules": {
         "@typescript-eslint/brace-style": "off",
       }
-    }
+    },
+    "parent": "package.json"
   },
   "src/app/.eslintrc.js": {
     "config": {
@@ -217,6 +220,7 @@ eslintrcFiles = {
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-explicit-any": "error"
       }
-    }
+    },
+    "parent": "src/.eslintrc.yml"
   }
 }

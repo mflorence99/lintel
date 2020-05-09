@@ -27,4 +27,12 @@ describe('ConfigsState', () => {
     expect(configs.snapshot['package.json']).toBeTruthy();
   });
 
+  test('TreeView is properly constructed', () => {
+    configs.initialize();
+    expect(configs.treeView.fileName).toEqual('package.json');
+    expect(configs.treeView.children[0].fileName).toEqual('ext/.eslintrc.json');
+    expect(configs.treeView.children[1].fileName).toEqual('src/.eslintrc.yml');
+    expect(configs.treeView.children[1].children[0].fileName).toEqual('src/app/.eslintrc.js');
+  });
+
 });
