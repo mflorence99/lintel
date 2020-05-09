@@ -1,4 +1,10 @@
+@import '~@angular/material/theming';
 @import 'colors.scss';
+
+@include mat-core();
+
+body,
+html { height: 100%; }
 
 body.vscode-dark {
   /* TODO: any necessary styling here */
@@ -13,4 +19,20 @@ body.vscode-high-contrast {
 body.vscode-light {
   /* TODO: any necessary styling here */
   background-color: var(--vscode-editor-background);
+}
+
+.mat-tree {
+
+  .mat-tree-node {
+    color: var(--vscode-editor-foreground);
+    font-family: var(--vscode-font-family);
+    font-size: var(--vscode-font-size);
+    font-weight: var(--vscode-font-weight);
+    min-height: 1.5rem !important;
+  }
+
+  ul {
+    padding-left: 1.5rem;
+  }
+
 }

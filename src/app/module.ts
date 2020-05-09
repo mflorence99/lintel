@@ -34,7 +34,7 @@ const MODULES = [
     NgxsLoggerPluginModule.forRoot({
       collapsed: false,
       logger: console
-    }),
+    })
   ]
 
 })

@@ -5,11 +5,16 @@
     "stylelint-scss"
   ],
   "rules": {
+    "at-rule-no-unknown": null,
+    "block-closing-brace-empty-line-before": null,
     "color-hex-length": "long",
     "order/order": [
       "custom-properties",
       "declarations"
     ],
-    "order/properties-alphabetical-order": true
+    "order/properties-alphabetical-order": true,
+    "rule-empty-line-before": null,
+    "scss/at-rule-no-unknown": true,
+    "value-keyword-case": null
   }
 }

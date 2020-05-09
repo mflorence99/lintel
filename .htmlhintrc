@@ -1,5 +1,5 @@
 {
-  "attr-lowercase": true,
+  "attr-lowercase": false,
   "attr-no-duplication": true,
   "attr-value-double-quotes": true,
   "id-unique": true,
