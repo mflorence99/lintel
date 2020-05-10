@@ -112,6 +112,7 @@
         "format": [
           "camelCase"
         ],
+        "leadingUnderscore": "allow",
         "selector": "parameter"
       },
       {

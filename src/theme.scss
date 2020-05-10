@@ -21,6 +21,8 @@ body.vscode-light {
   background-color: var(--vscode-editor-background);
 }
 
+// TODO: temporary attempt at theming material controls to match VSCode
+
 .mat-tree {
 
   .mat-tree-node {
@@ -29,6 +31,13 @@ body.vscode-light {
     font-size: var(--vscode-font-size);
     font-weight: var(--vscode-font-weight);
     min-height: 1.5rem !important;
+  }
+
+  li,
+  ul {
+    list-style-type: none;
+    margin-bottom: 0;
+    margin-top: 0;
   }
 
   ul {

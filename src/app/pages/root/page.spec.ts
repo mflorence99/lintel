@@ -1,6 +1,7 @@
 import '../../../assets/eslint-schema.js';
 import '../../../assets/eslintrc-files.js';
 
+import { BarrelModule } from '../../barrel';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { RootPageComponent } from './page';
@@ -17,6 +18,7 @@ describe('RootPageComponent', () => {
         RootPageComponent
       ],
       imports: [
+        BarrelModule,
         NgxsModule.forRoot(states),
         NgxsDataPluginModule.forRoot(),
       ]

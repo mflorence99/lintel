@@ -157,8 +157,8 @@ eslintrcFiles = {
           "error",
           "always"
         ],
-        "brace-style": "error",
         "comma-spacing": "off",
+        "brace-style": "error",
         "default-param-last": "off",
         "eqeqeq": "error",
         "func-call-spacing": "error",
@@ -200,7 +200,7 @@ eslintrcFiles = {
   "ext/.eslintrc.json": {
     "config": {
       "rules": {
-        "@typescript-eslint/brace-style": "warning",
+        "@typescript-eslint/brace-style": "warn",
       }
     },
     "parent": "package.json"

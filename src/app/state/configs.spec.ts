@@ -3,6 +3,7 @@ import '../../assets/eslintrc-files.js';
 import { ConfigsState } from '../state/configs';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
+import { SelectionState } from '../state/selection';
 import { TestBed } from '@angular/core/testing';
 
 import { states } from '../state/app';
@@ -10,6 +11,7 @@ import { states } from '../state/app';
 describe('ConfigsState', () => {
 
   let configs: ConfigsState;
+  let selection: SelectionState;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,6 +21,7 @@ describe('ConfigsState', () => {
       ]
     });
     configs = TestBed.inject(ConfigsState);
+    selection = TestBed.inject(SelectionState);
   });
 
   test('Config state is initialized', () => {
@@ -27,12 +30,48 @@ describe('ConfigsState', () => {
     expect(configs.snapshot['package.json']).toBeTruthy();
   });
 
+  test('PluginView is properly constructed', () => {
+    configs.initialize();
+    selection.select({ fileName: 'package.json' });
+    const view = configs.pluginView;
+    expect(view.length).toEqual(2);
+    expect(view[0].pluginName).toEqual('eslint');
+    expect(view[0].rules['brace-style']).toEqual('error');
+    expect(view[1].pluginName).toEqual('@typescript-eslint');
+    expect(view[1].rules['@typescript-eslint/no-empty-function']).toEqual('off');
+  });
+
+  test('PluginView is properly constructed from partial cascaded file', () => {
+    configs.initialize();
+    selection.select({ fileName: 'ext/.eslintrc.json' });
+    const view = configs.pluginView;
+    expect(view.length).toEqual(1);
+    expect(view[0].pluginName).toEqual('@typescript-eslint');
+    expect(view[0].rules['@typescript-eslint/brace-style']).toEqual('warn');
+  });
+
+  test('Rules are properly sorted in PluginView', () => {
+    configs.initialize();
+    selection.select({ fileName: 'package.json' });
+    const eslint = configs.pluginView[0];
+    const ruleNames = Object.keys(eslint.rules);
+    expect(ruleNames[0]).toEqual('brace-style');
+    expect(ruleNames[1]).toEqual('comma-spacing');
+  });
+
+  test('No plugins can be determined unless a fileName is selected first', () => {
+    configs.initialize();
+    const view = configs.pluginView;
+    expect(view.length).toEqual(0);
+  });
+
   test('TreeView is properly constructed', () => {
     configs.initialize();
-    expect(configs.treeView.fileName).toEqual('package.json');
-    expect(configs.treeView.children[0].fileName).toEqual('ext/.eslintrc.json');
-    expect(configs.treeView.children[1].fileName).toEqual('src/.eslintrc.yml');
-    expect(configs.treeView.children[1].children[0].fileName).toEqual('src/app/.eslintrc.js');
+    const root = configs.treeView[0];
+    expect(root.fileName).toEqual('package.json');
+    expect(root.children[0].fileName).toEqual('ext/.eslintrc.json');
+    expect(root.children[1].fileName).toEqual('src/.eslintrc.yml');
+    expect(root.children[1].children[0].fileName).toEqual('src/app/.eslintrc.js');
   });
 
 });

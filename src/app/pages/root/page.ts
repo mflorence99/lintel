@@ -25,9 +25,11 @@ export class RootPageComponent {
               public schemas: SchemasState) {
     this.configs.initialize();
     this.schemas.initialize();
-    this.dataSource.data = [this.configs.treeView];
+    // TODO: temporary
+    this.dataSource.data = this.configs.treeView;
   }
 
-  hasChild = (x: number, node: TreeView): boolean => !!node.children && node.children.length > 0;
+  // TODO: temporary
+  hasChild = (_: number, node: TreeView): boolean => !!node.children && node.children.length > 0;
 
 }
