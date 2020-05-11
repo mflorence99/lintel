@@ -8,7 +8,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 export interface SelectionStateModel {
   category?: string;
   fileName?: string;
-  plugin?: string;
+  pluginName?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -28,8 +28,8 @@ export class SelectionState extends NgxsImmutableDataRepository<SelectionStateMo
     return this.snapshot.fileName;
   }
 
-  @Computed() get plugin(): string {
-    return this.snapshot.plugin;
+  @Computed() get pluginName(): string {
+    return this.snapshot.pluginName;
   }
 
   @DataAction() select(state: SelectionStateModel): void {

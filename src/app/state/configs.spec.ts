@@ -50,7 +50,7 @@ describe('ConfigsState', () => {
     expect(view[0].rules['@typescript-eslint/brace-style']).toEqual('warn');
   });
 
-  test('No plugins can be determined unless a fileName is selected first', () => {
+  test('No PluginView can be determined unless a fileName is selected first', () => {
     configs.initialize();
     const view = configs.pluginView;
     expect(view.length).toEqual(0);

@@ -1,11 +1,18 @@
+import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsImmutableDataRepository } from '@ngxs-labs/data/repositories';
+import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
 // NOTE: schema content is provided statically in index.html
 declare const eslintSchema: SchemasStateModel;
+
+export interface CategoryView {
+  category: string;
+  rules?: Record<string, Rule>;
+}
 
 export interface Rule {
   meta: {
@@ -59,8 +66,29 @@ export type SchemasStateModel = Record<string, Schema>;
 
 export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel> {
 
+  constructor(private selection: SelectionState) {
+    super();
+  }
+
   @DataAction() initialize(): void {
     this.ctx.setState(eslintSchema);
+  }
+
+  @Computed() get categoryView(): CategoryView[] {
+    if (this.selection.pluginName) {
+      const rules = this.snapshot[this.selection.pluginName]?.rules || { };
+      const byCategory = Object.keys(rules)
+        .reduce((acc, ruleName) => {
+          const category = rules[ruleName].meta?.docs?.category || 'Unknown';
+          if (!acc[category])
+            acc[category] = {};
+          acc[category][ruleName] = rules[ruleName];
+          return acc;
+        }, { });
+      return Object.keys(byCategory)
+        .sort()
+        .map(category => ({ category, rules: byCategory[category] }));
+    } else return [];
   }
 
 }
