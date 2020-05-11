@@ -2,17 +2,23 @@
   height: 100%;
 }
 
-.config {
-  cursor: pointer;
-  line-height: 150%;
-  margin-bottom: 1rem;
+main {
+  display: flex;
+  padding-top: 1.5rem;
 
-  .category,
-  .filename {
-    color: var(--vscode-editorWidget-foreground);
+  .config {
+    cursor: pointer;
+    line-height: 150%;
+    margin-bottom: 1rem;
 
-    &.selected {
-      color: var(--vscode-settings-headerForeground);
+    .category,
+    .filename {
+      color: var(--vscode-editorWidget-foreground);
+
+      &.selected {
+        color: var(--vscode-settings-headerForeground);
+      }
+
     }
 
   }

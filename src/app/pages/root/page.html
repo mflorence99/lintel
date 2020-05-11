@@ -1,26 +1,44 @@
-<div 
-  *ngFor="let fileName of configs.fileNames"
-  class="config">
+<main>
 
-  <div 
-    (click)="select($event, { category: null, fileName: fileName })"
-    [ngClass]="{selected: selection.fileName === fileName}"
-    class="filename">
-    {{ fileName }}
+  <nav>
 
-    <ng-container
-      *ngIf="selection.fileName === fileName">
+    <div 
+      *ngFor="let fileName of configs.fileNames"
+      class="config">
 
-      <div
-        (click)="select($event, { category: category })"
-        [ngClass]="{selected: selection.category === category}"
-        *ngFor="let category of schemas.categories"
-        class="category">
-        &bull; {{ category }}
+      <div 
+        (click)="select($event, { category: null, fileName: fileName })"
+        [ngClass]="{selected: selection.fileName === fileName}"
+        class="filename">
+        {{ fileName }}
+
+        <ng-container
+          *ngIf="selection.fileName === fileName">
+
+          <div
+            (click)="select($event, { category: category })"
+            [ngClass]="{selected: selection.category === category}"
+            *ngFor="let category of schemas.categories"
+            class="category">
+            &bull; {{ category }}
+          </div>
+
+        </ng-container>
+
       </div>
 
-    </ng-container>
+    </div>
 
-  </div>
+  </nav>
 
-</div>
+  <mat-tab-group
+    [selectedIndex]="0">
+
+    <mat-tab
+      [label]="pluginName"
+      *ngFor="let pluginName of configs.pluginNames">
+    </mat-tab>
+
+  </mat-tab-group>
+
+</main>

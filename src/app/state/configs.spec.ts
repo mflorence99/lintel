@@ -39,6 +39,13 @@ describe('ConfigsState', () => {
     expect(configs.fileNames[0]).toEqual('package.json');
   });
 
+  test('pluginNames are properly constructed', () => {
+    configs.initialize();
+    selection.select({ fileName: 'package.json' });
+    expect(configs.pluginNames.length).toEqual(2);
+    expect(configs.pluginNames[0]).toEqual('eslint');
+  });
+
   test('PluginView is properly constructed', () => {
     configs.initialize();
     selection.select({ fileName: 'package.json' });

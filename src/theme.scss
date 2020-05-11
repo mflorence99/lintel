@@ -20,3 +20,19 @@ body.vscode-light {
   /* TODO: any necessary styling here */
   background-color: var(--vscode-editor-background);
 }
+
+// NOTE: attempt to bridge VSCode vars with material theming
+
+.mat-tab-label {
+  border: 0;
+  color: var(--vscode-editorWidget-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  font-weight: var(--vscode-font-weight);
+
+  &.mat-tab-label-active {
+    border-bottom: 1px solid var(--vscode-settings-headerForeground);
+    color: var(--vscode-settings-headerForeground);
+  }
+
+}

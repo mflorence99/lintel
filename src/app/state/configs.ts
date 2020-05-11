@@ -54,6 +54,10 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
     return Object.keys(this.snapshot);
   }
 
+  @Computed() get pluginNames(): string[] {
+    return this.pluginView.map(view => view.pluginName);
+  }
+
   @Computed() get pluginView(): PluginView[] {
     if (this.selection.fileName) {
       const rules = this.snapshot[this.selection.fileName].config?.rules || { };
