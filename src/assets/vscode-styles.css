@@ -214,7 +214,7 @@ html {
   --vscode-extensionButton-prominentForeground: #ffffff;
   --vscode-extensionButton-prominentHoverBackground: #28632b;
   --vscode-focusBorder: #75715e;
-  --vscode-font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+  --vscode-font-family: 'Ubuntu', 'Droid Sans', sans-serif;
   --vscode-font-size: 13px;
   --vscode-font-weight: normal;
   --vscode-foreground: #cccccc;

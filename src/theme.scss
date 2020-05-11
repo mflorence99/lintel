@@ -25,23 +25,31 @@ body.vscode-light {
 
 .mat-tree {
 
+  .mat-icon {
+    font-size: 1.25rem;
+    height: unset;
+    width: unset;
+  }
+
+  .expandable {
+    padding-left: 0;
+  }
+
+  .leaf {
+    padding-left: 1.45rem;
+  }
+
   .mat-tree-node {
-    color: var(--vscode-editor-foreground);
+    color: var(--vscode-editorWidget-foreground);
     font-family: var(--vscode-font-family);
     font-size: var(--vscode-font-size);
     font-weight: var(--vscode-font-weight);
     min-height: 1.5rem !important;
-  }
 
-  li,
-  ul {
-    list-style-type: none;
-    margin-bottom: 0;
-    margin-top: 0;
-  }
+    .selected {
+      color: var(--vscode-settings-headerForeground);
+    }
 
-  ul {
-    padding-left: 1.5rem;
   }
 
 }

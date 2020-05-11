@@ -38,11 +38,11 @@ describe('RootPageComponent', () => {
     expect(app.schemas.snapshot['eslint']).toBeTruthy();
   });
 
-  test('Dummy contents are set', () => {
+  test('Filename can be selected', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('p').textContent).toContain('Hello, Lintel!');
+    const app = fixture.componentInstance;
+    app.select('x');
+    expect(app.selection.fileName).toEqual('x');
   });
 
 });

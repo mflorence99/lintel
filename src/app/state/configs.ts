@@ -38,6 +38,12 @@ export interface TreeView {
   fileName: string;
 }
 
+export interface TreeViewFlattened {
+  expandable: boolean;
+  fileName: string;
+  level: number;
+}
+
 @Injectable({ providedIn: 'root' })
 @StateRepository()
 @State<ConfigsStateModel>({
