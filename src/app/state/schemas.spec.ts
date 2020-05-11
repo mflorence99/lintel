@@ -30,6 +30,13 @@ describe('SchemasState', () => {
     expect(schemas.snapshot['eslint']).toBeTruthy();
   });
 
+  test('categories are properly constructed', () => {
+    schemas.initialize();
+    selection.select({ pluginName: 'eslint' });
+    expect(schemas.categories.length).toEqual(7);
+    expect(schemas.categories[0]).toEqual('Best Practices');
+  });
+
   test('CategoryView is properly constructed', () => {
     schemas.initialize();
     selection.select({ pluginName: 'eslint' });

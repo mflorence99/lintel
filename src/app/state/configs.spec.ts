@@ -28,6 +28,15 @@ describe('ConfigsState', () => {
     expect(configs.snapshot['package.json']).toBeFalsy();
     configs.initialize();
     expect(configs.snapshot['package.json']).toBeTruthy();
+    expect(configs.fileNames.length).toEqual(4);
+    expect(configs.fileNames[0]).toEqual('package.json');
+  });
+
+  test('fileNames are properly constructed', () => {
+    expect(configs.snapshot['package.json']).toBeFalsy();
+    configs.initialize();
+    expect(configs.fileNames.length).toEqual(4);
+    expect(configs.fileNames[0]).toEqual('package.json');
   });
 
   test('PluginView is properly constructed', () => {
@@ -54,15 +63,6 @@ describe('ConfigsState', () => {
     configs.initialize();
     const view = configs.pluginView;
     expect(view.length).toEqual(0);
-  });
-
-  test('TreeView is properly constructed', () => {
-    configs.initialize();
-    const root = configs.treeView[0];
-    expect(root.fileName).toEqual('package.json');
-    expect(root.children[0].fileName).toEqual('ext/.eslintrc.json');
-    expect(root.children[1].fileName).toEqual('src/.eslintrc.yml');
-    expect(root.children[1].children[0].fileName).toEqual('src/app/.eslintrc.js');
   });
 
 });

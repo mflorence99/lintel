@@ -74,6 +74,10 @@ export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel>
     this.ctx.setState(eslintSchema);
   }
 
+  @Computed() get categories(): string[] {
+    return this.categoryView.map(view => view.category);
+  }
+
   @Computed() get categoryView(): CategoryView[] {
     if (this.selection.pluginName) {
       const rules = this.snapshot[this.selection.pluginName]?.rules || { };

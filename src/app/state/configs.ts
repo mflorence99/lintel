@@ -33,17 +33,6 @@ export interface Rule {
   // TODO: more analysis
 }
 
-export interface TreeView {
-  children?: TreeView[];
-  fileName: string;
-}
-
-export interface TreeViewFlattened {
-  expandable: boolean;
-  fileName: string;
-  level: number;
-}
-
 @Injectable({ providedIn: 'root' })
 @StateRepository()
 @State<ConfigsStateModel>({
@@ -59,6 +48,10 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
 
   @DataAction() initialize(): void {
     this.ctx.setState(eslintrcFiles);
+  }
+
+  @Computed() get fileNames(): string [] {
+    return Object.keys(this.snapshot);
   }
 
   @Computed() get pluginView(): PluginView[] {
@@ -77,18 +70,6 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
         .sort()
         .map(pluginName => ({ pluginName: pluginName || 'eslint', rules: byPluginName[pluginName] }));
     } else return [];
-  }
-
-  @Computed() get treeView(): TreeView[] {
-    const makeTreeView = (fileName): TreeView => {
-      return {
-        children: (this.snapshot[fileName].children || []).map(makeTreeView),
-        fileName: fileName
-      };
-    };
-    return Object.keys(this.snapshot)
-      .filter(fileName => this.snapshot[fileName].root)
-      .map(makeTreeView);
   }
 
 }

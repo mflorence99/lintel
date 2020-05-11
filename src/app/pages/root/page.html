@@ -1,23 +1,26 @@
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+<div 
+  *ngFor="let fileName of configs.fileNames"
+  class="config">
 
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+  <div 
+    (click)="select($event, { category: null, fileName: fileName })"
+    [ngClass]="{selected: selection.fileName === fileName}"
+    class="filename">
+    {{ fileName }}
 
-    <span (click)="select(node.fileName)" class="leaf" [ngClass]="{selected: node.fileName === selection.fileName}">
-      {{node.fileName}}
-    </span>
+    <ng-container
+      *ngIf="selection.fileName === fileName">
 
-  </mat-tree-node>
+      <div
+        (click)="select($event, { category: category })"
+        [ngClass]="{selected: selection.category === category}"
+        *ngFor="let category of schemas.categories"
+        class="category">
+        &bull; {{ category }}
+      </div>
 
-  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+    </ng-container>
 
-    <mat-icon class="mat-icon-rtl-mirror" matTreeNodeToggle>
-      {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-    </mat-icon>
+  </div>
 
-    <span (click)="select(node.fileName)" [ngClass]="{selected: node.fileName === selection.fileName}">
-      {{node.fileName}}
-    </span>
-
-  </mat-tree-node>
-
-</mat-tree>
+</div>

@@ -20,36 +20,3 @@ body.vscode-light {
   /* TODO: any necessary styling here */
   background-color: var(--vscode-editor-background);
 }
-
-// TODO: temporary attempt at theming material controls to match VSCode
-
-.mat-tree {
-
-  .mat-icon {
-    font-size: 1.25rem;
-    height: unset;
-    width: unset;
-  }
-
-  .expandable {
-    padding-left: 0;
-  }
-
-  .leaf {
-    padding-left: 1.45rem;
-  }
-
-  .mat-tree-node {
-    color: var(--vscode-editorWidget-foreground);
-    font-family: var(--vscode-font-family);
-    font-size: var(--vscode-font-size);
-    font-weight: var(--vscode-font-weight);
-    min-height: 1.5rem !important;
-
-    .selected {
-      color: var(--vscode-settings-headerForeground);
-    }
-
-  }
-
-}

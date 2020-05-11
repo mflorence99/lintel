@@ -41,8 +41,8 @@ describe('RootPageComponent', () => {
   test('Filename can be selected', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
     const app = fixture.componentInstance;
-    app.select('x');
-    expect(app.selection.fileName).toEqual('x');
+    app.select(new Event('click'), { fileName: 'package.json' });
+    expect(app.selection.fileName).toEqual('package.json');
   });
 
 });

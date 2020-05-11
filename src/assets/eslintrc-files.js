@@ -6,7 +6,6 @@
 
 eslintrcFiles = {
   "package.json": {
-    "children": ["ext/.eslintrc.json", "src/.eslintrc.yml"],
     "config": {
       "env": {
         "browser": true,
@@ -194,25 +193,21 @@ eslintrcFiles = {
           "always"
         ]
       }
-    },
-    "root": true
+    }
   },
   "ext/.eslintrc.json": {
     "config": {
       "rules": {
         "@typescript-eslint/brace-style": "warn",
       }
-    },
-    "parent": "package.json"
+    }
   },
   "src/.eslintrc.yml": {
-    "children": ["src/app/.eslintrc.js"],
     "config": {
       "rules": {
         "@typescript-eslint/brace-style": "off",
       }
-    },
-    "parent": "package.json"
+    }
   },
   "src/app/.eslintrc.js": {
     "config": {
@@ -220,7 +215,6 @@ eslintrcFiles = {
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-explicit-any": "error"
       }
-    },
-    "parent": "src/.eslintrc.yml"
+    }
   }
 }
