@@ -6,9 +6,6 @@ import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
-import { deduplicateArray } from '../../utils';
-import { isObjectEmpty } from '../../utils';
-
 // NOTE: config content is provided statically in index.html
 declare const eslintrcFiles: ConfigsStateModel;
 
@@ -60,34 +57,19 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
 
   @Computed() get pluginView(): PluginView[] {
     if (this.selection.fileName) {
-      const configFile = this.snapshot[this.selection.fileName];
-      const config = configFile.config;
-      // NOTE: plugins are cascaded
-      // TODO: generalize this? what about extends?
-      let declared = [...(config.plugins || [])];
-      let parent = this.snapshot[configFile.parent];
-      while (parent) {
-        declared = declared.concat(parent.config.plugins || []);
-        parent = this.snapshot[parent.parent];
-      }
-      // now go ahead and develop the plugin view
-      const plugins = ['eslint', ...deduplicateArray(declared)];
-      return plugins
-        .map(pluginName => {
-          const rules = Object.keys(config.rules)
-            .filter(ruleName => {
-              const parts = ruleName.split('/');
-              return (pluginName === 'eslint' && parts.length === 1)
-                || (parts.length === 2 && parts[0] === pluginName);
-            })
-            .sort()
-            .reduce((acc, ruleName) => {
-              acc[ruleName] = config.rules[ruleName];
-              return acc;
-            }, { });
-          return { pluginName, rules };
-        })
-        .filter(pluginView => !isObjectEmpty(pluginView.rules));
+      const rules = this.snapshot[this.selection.fileName].config?.rules || { };
+      const byPluginName = Object.keys(rules)
+        .reduce((acc, ruleName) => {
+          const parts = ruleName.split('/');
+          const pluginName = (parts.length === 2) ? parts[0] : '';
+          if (!acc[pluginName])
+            acc[pluginName] = { };
+          acc[pluginName][ruleName] = rules[ruleName];
+          return acc;
+        }, { });
+      return Object.keys(byPluginName)
+        .sort()
+        .map(pluginName => ({ pluginName: pluginName || 'eslint', rules: byPluginName[pluginName] }));
     } else return [];
   }
 

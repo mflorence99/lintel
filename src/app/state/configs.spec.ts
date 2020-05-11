@@ -50,15 +50,6 @@ describe('ConfigsState', () => {
     expect(view[0].rules['@typescript-eslint/brace-style']).toEqual('warn');
   });
 
-  test('Rules are properly sorted in PluginView', () => {
-    configs.initialize();
-    selection.select({ fileName: 'package.json' });
-    const eslint = configs.pluginView[0];
-    const ruleNames = Object.keys(eslint.rules);
-    expect(ruleNames[0]).toEqual('brace-style');
-    expect(ruleNames[1]).toEqual('comma-spacing');
-  });
-
   test('No plugins can be determined unless a fileName is selected first', () => {
     configs.initialize();
     const view = configs.pluginView;
