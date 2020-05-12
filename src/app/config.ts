@@ -4,7 +4,9 @@
 
 export class Config {
 
-  dummy = 42;
+  activeCategory = 'Currently Active';
+  basePluginName = 'eslint';
+  unknownCategory = 'Unknown';
 
 }
 

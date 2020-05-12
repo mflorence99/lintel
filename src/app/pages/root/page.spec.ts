@@ -8,6 +8,7 @@ import { RootPageComponent } from './page';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
+import { config } from '../../config';
 import { states } from '../../state/app';
 
 describe('RootPageComponent', () => {
@@ -35,7 +36,7 @@ describe('RootPageComponent', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
     const app = fixture.componentInstance;
     expect(app.configs.snapshot['package.json']).toBeTruthy();
-    expect(app.schemas.snapshot['eslint']).toBeTruthy();
+    expect(app.schemas.snapshot[config.basePluginName]).toBeTruthy();
   });
 
   test('Filename can be selected', () => {

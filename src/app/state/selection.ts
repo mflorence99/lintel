@@ -2,6 +2,7 @@ import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsImmutableDataRepository } from '@ngxs-labs/data/repositories';
+import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
@@ -32,8 +33,8 @@ export class SelectionState extends NgxsImmutableDataRepository<SelectionStateMo
     return this.snapshot.pluginName;
   }
 
-  @DataAction() select(state: SelectionStateModel): void {
-    this.ctx.patchState(state);
+  @DataAction() select(@Payload('selection') selection: SelectionStateModel): void {
+    this.ctx.patchState(selection);
   }
 
 }

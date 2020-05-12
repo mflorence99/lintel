@@ -6,6 +6,8 @@ import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
+import { config } from '../config';
+
 // NOTE: config content is provided statically in index.html
 declare const eslintrcFiles: ConfigsStateModel;
 
@@ -54,9 +56,9 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
   @Computed() get pluginNames(): string[] {
     return Object.keys(this.pluginView)
       .sort((p, q): number => {
-        if (p === 'eslint')
+        if (p === config.basePluginName)
           return -1;
-        else if (q === 'eslint')
+        else if (q === config.basePluginName)
           return +1;
         else return p.toLowerCase().localeCompare(q.toLowerCase()); 
       });
@@ -67,7 +69,7 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
     return Object.keys(rules)
       .reduce((acc, ruleName) => {
         const parts = ruleName.split('/');
-        const pluginName = (parts.length === 2) ? parts[0] : 'eslint';
+        const pluginName = (parts.length === 2) ? parts[0] : config.basePluginName;
         if (!acc[pluginName])
           acc[pluginName] = { };
         acc[pluginName][ruleName] = rules[ruleName];
