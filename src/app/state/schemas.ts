@@ -9,10 +9,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 // NOTE: schema content is provided statically in index.html
 declare const eslintSchema: SchemasStateModel;
 
-export interface CategoryView {
-  category: string;
-  rules?: Record<string, Rule>;
-}
+export type CategoryView = Record<string, Record<string, Rule>>;
 
 export interface Rule {
   meta: {
@@ -75,24 +72,20 @@ export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel>
   }
 
   @Computed() get categories(): string[] {
-    return this.categoryView.map(view => view.category);
+    return Object.keys(this.categoryView)
+      .sort();
   }
 
-  @Computed() get categoryView(): CategoryView[] {
-    if (this.selection.pluginName) {
-      const rules = this.snapshot[this.selection.pluginName]?.rules || { };
-      const byCategory = Object.keys(rules)
-        .reduce((acc, ruleName) => {
-          const category = rules[ruleName].meta?.docs?.category || 'Unknown';
-          if (!acc[category])
-            acc[category] = {};
-          acc[category][ruleName] = rules[ruleName];
-          return acc;
-        }, { });
-      return Object.keys(byCategory)
-        .sort()
-        .map(category => ({ category, rules: byCategory[category] }));
-    } else return [];
+  @Computed() get categoryView(): CategoryView {
+    const rules = this.snapshot[this.selection.pluginName]?.rules || { };
+    return Object.keys(rules)
+      .reduce((acc, ruleName) => {
+        const category = rules[ruleName].meta?.docs?.category || 'Unknown';
+        if (!acc[category])
+          acc[category] = {};
+        acc[category][ruleName] = rules[ruleName];
+        return acc;
+      }, { });
   }
 
 }

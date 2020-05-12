@@ -37,21 +37,17 @@ describe('SchemasState', () => {
     expect(schemas.categories[0]).toEqual('Best Practices');
   });
 
+  test('No categories can be determined unless a pluginName is selected first', () => {
+    schemas.initialize();
+    expect(schemas.categories.length).toEqual(0);
+  });
+
   test('CategoryView is properly constructed', () => {
     schemas.initialize();
     selection.select({ pluginName: 'eslint' });
     const view = schemas.categoryView;
-    expect(view.length).toEqual(7);
-    expect(view[0].category).toEqual('Best Practices');
-    expect(view[0].rules['accessor-pairs']).toBeTruthy();
-    expect(view[6].category).toEqual('Variables');
-    expect(view[6].rules['init-declarations']).toBeTruthy();
-  });
-
-  test('No CategoryView can be determined unless a pluginName is selected first', () => {
-    schemas.initialize();
-    const view = schemas.categoryView;
-    expect(view.length).toEqual(0);
+    expect(view['Best Practices']['accessor-pairs']).toBeTruthy();
+    expect(view['Variables']['init-declarations']).toBeTruthy();
   });
 
 });

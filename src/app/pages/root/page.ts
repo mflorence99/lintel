@@ -31,7 +31,7 @@ export class RootPageComponent {
   select(event: Event, state: SelectionStateModel): void {
     this.selection.select(state);
     // crap
-    this.selection.select({ pluginName: this.configs.pluginView[0].pluginName });
+    this.selection.select({ pluginName: this.configs.pluginNames[0] });
     event.stopPropagation();
   }
 

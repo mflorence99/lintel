@@ -46,30 +46,24 @@ describe('ConfigsState', () => {
     expect(configs.pluginNames[0]).toEqual('eslint');
   });
 
+  test('No pluginNsames can be determined unless a fileName is selected first', () => {
+    configs.initialize();
+    expect(configs.pluginNames.length).toEqual(0);
+  });
+
   test('PluginView is properly constructed', () => {
     configs.initialize();
     selection.select({ fileName: 'package.json' });
     const view = configs.pluginView;
-    expect(view.length).toEqual(2);
-    expect(view[0].pluginName).toEqual('eslint');
-    expect(view[0].rules['brace-style']).toEqual('error');
-    expect(view[1].pluginName).toEqual('@typescript-eslint');
-    expect(view[1].rules['@typescript-eslint/no-empty-function']).toEqual('off');
+    expect(view['eslint']['brace-style']).toBeTruthy();
+    expect(view['@typescript-eslint']['@typescript-eslint/no-empty-function']).toBeTruthy();
   });
 
   test('PluginView is properly constructed from partial cascaded file', () => {
     configs.initialize();
     selection.select({ fileName: 'ext/.eslintrc.json' });
     const view = configs.pluginView;
-    expect(view.length).toEqual(1);
-    expect(view[0].pluginName).toEqual('@typescript-eslint');
-    expect(view[0].rules['@typescript-eslint/brace-style']).toEqual('warn');
-  });
-
-  test('No PluginView can be determined unless a fileName is selected first', () => {
-    configs.initialize();
-    const view = configs.pluginView;
-    expect(view.length).toEqual(0);
+    expect(view['@typescript-eslint']['@typescript-eslint/brace-style']).toEqual('warn');
   });
 
 });

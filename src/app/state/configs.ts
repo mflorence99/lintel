@@ -24,10 +24,7 @@ export interface Configuration {
 
 export type ConfigsStateModel = Record<string, ConfigFile>;
 
-export interface PluginView {
-  pluginName: string;
-  rules?: Record<string, Rule>;
-}
+export type PluginView = Record<string, Record<string, Rule>>;
 
 export interface Rule {
   // TODO: more analysis
@@ -55,25 +52,27 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
   }
 
   @Computed() get pluginNames(): string[] {
-    return this.pluginView.map(view => view.pluginName);
+    return Object.keys(this.pluginView)
+      .sort((p, q): number => {
+        if (p === 'eslint')
+          return -1;
+        else if (q === 'eslint')
+          return +1;
+        else return p.toLowerCase().localeCompare(q.toLowerCase()); 
+      });
   }
 
-  @Computed() get pluginView(): PluginView[] {
-    if (this.selection.fileName) {
-      const rules = this.snapshot[this.selection.fileName].config?.rules || { };
-      const byPluginName = Object.keys(rules)
-        .reduce((acc, ruleName) => {
-          const parts = ruleName.split('/');
-          const pluginName = (parts.length === 2) ? parts[0] : '';
-          if (!acc[pluginName])
-            acc[pluginName] = { };
-          acc[pluginName][ruleName] = rules[ruleName];
-          return acc;
-        }, { });
-      return Object.keys(byPluginName)
-        .sort()
-        .map(pluginName => ({ pluginName: pluginName || 'eslint', rules: byPluginName[pluginName] }));
-    } else return [];
+  @Computed() get pluginView(): PluginView {
+    const rules = this.snapshot[this.selection.fileName]?.config?.rules || { };
+    return Object.keys(rules)
+      .reduce((acc, ruleName) => {
+        const parts = ruleName.split('/');
+        const pluginName = (parts.length === 2) ? parts[0] : 'eslint';
+        if (!acc[pluginName])
+          acc[pluginName] = { };
+        acc[pluginName][ruleName] = rules[ruleName];
+        return acc;
+      }, { });
   }
 
 }
