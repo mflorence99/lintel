@@ -15,6 +15,7 @@
     "order/properties-alphabetical-order": true,
     "rule-empty-line-before": null,
     "scss/at-rule-no-unknown": true,
+    "selector-type-no-unknown": [true, { "ignore": "custom-elements" }],
     "value-keyword-case": null
   }
 }

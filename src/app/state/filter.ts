@@ -21,6 +21,11 @@ export interface FilterStateModel {
 export class FilterState extends NgxsImmutableDataRepository<FilterStateModel> {
 
   @DataAction()
+  clearRuleNameFilter(): void {
+    this.ctx.patchState({ ruleNameFilter: null });
+  }
+
+  @DataAction()
   @Debounce()
   filterRuleName(@Payload('filterRuleName') ruleNameFilter: string): void {
     this.ctx.patchState({ ruleNameFilter });

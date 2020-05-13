@@ -1,8 +1,19 @@
 <div 
   class="filter">
 
-  <input 
-    (keyup)="filterRuleName($event)"
+  <input
+    (keyup)="filterRuleName($event.target.value)"
+    #input 
     placeholder="Filter rules">
+
+  <div
+    (click)="clearRuleNameFilter()"
+    title="Clear filter rules input">
+
+    <fa-icon 
+      [icon]="['fas', 'times']">
+    </fa-icon>
+
+  </div>
 
 </div>

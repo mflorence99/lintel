@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { FilterState } from '../state/filter';
+import { ViewChild } from '@angular/core';
 
 /**
  * Filter component
@@ -13,12 +15,20 @@ import { FilterState } from '../state/filter';
 
 export class FilterComponent {
 
+  @ViewChild('input', { static: true }) input: ElementRef;
+
   /** ctor */
   constructor(public filter: FilterState) { }
 
+  /** Clear the rule name filter */
+  clearRuleNameFilter(): void {
+    this.filter.clearRuleNameFilter();
+    this.input.nativeElement.value = null;
+  }
+
   /** Filter rule names */
-  filterRuleName(event: any): void {
-    this.filter.filterRuleName(event.target.value);
+  filterRuleName(ruleNameFilter: string): void {
+    this.filter.filterRuleName(ruleNameFilter);
   }
 
 }

@@ -1,5 +1,6 @@
 import { deduplicateArray } from './utils';
 import { isObjectEmpty } from './utils';
+import { nextTick } from './utils';
 
 describe('Utility functions', () => {
 
@@ -10,6 +11,14 @@ describe('Utility functions', () => {
   test('Object is empty', () => {
     expect(isObjectEmpty({ })).toBeTruthy();
     expect(isObjectEmpty({ x: 1 })).toBeFalsy();
+  });
+
+  test('nextTick works asynchronously', done => {
+    const num = 42;
+    nextTick(() => {
+      expect(num).toEqual(42);
+      done();
+    });
   });
 
 });

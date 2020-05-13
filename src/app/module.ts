@@ -1,4 +1,5 @@
 import { BarrelModule } from './barrel';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -6,6 +7,7 @@ import { NgxsModule } from '@ngxs/store';
 import { RootPageComponent } from './pages/root/page';
 import { RootPageModule } from './pages/root/module';
 
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { states } from './state/app';
 
 /**
@@ -39,4 +41,11 @@ const MODULES = [
 
 })
 
-export class LintelModule { }
+export class LintelModule { 
+
+  /** ctor */
+  constructor(library: FaIconLibrary) {
+    library.addIconPacks(fas);
+  }
+
+}
