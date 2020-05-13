@@ -204,6 +204,10 @@ eslintrcFiles = {
   },
   "src/.eslintrc.yml": {
     "config": {
+      "plugins": [
+        'does-not-exist',
+        "@typescript-eslint"
+      ],
       "rules": {
         "@typescript-eslint/brace-style": "off",
       }
@@ -211,6 +215,9 @@ eslintrcFiles = {
   },
   "src/app/.eslintrc.js": {
     "config": {
+      "plugins": [
+        "@typescript-eslint"
+      ],
       "rules": {
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-explicit-any": "error"

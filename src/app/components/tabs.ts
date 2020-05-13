@@ -22,12 +22,13 @@ export class TabsComponent {
 
   /** Bridge from tab to select a plugin */
   get tabIndex(): number {
-    return this.configs.pluginNames.findIndex(pluginName => pluginName === this.selection.pluginName);
+    return this.schemas.activePluginNames
+      .findIndex(pluginName => pluginName === this.selection.pluginName);
   }
 
   /** Bridge from tab to select a plugin */
   onTabSelect(ix: number): void {
-    this.selectPluginName(new Event('click'), this.configs.pluginNames[ix]);
+    this.selectPluginName(new Event('click'), this.schemas.activePluginNames[ix]);
   }
 
   /** Select a plugin */

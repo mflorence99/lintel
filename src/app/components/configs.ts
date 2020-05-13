@@ -33,7 +33,7 @@ export class ConfigsComponent {
   selectFileName(event: Event, fileName: string): void {
     if (fileName !== this.selection.fileName) {
       this.selection.select({ fileName });
-      this.selection.select({ pluginName: this.configs.pluginNames[0] });
+      this.selection.select({ pluginName: this.schemas.activePluginNames[0] });
       this.selection.select({ category: this.schemas.categories[0] });
     }
     event.stopPropagation();

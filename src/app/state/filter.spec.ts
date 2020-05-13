@@ -23,7 +23,7 @@ describe('FilterState', () => {
       expect(states.configs.pluginView[config.basePluginName]['brace-style']).toBeTruthy();
       expect(states.configs.pluginView[config.basePluginName]['comma-spacing']).toBeFalsy();
       done();
-    }, 500);
+    }, config.waitForDebounce);
   });
 
   test('Rule name filter can be cleared', done => {
@@ -34,7 +34,7 @@ describe('FilterState', () => {
       states.filter.clearRuleNameFilter();
       expect(states.filter.ruleNameFilter).toBeNull();
       done();
-    }, 500);
+    }, config.waitForDebounce);
   });
 
   test('Empty data returned for non-matching filter', done => {
@@ -52,7 +52,7 @@ describe('FilterState', () => {
       expect(states.schemas.categories.length).toEqual(0);
       expect(isObjectEmpty(states.schemas.categoryView)).toBeTruthy();
       done();
-    }, 500);
+    }, config.waitForDebounce);
   });
 
   test('A rule name can be filtered', done => {
@@ -62,7 +62,7 @@ describe('FilterState', () => {
       expect(states.filter.isRuleNameFiltered('brace-style')).toBeTruthy();
       expect(states.filter.isRuleNameFiltered('comma-spacing')).toBeFalsy();
       done();
-    }, 500);
+    }, config.waitForDebounce);
   });
 
 });

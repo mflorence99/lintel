@@ -2,6 +2,7 @@ import { FilterComponent } from './filter';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
+import { config } from '../config';
 import { prepare } from './component.spec';
 
 describe('FilterComponent', () => {
@@ -22,7 +23,7 @@ describe('FilterComponent', () => {
     setTimeout(() => {
       expect(component.filter.ruleNameFilter).toEqual('super');
       done();
-    }, 500);
+    }, config.waitForDebounce);
   });
 
   test('Rule name filter can be cleared', done => {
@@ -34,7 +35,7 @@ describe('FilterComponent', () => {
       component.clearRuleNameFilter();
       expect(component.filter.ruleNameFilter).toEqual(null);
       done();
-    }, 500);
+    }, config.waitForDebounce);
   });
 
 });

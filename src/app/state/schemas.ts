@@ -9,6 +9,7 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
 import { config } from '../config';
+import { deduplicateArray } from '../utils';
 import { isObjectEmpty } from '../utils';
 
 // NOTE: schema content is provided statically in index.html
@@ -80,6 +81,16 @@ export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel>
     this.ctx.setState(eslintSchema);
   }
 
+  @Computed() get activePluginNames(): string[] {
+    const raw = Object.keys(this.configs.snapshot)
+      .reduce((acc, fileName) => {
+        acc.push(...(this.configs.snapshot[fileName].config?.plugins || []));
+        return acc;
+      }, [])
+      .filter(pluginName => this.snapshot[pluginName]);
+    return [config.basePluginName, ...deduplicateArray(raw)];
+  }
+
   @Computed() get activeView(): ActiveView {
     const active = this.configs.snapshot[this.selection.fileName]?.config?.rules || { };
     const rules = this.snapshot[this.selection.pluginName]?.rules || { };
@@ -120,6 +131,12 @@ export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel>
         acc[category][ruleName] = rules[ruleName];
         return acc;
       }, byCategory);
+  }
+
+  @Computed() get hasRules(): boolean {
+    const rules = this.snapshot[this.selection.pluginName]?.rules || { };
+    return Object.keys(rules)
+      .some(ruleName => this.filter.isRuleNameFiltered(ruleName));
   }
 
   @Computed() get recommendedView(): RecommendedView {

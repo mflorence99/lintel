@@ -1,4 +1,5 @@
-<nav>
+<nav
+  *ngIf="schemas.hasRules">
 
   <div 
     *ngFor="let fileName of configs.fileNames"
@@ -28,3 +29,8 @@
   </div>
 
 </nav>
+
+<p  
+  *ngIf="!schemas.hasRules">
+  No rules found
+</p>

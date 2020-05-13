@@ -13,10 +13,7 @@ import { config } from '../config';
 declare const eslintrcFiles: ConfigsStateModel;
 
 export interface ConfigFile {
-  children?: string[];
   config: Configuration;
-  parent?: string;
-  root?: boolean;
 }
 
 export interface Configuration {

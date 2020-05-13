@@ -11,9 +11,11 @@
   .category,
   .filename {
     color: var(--vscode-editorWidget-foreground);
+    font-weight: normal;
 
     &.selected {
       color: var(--vscode-settings-headerForeground);
+      font-weight: bold;
     }
 
   }

@@ -1,0 +1,10 @@
+<div
+  class="category">
+  {{ selection.category }}
+</div>
+
+<lintel-rule
+  [ruleName]="item.key"
+  *ngFor="let item of schemas.categoryView[selection.category] | keyvalue"
+  >
+</lintel-rule>

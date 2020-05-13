@@ -8,6 +8,7 @@ export class Config {
   basePluginName = 'eslint';
   recommendedCategory = 'Recommended';
   unknownCategory = 'Unknown';
+  waitForDebounce = 500;
 
 }
 
