@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.config {
+  cursor: pointer;
+  line-height: 150%;
+  margin-bottom: 1rem;
+
+  .category,
+  .filename {
+    color: var(--vscode-editorWidget-foreground);
+
+    &.selected {
+      color: var(--vscode-settings-headerForeground);
+    }
+
+  }
+
+}

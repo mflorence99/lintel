@@ -1,5 +1,6 @@
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
+import { FilterState } from './filter';
 import { Injectable } from '@angular/core';
 import { NgxsImmutableDataRepository } from '@ngxs-labs/data/repositories';
 import { SelectionState } from './selection';
@@ -41,7 +42,8 @@ export interface Rule {
 
 export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel> {
 
-  constructor(private selection: SelectionState) { 
+  constructor(private filter: FilterState,
+              private selection: SelectionState) { 
     super();
   }
 
@@ -67,6 +69,7 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
   @Computed() get pluginView(): PluginView {
     const rules = this.snapshot[this.selection.fileName]?.config?.rules || { };
     return Object.keys(rules)
+      .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
       .reduce((acc, ruleName) => {
         const parts = ruleName.split('/');
         const pluginName = (parts.length === 2) ? parts[0] : config.basePluginName;

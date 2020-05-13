@@ -2,6 +2,7 @@ import '../../../assets/eslint-schema.js';
 import '../../../assets/eslintrc-files.js';
 
 import { BarrelModule } from '../../barrel';
+import { ComponentsModule } from '../../components/module';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { RootPageComponent } from './page';
@@ -20,6 +21,7 @@ describe('RootPageComponent', () => {
       ],
       imports: [
         BarrelModule,
+        ComponentsModule,
         NgxsModule.forRoot(states),
         NgxsDataPluginModule.forRoot(),
       ]
@@ -37,13 +39,6 @@ describe('RootPageComponent', () => {
     const app = fixture.componentInstance;
     expect(app.configs.snapshot['package.json']).toBeTruthy();
     expect(app.schemas.snapshot[config.basePluginName]).toBeTruthy();
-  });
-
-  test('Filename can be selected', () => {
-    const fixture = TestBed.createComponent(RootPageComponent);
-    const app = fixture.componentInstance;
-    app.select(new Event('click'), { fileName: 'package.json' });
-    expect(app.selection.fileName).toEqual('package.json');
   });
 
 });

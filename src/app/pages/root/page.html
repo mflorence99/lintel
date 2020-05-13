@@ -1,44 +1,18 @@
 <main>
 
-  <nav>
+  <lintel-filter
+    class="filter">
+  </lintel-filter>
 
-    <div 
-      *ngFor="let fileName of configs.fileNames"
-      class="config">
+  <lintel-configs
+    class="configs">
+  </lintel-configs>
 
-      <div 
-        (click)="select($event, { category: null, fileName: fileName })"
-        [ngClass]="{selected: selection.fileName === fileName}"
-        class="filename">
-        {{ fileName }}
+  <lintel-tabs
+    class="tabs">
+  </lintel-tabs>
 
-        <ng-container
-          *ngIf="selection.fileName === fileName">
-
-          <div
-            (click)="select($event, { category: category })"
-            [ngClass]="{selected: selection.category === category}"
-            *ngFor="let category of schemas.categories"
-            class="category">
-            &bull; {{ category }}
-          </div>
-
-        </ng-container>
-
-      </div>
-
-    </div>
-
-  </nav>
-
-  <mat-tab-group
-    [selectedIndex]="0">
-
-    <mat-tab
-      [label]="pluginName"
-      *ngFor="let pluginName of configs.pluginNames">
-    </mat-tab>
-
-  </mat-tab-group>
+  <div class="rules">
+  </div>
 
 </main>

@@ -29,6 +29,7 @@ body.vscode-light {
   font-family: var(--vscode-font-family);
   font-size: var(--vscode-font-size);
   font-weight: var(--vscode-font-weight);
+  opacity: 1 !important;
 
   &.mat-tab-label-active {
     border-bottom: 1px solid var(--vscode-settings-headerForeground);

@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.filter {
+  background: var(--vscode-editorGroup-dropBackground);
+  border: 1px solid var(--vscode-editorGroup-border);
+  padding: 0.5rem;
+
+  input {
+    background: transparent;
+    border: 0;
+    color: var(--vscode-input-foreground);
+
+    &:focus {
+      outline: 0;
+    }
+
+  }
+
+}

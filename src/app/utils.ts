@@ -16,3 +16,10 @@ export function deduplicateArray(array: string[]): string[] {
 export function isObjectEmpty(obj: Record<string, any>): boolean {
   return (obj === null) || (obj === undefined) || (Object.getOwnPropertyNames(obj).length === 0);
 }
+
+/**
+ * Run code on next tick
+ */
+export function nextTick(f: Function): void {
+  setTimeout(f, 0);
+}

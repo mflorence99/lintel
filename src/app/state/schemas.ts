@@ -1,6 +1,7 @@
 import { Computed } from '@ngxs-labs/data/decorators';
 import { ConfigsState } from './configs';
 import { DataAction } from '@ngxs-labs/data/decorators';
+import { FilterState } from './filter';
 import { Injectable } from '@angular/core';
 import { NgxsImmutableDataRepository } from '@ngxs-labs/data/repositories';
 import { SelectionState } from './selection';
@@ -15,6 +16,7 @@ declare const eslintSchema: SchemasStateModel;
 
 export type ActiveView = Record<string, Rule>;
 export type CategoryView = Record<string, Record<string, Rule>>;
+export type RecommendedView = Record<string, Rule>;
 
 export interface Rule {
   meta: {
@@ -69,6 +71,7 @@ export type SchemasStateModel = Record<string, Schema>;
 export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel> {
 
   constructor(private configs: ConfigsState,
+              private filter: FilterState,
               private selection: SelectionState) {
     super();
   }
@@ -81,6 +84,7 @@ export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel>
     const active = this.configs.snapshot[this.selection.fileName]?.config?.rules || { };
     const rules = this.snapshot[this.selection.pluginName]?.rules || { };
     return Object.keys(rules)
+      .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
       .filter(ruleName => active[ruleName])
       .reduce((acc, ruleName) => {
         acc[ruleName] = rules[ruleName];
@@ -101,11 +105,14 @@ export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel>
 
   @Computed() get categoryView(): CategoryView {
     const rules = this.snapshot[this.selection.pluginName]?.rules || { };
-    // NOTE: initialize with currently active category
+    // NOTE: initialize with currently active, recommended categories
     const byCategory = { };
     if (!isObjectEmpty(this.activeView))
       byCategory[config.activeCategory] = this.activeView;
+    if (!isObjectEmpty(this.recommendedView))
+      byCategory[config.recommendedCategory] = this.recommendedView;
     return Object.keys(rules)
+      .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
       .reduce((acc, ruleName) => {
         const category = rules[ruleName].meta?.docs?.category || config.unknownCategory;
         if (!acc[category])
@@ -113,6 +120,17 @@ export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel>
         acc[category][ruleName] = rules[ruleName];
         return acc;
       }, byCategory);
+  }
+
+  @Computed() get recommendedView(): RecommendedView {
+    const rules = this.snapshot[this.selection.pluginName]?.rules || { };
+    return Object.keys(rules)
+      .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
+      .filter(ruleName => rules[ruleName].meta?.docs?.recommended)
+      .reduce((acc, ruleName) => {
+        acc[ruleName] = rules[ruleName];
+        return acc;
+      }, {});
   }
 
 }

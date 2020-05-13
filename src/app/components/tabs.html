@@ -1,0 +1,10 @@
+<mat-tab-group
+  (selectedIndexChange)="onTabSelect($event)"
+  [selectedIndex]="tabIndex">
+
+  <mat-tab
+    [label]="pluginName"
+    *ngFor="let pluginName of configs?.pluginNames">
+  </mat-tab>
+
+</mat-tab-group>

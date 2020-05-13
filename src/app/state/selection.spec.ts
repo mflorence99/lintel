@@ -1,31 +1,27 @@
-import '../../assets/eslint-schema.js';
+import { Bundle } from './state.spec';
 
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
-import { NgxsModule } from '@ngxs/store';
-import { SelectionState } from '../state/selection';
-import { TestBed } from '@angular/core/testing';
-
-import { states } from '../state/app';
+import { config } from '../config';
+import { prepare } from './state.spec';
 
 describe('SelectionState', () => {
 
-  let selection: SelectionState;
+  let states: Bundle;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot(states),
-        NgxsDataPluginModule.forRoot(),
-      ]
-    });
-    selection = TestBed.inject(SelectionState);
-  });
+  beforeEach(() => states = prepare());
 
   test('Selections can be made', () => {
-    selection.select({ category: 'x', fileName: 'y', pluginName: 'z' });
-    expect(selection.category).toEqual('x');
-    expect(selection.fileName).toEqual('y');
-    expect(selection.pluginName).toEqual('z');
+    states.selection.select({ 
+      category: config.activeCategory, 
+      fileName: 'package.json', 
+      pluginName: config.basePluginName 
+    });
+    expect(states.selection.category).toEqual(config.activeCategory);
+    expect(states.selection.fileName).toEqual('package.json');
+    expect(states.selection.pluginName).toEqual(config.basePluginName);
+    expect(states.configs.pluginNames.length).toEqual(2);
+    expect(states.configs.pluginNames[0]).toEqual(config.basePluginName);
+    expect(states.schemas.categories.length).toEqual(9);
+    expect(states.schemas.categories[0]).toEqual(config.activeCategory);
   });
 
 });

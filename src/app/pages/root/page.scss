@@ -3,24 +3,29 @@
 }
 
 main {
-  display: flex;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-areas:
+    "filter  filter"
+    ".       tabs"
+    "configs rules";
+  grid-template-columns: 10rem 1fr;
   padding-top: 1.5rem;
 
-  .config {
-    cursor: pointer;
-    line-height: 150%;
-    margin-bottom: 1rem;
+  .configs {
+    grid-area: configs;
+  }
 
-    .category,
-    .filename {
-      color: var(--vscode-editorWidget-foreground);
+  .filter {
+    grid-area: filter;
+  }
 
-      &.selected {
-        color: var(--vscode-settings-headerForeground);
-      }
+  .tabs {
+    grid-area: tabs;
+  }
 
-    }
-
+  .rules {
+    grid-area: rules;
   }
 
 }

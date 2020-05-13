@@ -1,0 +1,30 @@
+<nav>
+
+  <div 
+    *ngFor="let fileName of configs.fileNames"
+    class="config">
+
+    <div 
+      (click)="selectFileName($event, fileName)"
+      [ngClass]="{selected: selection.fileName === fileName}"
+      class="filename">
+      {{ fileName }}
+
+      <ng-container
+        *ngIf="selection.fileName === fileName">
+
+        <div
+          (click)="selectCategory($event, category)"
+          [ngClass]="{selected: selection.category === category}"
+          *ngFor="let category of schemas.categories"
+          class="category">
+          &bull; {{ category }}
+        </div>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+</nav>

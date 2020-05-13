@@ -6,6 +6,7 @@ export class Config {
 
   activeCategory = 'Currently Active';
   basePluginName = 'eslint';
+  recommendedCategory = 'Recommended';
   unknownCategory = 'Unknown';
 
 }
