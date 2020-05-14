@@ -8,8 +8,6 @@ html { height: 100%; }
 
 body {
   overflow: hidden;
-  // NOTE: we want scrollbar pinned to right edge
-  padding-right: 0;
 }
 
 body.vscode-dark {
@@ -35,7 +33,10 @@ body.vscode-light {
   font-family: var(--vscode-font-family);
   font-size: var(--vscode-font-size);
   font-weight: var(--vscode-font-weight);
+  height: 2rem !important;
+  min-width: 0 !important;
   opacity: 1 !important;
+  padding: 0 0.5rem !important;
 
   &.mat-tab-label-active {
     border-bottom: 1px solid var(--vscode-settings-headerForeground);

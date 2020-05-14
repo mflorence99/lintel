@@ -1,11 +1,15 @@
-<div
-  class="category">
-  {{ selection.category }}
-</div>
+<ng-container
+  *ngFor="let item of schemas.categoryView[selection.category] | keyvalue">
 
-<lintel-rule
-  [rule]="item.value"
-  [ruleName]="item.key"
-  *ngFor="let item of schemas.categoryView[selection.category] | keyvalue"
-  >
-</lintel-rule>
+  <div
+    [ngClass]="{active: schemas.activeView[item.key] }"
+    class="gutter">
+  </div>
+
+  <lintel-rule
+    [rule]="item.value"
+    [ruleName]="item.key"
+    [setting]="settingFor(item.key)">
+  </lintel-rule>
+
+</ng-container>

@@ -6,6 +6,7 @@ import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SchemasState } from '../state/schemas';
 import { SelectionState } from '../state/selection';
+import { Setting } from '../state/configs';
 import { Subject } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
@@ -45,6 +46,11 @@ export class RulesComponent implements OnInit, OnDestroy {
         const top = { behavior: 'smooth', left: 0, top: 0 };
         this.element.nativeElement.scrollTo(top);
       });
+  }
+
+  // TODO: temporary
+  settingFor(ruleName: string): Setting {
+    return this.configs.pluginView?.[this.selection.pluginName]?.[ruleName]; 
   }
 
 }

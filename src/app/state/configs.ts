@@ -19,14 +19,14 @@ export interface ConfigFile {
 export interface Configuration {
   // TODO: more analysis
   plugins?: string[];
-  rules?: Record<string, Rule>;
+  rules?: Record<string, Setting>;
 }
 
 export type ConfigsStateModel = Record<string, ConfigFile>;
 
-export type PluginView = Record<string, Record<string, Rule>>;
+export type PluginView = Record<string, Record<string, Setting>>;
 
-export interface Rule {
+export interface Setting {
   // TODO: more analysis
 }
 

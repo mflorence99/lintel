@@ -1,7 +1,11 @@
 <div 
   class="rule">
   
-  <code>{{ ruleName }}</code>
+  <div
+    [ngClass]="level"
+    class="ruleName">
+    {{ ruleName }}
+  </div>
 
   <div>
     {{ rule.meta.docs.description }}

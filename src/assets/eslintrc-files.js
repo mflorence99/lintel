@@ -99,11 +99,11 @@ eslintrcFiles = {
           }
         ],
         "@typescript-eslint/method-signature-style": [
-          "error",
+          "warn",
           "method"
         ],
         "@typescript-eslint/naming-convention": [
-          "error",
+          "warn",
           {
             "format": [
               "camelCase"

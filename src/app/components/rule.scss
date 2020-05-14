@@ -3,7 +3,24 @@
 }
 
 .rule {
-  line-height: 175%;
-  padding-bottom: 1.5rem;
+  line-height: 150%;
+
+  .ruleName {
+    font-family: monospace;
+    font-weight: bold;
+
+    &.error {
+      color: var(--vscode-errorForeground);
+    }
+
+    &.off {
+      color: inherit;
+    }
+
+    &.warn {
+      color: var(--vscode-editorOverviewRuler-warningForeground);
+    }
+
+  }
 
 }

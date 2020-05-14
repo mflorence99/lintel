@@ -1,9 +1,15 @@
 :host {
-  display: block;
+  align-content: start;
+  display: grid;
+  grid-column-gap: 0.5rem;
+  grid-row-gap: 1.5rem;
+  grid-template-columns: 1rem 1fr;
 }
 
-.category {
-  font-size: 1.25rem;
-  font-weight: bold;
-  padding-bottom: 1rem;
+.gutter {
+
+  &.active {
+    border-right: 2px solid var(--vscode-editorGutter-modifiedBackground);
+  }
+
 }
