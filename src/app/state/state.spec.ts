@@ -9,6 +9,7 @@ import { SchemasState } from '../state/schemas';
 import { SelectionState } from '../state/selection';
 import { TestBed } from '@angular/core/testing';
 
+import { config } from '../config';
 import { states } from './app';
 
 export interface Bundle {
@@ -36,6 +37,9 @@ export function prepare(): Bundle {
 
   bundle.configs.initialize();
   bundle.schemas.initialize();
+
+  // NOTE: minimize any debounce timeout
+  config.debounceTimeout = 0;
 
   return bundle;
 

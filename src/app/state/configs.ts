@@ -44,7 +44,8 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
     super();
   }
 
-  @DataAction() initialize(): void {
+  @DataAction({ insideZone: true }) 
+  initialize(): void {
     this.ctx.setState(eslintrcFiles);
   }
 

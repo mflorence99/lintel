@@ -40,15 +40,13 @@ describe('SchemasState', () => {
   });
 
   test('hasRules determines if a plugin has any rules left in the schema after a filter is applied', done => {
-    states.filter.filterRuleName('accessor-pairs');
-    // NOTE: filterRuleName is debounced
-    setTimeout(() => {
+    states.filter.filterRuleName('accessor-pairs', () => {
       states.selection.select({ pluginName: config.basePluginName});
       expect(states.schemas.hasRules).toBeTruthy();
       states.selection.select({ pluginName: '@typescript-eslint' });
       expect(states.schemas.hasRules).toBeFalsy();
       done();
-    }, config.waitForDebounce);
+    });
   });
 
 });

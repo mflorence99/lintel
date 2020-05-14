@@ -1,6 +1,8 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
 import { Input } from '@angular/core';
+import { Rule } from '../state/schemas';
 import { SchemasState } from '../state/schemas';
 
 /**
@@ -8,6 +10,7 @@ import { SchemasState } from '../state/schemas';
  */
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'lintel-rule',
   templateUrl: 'rule.html',
   styleUrls: ['rule.scss']
@@ -15,6 +18,7 @@ import { SchemasState } from '../state/schemas';
 
 export class RuleComponent {
 
+  @Input() rule: Rule;
   @Input() ruleName: string;
 
   /** ctor */

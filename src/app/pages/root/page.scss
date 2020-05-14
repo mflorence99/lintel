@@ -4,12 +4,13 @@
 
 main {
   display: grid;
-  grid-gap: 1rem;
+  grid-column-gap: 1rem;
   grid-template-areas:
     "filter  filter"
     ".       tabs"
     "configs rules";
   grid-template-columns: 10rem 1fr;
+  grid-template-rows: 3rem 4rem calc(100vh - 7rem);
   padding-top: 1.5rem;
 
   .configs {
@@ -20,12 +21,20 @@ main {
     grid-area: filter;
   }
 
+  .filter,
+  .tabs {
+    // HACK -- reintroduce padding stripped from body in theme.scss
+    padding-right: 20px;
+  }
+
   .tabs {
     grid-area: tabs;
   }
 
   .rules {
     grid-area: rules;
+    overflow-y: auto;
+    padding-bottom: 2rem;
   }
 
 }

@@ -24,7 +24,7 @@ export interface Rule {
     deprecated: boolean;
     docs: {
       category: string;
-      descripotion: string;
+      description: string;
       extendsBasicRule: boolean;
       recommended: 'error' | 'warn' | 'off' | boolean;
       requiresTypeChecking: boolean;
@@ -77,7 +77,8 @@ export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel>
     super();
   }
 
-  @DataAction() initialize(): void {
+  @DataAction({ insideZone: true }) 
+  initialize(): void {
     this.ctx.setState(eslintSchema);
   }
 

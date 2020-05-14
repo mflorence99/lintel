@@ -6,9 +6,9 @@ export class Config {
 
   activeCategory = 'Currently Active';
   basePluginName = 'eslint';
+  debounceTimeout = 250;
   recommendedCategory = 'Recommended';
   unknownCategory = 'Unknown';
-  waitForDebounce = 500;
 
 }
 

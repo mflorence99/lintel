@@ -4,6 +4,7 @@
 </div>
 
 <lintel-rule
+  [rule]="item.value"
   [ruleName]="item.key"
   *ngFor="let item of schemas.categoryView[selection.category] | keyvalue"
   >

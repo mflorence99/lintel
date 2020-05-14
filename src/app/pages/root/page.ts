@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { SchemasState } from '../../state/schemas';
@@ -8,6 +9,7 @@ import { SelectionState } from '../../state/selection';
  */
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'lintel-root',
   templateUrl: 'page.html',
   styleUrls: ['page.scss']

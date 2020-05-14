@@ -7,6 +7,10 @@ import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
+import { config } from '../config';
+
+export type FilterCallback = () => void;
+
 export interface FilterStateModel {
   ruleNameFilter?: string;
 }
@@ -20,15 +24,16 @@ export interface FilterStateModel {
 
 export class FilterState extends NgxsImmutableDataRepository<FilterStateModel> {
 
-  @DataAction()
+  @DataAction({ insideZone: true })
   clearRuleNameFilter(): void {
     this.ctx.patchState({ ruleNameFilter: null });
   }
 
-  @DataAction()
-  @Debounce()
-  filterRuleName(@Payload('filterRuleName') ruleNameFilter: string): void {
+  @DataAction({ insideZone: true })
+  @Debounce(config.debounceTimeout)
+  filterRuleName(@Payload('filterRuleName') ruleNameFilter: string, done?: FilterCallback): void {
     this.ctx.patchState({ ruleNameFilter });
+    done?.();
   }
 
   @Computed() get ruleNameFilter(): string {

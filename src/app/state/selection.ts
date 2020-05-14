@@ -33,7 +33,8 @@ export class SelectionState extends NgxsImmutableDataRepository<SelectionStateMo
     return this.snapshot.pluginName;
   }
 
-  @DataAction() select(@Payload('selection') selection: SelectionStateModel): void {
+  @DataAction({ insideZone: true }) 
+  select(@Payload('selection') selection: SelectionStateModel): void {
     this.ctx.patchState(selection);
   }
 

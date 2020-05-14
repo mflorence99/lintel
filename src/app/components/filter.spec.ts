@@ -18,24 +18,34 @@ describe('FilterComponent', () => {
   test('Rule name filter can be set', done => {
     const fixture = TestBed.createComponent(FilterComponent);
     const component = fixture.componentInstance;
-    component.filterRuleName('super');
-    // NOTE: filterRuleName is debounced
-    setTimeout(() => {
+    component.filterRuleName('super', () => {
       expect(component.filter.ruleNameFilter).toEqual('super');
       done();
-    }, config.waitForDebounce);
+    });
   });
 
   test('Rule name filter can be cleared', done => {
     const fixture = TestBed.createComponent(FilterComponent);
     const component = fixture.componentInstance;
-    component.filterRuleName('super');
-    // NOTE: filterRuleName is debounced
-    setTimeout(() => {
+    component.filterRuleName('super', () => {
       component.clearRuleNameFilter();
       expect(component.filter.ruleNameFilter).toEqual(null);
       done();
-    }, config.waitForDebounce);
+    });
+  });
+
+  test('If filter eliminates selected category, selection is reset', done => {
+    const fixture = TestBed.createComponent(FilterComponent);
+    const component = fixture.componentInstance;
+    component.selection.select({
+      category: config.activeCategory,
+      fileName: 'package.json',
+      pluginName: config.basePluginName
+    });
+    component.filterRuleName('pairs', () => {
+      expect(component.selection.category).toEqual('Best Practices');
+      done();
+    });
   });
 
 });
