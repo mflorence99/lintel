@@ -21,26 +21,39 @@ describe('ConfigsState', () => {
   });
 
   test('pluginNames are properly constructed', () => {
-    states.selection.select({ fileName: 'package.json' });
     expect(states.configs.pluginNames.length).toEqual(2);
     expect(states.configs.pluginNames[0]).toEqual(config.basePluginName);
+    expect(states.configs.pluginNames[1]).toEqual('@typescript-eslint');
   });
 
-  test('No pluginNames can be determined unless a fileName is selected first', () => {
-    expect(states.configs.pluginNames.length).toEqual(0);
+  test('categories are properly constructed', () => {
+    states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
+    expect(states.configs.categories.length).toEqual(9);
+    expect(states.configs.categories[0]).toEqual(config.activeCategory);
+    expect(states.configs.categories[1]).toEqual('Best Practices');
   });
 
-  test('PluginView is properly constructed', () => {
-    states.selection.select({ fileName: 'package.json' });
-    const view = states.configs.pluginView;
-    expect(view[config.basePluginName]['brace-style']).toBeTruthy();
-    expect(view['@typescript-eslint']['@typescript-eslint/no-empty-function']).toBeTruthy();
+  test('No categories can be determined unless a pluginName is selected first', () => {
+    expect(states.configs.categories.length).toEqual(0);
   });
 
-  test('PluginView is properly constructed from partial cascaded file', () => {
-    states.selection.select({ fileName: 'ext/.eslintrc.json' });
-    const view = states.configs.pluginView;
-    expect(view['@typescript-eslint']['@typescript-eslint/brace-style']).toEqual('warn');
+  test('CategoryView is properly constructed', () => {
+    states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
+    const view = states.configs.categoryView;
+    expect(view[config.activeCategory]['space-infix-ops']).toBeTruthy();
+    expect(view[config.recommendedCategory]['constructor-super']).toBeTruthy();
+    expect(view['Best Practices']['accessor-pairs']).toBeTruthy();
+    expect(view['Variables']['init-declarations']).toBeTruthy();
+  });
+
+  test('hasRules determines if a plugin has any rules left in the schema after a filter is applied', done => {
+    states.filter.filterRuleName('accessor-pairs', () => {
+      states.selection.select({ pluginName: config.basePluginName });
+      expect(states.configs.hasRules).toBeTruthy();
+      states.selection.select({ pluginName: '@typescript-eslint' });
+      expect(states.configs.hasRules).toBeFalsy();
+      done();
+    });
   });
 
 });

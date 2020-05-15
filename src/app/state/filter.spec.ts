@@ -18,8 +18,8 @@ describe('FilterState', () => {
     });
     states.filter.filterRuleName('style', () => {
       expect(states.filter.ruleNameFilter).toEqual('style');
-      expect(states.configs.pluginView[config.basePluginName]['brace-style']).toBeTruthy();
-      expect(states.configs.pluginView[config.basePluginName]['comma-spacing']).toBeFalsy();
+      expect(states.configs.categoryView[config.activeCategory]['brace-style']).toBeTruthy();
+      expect(states.configs.categoryView[config.activeCategory]['comma-spacing']).toBeFalsy();
       done();
     });
   });
@@ -41,10 +41,8 @@ describe('FilterState', () => {
     });
     states.filter.filterRuleName('xxx', () => {
       expect(states.filter.ruleNameFilter).toEqual('xxx');
-      expect(states.configs.pluginNames.length).toEqual(0);
-      expect(isObjectEmpty(states.configs.pluginView)).toBeTruthy();
-      expect(states.schemas.categories.length).toEqual(0);
-      expect(isObjectEmpty(states.schemas.categoryView)).toBeTruthy();
+      expect(states.configs.categories.length).toEqual(0);
+      expect(isObjectEmpty(states.configs.categoryView)).toBeTruthy();
       done();
     });
   });

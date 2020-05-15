@@ -4,7 +4,6 @@ import { ConfigsState } from '../state/configs';
 import { ElementRef } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { SchemasState } from '../state/schemas';
 import { SelectionState } from '../state/selection';
 import { Setting } from '../state/configs';
 import { Subject } from 'rxjs';
@@ -29,7 +28,6 @@ export class RulesComponent implements OnInit, OnDestroy {
   /** ctor */
   constructor(public configs: ConfigsState,
               private element: ElementRef,
-              public schemas: SchemasState,
               public selection: SelectionState) { }
 
   /** Unsubscribe on close */
@@ -50,7 +48,7 @@ export class RulesComponent implements OnInit, OnDestroy {
 
   // TODO: temporary
   settingFor(ruleName: string): Setting {
-    return this.configs.pluginView?.[this.selection.pluginName]?.[ruleName]; 
+    return this.configs.snapshot?.[this.selection.fileName]?.config?.rules?.[ruleName]; 
   }
 
 }

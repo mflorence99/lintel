@@ -1,5 +1,5 @@
 <nav
-  *ngIf="schemas.hasRules">
+  *ngIf="configs.hasRules">
 
   <div 
     *ngFor="let fileName of configs.fileNames"
@@ -17,7 +17,7 @@
         <div
           (click)="selectCategory($event, category)"
           [ngClass]="{selected: selection.category === category}"
-          *ngFor="let category of schemas.categories"
+          *ngFor="let category of configs.categories"
           class="category">
           &bull; {{ category }}
         </div>
@@ -31,6 +31,6 @@
 </nav>
 
 <p  
-  *ngIf="!schemas.hasRules">
+  *ngIf="!configs.hasRules">
   No rules found
 </p>

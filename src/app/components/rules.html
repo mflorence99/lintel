@@ -1,8 +1,8 @@
 <ng-container
-  *ngFor="let item of schemas.categoryView[selection.category] | keyvalue">
+  *ngFor="let item of configs.categoryView[selection.category] | keyvalue">
 
   <div
-    [ngClass]="{active: schemas.activeView[item.key] }"
+    [ngClass]="{active: configs.activeView[item.key] }"
     class="gutter">
   </div>
 

@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
 import { Input } from '@angular/core';
 import { Rule } from '../state/schemas';
-import { SchemasState } from '../state/schemas';
 import { Setting } from '../state/configs';
 
 /**
@@ -24,8 +23,7 @@ export class RuleComponent {
   @Input() setting: Setting;
 
   /** ctor */
-  constructor(public configs: ConfigsState,
-              public schemas: SchemasState) { }
+  constructor(public configs: ConfigsState) { }
 
   // TODO: temporary
   get level(): string {

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ConfigsState } from '../state/configs';
 import { ElementRef } from '@angular/core';
 import { FilterCallback } from '../state/filter';
 import { FilterState } from '../state/filter';
-import { SchemasState } from '../state/schemas';
 import { SelectionState } from '../state/selection';
 import { ViewChild } from '@angular/core';
 
@@ -23,8 +23,8 @@ export class FilterComponent {
   @ViewChild('input', { static: true }) input: ElementRef;
 
   /** ctor */
-  constructor(public filter: FilterState,
-              public schemas: SchemasState,
+  constructor(public configs: ConfigsState,
+              public filter: FilterState,
               public selection: SelectionState) { }
 
   /** Clear the rule name filter */
@@ -37,8 +37,8 @@ export class FilterComponent {
   filterRuleName(ruleNameFilter: string, done?: FilterCallback): void {
     this.filter.filterRuleName(ruleNameFilter, () => {
       // if the currently-selected category is now empty, reset selection
-      if (!this.schemas.categories.includes(this.selection.category))
-        this.selection.select({ category: this.schemas.categories[0] });
+      if (!this.configs.categories.includes(this.selection.category))
+        this.selection.select({ category: this.configs.categories[0] });
       done?.();
     });
   }
