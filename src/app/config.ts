@@ -4,11 +4,11 @@
 
 export class Config {
 
-  activeCategory = 'Currently Active';
+  activeCategory = 'Currently Configured';
   basePluginName = 'eslint';
   debounceTimeout = 250;
-  recommendedCategory = 'Recommended';
-  unknownCategory = 'Unknown';
+  extendedCategory = 'Currently Extended';
+  unknownCategory = 'Unknown Rules';
 
 }
 

@@ -2,13 +2,14 @@
   class="rule">
   
   <div
-    [ngClass]="level"
+    [ngClass]="digest.level"
     class="ruleName">
-    {{ ruleName }}
+    {{ digest.ruleName }}
   </div>
 
-  <div>
-    {{ rule.meta.docs.description }}
+  <div
+    *ngIf="digest.description">
+    {{ digest.description }}
   </div>
 
 </div>

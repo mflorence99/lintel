@@ -15,11 +15,35 @@
         *ngIf="selection.fileName === fileName">
 
         <div
+          *ngIf="configs.makeViewForCategory(activeCategory)"
+          (click)="selectCategory($event, activeCategory)"
+          [ngClass]="{selected: selection.category === activeCategory}"
+          class="category">
+          &bull; {{ activeCategory }}
+        </div>
+
+        <div
+          *ngIf="configs.makeViewForCategory(extendedCategory)"
+          (click)="selectCategory($event, extendedCategory)"
+          [ngClass]="{selected: selection.category === extendedCategory}"
+          class="category">
+          &bull; {{ extendedCategory }}
+        </div>
+
+        <div
           (click)="selectCategory($event, category)"
           [ngClass]="{selected: selection.category === category}"
           *ngFor="let category of configs.categories"
           class="category">
           &bull; {{ category }}
+        </div>
+
+        <div
+          *ngIf="configs.makeViewForCategory(unknownCategory)"
+          (click)="selectCategory($event, unknownCategory)"
+          [ngClass]="{selected: selection.category === unknownCategory}"
+          class="category">
+          &bull; {{ unknownCategory }}
         </div>
 
       </ng-container>

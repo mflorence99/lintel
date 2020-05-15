@@ -13,9 +13,9 @@ export interface Rule {
     docs: {
       category: string;
       description: string;
-      extendsBasicRule: boolean;
+      extendsBasicRule?: boolean;
       recommended: 'error' | 'warn' | 'off' | boolean;
-      requiresTypeChecking: boolean;
+      requiresTypeChecking?: boolean;
       url: string;
     };
     replacedBy: string[];
@@ -58,6 +58,8 @@ export type SchemasStateModel = Record<string, Schema>;
 }) 
 
 export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel> {
+
+  // actions
 
   @DataAction({ insideZone: true }) 
   initialize(): void {

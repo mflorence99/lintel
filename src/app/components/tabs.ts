@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
 import { SelectionState } from '../state/selection';
 
+import { config } from '../config';
+
 /**
  * Tabs component
  */
@@ -35,7 +37,7 @@ export class TabsComponent {
   selectPluginName(event: Event, pluginName: string): void {
     if (pluginName !== this.selection.pluginName) {
       this.selection.select({ pluginName });
-      this.selection.select({ category: this.configs.categories[0] });
+      this.selection.select({ category: config.activeCategory });
     }
     event.stopPropagation();
   }

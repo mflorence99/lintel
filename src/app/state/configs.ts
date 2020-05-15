@@ -16,9 +16,7 @@ import { isObjectEmpty } from '../utils';
 // NOTE: config content is provided statically in index.html
 declare const eslintrcFiles: ConfigsStateModel;
 
-export type ActiveView = Record<string, Rule>;
 export type CategoryView = Record<string, Record<string, Rule>>;
-export type RecommendedView = Record<string, Rule>;
 
 export interface ConfigFile {
   config: Configuration;
@@ -27,14 +25,24 @@ export interface ConfigFile {
 export interface Configuration {
   // TODO: more analysis
   plugins?: string[];
-  rules?: Record<string, Setting>;
+  rules?: Record<string, Settings>;
 }
 
 export type ConfigsStateModel = Record<string, ConfigFile>;
 
-export type PluginView = Record<string, Record<string, Setting>>;
+export interface Digest {
+  description: string;
+  level: 'off' | 'warn' | 'error' | null;
+  recommended: 'error' | 'warn' | 'off' | boolean;
+  rule: Rule;
+  ruleName: string;
+  settings: Settings;
+  url: string;
+}
 
-export interface Setting {
+export type PluginView = Record<string, Record<string, Settings>>;
+
+export interface Settings {
   // TODO: more analysis
 }
 
@@ -43,7 +51,7 @@ export interface Setting {
 @State<ConfigsStateModel>({
   name: 'configs',
   defaults: { }
-})
+}) 
 
 export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel> {
 
@@ -53,20 +61,18 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
     super();
   }
 
-  @Computed() get hasRules(): boolean {
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || {};
-    return Object.keys(rules)
-      .some(ruleName => this.filter.isRuleNameFiltered(ruleName));
-  }
+  // actions
 
   @DataAction({ insideZone: true }) 
   initialize(): void {
     this.ctx.setState(eslintrcFiles);
   }
 
-  @Computed() get activeView(): ActiveView {
-    const active = this.snapshot[this.selection.fileName]?.config?.rules || {};
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || {};
+  // accessors
+
+  @Computed() get activeView(): Record<string, Rule> {
+    const active = this.snapshot[this.selection.fileName]?.config?.rules || { };
+    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
       .filter(ruleName => active[ruleName])
@@ -77,37 +83,43 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
   }
 
   @Computed() get categories(): string[] {
-    return Object.keys(this.categoryView)
-      .sort((p, q): number => {
-        if (p === config.activeCategory)
-          return -1;
-        else if (q === config.activeCategory)
-          return +1;
-        else return p.toLowerCase().localeCompare(q.toLowerCase());
-      });
+    return Object.keys(this.categoryView).sort();
   }
 
   @Computed() get categoryView(): CategoryView {
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || {};
-    // NOTE: initialize with currently active, recommended categories
-    const byCategory = { };
-    if (!isObjectEmpty(this.activeView))
-      byCategory[config.activeCategory] = this.activeView;
-    if (!isObjectEmpty(this.recommendedView))
-      byCategory[config.recommendedCategory] = this.recommendedView;
+    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
       .reduce((acc, ruleName) => {
-        const category = rules[ruleName].meta?.docs?.category || config.unknownCategory;
+        const category = rules[ruleName].meta?.docs?.category;
         if (!acc[category])
-          acc[category] = {};
+          acc[category] = { };
         acc[category][ruleName] = rules[ruleName];
         return acc;
-      }, byCategory);
+      }, { });
+  }
+
+  @Computed() get extendedView(): Record<string, Rule> {
+    // TODO: temporary
+    const extended = this.snapshot[this.selection.fileName]?.config?.rules || {};
+    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || {};
+    return Object.keys(rules)
+      .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
+      .filter(ruleName => extended[ruleName])
+      .reduce((acc, ruleName) => {
+        acc[ruleName] = rules[ruleName];
+        return acc;
+      }, { });
   }
 
   @Computed() get fileNames(): string [] {
     return Object.keys(this.snapshot);
+  }
+
+  @Computed() get hasRules(): boolean {
+    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
+    return Object.keys(rules)
+      .some(ruleName => this.filter.isRuleNameFiltered(ruleName));
   }
 
   @Computed() get pluginNames(): string[] {
@@ -120,15 +132,55 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
     return [config.basePluginName, ...deduplicateArray(raw)];
   }
 
-  @Computed() get recommendedView(): RecommendedView {
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || {};
-    return Object.keys(rules)
+  @Computed() get unknownView(): Record<string, Settings> {
+    // NOTE: settings that have no corresponmding rule in the schema
+    // and so cannot be handled by Lintel
+    const settings = this.snapshot[this.selection.fileName]?.config?.rules || { };
+    return Object.keys(settings)
       .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
-      .filter(ruleName => rules[ruleName].meta?.docs?.recommended)
-      .reduce((acc, ruleName) => {
-        acc[ruleName] = rules[ruleName];
+      .map(ruleName => {
+        const parts = ruleName.split('/');
+        return (parts.length === 2) ? [parts[0], ruleName] : [config.basePluginName, ruleName];
+      })
+      .filter(([pluginName, ruleName]) => !this.schemas.snapshot[pluginName]?.rules?.[ruleName])
+      .reduce((acc, [_, ruleName]) => {
+        acc[ruleName] = settings[ruleName];
         return acc;
       }, { });
+  }
+
+  // public mdethods
+
+  makeRuleDigest(ruleName: string, rule?: Rule, settings?: Settings): Digest {
+    rule = rule || 
+      this.schemas.snapshot?.[this.selection.pluginName]?.rules?.[ruleName] as Rule;
+    settings = settings || 
+      this.snapshot?.[this.selection.fileName]?.config?.rules?.[ruleName] as Settings;
+    let level;
+    if (!settings || settings === 'off')
+      level = 'off';
+    else level = Array.isArray(settings) ? settings[0] : settings;
+    return {
+      description: rule?.meta?.docs?.description,
+      level: level,
+      recommended: rule?.meta?.docs?.recommended,
+      rule: rule,
+      ruleName: ruleName,
+      settings: settings,
+      url: rule?.meta?.docs?.url
+    };
+  }
+
+  makeViewForCategory(category: string): Record<string, Rule | Settings> {
+    let view;
+    if (category === config.activeCategory)
+      view = this.activeView;
+    else if (category === config.extendedCategory)
+      view = this.extendedView;
+    else if (category === config.unknownCategory)
+      view = this.unknownView;
+    else view = this.categoryView[category]; 
+    return isObjectEmpty(view) ? null : view;
   }
 
 }

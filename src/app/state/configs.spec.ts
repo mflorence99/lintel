@@ -28,22 +28,33 @@ describe('ConfigsState', () => {
 
   test('categories are properly constructed', () => {
     states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
-    expect(states.configs.categories.length).toEqual(9);
-    expect(states.configs.categories[0]).toEqual(config.activeCategory);
-    expect(states.configs.categories[1]).toEqual('Best Practices');
+    expect(states.configs.categories.length).toEqual(7);
+    expect(states.configs.categories[0]).toEqual('Best Practices');
+    expect(states.configs.categories[1]).toEqual('ECMAScript 6');
   });
 
   test('No categories can be determined unless a pluginName is selected first', () => {
     expect(states.configs.categories.length).toEqual(0);
   });
 
-  test('CategoryView is properly constructed', () => {
+  test('activeView is properly constructed', () => {
+    states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
+    const view = states.configs.activeView;
+    expect(view['space-infix-ops']).toBeTruthy();
+  });
+
+  test('categoryView is properly constructed', () => {
     states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
     const view = states.configs.categoryView;
-    expect(view[config.activeCategory]['space-infix-ops']).toBeTruthy();
-    expect(view[config.recommendedCategory]['constructor-super']).toBeTruthy();
     expect(view['Best Practices']['accessor-pairs']).toBeTruthy();
     expect(view['Variables']['init-declarations']).toBeTruthy();
+  });
+
+  test('unknownView is properly constructed', () => {
+    states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
+    const view = states.configs.unknownView;
+    expect(view['jest/no-existential-angst']).toBeTruthy();
+    expect(view['prefer-shaken-not-stirred']).toBeTruthy();
   });
 
   test('hasRules determines if a plugin has any rules left in the schema after a filter is applied', done => {
@@ -54,6 +65,24 @@ describe('ConfigsState', () => {
       expect(states.configs.hasRules).toBeFalsy();
       done();
     });
+  });
+
+  test('Rule digest is properly constructed', () => {
+    states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
+    const digest = states.configs.makeRuleDigest('brace-style');
+    expect(digest.description).toEqual('enforce consistent brace style for blocks');
+    expect(digest.level).toEqual('error');
+    expect(digest.ruleName).toEqual('brace-style');
+  });
+
+  test('View is properly constructed for category', () => {
+    states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
+    let view = states.configs.makeViewForCategory(config.activeCategory);
+    expect(view['brace-style']).toBeTruthy();
+    view = states.configs.makeViewForCategory(config.unknownCategory);
+    expect(view['jest/no-existential-angst']).toBeTruthy();
+    view = states.configs.makeViewForCategory('Best Practices');
+    expect(view['accessor-pairs']).toBeTruthy();
   });
 
 });

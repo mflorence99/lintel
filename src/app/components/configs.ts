@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
 import { SelectionState } from '../state/selection';
 
+import { config } from '../config';
+
 /**
  * Configs component
  */
@@ -15,6 +17,10 @@ import { SelectionState } from '../state/selection';
 })
 
 export class ConfigsComponent {
+
+  activeCategory = config.activeCategory;
+  extendedCategory = config.extendedCategory;
+  unknownCategory = config.unknownCategory;
 
   /** ctor */
   constructor(public configs: ConfigsState,
@@ -34,7 +40,7 @@ export class ConfigsComponent {
     if (fileName !== this.selection.fileName) {
       this.selection.select({ fileName });
       this.selection.select({ pluginName: this.configs.pluginNames[0] });
-      this.selection.select({ category: this.configs.categories[0] });
+      this.selection.select({ category: config.activeCategory });
     }
     event.stopPropagation();
   }

@@ -24,6 +24,8 @@ export interface FilterStateModel {
 
 export class FilterState extends NgxsImmutableDataRepository<FilterStateModel> {
 
+  // actions
+
   @DataAction({ insideZone: true })
   clearRuleNameFilter(): void {
     this.ctx.patchState({ ruleNameFilter: null });
@@ -36,9 +38,13 @@ export class FilterState extends NgxsImmutableDataRepository<FilterStateModel> {
     done?.();
   }
 
+  // accessors
+
   @Computed() get ruleNameFilter(): string {
     return this.snapshot.ruleNameFilter;
   }
+
+  // public methods
 
   isRuleNameFiltered(ruleName: string): boolean {
     return !this.ruleNameFilter || ruleName.includes(this.ruleNameFilter);

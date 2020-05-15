@@ -1,5 +1,3 @@
-// TODO: not sure if I'll use this now, but I don't want to throw it away yet
-
 /**
  * Is this object empty?
  */

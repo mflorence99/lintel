@@ -12,14 +12,14 @@ describe('FilterState', () => {
 
   test('Rule name filter can be set', done => {
     states.selection.select({
-      category: config.activeCategory,
+      category: 'Best Practices',
       fileName: 'package.json',
       pluginName: config.basePluginName
     });
-    states.filter.filterRuleName('style', () => {
-      expect(states.filter.ruleNameFilter).toEqual('style');
-      expect(states.configs.categoryView[config.activeCategory]['brace-style']).toBeTruthy();
-      expect(states.configs.categoryView[config.activeCategory]['comma-spacing']).toBeFalsy();
+    states.filter.filterRuleName('default', () => {
+      expect(states.filter.ruleNameFilter).toEqual('default');
+      expect(states.configs.categoryView['Best Practices']['default-case']).toBeTruthy();
+      expect(states.configs.categoryView['Best Practices']['comma-spacing']).toBeFalsy();
       done();
     });
   });

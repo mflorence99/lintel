@@ -1,15 +1,18 @@
 <ng-container
-  *ngFor="let item of configs.categoryView[selection.category] | keyvalue">
+  *ngFor="let item of configs.makeViewForCategory(selection.category) | keyvalue; trackBy: trackByRule">
 
-  <div
-    [ngClass]="{active: configs.activeView[item.key] }"
-    class="gutter">
-  </div>
+  <ng-container
+    *ngIf="configs.makeRuleDigest(item.key, item.value) as digest">
 
-  <lintel-rule
-    [rule]="item.value"
-    [ruleName]="item.key"
-    [setting]="settingFor(item.key)">
-  </lintel-rule>
+    <div
+      [ngClass]="{active: !!digest.settings, unknown: !digest.rule}"
+      class="gutter">
+    </div>
+
+    <lintel-rule
+      [digest]="digest">
+    </lintel-rule>
+
+  </ng-container>
 
 </ng-container>

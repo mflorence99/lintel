@@ -12,4 +12,8 @@
     border-right: 2px solid var(--vscode-editorGutter-modifiedBackground);
   }
 
+  &.unknown {
+    border-right: 2px solid var(--vscode-inputValidation-errorBorder);
+  }
+
 }

@@ -4,7 +4,7 @@ const { compilerOptions } = require('./tsconfig');
 module.exports = {
   collectCoverage: true,
   coverageReporters: ['json-summary', 'text'],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || { }, {
     prefix: '<rootDir>/'
   }),
   preset: 'jest-preset-angular',

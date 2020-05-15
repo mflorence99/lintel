@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
+import { Digest } from '../state/configs';
 import { Input } from '@angular/core';
-import { Rule } from '../state/schemas';
-import { Setting } from '../state/configs';
+import { Settings } from '../state/configs';
 
 /**
  * Rule component
@@ -18,18 +18,9 @@ import { Setting } from '../state/configs';
 
 export class RuleComponent {
 
-  @Input() rule: Rule;
-  @Input() ruleName: string;
-  @Input() setting: Setting;
+  @Input() digest: Digest;
 
   /** ctor */
   constructor(public configs: ConfigsState) { }
-
-  // TODO: temporary
-  get level(): string {
-    if (!this.setting || this.setting === 'off')
-      return 'off';
-    else return Array.isArray(this.setting) ? this.setting[0] : this.setting;
-  }
 
 }

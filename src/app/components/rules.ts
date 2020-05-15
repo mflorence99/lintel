@@ -5,7 +5,6 @@ import { ElementRef } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SelectionState } from '../state/selection';
-import { Setting } from '../state/configs';
 import { Subject } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
@@ -46,9 +45,9 @@ export class RulesComponent implements OnInit, OnDestroy {
       });
   }
 
-  // TODO: temporary
-  settingFor(ruleName: string): Setting {
-    return this.configs.snapshot?.[this.selection.fileName]?.config?.rules?.[ruleName]; 
+  /** Track ngFor by rule name */
+  trackByRule(_, item): string {
+    return item.key;
   }
 
 }
