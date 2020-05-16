@@ -7,8 +7,6 @@ import { FilterState } from '../state/filter';
 import { SelectionState } from '../state/selection';
 import { ViewChild } from '@angular/core';
 
-import { config } from '../config';
-
 /**
  * Filter component
  */
@@ -31,16 +29,14 @@ export class FilterComponent {
 
   /** Clear the rule name filter */
   clearRuleNameFilter(): void {
-    this.filter.clearRuleNameFilter();
+    this.filterRuleName(null);
     this.input.nativeElement.value = null;
   }
 
   /** Filter rule names */
   filterRuleName(ruleNameFilter: string, done?: FilterCallback): void {
     this.filter.filterRuleName(ruleNameFilter, () => {
-      // if the currently-selected category is now empty, reset selection
-      if (!this.configs.categories.includes(this.selection.category))
-        this.selection.select({ category: config.activeCategory, view: this.configs.activeView });
+      // NOTE: this facilitates testing
       done?.();
     });
   }

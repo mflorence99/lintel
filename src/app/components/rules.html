@@ -1,18 +1,31 @@
 <ng-container
-  *ngFor="let item of selection.view | keyvalue; trackBy: trackByRule">
+  *ngIf="hasRules()">
 
   <ng-container
-    *ngIf="configs.makeRuleDigest(item.key, item.value) as digest">
+    *ngFor="let item of view | keyvalue; trackBy: trackByRule">
 
-    <div
-      [ngClass]="{active: !!digest.settings, unknown: !digest.rule}"
-      class="gutter">
-    </div>
+    <ng-container
+      *ngIf="configs.makeRuleDigest(item.key, item.value[0], item.value[1]) as digest">
 
-    <lintel-rule
-      [digest]="digest">
-    </lintel-rule>
+      <div
+        [ngClass]="{active: !!digest.settings, unknown: !digest.rule}"
+        class="gutter">
+      </div>
+
+      <lintel-rule
+        [digest]="digest">
+      </lintel-rule>
+
+    </ng-container>
 
   </ng-container>
+
+</ng-container>
+
+<ng-container
+  *ngIf="!hasRules()">
+
+  <div></div>
+  <div>No matching rules</div>
 
 </ng-container>

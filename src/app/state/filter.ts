@@ -27,11 +27,6 @@ export class FilterState extends NgxsImmutableDataRepository<FilterStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  clearRuleNameFilter(): void {
-    this.ctx.patchState({ ruleNameFilter: null });
-  }
-
-  @DataAction({ insideZone: true })
   @Debounce(config.debounceTimeout)
   filterRuleName(@Payload('filterRuleName') ruleNameFilter: string, done?: FilterCallback): void {
     this.ctx.patchState({ ruleNameFilter });

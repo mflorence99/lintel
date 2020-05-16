@@ -1,52 +1,41 @@
-<nav
-  *ngIf="configs.hasRules">
+<div 
+  *ngFor="let fileName of configs.fileNames"
+  class="config">
 
   <div 
-    *ngFor="let fileName of configs.fileNames"
-    class="config">
+    (click)="selectFileName($event, fileName)"
+    [ngClass]="{selected: selection.fileName === fileName}"
+    class="filename">
+    {{ fileName }}
 
-    <div 
-      (click)="selectFileName($event, fileName)"
-      [ngClass]="{selected: selection.fileName === fileName}"
-      class="filename">
-      {{ fileName }}
+    <ng-container
+      *ngIf="selection.fileName === fileName">
 
-      <ng-container
-        *ngIf="selection.fileName === fileName">
+      <div
+        (click)="selectCategory($event, activeCategory)"
+        [ngClass]="{selected: selection.category === activeCategory}"
+        class="category">
+        &bull; {{ activeCategory }}
+      </div>
 
-        <div
-          *ngIf="configs.activeView"
-          (click)="selectCategory($event, activeCategory, configs.activeView)"
-          [ngClass]="{selected: selection.category === activeCategory}"
-          class="category">
-          &bull; {{ activeCategory }}
-        </div>
+      <div
+        (click)="selectCategory($event, category)"
+        [ngClass]="{selected: selection.category === category}"
+        *ngFor="let category of configs.categories"
+        class="category">
+        &bull; {{ category }}
+      </div>
 
-        <div
-          (click)="selectCategory($event, category, configs.categoryView[category])"
-          [ngClass]="{selected: selection.category === category}"
-          *ngFor="let category of configs.categories"
-          class="category">
-          &bull; {{ category }}
-        </div>
+      <div
+        (click)="selectCategory($event, unknownCategory)"
+        [ngClass]="{selected: selection.category === unknownCategory}"
+        *ngIf="hasRules(configs.unknownView)"
+        class="category">
+        &bull; {{ unknownCategory }}
+      </div>
 
-        <div
-          *ngIf="configs.unknownView"
-          (click)="selectCategory($event, unknownCategory, configs.unknownView)"
-          [ngClass]="{selected: selection.category === unknownCategory}"
-          class="category">
-          &bull; {{ unknownCategory }}
-        </div>
-
-      </ng-container>
-
-    </div>
+    </ng-container>
 
   </div>
 
-</nav>
-
-<p  
-  *ngIf="!configs.hasRules">
-  No rules found
-</p>
+</div>

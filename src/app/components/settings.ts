@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ConfigsState } from '../state/configs';
+import { SelectionState } from '../state/selection';
+
+import { config } from '../config';
 
 /**
  * Settings component
@@ -12,4 +16,13 @@ import { Component } from '@angular/core';
   styleUrls: ['settings.scss']
 })
 
-export class SettingsComponent { }
+export class SettingsComponent { 
+
+  activeCategory = config.activeCategory;
+  unknownCategory = config.unknownCategory;
+
+  /** ctor */
+  constructor(public configs: ConfigsState,
+              public selection: SelectionState) { }
+
+}

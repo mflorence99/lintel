@@ -2,7 +2,6 @@ import { FilterComponent } from './filter';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { config } from '../config';
 import { prepare } from './component.spec';
 
 describe('FilterComponent', () => {
@@ -29,21 +28,7 @@ describe('FilterComponent', () => {
     const component = fixture.componentInstance;
     component.filterRuleName('super', () => {
       component.clearRuleNameFilter();
-      expect(component.filter.ruleNameFilter).toEqual(null);
-      done();
-    });
-  });
-
-  test('If filter eliminates selected category, selection is reset', done => {
-    const fixture = TestBed.createComponent(FilterComponent);
-    const component = fixture.componentInstance;
-    component.selection.select({
-      category: 'Best Practices',
-      fileName: 'package.json',
-      pluginName: config.basePluginName
-    });
-    component.filterRuleName('style', () => {
-      expect(component.selection.category).toEqual(config.activeCategory);
+      expect(component.input.nativeElement.value).toEqual('');
       done();
     });
   });

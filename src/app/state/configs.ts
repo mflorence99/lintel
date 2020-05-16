@@ -15,7 +15,9 @@ import { deduplicateArray } from '../utils';
 // NOTE: config content is provided statically in index.html
 declare const eslintrcFiles: ConfigsStateModel;
 
-export type CategoryView = Record<string, Record<string, Rule>>;
+export type View = Record<string, [Rule, Settings]>;
+
+export type CategoryView = Record<string, View>;
 
 export interface ConfigFile {
   config: Configuration;
@@ -67,43 +69,41 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
 
   // accessors
 
-  @Computed() get activeView(): Record<string, Rule> {
-    const active = this.snapshot[this.selection.fileName]?.config?.rules || { };
+  @Computed() get activeView(): View {
     const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
+    const settings = this.snapshot[this.selection.fileName]?.config?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
-      .filter(ruleName => active[ruleName])
+      .filter(ruleName => settings[ruleName])
+      .sort()
       .reduce((acc, ruleName) => {
-        acc[ruleName] = rules[ruleName];
+        acc[ruleName] = [rules[ruleName], settings[ruleName]];
         return acc;
       }, { });
   }
 
   @Computed() get categories(): string[] {
-    return Object.keys(this.categoryView).sort();
+    return Object.keys(this.categoryView)
+      .sort();
   }
 
   @Computed() get categoryView(): CategoryView {
     const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
+    const settings = this.snapshot[this.selection.fileName]?.config?.rules || {};
     return Object.keys(rules)
       .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
+      .sort()
       .reduce((acc, ruleName) => {
         const category = rules[ruleName].meta?.docs?.category;
         if (!acc[category])
           acc[category] = { };
-        acc[category][ruleName] = rules[ruleName];
+        acc[category][ruleName] = [rules[ruleName], settings[ruleName]];
         return acc;
       }, { });
   }
 
   @Computed() get fileNames(): string [] {
     return Object.keys(this.snapshot);
-  }
-
-  @Computed() get hasRules(): boolean {
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
-    return Object.keys(rules)
-      .some(ruleName => this.filter.isRuleNameFiltered(ruleName));
   }
 
   @Computed() get pluginNames(): string[] {
@@ -116,37 +116,31 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
     return [config.basePluginName, ...deduplicateArray(raw)];
   }
 
-  @Computed() get unknownView(): Record<string, Rule> {
-    // NOTE: settings that have no corresponmding rule in the schema
+  @Computed() get unknownView(): View {
+    // NOTE: settings that have no corresponding rule in the schema
     // and so cannot be handled by Lintel
     const settings = this.snapshot[this.selection.fileName]?.config?.rules || { };
     return Object.keys(settings)
       .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
+      .sort()
       .map(ruleName => {
         const parts = ruleName.split('/');
         return (parts.length === 2) ? [parts[0], ruleName] : [config.basePluginName, ruleName];
       })
       .filter(([pluginName, ruleName]) => !this.schemas.snapshot[pluginName]?.rules?.[ruleName])
       .reduce((acc, [_, ruleName]) => {
-        acc[ruleName] = settings[ruleName];
+        acc[ruleName] = [null, settings[ruleName]];
         return acc;
       }, { });
   }
 
   // public mdethods
 
-  makeRuleDigest(ruleName: string, rule?: Rule, settings?: Settings): Digest {
-    rule = rule || 
-      this.schemas.snapshot?.[this.selection.pluginName]?.rules?.[ruleName] as Rule;
-    settings = settings || 
-      this.snapshot?.[this.selection.fileName]?.config?.rules?.[ruleName] as Settings;
-    let level;
-    if (!settings || settings === 'off')
-      level = 'off';
-    else level = Array.isArray(settings) ? settings[0] : settings;
+  makeRuleDigest(ruleName: string, rule: Rule, settings: Settings): Digest {
     return {
       description: rule?.meta?.docs?.description,
-      level: level,
+      level: (!settings || settings === 'off') ? 'off'
+        : (Array.isArray(settings) ? settings[0] : settings),
       recommended: rule?.meta?.docs?.recommended,
       rule: rule,
       ruleName: ruleName,

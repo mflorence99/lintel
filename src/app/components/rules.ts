@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
-import { ElementRef } from '@angular/core';
-import { OnDestroy } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Input } from '@angular/core';
 import { SelectionState } from '../state/selection';
-import { Subject } from 'rxjs';
+import { View } from '../state/configs';
 
-import { takeUntil } from 'rxjs/operators';
+import { isObjectEmpty } from '../utils';
 
 /**
  * Rules component
@@ -20,29 +18,17 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['rules.scss']
 })
 
-export class RulesComponent implements OnInit, OnDestroy {
+export class RulesComponent {
 
-  private notifier = new Subject();
+  @Input() view: View;
 
   /** ctor */
   constructor(public configs: ConfigsState,
-              private element: ElementRef,
               public selection: SelectionState) { }
 
-  /** Unsubscribe on close */
-  ngOnDestroy(): void {
-    this.notifier.next();
-    this.notifier.complete();
-  }
-
-  /** Whenever the selection changes, scroll to the top */
-  ngOnInit(): void {
-    this.selection.state$
-      .pipe(takeUntil(this.notifier))
-      .subscribe(() => {
-        const top = { behavior: 'smooth', left: 0, top: 0 };
-        this.element.nativeElement.scrollTo(top);
-      });
+  /** Does the view have any rules? */
+  hasRules(): boolean {
+    return !isObjectEmpty(this.view);
   }
 
   /** Track ngFor by rule name */

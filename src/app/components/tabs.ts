@@ -35,10 +35,8 @@ export class TabsComponent {
 
   /** Select a plugin */
   selectPluginName(event: Event, pluginName: string): void {
-    if (pluginName !== this.selection.pluginName) {
+    if (pluginName !== this.selection.pluginName) 
       this.selection.select({ pluginName });
-      this.selection.select({ category: config.activeCategory, view: this.configs.activeView });
-    }
     event.stopPropagation();
   }
 

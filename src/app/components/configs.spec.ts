@@ -18,34 +18,18 @@ describe('ConfigsComponent', () => {
   test('Category can be selected', () => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
-    component.selectCategory(new Event('click'), 'Best Practices', null);
+    component.selectCategory(new Event('click'), 'Best Practices');
     expect(component.selection.category).toEqual('Best Practices');
     // selecting category again is harmless
-    component.selectCategory(new Event('click'), 'Best Practices', null);
+    component.selectCategory(new Event('click'), 'Best Practices');
     expect(component.selection.category).toEqual('Best Practices');
   });
 
-  test('Filename can be selected and pluginName and category are reset', () => {
+  test('Filename can be selected', () => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
     component.selectFileName(new Event('click'), 'package.json');
     expect(component.selection.fileName).toEqual('package.json');
-    expect(component.selection.pluginName).toEqual(config.basePluginName);
-    expect(component.selection.category).toEqual(config.activeCategory);
-  });
-
-  test('If fileName is already selected, pluginName and category are not reset', () => {
-    const fixture = TestBed.createComponent(ConfigsComponent);
-    const component = fixture.componentInstance;
-    // set something arbitrary
-    component.selection.select({
-      category: 'Arbitrary Category',
-      fileName: 'package.json',
-      pluginName: 'Arbitrary Plugin'
-    });
-    component.selectFileName(new Event('click'), 'package.json');
-    expect(component.selection.pluginName).toEqual('Arbitrary Plugin');
-    expect(component.selection.category).toEqual('Arbitrary Category');
   });
 
 });

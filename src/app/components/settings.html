@@ -1,11 +1,31 @@
-<lintel-tabs
-  class="tabs">
-</lintel-tabs>
-
 <lintel-filter
   class="filter">
 </lintel-filter>
 
-<lintel-rules 
-  class="rules">
-</lintel-rules>
+<lintel-tabs
+  *ngIf="selection.category !== unknownCategory"
+  class="tabs">
+</lintel-tabs>
+
+<ng-container
+  [ngSwitch]="selection.category">
+
+  <lintel-rules 
+    [view]="configs.activeView"
+    *ngSwitchCase="activeCategory"
+    class="rules">
+  </lintel-rules>
+
+  <lintel-rules 
+    [view]="configs.unknownView"
+    *ngSwitchCase="unknownCategory"
+    class="rules">
+  </lintel-rules>
+
+  <lintel-rules 
+    [view]="configs.categoryView[selection.category]"
+    *ngSwitchDefault
+    class="rules">
+  </lintel-rules>
+
+</ng-container>

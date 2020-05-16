@@ -34,9 +34,10 @@ body.vscode-light {
   font-size: var(--vscode-font-size);
   font-weight: var(--vscode-font-weight);
   height: 2rem !important;
+  margin-right: 1rem !important;
   min-width: 0 !important;
   opacity: 1 !important;
-  padding: 0 0.5rem !important;
+  padding: 0 !important;
 
   &.mat-tab-label-active {
     border-bottom: 1px solid var(--vscode-settings-headerForeground);

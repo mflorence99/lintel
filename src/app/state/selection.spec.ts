@@ -18,10 +18,6 @@ describe('SelectionState', () => {
     expect(states.selection.category).toEqual(config.activeCategory);
     expect(states.selection.fileName).toEqual('package.json');
     expect(states.selection.pluginName).toEqual(config.basePluginName);
-    expect(states.configs.pluginNames.length).toEqual(2);
-    expect(states.configs.pluginNames[0]).toEqual(config.basePluginName);
-    expect(states.configs.categories.length).toEqual(7);
-    expect(states.configs.categories[0]).toEqual('Best Practices');
   });
 
 });

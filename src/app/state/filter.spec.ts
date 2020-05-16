@@ -24,15 +24,6 @@ describe('FilterState', () => {
     });
   });
 
-  test('Rule name filter can be cleared', done => {
-    states.filter.filterRuleName('style', () => {
-      expect(states.filter.ruleNameFilter).toEqual('style');
-      states.filter.clearRuleNameFilter();
-      expect(states.filter.ruleNameFilter).toBeNull();
-      done();
-    });
-  });
-
   test('Empty data returned for non-matching filter', done => {
     states.selection.select({
       category: config.activeCategory,

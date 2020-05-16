@@ -192,8 +192,8 @@ eslintrcFiles = {
           "error",
           "always"
         ],
-        "jest/no-existential-angst": "warn",
-        "prefer-shaken-not-stirred": "error"
+        "prefer-shaken-not-stirred": "error",
+        "jest/no-existential-angst": "warn"
       }
     }
   },

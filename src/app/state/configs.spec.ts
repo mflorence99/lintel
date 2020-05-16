@@ -1,4 +1,6 @@
 import { Bundle } from './state.spec';
+import { Rule } from '../state/schemas';
+import { Settings } from '../state/configs';
 
 import { config } from '../config';
 import { prepare } from './state.spec';
@@ -57,19 +59,12 @@ describe('ConfigsState', () => {
     expect(view['prefer-shaken-not-stirred']).toBeTruthy();
   });
 
-  test('hasRules determines if a plugin has any rules left in the schema after a filter is applied', done => {
-    states.filter.filterRuleName('accessor-pairs', () => {
-      states.selection.select({ pluginName: config.basePluginName });
-      expect(states.configs.hasRules).toBeTruthy();
-      states.selection.select({ pluginName: '@typescript-eslint' });
-      expect(states.configs.hasRules).toBeFalsy();
-      done();
-    });
-  });
-
   test('Rule digest is properly constructed', () => {
     states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
-    const digest = states.configs.makeRuleDigest('brace-style');
+    const ruleName = 'brace-style';
+    const rule = states.schemas.snapshot[config.basePluginName]?.rules?.[ruleName] as Rule;
+    const settings = states.configs.snapshot['package.json']?.config?.rules?.[ruleName] as Settings;
+    const digest = states.configs.makeRuleDigest(ruleName, rule, settings);
     expect(digest.description).toEqual('enforce consistent brace style for blocks');
     expect(digest.level).toEqual('error');
     expect(digest.ruleName).toEqual('brace-style');
