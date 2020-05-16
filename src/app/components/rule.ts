@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
 import { Digest } from '../state/configs';
 import { Input } from '@angular/core';
-import { Settings } from '../state/configs';
 
 /**
  * Rule component

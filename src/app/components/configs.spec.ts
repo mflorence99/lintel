@@ -18,10 +18,10 @@ describe('ConfigsComponent', () => {
   test('Category can be selected', () => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
-    component.selectCategory(new Event('click'), 'Best Practices');
+    component.selectCategory(new Event('click'), 'Best Practices', null);
     expect(component.selection.category).toEqual('Best Practices');
     // selecting category again is harmless
-    component.selectCategory(new Event('click'), 'Best Practices');
+    component.selectCategory(new Event('click'), 'Best Practices', null);
     expect(component.selection.category).toEqual('Best Practices');
   });
 

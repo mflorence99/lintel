@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
+import { Rule } from '../state/schemas';
 import { SelectionState } from '../state/selection';
 
 import { config } from '../config';
@@ -19,7 +20,6 @@ import { config } from '../config';
 export class ConfigsComponent {
 
   activeCategory = config.activeCategory;
-  extendedCategory = config.extendedCategory;
   unknownCategory = config.unknownCategory;
 
   /** ctor */
@@ -29,9 +29,9 @@ export class ConfigsComponent {
   }
 
   /** Select a category */
-  selectCategory(event: Event, category: string): void {
+  selectCategory(event: Event, category: string, view: Record<string, Rule>): void {
     if (category !== this.selection.category)
-      this.selection.select({ category });
+      this.selection.select({ category, view });
     event.stopPropagation();
   }
 
@@ -40,7 +40,7 @@ export class ConfigsComponent {
     if (fileName !== this.selection.fileName) {
       this.selection.select({ fileName });
       this.selection.select({ pluginName: this.configs.pluginNames[0] });
-      this.selection.select({ category: config.activeCategory });
+      this.selection.select({ category: config.activeCategory, view: this.configs.activeView });
     }
     event.stopPropagation();
   }

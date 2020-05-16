@@ -11,7 +11,6 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 
 import { config } from '../config';
 import { deduplicateArray } from '../utils';
-import { isObjectEmpty } from '../utils';
 
 // NOTE: config content is provided statically in index.html
 declare const eslintrcFiles: ConfigsStateModel;
@@ -39,8 +38,6 @@ export interface Digest {
   settings: Settings;
   url: string;
 }
-
-export type PluginView = Record<string, Record<string, Settings>>;
 
 export interface Settings {
   // TODO: more analysis
@@ -99,19 +96,6 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
       }, { });
   }
 
-  @Computed() get extendedView(): Record<string, Rule> {
-    // TODO: temporary
-    const extended = this.snapshot[this.selection.fileName]?.config?.rules || {};
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || {};
-    return Object.keys(rules)
-      .filter(ruleName => this.filter.isRuleNameFiltered(ruleName))
-      .filter(ruleName => extended[ruleName])
-      .reduce((acc, ruleName) => {
-        acc[ruleName] = rules[ruleName];
-        return acc;
-      }, { });
-  }
-
   @Computed() get fileNames(): string [] {
     return Object.keys(this.snapshot);
   }
@@ -132,7 +116,7 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
     return [config.basePluginName, ...deduplicateArray(raw)];
   }
 
-  @Computed() get unknownView(): Record<string, Settings> {
+  @Computed() get unknownView(): Record<string, Rule> {
     // NOTE: settings that have no corresponmding rule in the schema
     // and so cannot be handled by Lintel
     const settings = this.snapshot[this.selection.fileName]?.config?.rules || { };
@@ -169,18 +153,6 @@ export class ConfigsState extends NgxsImmutableDataRepository<ConfigsStateModel>
       settings: settings,
       url: rule?.meta?.docs?.url
     };
-  }
-
-  makeViewForCategory(category: string): Record<string, Rule | Settings> {
-    let view;
-    if (category === config.activeCategory)
-      view = this.activeView;
-    else if (category === config.extendedCategory)
-      view = this.extendedView;
-    else if (category === config.unknownCategory)
-      view = this.unknownView;
-    else view = this.categoryView[category]; 
-    return isObjectEmpty(view) ? null : view;
   }
 
 }

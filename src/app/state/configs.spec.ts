@@ -75,14 +75,4 @@ describe('ConfigsState', () => {
     expect(digest.ruleName).toEqual('brace-style');
   });
 
-  test('View is properly constructed for category', () => {
-    states.selection.select({ fileName: 'package.json', pluginName: config.basePluginName });
-    let view = states.configs.makeViewForCategory(config.activeCategory);
-    expect(view['brace-style']).toBeTruthy();
-    view = states.configs.makeViewForCategory(config.unknownCategory);
-    expect(view['jest/no-existential-angst']).toBeTruthy();
-    view = states.configs.makeViewForCategory('Best Practices');
-    expect(view['accessor-pairs']).toBeTruthy();
-  });
-
 });

@@ -1,0 +1,23 @@
+:host {
+  display: grid;
+  grid-template-areas:
+    "filter"
+    "tabs"
+    "rules";
+  grid-template-columns: 1fr;
+  // TODO: hack for scrolling -- extra 2rem a fudge for main padding
+  grid-template-rows: 3rem 3rem calc(100vh - 8rem);
+}
+
+.filter {
+  grid-area: filter;
+}
+
+.tabs {
+  grid-area: tabs;
+}
+
+.rules {
+  grid-area: rules;
+  overflow-y: auto;
+}

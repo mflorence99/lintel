@@ -38,12 +38,12 @@ describe('FilterComponent', () => {
     const fixture = TestBed.createComponent(FilterComponent);
     const component = fixture.componentInstance;
     component.selection.select({
-      category: config.activeCategory,
+      category: 'Best Practices',
       fileName: 'package.json',
       pluginName: config.basePluginName
     });
-    component.filterRuleName('pairs', () => {
-      expect(component.selection.category).toEqual('Best Practices');
+    component.filterRuleName('style', () => {
+      expect(component.selection.category).toEqual(config.activeCategory);
       done();
     });
   });

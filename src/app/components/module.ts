@@ -4,6 +4,7 @@ import { FilterComponent } from './filter';
 import { NgModule } from '@angular/core';
 import { RuleComponent } from './rule';
 import { RulesComponent } from './rules';
+import { SettingsComponent } from './settings';
 import { TabsComponent } from './tabs';
 
 /**
@@ -15,6 +16,7 @@ const COMPONENTS = [
   FilterComponent,
   RuleComponent,
   RulesComponent,
+  SettingsComponent,
   TabsComponent
 ];
 

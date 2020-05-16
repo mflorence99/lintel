@@ -1,5 +1,5 @@
 <ng-container
-  *ngFor="let item of configs.makeViewForCategory(selection.category) | keyvalue; trackBy: trackByRule">
+  *ngFor="let item of selection.view | keyvalue; trackBy: trackByRule">
 
   <ng-container
     *ngIf="configs.makeRuleDigest(item.key, item.value) as digest">

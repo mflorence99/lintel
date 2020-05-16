@@ -1,34 +1,18 @@
 :host {
-  height: 100%;
-}
-
-main {
   display: grid;
-  grid-template-areas:
-    "filter  filter"
-    "tabs    tabs"
-    "configs rules";
+  grid-template-areas: "configs settings";
   grid-template-columns: 10rem 1fr;
-  grid-template-rows: 3rem 3rem calc(100vh - 8rem);
+  height: 100%;
   margin: 0 auto;
   max-width: 1024px;
-  padding-top: 1.5rem;
+  // NOTE: this simulates VSCode settings editor
+  padding-top: 1rem;
+}
 
-  .configs {
-    grid-area: configs;
-  }
+.configs {
+  grid-area: configs;
+}
 
-  .filter {
-    grid-area: filter;
-  }
-
-  .tabs {
-    grid-area: tabs;
-  }
-
-  .rules {
-    grid-area: rules;
-    overflow-y: auto;
-  }
-
+.settings {
+  grid-area: settings;
 }
