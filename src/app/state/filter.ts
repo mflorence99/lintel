@@ -7,8 +7,6 @@ import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
-import { config } from '../config';
-
 export type FilterCallback = () => void;
 
 export interface FilterStateModel {
@@ -27,7 +25,7 @@ export class FilterState extends NgxsImmutableDataRepository<FilterStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  @Debounce(config.debounceTimeout)
+  @Debounce(globalThis.debounceTimeout)
   filterRuleName(@Payload('filterRuleName') ruleNameFilter: string, done?: FilterCallback): void {
     this.ctx.patchState({ ruleNameFilter });
     done?.();

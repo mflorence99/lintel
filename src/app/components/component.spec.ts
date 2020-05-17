@@ -5,6 +5,7 @@ import { BarrelModule } from '../barrel';
 import { ConfigsState } from '../state/configs';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
+import { Params } from '../services/params';
 import { SchemasState } from '../state/schemas';
 import { TestBed } from '@angular/core/testing';
 
@@ -25,6 +26,8 @@ export function prepare(components: any[]): void {
 
   TestBed.inject(ConfigsState).initialize();
   TestBed.inject(SchemasState).initialize();
+
+  TestBed.inject(Params);
 
 }
 

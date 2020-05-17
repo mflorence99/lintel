@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
+import { Params } from '../services/params';
 import { SelectionState } from '../state/selection';
 import { View } from '../state/configs';
 
-import { config } from '../config';
 import { isObjectEmpty } from '../utils';
 
 /**
@@ -20,15 +20,13 @@ import { isObjectEmpty } from '../utils';
 
 export class ConfigsComponent {
 
-  activeCategory = config.activeCategory;
-  unknownCategory = config.unknownCategory;
-
   /** ctor */
   constructor(public configs: ConfigsState,
+              public params: Params,
               public selection: SelectionState) { 
     this.selection.select({ fileName: this.configs.fileNames[0] });
     this.selection.select({ pluginName: this.configs.pluginNames[0] });
-    this.selection.select({ category: config.activeCategory });
+    this.selection.select({ category: this.params.activeCategory });
   }
 
   /** Does the view have any rules? */

@@ -6,6 +6,21 @@
 
 eslintSchema = {
   "@typescript-eslint": {
+    "lintel": {
+      "inherits": {
+        "plugin:@typescript-eslint/eslint-recommended": {
+          "extendsBaseRule": "truthy"
+        },
+        "plugin:@typescript-eslint/recommended": {
+          "recommended": "truthy",
+          "requiresTypeChecking": "falsey"
+        },
+        "plugin:@typescript-eslint/recommended-requiring-type-checking": {
+          "recommended": "truthy",
+          "requiresTypeChecking": "truthy"
+        }
+      }
+    },
     "rules": {
       "@typescript-eslint/adjacent-overload-signatures": {
         "meta": {
@@ -6896,6 +6911,13 @@ eslintSchema = {
     "version": "2.31.0"
   },
   "eslint": {
+    "lintel": {
+      "inherits": {
+        "eslint:recommended": {
+          "recommended": "truthy",
+        }
+      }
+    },
     "rules": {
       "accessor-pairs": {
         "meta": {

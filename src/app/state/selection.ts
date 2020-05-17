@@ -1,7 +1,7 @@
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
-import { NgxsImmutableDataRepository } from '@ngxs-labs/data/repositories';
+import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
@@ -19,7 +19,7 @@ export interface SelectionStateModel {
   defaults: { }
 })
 
-export class SelectionState extends NgxsImmutableDataRepository<SelectionStateModel> {
+export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
 
   // actions
 

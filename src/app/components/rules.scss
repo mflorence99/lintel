@@ -12,6 +12,10 @@
     border-right: 2px solid var(--vscode-editorGutter-modifiedBackground);
   }
 
+  &.inherited {
+    opacity: 0.5;
+  }
+
   &.unknown {
     border-right: 2px solid var(--vscode-inputValidation-errorBorder);
   }

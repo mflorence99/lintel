@@ -1,11 +1,17 @@
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
-import { NgxsImmutableDataRepository } from '@ngxs-labs/data/repositories';
+import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
 // NOTE: schema content is provided statically in index.html
 declare const eslintSchema: SchemasStateModel;
+
+export type Level = 'error' | 'warn' | 'off';
+
+export interface Lintel {
+  inherits: Record<string, Record<string, 'truthy' | 'falsey'>>;
+}
 
 export interface Rule {
   meta: {
@@ -14,7 +20,7 @@ export interface Rule {
       category: string;
       description: string;
       extendsBasicRule?: boolean;
-      recommended: 'error' | 'warn' | 'off' | boolean;
+      recommended: Level | boolean;
       requiresTypeChecking?: boolean;
       url: string;
     };
@@ -44,6 +50,7 @@ export interface RuleOptions {
 }
 
 export interface Schema {
+  lintel: Lintel;
   rules: Record<string, Rule>;
   version: string;
 }
@@ -57,7 +64,7 @@ export type SchemasStateModel = Record<string, Schema>;
   defaults: { }
 }) 
 
-export class SchemasState extends NgxsImmutableDataRepository<SchemasStateModel> {
+export class SchemasState extends NgxsDataRepository<SchemasStateModel> {
 
   // actions
 

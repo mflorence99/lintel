@@ -1,23 +1,22 @@
 import { Bundle } from './state.spec';
 
-import { config } from '../config';
 import { prepare } from './state.spec';
 
 describe('SelectionState', () => {
 
-  let states: Bundle;
+  let bundle: Bundle;
 
-  beforeEach(() => states = prepare());
+  beforeEach(() => bundle = prepare());
 
   test('Selections can be made', () => {
-    states.selection.select({ 
-      category: config.activeCategory, 
+    bundle.selection.select({ 
+      category: bundle.params.activeCategory, 
       fileName: 'package.json', 
-      pluginName: config.basePluginName 
+      pluginName: bundle.params.basePluginName 
     });
-    expect(states.selection.category).toEqual(config.activeCategory);
-    expect(states.selection.fileName).toEqual('package.json');
-    expect(states.selection.pluginName).toEqual(config.basePluginName);
+    expect(bundle.selection.category).toEqual(bundle.params.activeCategory);
+    expect(bundle.selection.fileName).toEqual('package.json');
+    expect(bundle.selection.pluginName).toEqual(bundle.params.basePluginName);
   });
 
 });

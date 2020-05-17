@@ -2,7 +2,6 @@ import { ConfigsComponent } from './configs';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { config } from '../config';
 import { prepare } from './component.spec';
 
 describe('ConfigsComponent', () => {

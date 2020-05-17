@@ -1,26 +1,26 @@
 :host {
   display: block;
+  line-height: 150%;
 }
 
-.rule {
-  line-height: 150%;
+.ruleName {
+  font-family: monospace;
+  font-weight: bold;
 
-  .ruleName {
-    font-family: monospace;
-    font-weight: bold;
+  &.error {
+    color: var(--vscode-errorForeground);
+  }
 
-    &.error {
-      color: var(--vscode-errorForeground);
-    }
+  &.inherited {
+    font-weight: normal;
+  }
 
-    &.off {
-      color: inherit;
-    }
+  &.off {
+    color: inherit;
+  }
 
-    &.warn {
-      color: var(--vscode-editorOverviewRuler-warningForeground);
-    }
-
+  &.warn {
+    color: var(--vscode-editorOverviewRuler-warningForeground);
   }
 
 }

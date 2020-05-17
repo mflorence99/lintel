@@ -29,7 +29,7 @@ export class FilterComponent {
 
   /** Clear the rule name filter */
   clearRuleNameFilter(): void {
-    this.filterRuleName(null);
+    this.filter.filterRuleName(null);
     this.input.nativeElement.value = null;
   }
 

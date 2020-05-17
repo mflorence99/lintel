@@ -12,10 +12,10 @@
       *ngIf="selection.fileName === fileName">
 
       <div
-        (click)="selectCategory($event, activeCategory)"
-        [ngClass]="{selected: selection.category === activeCategory}"
+        (click)="selectCategory($event, params.activeCategory)"
+        [ngClass]="{selected: selection.category === params.activeCategory}"
         class="category">
-        &bull; {{ activeCategory }}
+        &bull; {{ params.activeCategory }}
       </div>
 
       <div
@@ -27,11 +27,11 @@
       </div>
 
       <div
-        (click)="selectCategory($event, unknownCategory)"
-        [ngClass]="{selected: selection.category === unknownCategory}"
+        (click)="selectCategory($event, params.unknownCategory)"
+        [ngClass]="{selected: selection.category === params.unknownCategory}"
         *ngIf="hasRules(configs.unknownView)"
         class="category">
-        &bull; {{ unknownCategory }}
+        &bull; {{ params.unknownCategory }}
       </div>
 
     </ng-container>

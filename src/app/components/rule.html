@@ -1,15 +1,10 @@
-<div 
-  class="rule">
-  
-  <div
-    [ngClass]="digest.level"
-    class="ruleName">
-    {{ digest.ruleName }}
-  </div>
+<div
+  [ngClass]="{inherited: digest.inherited}"
+  class="ruleName {{ digest.level }}">
+  {{ digest.ruleName }}
+</div>
 
-  <div
-    *ngIf="digest.description">
-    {{ digest.description }}
-  </div>
-
+<div
+  *ngIf="digest.description">
+  {{ digest.description }}
 </div>

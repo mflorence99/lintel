@@ -2,7 +2,6 @@ import { TabsComponent } from './tabs';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { config } from '../config';
 import { prepare } from './component.spec';
 
 describe('TabsComponent', () => {
@@ -20,8 +19,8 @@ describe('TabsComponent', () => {
     const component = fixture.componentInstance;
     // NOTE: need to fake setting of file
     component.selection.select({ fileName: 'package.json' });
-    component.selectPluginName(new Event('click'), config.basePluginName);
-    expect(component.selection.pluginName).toEqual(config.basePluginName);
+    component.selectPluginName(new Event('click'), component.params.basePluginName);
+    expect(component.selection.pluginName).toEqual(component.params.basePluginName);
     expect(component.tabIndex).toEqual(0);
     component.onTabSelect(1);
     expect(component.selection.pluginName).toEqual('@typescript-eslint');

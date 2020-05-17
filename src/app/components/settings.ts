@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../state/configs';
+import { Params } from '../services/params';
 import { SelectionState } from '../state/selection';
-
-import { config } from '../config';
 
 /**
  * Settings component
@@ -18,11 +17,9 @@ import { config } from '../config';
 
 export class SettingsComponent { 
 
-  activeCategory = config.activeCategory;
-  unknownCategory = config.unknownCategory;
-
   /** ctor */
   constructor(public configs: ConfigsState,
+              public params: Params,
               public selection: SelectionState) { }
 
 }
