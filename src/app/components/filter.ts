@@ -4,6 +4,7 @@ import { ConfigsState } from '../state/configs';
 import { ElementRef } from '@angular/core';
 import { FilterCallback } from '../state/filter';
 import { FilterState } from '../state/filter';
+import { OnInit } from '@angular/core';
 import { SelectionState } from '../state/selection';
 import { ViewChild } from '@angular/core';
 
@@ -18,7 +19,7 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['filter.scss']
 })
 
-export class FilterComponent {
+export class FilterComponent implements OnInit {
 
   @ViewChild('input', { static: true }) input: ElementRef;
 
@@ -39,6 +40,11 @@ export class FilterComponent {
       // NOTE: this facilitates testing
       done?.();
     });
+  }
+
+  /** When we're readt */
+  ngOnInit(): void {
+    this.input.nativeElement.value = this.filter.ruleNameFilter || '';
   }
 
   /** Show or hide inherited rules */

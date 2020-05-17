@@ -26,7 +26,7 @@ export class ConfigsComponent {
               public selection: SelectionState) { 
     this.selection.select({ fileName: this.configs.fileNames[0] });
     this.selection.select({ pluginName: this.configs.pluginNames[0] });
-    this.selection.select({ category: this.params.activeCategory });
+    this.selection.select({ category: this.params.generalSettings });
   }
 
   /** Does the view have any rules? */

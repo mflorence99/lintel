@@ -41,7 +41,7 @@ export function prepare(): Bundle {
   bundle.schemas.initialize();
 
   // NOTE: minimize any debounce timeout
-  globalThis.debounceTimeout = 0;
+  Params.debounceTimeout = 0;
 
   return bundle;
 

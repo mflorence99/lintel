@@ -2,6 +2,18 @@
   class="configs">
 </lintel-configs>
 
-<lintel-settings
-  class="settings">
-</lintel-settings>
+<ng-container
+  [ngSwitch]="selection.category">
+
+  <lintel-general 
+    *ngSwitchCase="params.generalSettings"
+    class="settings">
+  </lintel-general>
+
+
+  <lintel-settings
+    *ngSwitchDefault
+    class="settings">
+  </lintel-settings>
+
+</ng-container>

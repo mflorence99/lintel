@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
 
-// NOTE: we need to use this in a decorator, where we can't access this service
-globalThis.debounceTimeout = 250;
-
 @Injectable({ providedIn: 'root' })
 export class Params {
 
+  // NOTE: we need to use this in a decorator, where we can't access this service
+  static debounceTimeout = 250;
+
   activeCategory = 'Active Rules';
   basePluginName = 'eslint';
+  generalSettings = 'General Settings';
   unknownCategory = 'Unknown Rules';
-
-  get debounceTimeout(): number {
-    return globalThis.debounceTimeout;
-  }
-
-  set debounceTimeout(timeout) {
-    globalThis.debounceTimeout = timeout;
-  }
   
 }

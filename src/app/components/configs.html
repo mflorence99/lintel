@@ -12,6 +12,13 @@
       *ngIf="selection.fileName === fileName">
 
       <div
+        (click)="selectCategory($event, params.generalSettings)"
+        [ngClass]="{selected: selection.category === params.generalSettings}"
+        class="category">
+        &bull; {{ params.generalSettings }}
+      </div>
+
+      <div
         (click)="selectCategory($event, params.activeCategory)"
         [ngClass]="{selected: selection.category === params.activeCategory}"
         class="category">

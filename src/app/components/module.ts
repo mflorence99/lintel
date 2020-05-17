@@ -1,6 +1,7 @@
 import { BarrelModule } from '../barrel';
 import { ConfigsComponent } from './configs';
 import { FilterComponent } from './filter';
+import { GeneralComponent } from './general';
 import { NgModule } from '@angular/core';
 import { RuleComponent } from './rule';
 import { RulesComponent } from './rules';
@@ -14,6 +15,7 @@ import { TabsComponent } from './tabs';
 const COMPONENTS = [
   ConfigsComponent,
   FilterComponent,
+  GeneralComponent,
   RuleComponent,
   RulesComponent,
   SettingsComponent,
