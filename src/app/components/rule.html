@@ -1,10 +1,23 @@
-<div
+<a
+  [href]="digest.url"
   [ngClass]="{inherited: digest.inherited}"
-  class="ruleName {{ digest.level }}">
-  {{ digest.ruleName }}
-</div>
+  class="ruleName {{ digest.level }}"
+  target="lintel">
+  {{ digest.ruleName }}: '{{ digest.level }}'
+</a>
 
 <div
   *ngIf="digest.description">
-  {{ digest.description }}
+  {{ sentence(digest.description) }}
+</div>
+
+<div
+  *ngIf="digest.deprecated"
+  class="deprecated">
+  <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+  Deprecated.
+  <span
+    *ngIf="digest.replacedBy.length">
+    Please use <span class="replacedBy">{{ digest.replacedBy.join(', ') }}</span>.
+  </span>
 </div>

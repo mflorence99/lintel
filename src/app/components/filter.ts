@@ -41,4 +41,12 @@ export class FilterComponent {
     });
   }
 
+  /** Show or hide inherited rules */
+  toggleInheritedRules(done?: FilterCallback): void {
+    this.filter.toggleInheritedRules(() => {
+      // NOTE: this facilitates testing
+      done?.();
+    });
+  }
+
 }

@@ -22,4 +22,12 @@ export class RuleComponent {
   /** ctor */
   constructor(public configs: ConfigsState) { }
 
+  /** Clean up the descripton to make it look like a sentence */
+  sentence(description: string): string {
+    if (!description)
+      return null;
+    const tweaked = description.substring(0, 1).toUpperCase() + description.substring(1);
+    return tweaked.endsWith('.') ? tweaked : `${tweaked}.`;
+  }
+
 }

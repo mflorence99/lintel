@@ -84,7 +84,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .reduce((acc, ruleName) => {
         acc[ruleName] = [rules[ruleName], settings[ruleName]];
         return acc;
-      }, this.inheritedView);
+      }, this.filter.snapshot.showInheritedRules ? this.inheritedView : { });
   }
 
   @Computed() get categories(): string[] {
@@ -105,7 +105,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         if (!acc[category][ruleName] || settings[ruleName])
           acc[category][ruleName] = [rules[ruleName], settings[ruleName]];
         return acc;
-      }, this.inheritedCategoryView);
+      }, this.filter.snapshot.showInheritedRules ? this.inheritedCategoryView : {});
   }
 
   @Computed() get fileNames(): string [] {

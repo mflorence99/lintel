@@ -3,11 +3,30 @@
   line-height: 150%;
 }
 
+.deprecated {
+  font-size: 0.8rem;
+
+  .replacedBy {
+    font-family: monospace;
+  }
+
+}
+
 .ruleName {
+  border-style: solid;
+  border-width: 0;
   font-family: monospace;
   font-weight: bold;
+  outline: 0;
+  padding-bottom: 2px;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom-width: 1px;
+  }
 
   &.error {
+    border-color: var(--vscode-errorForeground);
     color: var(--vscode-errorForeground);
   }
 
@@ -20,6 +39,7 @@
   }
 
   &.warn {
+    border-color: var(--vscode-editorOverviewRuler-warningForeground);
     color: var(--vscode-editorOverviewRuler-warningForeground);
   }
 

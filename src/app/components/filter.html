@@ -7,6 +7,16 @@
     placeholder="Filter rules">
 
   <div
+    (click)="toggleInheritedRules()"
+    title="Toggle inherited rules analysis">
+
+    <fa-icon 
+      [icon]="['fas', filter.snapshot.showInheritedRules ? 'eye' : 'eye-slash']">
+    </fa-icon>
+
+  </div>
+
+  <div
     (click)="clearRuleNameFilter()"
     title="Clear filter rules input">
 
