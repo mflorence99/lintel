@@ -2,7 +2,7 @@ import '../../../assets/eslint-schema.js';
 import '../../../assets/eslintrc-files.js';
 
 import { BarrelModule } from '../../barrel';
-import { ComponentsModule } from '../../components/module';
+import { ComponentsModule } from '../components/module';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { RootPageComponent } from './page';

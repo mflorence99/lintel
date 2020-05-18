@@ -9,6 +9,7 @@ import { Params } from '../services/params';
 import { SchemasState } from '../state/schemas';
 import { SelectionState } from '../state/selection';
 import { TestBed } from '@angular/core/testing';
+import { Utils } from '../services/utils';
 
 import { states } from './app';
 
@@ -18,6 +19,7 @@ export interface Bundle {
   params?: Params;
   schemas?: SchemasState;
   selection?: SelectionState;
+  utils?: Utils;
 }
 
 export function prepare(): Bundle {
@@ -36,6 +38,7 @@ export function prepare(): Bundle {
   bundle.params = TestBed.inject(Params);
   bundle.schemas = TestBed.inject(SchemasState);
   bundle.selection = TestBed.inject(SelectionState);
+  bundle.utils = TestBed.inject(Utils);
 
   bundle.configs.initialize();
   bundle.schemas.initialize();

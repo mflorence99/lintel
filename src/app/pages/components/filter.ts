@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
-import { ConfigsState } from '../state/configs';
+import { ConfigsState } from '../../state/configs';
 import { ElementRef } from '@angular/core';
-import { FilterCallback } from '../state/filter';
-import { FilterState } from '../state/filter';
+import { FilterCallback } from '../../state/filter';
+import { FilterState } from '../../state/filter';
 import { OnInit } from '@angular/core';
-import { SelectionState } from '../state/selection';
+import { SelectionState } from '../../state/selection';
 import { ViewChild } from '@angular/core';
 
 /**

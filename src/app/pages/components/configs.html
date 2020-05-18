@@ -36,7 +36,7 @@
       <div
         (click)="selectCategory($event, params.unknownCategory)"
         [ngClass]="{selected: selection.category === params.unknownCategory}"
-        *ngIf="hasRules(configs.unknownView)"
+        *ngIf="!utils.isObjectEmpty(configs.unknownView)"
         class="category">
         &bull; {{ params.unknownCategory }}
       </div>

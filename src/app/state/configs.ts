@@ -10,8 +10,7 @@ import { SchemasState } from './schemas';
 import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
-
-import { deduplicateArray } from '../utils';
+import { Utils } from '../services/utils';
 
 // NOTE: config content is provided statically in index.html
 declare const eslintrcFiles: ConfigsStateModel;
@@ -61,7 +60,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   constructor(private filter: FilterState,
               private params: Params,
               private schemas: SchemasState, 
-              private selection: SelectionState) { 
+              private selection: SelectionState,
+              private utils: Utils) { 
     super();
   }
 
@@ -148,7 +148,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         return acc;
       }, [])
       .filter(pluginName => this.schemas.snapshot[pluginName]);
-    return [this.params.basePluginName, ...deduplicateArray(raw)];
+    return [this.params.basePluginName, ...this.utils.deduplicateArray(raw)];
   }
 
   @Computed() get unknownView(): View {

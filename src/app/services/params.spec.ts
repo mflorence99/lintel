@@ -9,8 +9,12 @@ describe('Params', () => {
   beforeEach(() => services = prepare([Params]));
 
   test('Params are set as expected', () => {
-    expect(services[0].basePluginName).toEqual('eslint');
+    const params: Params = services[0];
+    expect(params.basePluginName).toEqual('eslint');
     expect(Params.debounceTimeout).toEqual(250);
+    expect(params.debounceTimeout).toEqual(250);
+    params.debounceTimeout = 0;
+    expect(params.debounceTimeout).toEqual(0);
   });
 
 });

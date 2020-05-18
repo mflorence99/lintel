@@ -1,6 +1,5 @@
 import { Bundle } from './state.spec';
 
-import { isObjectEmpty } from '../utils';
 import { prepare } from './state.spec';
 
 describe('FilterState', () => {
@@ -32,7 +31,7 @@ describe('FilterState', () => {
     bundle.filter.filterRuleName('xxx', () => {
       expect(bundle.filter.ruleNameFilter).toEqual('xxx');
       expect(bundle.configs.categories.length).toEqual(0);
-      expect(isObjectEmpty(bundle.configs.categoryView)).toBeTruthy();
+      expect(bundle.utils.isObjectEmpty(bundle.configs.categoryView)).toBeTruthy();
       done();
     });
   });

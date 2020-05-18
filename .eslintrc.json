@@ -116,6 +116,7 @@
         "format": [
           "camelCase"
         ],
+        "leadingUnderscore": "allow",
         "modifiers": [
           "private"
         ],

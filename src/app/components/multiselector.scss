@@ -1,0 +1,70 @@
+@import '~@angular/material/theming';
+
+:host {
+  display: block;
+}
+
+.multiselector {
+  align-items: center;
+  display: grid;
+  grid-template-areas: 
+    "prefix placeholder suffix"
+    "rule   rule        rule"
+    ".      checkboxes  checkboxes"
+    ".      readout     readout";
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto 1fr;
+
+  .checkboxes {
+    @include mat-elevation(1);
+
+    display: grid;
+    grid-area: checkboxes;
+    grid-gap: 4px;
+    grid-template-columns: auto;
+    overflow: auto;
+    padding: 0 8px 8px 8px;
+
+    &.focused {
+      @include mat-elevation(3);
+    }
+
+  }
+
+  .mat-form-field-prefix {
+    grid-area: prefix;
+  }
+
+  .mat-form-field-suffix {
+    grid-area: suffix;
+  }
+
+  .placeholder {
+    grid-area: placeholder;
+
+    &.focused {
+      color: var(--primary-color);
+    }
+
+  }
+
+  .rule {
+    background-color: var(--text-color);
+    grid-area: rule;
+    height: 1px;
+    margin-bottom: 8px;
+    transition: background-color 0.25s ease-in-out;
+
+    &.focused {
+      background-color: var(--primary-color);
+    }
+
+  }
+
+  .readout {
+    font-size: 0.66rem;
+    grid-area: readout;
+    padding: 4px 0 12px 0;
+  }
+
+}

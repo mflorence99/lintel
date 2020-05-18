@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
-import { ConfigsState } from '../state/configs';
-import { Params } from '../services/params';
-import { SelectionState } from '../state/selection';
+import { ConfigsState } from '../../state/configs';
+import { Params } from '../../services/params';
+import { SelectionState } from '../../state/selection';
 
 /**
  * Tabs component

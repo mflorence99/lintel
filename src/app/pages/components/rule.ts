@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
-import { ConfigsState } from '../state/configs';
-import { Digest } from '../state/configs';
+import { ConfigsState } from '../../state/configs';
+import { Digest } from '../../state/configs';
 import { Input } from '@angular/core';
 
 /**

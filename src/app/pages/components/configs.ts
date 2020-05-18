@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
-import { ConfigsState } from '../state/configs';
-import { Params } from '../services/params';
-import { SelectionState } from '../state/selection';
-import { View } from '../state/configs';
-
-import { isObjectEmpty } from '../utils';
+import { ConfigsState } from '../../state/configs';
+import { Params } from '../../services/params';
+import { SelectionState } from '../../state/selection';
+import { Utils } from '../../services/utils';
+import { View } from '../../state/configs';
 
 /**
  * Configs component
@@ -23,17 +22,12 @@ export class ConfigsComponent {
   /** ctor */
   constructor(public configs: ConfigsState,
               public params: Params,
-              public selection: SelectionState) { 
+              public selection: SelectionState,
+              public utils: Utils) { 
     this.selection.select({ fileName: this.configs.fileNames[0] });
     this.selection.select({ pluginName: this.configs.pluginNames[0] });
     this.selection.select({ category: this.params.generalSettings });
   }
-
-  /** Does the view have any rules? */
-  hasRules(view: View): boolean {
-    return !isObjectEmpty(view);
-  }
-
   /** Select a category */
   selectCategory(event: Event, category: string): void {
     if (category !== this.selection.category)

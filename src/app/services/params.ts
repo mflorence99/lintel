@@ -10,5 +10,13 @@ export class Params {
   basePluginName = 'eslint';
   generalSettings = 'General Settings';
   unknownCategory = 'Unknown Rules';
+
+  get debounceTimeout(): number {
+    return Params.debounceTimeout;
+  }
+
+  set debounceTimeout(timeout: number) {
+    Params.debounceTimeout = timeout;
+  }
   
 }

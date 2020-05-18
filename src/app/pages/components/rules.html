@@ -1,5 +1,5 @@
 <ng-container
-  *ngIf="hasRules()">
+  *ngIf="!utils.isObjectEmpty(view)">
 
   <ng-container
     *ngFor="let item of view | keyvalue; trackBy: trackByRule">
@@ -23,7 +23,7 @@
 </ng-container>
 
 <ng-container
-  *ngIf="!hasRules()">
+  *ngIf="utils.isObjectEmpty(view)">
 
   <div></div>
   <div>No matching rules in {{ selection.category }}</div>

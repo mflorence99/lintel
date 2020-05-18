@@ -1,0 +1,44 @@
+<div
+  [formGroup]="multiSelectorForm"
+  class="multiselector">
+
+  <div 
+    class="mat-form-field-prefix">
+    <ng-content select="[matPrefix]"></ng-content>
+  </div>
+
+  <label
+    [ngClass]="{focused: focused}"
+    class="placeholder" 
+    drawer>
+    {{ placeholder }}
+  </label>
+
+  <div 
+    class="mat-form-field-suffix">
+    <ng-content select="[matSuffix]"></ng-content>
+  </div>
+
+  <div
+   [ngClass]="{focused: focused}"
+   class="rule">
+  </div>
+
+  <div 
+    [ngClass]="{focused: focused}" 
+    [ngStyle]="{'max-height.px': 28 * maxVisibleOptions}" 
+    class="checkboxes">
+
+    <mat-checkbox
+      [formControl]="control"
+      *ngFor="let control of controls; let ix = index">
+      {{ getOptionDecoded(ix) }}
+    </mat-checkbox>
+
+  </div>
+
+  <div class="readout">
+    {{ readout() }}
+  </div>
+
+</div>
