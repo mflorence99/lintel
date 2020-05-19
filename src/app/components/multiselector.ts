@@ -41,7 +41,7 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
   static nextID = 0;
 
   @HostBinding('attr.aria-describedby') describedBy = '';
-  @HostBinding() id = 'lintel-multiselector-$ DatepickerComponent.nextID++}';
+  @HostBinding() id = `lintel-multiselector-${MultiselectorComponent.nextID++}`;
 
   @Input()
   get disabled(): boolean {
@@ -142,13 +142,13 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
   constructor(private element: ElementRef,
               private focusMonitor: FocusMonitor,
               private formBuilder: FormBuilder,
-    @Optional() @Self() public ngControl: NgControl) {
+              @Optional() @Self() public ngControl: NgControl) {
     // create the form initially empty
     this.multiSelectorForm = this.formBuilder.group({ 
       checkboxes: new FormArray([])
     });
     // ngControl magic
-    if (!this.ngControl)
+    if (this.ngControl !== null)
       this.ngControl.valueAccessor = this;
     // monitor for focus
     this.focusMonitor.monitor(this.element.nativeElement, true)

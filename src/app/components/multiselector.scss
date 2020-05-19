@@ -7,7 +7,7 @@
 .multiselector {
   align-items: center;
   display: grid;
-  grid-template-areas: 
+  grid-template-areas:
     "prefix placeholder suffix"
     "rule   rule        rule"
     ".      checkboxes  checkboxes"

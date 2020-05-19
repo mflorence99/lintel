@@ -1,0 +1,21 @@
+<form
+  [formGroup]="testForm"
+  novalidate>
+
+  <lintel-multiselector
+    [options]="opts"
+    formControlName="multi"
+    placeholder="This is a test">
+    <a
+      mat-button
+      mat-icon-button
+      matSuffix>
+      <fa-icon 
+        [icon]="['fas', 'times']">
+      </fa-icon>
+    </a>
+  </lintel-multiselector>
+
+</form>
+
+{{ testForm.valueChanges | async | json }}

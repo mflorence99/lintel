@@ -1,4 +1,5 @@
 import { BarrelModule } from '../../barrel';
+import { ComponentsModule as CommonComponentsModule } from '../../components/module';
 import { ConfigsComponent } from './configs';
 import { FilterComponent } from './filter';
 import { GeneralComponent } from './general';
@@ -33,7 +34,8 @@ const COMPONENTS = [
   ],
 
   imports: [
-    BarrelModule
+    BarrelModule,
+    CommonComponentsModule
   ]
 
 })
