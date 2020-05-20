@@ -26,7 +26,7 @@ export class FilterComponent implements OnDestroy, OnInit {
 
   filterForm: FormGroup;
 
-  private notifier = new Subject();
+  private notifier = new Subject<void>();
 
   /** ctor */
   constructor(public configs: ConfigsState,

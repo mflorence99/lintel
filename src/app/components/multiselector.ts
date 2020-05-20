@@ -12,11 +12,26 @@ import { Input } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
 import { OnDestroy } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { Optional } from '@angular/core';
 import { Self } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { takeUntil } from 'rxjs/operators';
+
+// NOTE: options can be one of the following:
+// -- array of encoded values
+// -- array of [encoded, decoded] values <-- PREFERRED
+// -- array of {[nameOfEncoded]: encoded, [nameOfDecoded]: decoded} values
+
+export type MultiselectorOptions = string[] | string[][];
+
+// NOTE: values can be one of the following:
+// -- array of encoded values <-- PREFERRED
+// -- Record<string, boolean>
+
+export type MultiselectorValues = string[] | Record<string, boolean>;
 
 /**
  * Multiselecxt values via checkboxes
@@ -35,8 +50,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
   styleUrls: ['multiselector.scss']
 })
 
-export class MultiselectorComponent
-implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
+export class MultiselectorComponent implements ControlValueAccessor, MatFormFieldControl<MultiselectorValues>, OnInit, OnDestroy {
 
   static nextID = 0;
 
@@ -57,16 +71,11 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
   @Input() nameOfEncoded = 'id';
   @Input() nameOfDecoded = 'value';
 
-  // NOTE: options can be one of the following:
-  // -- array of encoded values
-  // -- array of [encoded, decoded] values <-- PREFERRED
-  // -- array of {[nameOfEncoded]: encoded, [nameOfDecoded]: decoded} values
-
   @Input()
-  get options(): any[] {
+  get options(): MultiselectorOptions {
     return this._origOptions; 
   }
-  set options(options: any[]) {
+  set options(options: MultiselectorOptions) {
     this._origOptions = options;
     this._options = this.normalizeOptions(options);
     // NOTE: now options are [encoded, decoded]
@@ -99,14 +108,24 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
   }
 
   @Input()
-  get value(): string[] {
-    return Array.from(this.values) as string[];
+  get value(): MultiselectorValues {
+    if (this.valuesType === 'object') {
+      const obj = this._options.reduce((acc, option) => {
+        acc[option[0]] = false;
+        return acc;
+      }, { });
+      this.values.forEach(value => obj[value] = true);
+      return obj;
+    } else return Array.from(this.values) as MultiselectorValues;
   }
-  set value(values: string[]) {
-    if (values && !(Array.isArray(values) 
-     && values.every(value => typeof value === 'string')))
-      throw new Error(`${values} must be an array of strings`);
-    this.values = new Set(values);
+  set value(values: MultiselectorValues) {
+    if (!values || Array.isArray(values)) {
+      this.valuesType = 'array';
+      this.values = new Set(values as string[]);
+    } else if (typeof values === 'object') {
+      this.valuesType = 'object';
+      this.values = new Set(Object.keys(values).filter(val => values[val]));
+    }
     // patch the form to reflect the values
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
     const patch = this._options.map(option => this.values.has(option[0]));
@@ -124,7 +143,7 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
 
   controls: FormControl[] = [];
   multiSelectorForm: FormGroup;
-  values = new Set();
+  values = new Set<string>();
 
   // @see MatFormFieldControl
   controlType = 'lintel-multiselector';
@@ -132,10 +151,14 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
   shouldLabelFloat = false;
   stateChanges = new Subject<void>();
 
+  private notifier = new Subject<void>();
   private onChange: Function;
+  private valuesType: 'array' | 'object';
+
+  // these shadow visible properties
   private _disabled: boolean;
   private _options: string[][] = [];
-  private _origOptions: any[] = [];
+  private _origOptions: MultiselectorOptions;
   private _placeholder: string;
   private _required: boolean;
 
@@ -148,29 +171,9 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
     this.multiSelectorForm = this.formBuilder.group({ 
       checkboxes: new FormArray([])
     });
-    // ngControl magic
+    // @see https://material.angular.io/guide/creating-a-custom-form-field-control
     if (this.ngControl !== null)
       this.ngControl.valueAccessor = this;
-    // monitor for focus
-    this.focusMonitor.monitor(this.element.nativeElement, true)
-      .subscribe(origin => {
-        this.focused = !!origin;
-        this.stateChanges.next();
-      });
-    // monitor for value
-    const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
-    checkboxes.valueChanges
-      .subscribe((settings: boolean[]) => {
-        // NOTE: remember options are [encoded, decoded]
-        const values = this._options
-          .filter((option, ix) => settings[ix])
-          .map(option => option[0]);
-        this.values = new Set(values);
-        // propagate changes
-        if (this.onChange)
-          this.onChange(this.value);
-        this.stateChanges.next();
-      });
   }
 
   /** Get an indexed decoded option value */
@@ -214,23 +217,50 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
 
   // lifecycle methods
 
+  ngOnInit(): void {
+    // monitor for focus
+    this.focusMonitor.monitor(this.element.nativeElement, true)
+      .pipe(takeUntil(this.notifier))
+      .subscribe(origin => {
+        this.focused = !!origin;
+        this.stateChanges.next();
+      });
+    // monitor for value
+    const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
+    checkboxes.valueChanges
+      .pipe(takeUntil(this.notifier))
+      .subscribe((settings: boolean[]) => {
+        // NOTE: remember options are [encoded, decoded]
+        const values = this._options
+          .filter((option, ix) => settings[ix])
+          .map(option => option[0]);
+        this.values = new Set(values);
+        // propagate changes
+        if (this.onChange)
+          this.onChange(this.value);
+        this.stateChanges.next();
+      });
+  }
+
   ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
     this.stateChanges.complete();
     this.focusMonitor.stopMonitoring(this.element.nativeElement);
   }
 
   // private methods
 
-  private normalizeOptions(options: any[]): string[][] {
+  private normalizeOptions(options: MultiselectorOptions): string[][] {
     let normalized: string[][] = [];
     // NOTE: see above for different options for supplying options
-    if (options && (options.length > 0)) {
+    if (Array.isArray(options) && (options.length > 0)) {
       if (typeof options[0] === 'string')
-        normalized = options.map(option => [option, option]);
+        normalized = (options as string[]).map(option => [option, option]);
       else if (Array.isArray(options[0]))
-        normalized = options;
+        normalized = options as string[][];
       else if (typeof options[0] === 'object')
-        normalized = options.map(option => [option[this.nameOfEncoded], option[this.nameOfDecoded]]);
+        normalized = (options as string[]).map(option => [option[this.nameOfEncoded], option[this.nameOfDecoded]]);
     }
     return normalized;
   }

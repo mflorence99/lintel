@@ -26,7 +26,7 @@ body.vscode-light {
 
 // NOTE: attempt to bridge VSCode vars with material theming
 
-input {
+input[type=text] {
   background: transparent;
   border: none;
   color: var(--vscode-input-foreground);
@@ -46,6 +46,8 @@ fa-icon {
 }
 
 .mat-button,
+.mat-checkbox,
+.mat-checkbox-label,
 .mat-form-field,
 .mat-tab-label,
 .mat-tab-group {
@@ -55,6 +57,15 @@ fa-icon {
   font-size: var(--vscode-font-size);
   font-weight: var(--vscode-font-weight);
   outline: none;
+}
+
+.mat-checkbox-background {
+  opacity: 0.6 !important;
+}
+
+.mat-checkbox-frame {
+  background-color: var(--vscode-checkbox-background) !important;
+  border-color: var(--vscode-checkbox-background) !important;
 }
 
 .mat-tab-label {

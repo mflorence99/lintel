@@ -13,27 +13,19 @@
       placeholder="Filter rules"
       type="text">
 
-      <a
+      <fa-icon 
         (click)="toggleInheritedRules()"
-        mat-button
-        mat-icon-button
+        [icon]="['fas', filter.snapshot.showInheritedRules? 'eye' : 'eye-slash']"
         matSuffix
         title="Toggle inherited rules analysis">
-        <fa-icon 
-          [icon]="['fas', filter.snapshot.showInheritedRules? 'eye' : 'eye-slash']">
-        </fa-icon>
-      </a>
+      </fa-icon>
 
-      <a
+      <fa-icon 
         (click)="clearRuleNameFilter()"
-        mat-button
-        mat-icon-button
+        [icon]="['fas', 'times']"
         matSuffix
         title="Clear filter rules input">
-        <fa-icon 
-          [icon]="['fas', 'times']">
-        </fa-icon>
-      </a>
+      </fa-icon>
 
   </mat-form-field>
 

@@ -17,15 +17,16 @@ import { Validators } from '@angular/forms';
 
 export class GeneralComponent { 
 
-  opts = ['This', 'That', 'Another'];
+  opts = ['browser', 'node', 'commonjs', 'shared-node-browser', 'es6', 'es2017', 'es2020', 'worker'];
   testForm: FormGroup;
 
   /** ctor */
   constructor(private formBuilder: FormBuilder) {
     // TODO: all crap
     this.testForm = this.formBuilder.group({
-      multi: [null, Validators.required]
+      multi: [{ node: true, es6: true }, Validators.required]
     });
+    
   }
 
 }
