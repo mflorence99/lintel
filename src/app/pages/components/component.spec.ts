@@ -2,6 +2,7 @@ import '../../../assets/eslint-schema.js';
 import '../../../assets/eslintrc-files.js';
 
 import { BarrelModule } from '../../barrel';
+import { ComponentsModule } from '../../components/module';
 import { ConfigsState } from '../../state/configs';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
@@ -19,6 +20,7 @@ export function prepare(components: any[]): void {
     ],
     imports: [
       BarrelModule,
+      ComponentsModule,
       NgxsModule.forRoot(states),
       NgxsDataPluginModule.forRoot(),
     ]

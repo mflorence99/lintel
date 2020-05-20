@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
-import { ElementRef } from '@angular/core';
-import { FilterCallback } from '../../state/filter';
 import { FilterState } from '../../state/filter';
+import { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SelectionState } from '../../state/selection';
-import { ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
+
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * Filter component
@@ -19,40 +22,45 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['filter.scss']
 })
 
-export class FilterComponent implements OnInit {
+export class FilterComponent implements OnDestroy, OnInit {
 
-  @ViewChild('input', { static: true }) input: ElementRef;
+  filterForm: FormGroup;
+
+  private notifier = new Subject();
 
   /** ctor */
   constructor(public configs: ConfigsState,
               public filter: FilterState,
-              public selection: SelectionState) { }
+              private formBuilder: FormBuilder,
+              public selection: SelectionState) { 
+    // create the filter form
+    this.filterForm = this.formBuilder.group({
+      filter: this.filter.snapshot.ruleNameFilter
+    });
+  }
 
   /** Clear the rule name filter */
   clearRuleNameFilter(): void {
     this.filter.filterRuleName(null);
-    this.input.nativeElement.value = null;
+    this.filterForm.setValue({ filter: null });
   }
 
-  /** Filter rule names */
-  filterRuleName(ruleNameFilter: string, done?: FilterCallback): void {
-    this.filter.filterRuleName(ruleNameFilter, () => {
-      // NOTE: this facilitates testing
-      done?.();
-    });
+  /** When we're done */
+  ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
   }
 
-  /** When we're readt */
+  /** When we're ready */
   ngOnInit(): void {
-    this.input.nativeElement.value = this.filter.ruleNameFilter || '';
+    this.filterForm.valueChanges
+      .pipe(takeUntil(this.notifier))
+      .subscribe(filterForm => this.filter.filterRuleName(filterForm.filter));
   }
 
   /** Show or hide inherited rules */
-  toggleInheritedRules(done?: FilterCallback): void {
-    this.filter.toggleInheritedRules(() => {
-      // NOTE: this facilitates testing
-      done?.();
-    });
+  toggleInheritedRules(): void {
+    this.filter.toggleInheritedRules();
   }
 
 }

@@ -15,7 +15,7 @@ describe('FilterState', () => {
       pluginName: bundle.params.basePluginName
     });
     bundle.filter.filterRuleName('default', () => {
-      expect(bundle.filter.ruleNameFilter).toEqual('default');
+      expect(bundle.filter.snapshot.ruleNameFilter).toEqual('default');
       expect(bundle.configs.categoryView['Best Practices']['default-case']).toBeTruthy();
       expect(bundle.configs.categoryView['Best Practices']['comma-spacing']).toBeFalsy();
       done();
@@ -29,7 +29,7 @@ describe('FilterState', () => {
       pluginName: bundle.params.basePluginName
     });
     bundle.filter.filterRuleName('xxx', () => {
-      expect(bundle.filter.ruleNameFilter).toEqual('xxx');
+      expect(bundle.filter.snapshot.ruleNameFilter).toEqual('xxx');
       expect(bundle.configs.categories.length).toEqual(0);
       expect(bundle.utils.isObjectEmpty(bundle.configs.categoryView)).toBeTruthy();
       done();

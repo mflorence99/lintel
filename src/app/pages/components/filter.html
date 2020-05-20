@@ -1,29 +1,40 @@
-<div 
-  class="filter">
+<form
+  [formGroup]="filterForm"
+  autocomplete="off"
+  novalidate>
 
-  <input
-    (keyup)="filterRuleName($event.target.value)"
-    #input 
-    placeholder="Filter rules">
+  <mat-form-field
+    appearance="legacy"
+    floatLabel="never">
 
-  <div
-    (click)="toggleInheritedRules()"
-    title="Toggle inherited rules analysis">
+    <input
+      formControlName="filter"
+      matInput
+      placeholder="Filter rules"
+      type="text">
 
-    <fa-icon 
-      [icon]="['fas', filter.snapshot.showInheritedRules ? 'eye' : 'eye-slash']">
-    </fa-icon>
+      <a
+        (click)="toggleInheritedRules()"
+        mat-button
+        mat-icon-button
+        matSuffix
+        title="Toggle inherited rules analysis">
+        <fa-icon 
+          [icon]="['fas', filter.snapshot.showInheritedRules? 'eye' : 'eye-slash']">
+        </fa-icon>
+      </a>
 
-  </div>
+      <a
+        (click)="clearRuleNameFilter()"
+        mat-button
+        mat-icon-button
+        matSuffix
+        title="Clear filter rules input">
+        <fa-icon 
+          [icon]="['fas', 'times']">
+        </fa-icon>
+      </a>
 
-  <div
-    (click)="clearRuleNameFilter()"
-    title="Clear filter rules input">
+  </mat-form-field>
 
-    <fa-icon 
-      [icon]="['fas', 'times']">
-    </fa-icon>
-
-  </div>
-
-</div>
+</form>

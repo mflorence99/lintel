@@ -26,12 +26,38 @@ body.vscode-light {
 
 // NOTE: attempt to bridge VSCode vars with material theming
 
-.mat-tab-label {
-  border: 0;
+input {
+  background: transparent;
+  border: none;
+  color: var(--vscode-input-foreground);
+}
+
+a,
+input {
+
+  &:focus {
+    outline: none;
+  }
+
+}
+
+fa-icon {
+  color: var(--vscode-editorWidget-foreground);
+}
+
+.mat-button,
+.mat-form-field,
+.mat-tab-label,
+.mat-tab-group {
+  border: none;
   color: var(--vscode-editorWidget-foreground);
   font-family: var(--vscode-font-family);
   font-size: var(--vscode-font-size);
   font-weight: var(--vscode-font-weight);
+  outline: none;
+}
+
+.mat-tab-label {
   height: 2rem !important;
   margin-right: 1rem !important;
   min-width: 0 !important;

@@ -191,7 +191,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   // private methods
 
   private isRuleFiltered(ruleName: string): boolean {
-    return !this.filter.ruleNameFilter || ruleName.includes(this.filter.ruleNameFilter);
+    return !this.filter.snapshot.ruleNameFilter || ruleName.includes(this.filter.snapshot.ruleNameFilter);
   }
 
   private isRuleInherited(ruleName: string): boolean {

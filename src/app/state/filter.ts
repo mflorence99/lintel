@@ -1,4 +1,3 @@
-import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Debounce } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
@@ -41,12 +40,6 @@ export class FilterState extends NgxsDataRepository<FilterStateModel> {
     const state = this.ctx.getState();
     this.ctx.patchState({ showInheritedRules: !state.showInheritedRules });
     done?.();
-  }
-
-  // accessors
-
-  @Computed() get ruleNameFilter(): string {
-    return this.snapshot.ruleNameFilter;
   }
 
 }

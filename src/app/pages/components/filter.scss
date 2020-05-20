@@ -4,29 +4,24 @@
   margin-left: 1.5rem;
 }
 
-.filter {
+form {
   background: var(--vscode-editorGroup-dropBackground);
   border: 1px solid var(--vscode-editorGroup-border);
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: 1fr auto auto;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 
   fa-icon {
-    color: var(--vscode-editorWidget-foreground);
     cursor: pointer;
     opacity: 0.6;
   }
 
-  input {
-    background: transparent;
-    border: 0;
-    color: var(--vscode-input-foreground);
+  .mat-form-field {
+    height: 2rem;
+    width: 100%;
+  }
 
-    &:focus {
-      outline: 0;
-    }
-
+  /* stylelint-disable selector-pseudo-element-no-unknown */
+  ::ng-deep .mat-form-field-infix {
+    border-top: 0.5rem;
   }
 
 }
