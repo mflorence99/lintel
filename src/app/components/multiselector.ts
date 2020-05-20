@@ -117,6 +117,7 @@ implements ControlValueAccessor, MatFormFieldControl<string[]>, OnDestroy {
   get empty(): boolean {
     return this.values.size === 0; 
   }
+
   get errorState(): boolean {
     return !this.multiSelectorForm.invalid; 
   }

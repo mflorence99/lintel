@@ -5,9 +5,6 @@
 }
 
 form {
-  background: var(--vscode-editorGroup-dropBackground);
-  border: 1px solid var(--vscode-editorGroup-border);
-  padding: 0 0.5rem;
 
   fa-icon {
     cursor: pointer;
@@ -15,8 +12,10 @@ form {
   }
 
   .mat-form-field {
+    background: var(--vscode-editorGroup-dropBackground);
+    display: block;
     height: 2rem;
-    width: 100%;
+    padding: 0 0.5rem;
   }
 
   /* stylelint-disable selector-pseudo-element-no-unknown */
