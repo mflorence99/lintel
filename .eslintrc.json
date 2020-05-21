@@ -177,6 +177,7 @@
         "before": true
       }
     ],
+    "no-empty": "off",
     "no-unused-vars": "off",
     "quotes": "off",
     "semi": "off",

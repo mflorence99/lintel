@@ -27,6 +27,7 @@ export interface Configuration {
   // TODO: more analysis
   env?: Record<string, boolean>;
   extends?: string[];
+  parserOptions?: any;
   plugins?: string[];
   rules?: Record<string, Settings>;
 }
@@ -47,7 +48,7 @@ export interface Digest {
 }
 
 // TODO: much more analysis
-export type Settings = Level | [Level, any];
+export type Settings = [Level, any];
 
 @Injectable({ providedIn: 'root' })
 @StateRepository()
@@ -82,6 +83,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @DataAction({ insideZone: true }) 
   initialize(): void {
+    this.normalize();
     this.ctx.setState(eslintrcFiles);
   }
 
@@ -190,15 +192,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   // public methods
 
   makeRuleDigest(ruleName: string, rule: Rule, settings: Settings): Digest {
-    let level = (!settings || (settings === 'off')) ? 'off'
-      : (Array.isArray(settings) ? settings[0] : settings);
-    if (Number.isInteger(level as number))
-      level = ['off', 'warn', 'error'][level];
     return {
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
-      inherited: settings?.[1].inherited,
-      level: level,
+      inherited: settings?.[1]?.inherited,
+      level: settings?.[0] || 'off',
       recommended: rule?.meta?.docs?.recommended,
       replacedBy: rule?.meta?.replacedBy || [],
       rule: rule,
@@ -226,6 +224,23 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
             const state = rules[ruleName]?.meta?.docs?.[flag];
             const test = inherits[extension][flag];
             return (test === 'truthy') ? !!state : !state;
+          });
+      });
+  }
+
+  private normalize(): void {
+    // NOTE: is is very convenient to normalize eslintrcFiles before use
+    Object.entries(eslintrcFiles)
+      .forEach(([fileName, configuration]) => {
+        configuration.rules = configuration.rules || { };
+        Object.entries(configuration.rules)
+          .forEach(([ruleName, rule]) => {
+            let normalized: any = rule;
+            if (typeof rule === 'string' || Number.isInteger(rule as any))
+              normalized = [rule];
+            if (Number.isInteger(normalized[0]))
+              normalized[0] = ['off', 'warn', 'error'][normalized[0]];
+            eslintrcFiles[fileName].rules[ruleName] = normalized;
           });
       });
   }

@@ -35,7 +35,7 @@ eslintrcFiles = {
     "reportUnusedDisableDirectives": true,
     "root": true,
     "rules": {
-      "@typescript-eslint/brace-style": "error",
+      "@typescript-eslint/brace-style": 2,
       "@typescript-eslint/class-literal-property-style": [
         "error",
         "fields"
@@ -171,7 +171,7 @@ eslintrcFiles = {
           "before": true
         }
       ],
-      "quotes": "off",
+      "quotes": 0,
       "semi": "off",
       "space-before-blocks": [
         "error",

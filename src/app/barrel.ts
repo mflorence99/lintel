@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +24,7 @@ const MODULES = [
   MatCheckboxModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSelectModule,
   MatTabsModule,
   ReactiveFormsModule
 ];

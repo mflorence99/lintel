@@ -34,7 +34,7 @@ export type MultiselectorOptions = string[] | string[][];
 export type MultiselectorValues = string[] | Record<string, boolean>;
 
 /**
- * Multiselecxt values via checkboxes
+ * Multiselect values via checkboxes
  *
  * NOTE: quite complicated to follow Angular Material custom control spec
  *

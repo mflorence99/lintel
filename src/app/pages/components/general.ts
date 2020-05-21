@@ -6,7 +6,6 @@ import { FormGroup } from '@angular/forms';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Validators } from '@angular/forms';
 
 import { takeUntil } from 'rxjs/operators';
 
@@ -33,7 +32,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder) {
     // TODO: all crap
     this.testForm = this.formBuilder.group({
-      env: [this.configs.configuration.env, Validators.required]
+      env: this.configs.configuration.env,
+      kv: this.configs.configuration.parserOptions
     });
   }
 

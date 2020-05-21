@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+.key-value {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+
+  fa-icon {
+    cursor: pointer;
+    opacity: 0.6;
+    padding-left: 0.5rem;
+
+    &.disabled {
+      opacity: 0.3;
+    }
+
+  }
+
+  .values {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+
+}

@@ -7,8 +7,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 // NOTE: schema content is provided statically in index.html
 declare const eslintSchema: SchemasStateModel;
 
-export type Severity = 0 | 1 | 2;
-export type Level = Severity | 'error' | 'warn' | 'off';
+export type Level = 'error' | 'warn' | 'off';
 
 export interface Lintel {
   inherits: Record<string, Record<string, 'truthy' | 'falsey'>>;

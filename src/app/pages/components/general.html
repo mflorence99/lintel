@@ -16,4 +16,20 @@
 
   </lintel-multiselector>
 
+  <lintel-key-value
+    formControlName="kv"
+    placeholder="This is a test">
+  </lintel-key-value>
+
 </form>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{{ testForm.valueChanges | async | json }}
