@@ -4,7 +4,6 @@ import { ConfigsState } from '../../state/configs';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { Utils } from '../../services/utils';
-import { View } from '../../state/configs';
 
 /**
  * Configs component

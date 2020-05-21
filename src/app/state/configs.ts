@@ -1,16 +1,20 @@
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
+import { Debounce } from '@ngxs-labs/data/decorators';
 import { FilterState } from './filter';
 import { Injectable } from '@angular/core';
 import { Level } from './schemas';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Params } from '../services/params';
+import { Payload } from '@ngxs-labs/data/decorators';
 import { Rule } from './schemas';
 import { SchemasState } from './schemas';
 import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
+
+import { patch } from '@ngxs/store/operators';
 
 // NOTE: config content is provided statically in index.html
 declare const eslintrcFiles: ConfigsStateModel;
@@ -19,18 +23,15 @@ export type View = Record<string, [Rule, Settings]>;
 
 export type CategoryView = Record<string, View>;
 
-export interface ConfigFile {
-  config: Configuration;
-}
-
 export interface Configuration {
   // TODO: more analysis
+  env?: Record<string, boolean>;
   extends?: string[];
   plugins?: string[];
   rules?: Record<string, Settings>;
 }
 
-export type ConfigsStateModel = Record<string, ConfigFile>;
+export type ConfigsStateModel = Record<string, Configuration>;
 
 export interface Digest {
   deprecated: boolean;
@@ -45,7 +46,7 @@ export interface Digest {
   url: string;
 }
 
-// TODO: much mor analysis
+// TODO: much more analysis
 export type Settings = Level | [Level, any];
 
 @Injectable({ providedIn: 'root' })
@@ -67,6 +68,18 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   // actions
 
+  @DataAction({ insideZone: true })
+  @Debounce(Params.debounceTimeout)
+  changeConfiguration(@Payload('changes') changes: any): void {
+    this.ctx.setState(patch({ [this.selection.fileName]: patch(changes) }));
+  }
+
+  @DataAction({ insideZone: true })
+  @Debounce(Params.debounceTimeout)
+  changeRule(@Payload('changes') changes: any, rule: string): void {
+    this.ctx.setState(patch({ [this.selection.fileName]: patch({ rules : patch({ [rule]: changes }) }) }));
+  }
+
   @DataAction({ insideZone: true }) 
   initialize(): void {
     this.ctx.setState(eslintrcFiles);
@@ -76,7 +89,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @Computed() get activeView(): View {
     const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
-    const settings = this.snapshot[this.selection.fileName]?.config?.rules || { };
+    const settings = this.snapshot[this.selection.fileName]?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .filter(ruleName => settings[ruleName])
@@ -92,9 +105,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .sort();
   }
 
+  @Computed() get configuration(): Configuration {
+    return this.snapshot[this.selection.fileName] || { };
+  }
+
   @Computed() get categoryView(): CategoryView {
     const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
-    const settings = this.snapshot[this.selection.fileName]?.config?.rules || {};
+    const settings = this.snapshot[this.selection.fileName]?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .sort()
@@ -105,7 +122,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         if (!acc[category][ruleName] || settings[ruleName])
           acc[category][ruleName] = [rules[ruleName], settings[ruleName]];
         return acc;
-      }, this.filter.snapshot.showInheritedRules ? this.inheritedCategoryView : {});
+      }, this.filter.snapshot.showInheritedRules ? this.inheritedCategoryView : { });
   }
 
   @Computed() get fileNames(): string [] {
@@ -144,7 +161,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @Computed() get pluginNames(): string[] {
     const raw = Object.keys(this.snapshot)
       .reduce((acc, fileName) => {
-        acc.push(...(this.snapshot[fileName].config?.plugins || []));
+        acc.push(...(this.snapshot[fileName].plugins || []));
         return acc;
       }, [])
       .filter(pluginName => this.schemas.snapshot[pluginName]);
@@ -154,7 +171,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @Computed() get unknownView(): View {
     // NOTE: settings that have no corresponding rule in the schema
     // and so cannot be handled by Lintel
-    const settings = this.snapshot[this.selection.fileName]?.config?.rules || { };
+    const settings = this.snapshot[this.selection.fileName]?.rules || { };
     return Object.keys(settings)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .sort()
@@ -170,15 +187,18 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       }, { });
   }
 
-  // public mdethods
+  // public methods
 
   makeRuleDigest(ruleName: string, rule: Rule, settings: Settings): Digest {
+    let level = (!settings || (settings === 'off')) ? 'off'
+      : (Array.isArray(settings) ? settings[0] : settings);
+    if (Number.isInteger(level as number))
+      level = ['off', 'warn', 'error'][level];
     return {
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
-      inherited: settings && (settings.length === 2) && settings[1].inherited,
-      level: (!settings || settings === 'off') ? 'off'
-        : (Array.isArray(settings) ? settings[0] : settings),
+      inherited: settings?.[1].inherited,
+      level: level,
       recommended: rule?.meta?.docs?.recommended,
       replacedBy: rule?.meta?.replacedBy || [],
       rule: rule,
@@ -195,9 +215,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   private isRuleInherited(ruleName: string): boolean {
-    const extensions = this.snapshot[this.selection.fileName]?.config?.extends || [];
+    const extensions = this.snapshot[this.selection.fileName]?.extends || [];
     const inherits = this.schemas.snapshot[this.selection.pluginName]?.lintel?.inherits || { };
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || {};
+    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
     return Object.keys(inherits)
       .filter(extension => extensions.includes(extension))
       .some(extension => {

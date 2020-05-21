@@ -19,7 +19,8 @@ eslintSchema = {
           "recommended": "truthy",
           "requiresTypeChecking": "truthy"
         }
-      }
+      },
+      "version": "2.31.0"
     },
     "rules": {
       "@typescript-eslint/adjacent-overload-signatures": {
@@ -6907,8 +6908,7 @@ eslintSchema = {
           "type": "suggestion"
         }
       }
-    },
-    "version": "2.31.0"
+    }
   },
   "eslint": {
     "lintel": {
@@ -6916,7 +6916,8 @@ eslintSchema = {
         "eslint:recommended": {
           "recommended": "truthy",
         }
-      }
+      },
+      "version": "6.8.0"
     },
     "rules": {
       "accessor-pairs": {
@@ -16387,6 +16388,5 @@ eslintSchema = {
         }
       }
     }
-  },
-  "version": "6.8.0"
+  }
 }

@@ -60,7 +60,7 @@ describe('ConfigsState', () => {
     bundle.selection.select({ fileName: 'package.json', pluginName: bundle.params.basePluginName });
     const ruleName = 'brace-style';
     const rule = bundle.schemas.snapshot[bundle.params.basePluginName]?.rules?.[ruleName];
-    const settings = bundle.configs.snapshot['package.json']?.config?.rules?.[ruleName];
+    const settings = bundle.configs.snapshot['package.json']?.rules?.[ruleName];
     const digest = bundle.configs.makeRuleDigest(ruleName, rule, settings);
     expect(digest.description).toEqual('enforce consistent brace style for blocks');
     expect(digest.level).toEqual('error');

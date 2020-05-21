@@ -1,8 +1,14 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { ConfigsState } from '../../state/configs';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
+import { OnDestroy } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Validators } from '@angular/forms';
+
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * General settings component
@@ -15,18 +21,33 @@ import { Validators } from '@angular/forms';
   styleUrls: ['general.scss']
 })
 
-export class GeneralComponent { 
+export class GeneralComponent implements OnInit, OnDestroy { 
 
-  opts = ['browser', 'node', 'commonjs', 'shared-node-browser', 'es6', 'es2017', 'es2020', 'worker'];
+  opts = ['browser', 'node', 'commonjs', 'jest', 'es6', 'es2017', 'es2020', 'worker'];
   testForm: FormGroup;
 
+  private notifier = new Subject<void>();
+
   /** ctor */
-  constructor(private formBuilder: FormBuilder) {
+  constructor(public configs: ConfigsState,
+              private formBuilder: FormBuilder) {
     // TODO: all crap
     this.testForm = this.formBuilder.group({
-      multi: [{ node: true, es6: true }, Validators.required]
+      env: [this.configs.configuration.env, Validators.required]
     });
-    
+  }
+
+  /** When we're done */
+  ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
+  }
+
+  /** When we're ready */
+  ngOnInit(): void {
+    this.testForm.valueChanges
+      .pipe(takeUntil(this.notifier))
+      .subscribe(testForm => this.configs.changeConfiguration(testForm));
   }
 
 }
