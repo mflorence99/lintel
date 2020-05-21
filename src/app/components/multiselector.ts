@@ -151,6 +151,10 @@ export class MultiselectorComponent implements ControlValueAccessor, MatFormFiel
   shouldLabelFloat = false;
   stateChanges = new Subject<void>();
 
+  // TODO: this is a hack based on the fact that we "know" checkboxes are 24x24
+  // but it works over an extrememe range of realistic font sizes
+  rowHeight = 24;
+
   private notifier = new Subject<void>();
   private onChange: Function;
   private valuesType: 'array' | 'object';
