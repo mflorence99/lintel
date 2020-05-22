@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { ElementRef } from '@angular/core';
-import { HostBinding } from '@angular/core';
 import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ViewChild } from '@angular/core';
@@ -10,7 +9,7 @@ import { ViewChild } from '@angular/core';
 import { forwardRef } from '@angular/core';
 
 /**
- * Simple input form control
+ * Simple checkbox form control
  *
  * NOTE: just enough to be able to match VSCode as well as possible
  *
@@ -24,33 +23,29 @@ import { forwardRef } from '@angular/core';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
+      useExisting: forwardRef(() => CheckboxComponent),
       multi: true
     }
   ],
-  selector: 'lintel-input',
-  templateUrl: 'input.html',
-  styleUrls: ['input.scss']
+  selector: 'lintel-checkbox',
+  templateUrl: 'checkbox.html',
+  styleUrls: ['checkbox.scss']
 })
 
-export class InputComponent implements ControlValueAccessor {
+export class CheckboxComponent implements ControlValueAccessor {
 
-  @HostBinding('class.focus') focus = false;
-
-  @ViewChild('input', { static: true }) input: ElementRef;
-
-  @Input() placeholder: string;
+  @ViewChild('checkbox', { static: true }) checkbox: ElementRef;
 
   @Input()
-  get value(): string {
-    return this.input?.nativeElement.value;
+  get value(): boolean {
+    return this.checked;
   }
-  set value(value: string) {
-    if (this.input?.nativeElement)
-      this.input.nativeElement.value = value;
-    this.onChange?.(value);
+  set value(checked: boolean) {
+    this.checked = checked;
+    this.onChange?.(checked);
   }
 
+  private checked: boolean;
   private onChange: Function;
 
   /** @see ControlValueAccessor */
@@ -60,6 +55,13 @@ export class InputComponent implements ControlValueAccessor {
 
   /** @see ControlValueAccessor */
   registerOnTouched(_): void { }
+
+  /** Toggle checkbox value */
+  toggleChecked(event: Event): void {
+    this.value = !this.value;
+    this.checkbox?.nativeElement.focus();
+    event.stopPropagation();
+  }
 
   /** @see ControlValueAccessor */
   writeValue(value): void {

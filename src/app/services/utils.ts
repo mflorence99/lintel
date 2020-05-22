@@ -3,12 +3,17 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class Utils {
 
-  /** deduplicate array contents */
+  /** Deduplicate array contents */
   deduplicateArray(array: string[]): string[] {
     return array
       .slice()
       .sort()
       .filter((item, idx, array) => (idx === 0) || (array[idx - 1] !== item));
+  }
+
+  /** Slow but surw */
+  deepCopy(obj: any): any {
+    return JSON.parse(JSON.stringify(obj));
   }
 
   /** Is supplied object empty? */

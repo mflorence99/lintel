@@ -3,36 +3,33 @@
   class="multiselector">
 
   <div 
-    class="mat-form-field-prefix">
-    <ng-content select="[matPrefix]"></ng-content>
+    class="prefix">
+    <ng-content select="[prefix]"></ng-content>
   </div>
 
   <label
-    [ngClass]="{focused: focused}"
-    class="placeholder">
-    {{ placeholder }}
+    class="label">
+    {{ label }}
   </label>
 
   <div 
-    class="mat-form-field-suffix">
-    <ng-content select="[matSuffix]"></ng-content>
+    class="suffix">
+    <ng-content select="[suffix]"></ng-content>
   </div>
 
   <div
-   [ngClass]="{focused: focused}"
    class="rule">
   </div>
 
   <div 
-    [ngClass]="{focused: focused}" 
     [ngStyle]="{'max-height.px': rowHeight * maxVisibleOptions}" 
     class="checkboxes">
 
-    <mat-checkbox
+    <lintel-checkbox
       [formControl]="control"
       *ngFor="let control of controls; let ix = index">
       {{ getOptionDecoded(ix) }}
-    </mat-checkbox>
+    </lintel-checkbox>
 
   </div>
 

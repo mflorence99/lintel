@@ -83,8 +83,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @DataAction({ insideZone: true }) 
   initialize(): void {
-    this.normalize();
-    this.ctx.setState(eslintrcFiles);
+    this.ctx.setState(this.normalize(eslintrcFiles));
   }
 
   // accessors
@@ -228,7 +227,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       });
   }
 
-  private normalize(): void {
+  private normalize(eslintrcFiles: ConfigsStateModel): ConfigsStateModel {
+    const model = this.utils.deepCopy(eslintrcFiles);
     // NOTE: is is very convenient to normalize eslintrcFiles before use
     Object.entries(eslintrcFiles)
       .forEach(([fileName, configuration]) => {
@@ -240,9 +240,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
               normalized = [rule];
             if (Number.isInteger(normalized[0]))
               normalized[0] = ['off', 'warn', 'error'][normalized[0]];
-            eslintrcFiles[fileName].rules[ruleName] = normalized;
+            model[fileName].rules[ruleName] = normalized;
           });
       });
+    return model;
   }
 
   private settingsForInherited(rule: Rule): Settings {

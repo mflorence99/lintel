@@ -1,23 +1,17 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { ElementRef } from '@angular/core';
-import { FocusMonitor } from '@angular/cdk/a11y';
 import { FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
-import { HostBinding } from '@angular/core';
 import { Input } from '@angular/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { NgControl } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Optional } from '@angular/core';
-import { Self } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
 // NOTE: options can be one of the following:
@@ -35,45 +29,49 @@ export type MultiselectorValues = string[] | Record<string, boolean>;
 
 /**
  * Multiselect values via checkboxes
+ * NOTE: just enough to be able to match VSCode as well as possible
  *
- * NOTE: quite complicated to follow Angular Material custom control spec
+ * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
  *
- * @see https://material.angular.io/guide/creating-a-custom-form-field-control
+ * Reference is old, but still helpful
  */
-
-/* eslint @typescript-eslint/member-ordering: "off" */
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MultiselectorComponent),
+      multi: true
+    }
+  ],
   selector: 'lintel-multiselector',
   templateUrl: 'multiselector.html',
   styleUrls: ['multiselector.scss']
 })
 
-export class MultiselectorComponent implements ControlValueAccessor, MatFormFieldControl<MultiselectorValues>, OnInit, OnDestroy {
+export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
-  static nextID = 0;
+  controls: FormControl[] = [];
 
-  @HostBinding('attr.aria-describedby') describedBy = '';
-  @HostBinding() id = `lintel-multiselector-${MultiselectorComponent.nextID++}`;
-
-  @Input()
-  get disabled(): boolean {
-    return this._disabled; 
-  }
-  set disabled(disabled: boolean) {
-    this._disabled = coerceBooleanProperty(disabled);
-    this.stateChanges.next();
-  }
+  @Input() label: string;
 
   @Input() maxVisibleOptions = 5;
 
-  @Input() nameOfEncoded = 'id';
+  multiSelectorForm: FormGroup;
+
   @Input() nameOfDecoded = 'value';
+  @Input() nameOfEncoded = 'id';
+
+  // TODO: this is a hack based on the fact that we "know" checkboxes are 24x24
+  // but it works over an extrememe range of realistic font sizes
+  rowHeight = 24;
+
+  values = new Set<string>();
 
   @Input()
   get options(): MultiselectorOptions {
-    return this._origOptions; 
+    return this._origOptions;
   }
   set options(options: MultiselectorOptions) {
     this._origOptions = options;
@@ -86,25 +84,7 @@ export class MultiselectorComponent implements ControlValueAccessor, MatFormFiel
       checkboxes.removeAt(0);
     // create controls for each option
     this.controls.forEach(control => checkboxes.push(control));
-    this.stateChanges.next();
-  }
-
-  @Input()
-  get placeholder(): string {
-    return this._placeholder; 
-  }
-  set placeholder(placeholder: string) {
-    this._placeholder = placeholder;
-    this.stateChanges.next();
-  }
-
-  @Input()
-  get required(): boolean {
-    return this._required; 
-  }
-  set required(required: boolean) {
-    this._required = coerceBooleanProperty(required);
-    this.stateChanges.next();
+    this.onChange?.(this.value);
   }
 
   @Input()
@@ -113,7 +93,7 @@ export class MultiselectorComponent implements ControlValueAccessor, MatFormFiel
       const obj = this._options.reduce((acc, option) => {
         acc[option[0]] = false;
         return acc;
-      }, { });
+      }, {});
       this.values.forEach(value => obj[value] = true);
       return obj;
     } else return Array.from(this.values) as MultiselectorValues;
@@ -130,54 +110,22 @@ export class MultiselectorComponent implements ControlValueAccessor, MatFormFiel
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
     const patch = this._options.map(option => this.values.has(option[0]));
     checkboxes.patchValue(patch, { emitEvent: false });
-    this.stateChanges.next();
+    this.onChange?.(this.value);
   }
 
-  get empty(): boolean {
-    return this.values.size === 0; 
-  }
-
-  get errorState(): boolean {
-    return !this.multiSelectorForm.invalid; 
-  }
-
-  controls: FormControl[] = [];
-  multiSelectorForm: FormGroup;
-  values = new Set<string>();
-
-  // @see MatFormFieldControl
-  controlType = 'lintel-multiselector';
-  focused = false;
-  shouldLabelFloat = false;
-  stateChanges = new Subject<void>();
-
-  // TODO: this is a hack based on the fact that we "know" checkboxes are 24x24
-  // but it works over an extrememe range of realistic font sizes
-  rowHeight = 24;
+  // these shadow visible properties
+  private _options: string[][] = [];
+  private _origOptions: MultiselectorOptions;
 
   private notifier = new Subject<void>();
   private onChange: Function;
   private valuesType: 'array' | 'object';
 
-  // these shadow visible properties
-  private _disabled: boolean;
-  private _options: string[][] = [];
-  private _origOptions: MultiselectorOptions;
-  private _placeholder: string;
-  private _required: boolean;
-
   /** ctor  */
-  constructor(private element: ElementRef,
-              private focusMonitor: FocusMonitor,
-              private formBuilder: FormBuilder,
-              @Optional() @Self() public ngControl: NgControl) {
-    // create the form initially empty
-    this.multiSelectorForm = this.formBuilder.group({ 
+  constructor(private formBuilder: FormBuilder) {
+    this.multiSelectorForm = this.formBuilder.group({
       checkboxes: new FormArray([])
     });
-    // @see https://material.angular.io/guide/creating-a-custom-form-field-control
-    if (this.ngControl !== null)
-      this.ngControl.valueAccessor = this;
   }
 
   /** Get an indexed decoded option value */
@@ -190,8 +138,26 @@ export class MultiselectorComponent implements ControlValueAccessor, MatFormFiel
     return this._options[ix][0];
   }
 
-  /** @see MatFormFieldControl */
-  onContainerClick(_: MouseEvent): void { }
+  /** When we're done */
+  ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
+  }
+
+  /** When we're ready */
+  ngOnInit(): void {
+    const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
+    checkboxes.valueChanges
+      .pipe(takeUntil(this.notifier))
+      .subscribe((settings: boolean[]) => {
+        // NOTE: remember options are [encoded, decoded]
+        const values = this._options
+          .filter((option, ix) => settings[ix])
+          .map(option => option[0]);
+        this.values = new Set(values);
+        // this.onChange?.(this.value);
+      });
+  }
 
   /** Develop readout of selected options */
   readout(): string {
@@ -209,48 +175,9 @@ export class MultiselectorComponent implements ControlValueAccessor, MatFormFiel
   /** @see ControlValueAccessor */
   registerOnTouched(_): void { }
 
-  /** @see MatFormFieldControl */
-  setDescribedByIds(ids: string[]): void {
-    this.describedBy = ids.join(' ');
-  }
-
   /** @see ControlValueAccessor */
   writeValue(value): void {
     this.value = value;
-  }
-
-  // lifecycle methods
-
-  ngOnInit(): void {
-    // monitor for focus
-    this.focusMonitor.monitor(this.element.nativeElement, true)
-      .pipe(takeUntil(this.notifier))
-      .subscribe(origin => {
-        this.focused = !!origin;
-        this.stateChanges.next();
-      });
-    // monitor for value
-    const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
-    checkboxes.valueChanges
-      .pipe(takeUntil(this.notifier))
-      .subscribe((settings: boolean[]) => {
-        // NOTE: remember options are [encoded, decoded]
-        const values = this._options
-          .filter((option, ix) => settings[ix])
-          .map(option => option[0]);
-        this.values = new Set(values);
-        // propagate changes
-        if (this.onChange)
-          this.onChange(this.value);
-        this.stateChanges.next();
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.notifier.next();
-    this.notifier.complete();
-    this.stateChanges.complete();
-    this.focusMonitor.stopMonitoring(this.element.nativeElement);
   }
 
   // private methods

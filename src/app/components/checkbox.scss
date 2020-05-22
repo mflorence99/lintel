@@ -1,0 +1,30 @@
+:host {
+  cursor: pointer;
+  display: flex;
+}
+
+.checkbox {
+  align-items: center;
+  background-color: var(--vscode-settings-textInputBackground);
+  border: 1px solid transparent;
+  color: var(--vscode-settings-textInputForeground);
+  display: grid;
+  height: 16px;
+  justify-content: center;
+  margin-right: 0.5rem;
+  width: 16px;
+
+  &:focus {
+    border-color: var(--vscode-focusBorder);
+    outline: none;
+  }
+
+  fa-icon {
+    opacity: 0;
+
+    &.checked {
+      opacity: 0.6;
+    }
+
+  }
+}

@@ -5,12 +5,12 @@
   <lintel-multiselector
     [options]="opts"
     formControlName="env"
-    placeholder="Environment">
+    label="Environment">
 
     <fa-icon 
       (click)="this.testForm.patchValue({ multi: { } })"
       [icon]="['fas', 'times']"
-      matSuffix
+      suffix
       title="Clear settings">
     </fa-icon>
 

@@ -1,0 +1,16 @@
+<div
+  (click)="toggleChecked($event)"
+  (keydown)="toggleChecked($event)"
+  #checkbox
+  class="checkbox"
+  tabIndex=0>
+  <fa-icon
+    [icon]="['fas', 'check']"
+    [ngClass]="{checked: value}">
+  </fa-icon>
+</div>
+
+<label
+  (click)="toggleChecked($event)">
+  <ng-content></ng-content>
+</label>

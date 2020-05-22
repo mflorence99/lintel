@@ -7,7 +7,7 @@
   display: grid;
   grid-row-gap: 0.5rem;
   grid-template-areas:
-    "prefix placeholder suffix"
+    "prefix label       suffix"
     "rule   rule        rule"
     ".      checkboxes  checkboxes"
     ".      readout     readout";
@@ -17,20 +17,17 @@
   .checkboxes {
     display: grid;
     grid-area: checkboxes;
+    grid-row-gap: 8px;
     grid-template-columns: auto;
     overflow: auto;
   }
 
-  .mat-form-field-prefix {
+  .label {
+    grid-area: label;
+  }
+
+  .prefix {
     grid-area: prefix;
-  }
-
-  .mat-form-field-suffix {
-    grid-area: suffix;
-  }
-
-  .placeholder {
-    grid-area: placeholder;
   }
 
   .rule {
@@ -42,6 +39,10 @@
   .readout {
     font-size: 0.66rem;
     grid-area: readout;
+  }
+
+  .suffix {
+    grid-area: suffix;
   }
 
 }
