@@ -1,0 +1,24 @@
+:host {
+  align-items: center;
+  background: var(--vscode-settings-textInputBackground);
+  border: 1px solid transparent;
+  color: var(--vscode-settings-textInputForeground);
+  display: flex;
+  padding: 0.5rem;
+}
+
+:host(.focus) {
+  border-color: var(--vscode-focusBorder);
+}
+
+input {
+  width: 100%;
+}
+
+::ng-deep [prefix] {
+  padding-right: 0.5rem;
+}
+
+::ng-deep [suffix] {
+  padding-left: 0.5rem;
+}

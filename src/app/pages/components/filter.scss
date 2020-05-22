@@ -4,24 +4,7 @@
   margin-left: 1.5rem;
 }
 
-form {
-
-  fa-icon {
-    cursor: pointer;
-    opacity: 0.6;
-    padding-left: 0.5rem;
-  }
-
-  .mat-form-field {
-    background: var(--vscode-editorGroup-dropBackground);
-    display: block;
-    height: 2rem;
-    padding: 0 0.5rem;
-  }
-
-  /* stylelint-disable selector-pseudo-element-no-unknown */
-  ::ng-deep .mat-form-field-infix {
-    border-top: 0.5rem;
-  }
-
+fa-icon {
+  cursor: pointer;
+  opacity: 0.6;
 }

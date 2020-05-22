@@ -1,0 +1,13 @@
+<ng-content select="[prefix]"></ng-content>
+
+<input
+  (blur)="focus = false"
+  (focus)="focus = true"
+  (keydown)="value = $event.target.value"
+  [placeholder]="placeholder"
+  [value]="value"
+  #input 
+  autocomplete="off"
+  type="text">
+
+<ng-content select="[suffix]"></ng-content>

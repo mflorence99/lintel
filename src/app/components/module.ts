@@ -1,4 +1,5 @@
 import { BarrelModule } from '../barrel';
+import { InputComponent } from './input';
 import { KeyValueComponent } from './key-value';
 import { MultiselectorComponent } from './multiselector';
 import { NgModule } from '@angular/core';
@@ -8,6 +9,7 @@ import { NgModule } from '@angular/core';
  */
 
 const COMPONENTS = [
+  InputComponent,
   KeyValueComponent,
   MultiselectorComponent
 ];

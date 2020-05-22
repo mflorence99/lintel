@@ -3,30 +3,24 @@
   autocomplete="off"
   novalidate>
 
-  <mat-form-field
-    appearance="legacy"
-    floatLabel="never">
+  <lintel-input
+    formControlName="filter"
+    placeholder="Filter rules">
 
-    <input
-      formControlName="filter"
-      matInput
-      placeholder="Filter rules"
-      type="text">
+    <fa-icon 
+      (click)="toggleInheritedRules()"
+      [icon]="['fas', filter.snapshot.showInheritedRules? 'eye' : 'eye-slash']"
+      suffix
+      title="Toggle inherited rules analysis">
+    </fa-icon>
 
-      <fa-icon 
-        (click)="toggleInheritedRules()"
-        [icon]="['fas', filter.snapshot.showInheritedRules? 'eye' : 'eye-slash']"
-        matSuffix
-        title="Toggle inherited rules analysis">
-      </fa-icon>
+    <fa-icon 
+      (click)="clearRuleNameFilter()"
+      [icon]="['fas', 'times']"
+      suffix
+      title="Clear filter rules input">
+    </fa-icon>
 
-      <fa-icon 
-        (click)="clearRuleNameFilter()"
-        [icon]="['fas', 'times']"
-        matSuffix
-        title="Clear filter rules input">
-      </fa-icon>
-
-  </mat-form-field>
+  </lintel-input>
 
 </form>
