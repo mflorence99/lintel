@@ -6,7 +6,7 @@ import { prepare } from './component.spec';
 
 describe('ConfigsComponent', () => {
 
-  beforeEach(async(() => prepare([ConfigsComponent])));
+  beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
     const fixture = TestBed.createComponent(ConfigsComponent);

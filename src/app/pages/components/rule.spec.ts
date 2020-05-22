@@ -6,7 +6,7 @@ import { prepare } from './component.spec';
 
 describe('RuleComponent', () => {
 
-  beforeEach(async(() => prepare([RuleComponent])));
+  beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
     const fixture = TestBed.createComponent(RuleComponent);
