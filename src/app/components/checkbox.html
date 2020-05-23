@@ -1,6 +1,5 @@
 <div
-  (click)="toggleChecked($event)"
-  (keydown)="toggleChecked($event)"
+  (click)="toggleChecked()"
   #checkbox
   class="checkbox"
   tabIndex=0>
@@ -11,6 +10,6 @@
 </div>
 
 <label
-  (click)="toggleChecked($event)">
+  (click)="toggleChecked()">
   <ng-content></ng-content>
 </label>

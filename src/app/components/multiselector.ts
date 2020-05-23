@@ -29,6 +29,7 @@ export type MultiselectorValues = string[] | Record<string, boolean>;
 
 /**
  * Multiselect values via checkboxes
+ * 
  * NOTE: just enough to be able to match VSCode as well as possible
  *
  * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
@@ -55,7 +56,6 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
   controls: FormControl[] = [];
 
   @Input() label: string;
-
   @Input() maxVisibleOptions = 5;
 
   multiSelectorForm: FormGroup;
@@ -75,7 +75,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
   }
   set options(options: MultiselectorOptions) {
     this._origOptions = options;
-    this._options = this.normalizeOptions(options);
+    this._options = this.fromMultiselectorOptions(options);
     // NOTE: now options are [encoded, decoded]
     this.controls = this._options.map(option => new FormControl(this.values.has(option[0])));
     // remove all prior controls from form
@@ -89,23 +89,10 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
 
   @Input()
   get value(): MultiselectorValues {
-    if (this.valuesType === 'object') {
-      const obj = this._options.reduce((acc, option) => {
-        acc[option[0]] = false;
-        return acc;
-      }, {});
-      this.values.forEach(value => obj[value] = true);
-      return obj;
-    } else return Array.from(this.values) as MultiselectorValues;
+    return this.toMultiselectorValues();
   }
   set value(values: MultiselectorValues) {
-    if (!values || Array.isArray(values)) {
-      this.valuesType = 'array';
-      this.values = new Set(values as string[]);
-    } else if (typeof values === 'object') {
-      this.valuesType = 'object';
-      this.values = new Set(Object.keys(values).filter(val => values[val]));
-    }
+    this.values = this.fromMultiselectorValues(values);
     // patch the form to reflect the values
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
     const patch = this._options.map(option => this.values.has(option[0]));
@@ -155,7 +142,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
           .filter((option, ix) => settings[ix])
           .map(option => option[0]);
         this.values = new Set(values);
-        // this.onChange?.(this.value);
+        this.onChange?.(this.value);
       });
   }
 
@@ -182,7 +169,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
 
   // private methods
 
-  private normalizeOptions(options: MultiselectorOptions): string[][] {
+  private fromMultiselectorOptions(options: MultiselectorOptions): string[][] {
     let normalized: string[][] = [];
     // NOTE: see above for different options for supplying options
     if (Array.isArray(options) && (options.length > 0)) {
@@ -194,6 +181,27 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
         normalized = (options as string[]).map(option => [option[this.nameOfEncoded], option[this.nameOfDecoded]]);
     }
     return normalized;
+  }
+
+  private fromMultiselectorValues(values: MultiselectorValues): Set<string> {
+    if (!values || Array.isArray(values)) {
+      this.valuesType = 'array';
+      return new Set(values as string[]);
+    } else if (typeof values === 'object') {
+      this.valuesType = 'object';
+      return new Set(Object.keys(values).filter(val => values[val]));
+    } else return new Set();
+  }
+
+  private toMultiselectorValues(): MultiselectorValues {
+    if (this.valuesType === 'object') {
+      const obj = this._options.reduce((acc, option) => {
+        acc[option[0]] = false;
+        return acc;
+      }, {});
+      this.values.forEach(value => obj[value] = true);
+      return obj;
+    } else return Array.from(this.values) as MultiselectorValues;
   }
 
 }

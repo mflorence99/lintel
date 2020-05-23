@@ -3,7 +3,7 @@
 <input
   (blur)="focus = false"
   (focus)="focus = true"
-  (keydown)="value = $event.target.value"
+  (input)="value = $event.target.value"
   [placeholder]="placeholder"
   [value]="value"
   #input 

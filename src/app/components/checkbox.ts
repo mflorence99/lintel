@@ -57,10 +57,9 @@ export class CheckboxComponent implements ControlValueAccessor {
   registerOnTouched(_): void { }
 
   /** Toggle checkbox value */
-  toggleChecked(event: Event): void {
+  toggleChecked(): void {
     this.value = !this.value;
     this.checkbox?.nativeElement.focus();
-    event.stopPropagation();
   }
 
   /** @see ControlValueAccessor */

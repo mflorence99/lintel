@@ -35,6 +35,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
       env: this.configs.configuration.env,
       kv: this.configs.configuration.parserOptions
     });
+    this.testForm.valueChanges.subscribe(x => console.log(x));
   }
 
   /** When we're done */

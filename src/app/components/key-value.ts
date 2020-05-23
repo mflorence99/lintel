@@ -1,115 +1,81 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { ElementRef } from '@angular/core';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { FocusMonitor } from '@angular/cdk/a11y';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
-import { HostBinding } from '@angular/core';
 import { Input } from '@angular/core';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { NgControl } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Optional } from '@angular/core';
-import { Self } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Utils } from '../services/utils';
-import { Validators } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { filter } from 'rxjs/operators';
+import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
-/**
- * Custom error state matcher
- */
+// NOTE: key-value types can be one of the following
 
-export class KeyValueErrorStateMatcher implements ErrorStateMatcher {
-
-  // @see ErrorStateMatcher
-  isErrorState(control: FormControl, _: any): boolean {
-    return !!control?.invalid;
-  }
-
-}
-
-/**
- * Model <key-value> data types
- */
-
-export type KeyValueArray = KeyValueTuple[];
+export type KeyValueArrayOfTuples = KeyValueTuple[];
 
 export type KeyValueArrayOfHashes = KeyValueHash[];
 
-export interface KeyValueHash {
-  [key: string]: string;
-}
+export type KeyValueHash = Record<string, any>;
 
-export type KeyValueTuple = [string, string];
+export type KeyValueTuple = [string, any];
 
-export type KeyValueType = KeyValueArray | KeyValueArrayOfHashes | KeyValueHash | null;
+export type KeyValueType = KeyValueArrayOfTuples | KeyValueArrayOfHashes | KeyValueHash | null;
 
 /**
  * <key-value> component
- * 
- * NOTE: quite complicated to follow Angular Material custom control spec
- * 
- * @see https://material.angular.io/guide/creating-a-custom-form-field-control
+ *
+ * NOTE: just enough to be able to match VSCode as well as possible
+ *
+ * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
+ *
+ * Reference is old, but still helpful
  */
-
-/* eslint @typescript-eslint/member-ordering: "off" */
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => KeyValueComponent),
+      multi: true
+    }
+  ],
   selector: 'lintel-key-value',
   styleUrls: ['key-value.scss'],
   templateUrl: 'key-value.html'
 })
 
-export class KeyValueComponent implements ControlValueAccessor, MatFormFieldControl<KeyValueType>, OnInit, OnDestroy { 
+export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestroy { 
 
-  static nextID = 0;
-
-  @HostBinding('attr.aria-describedby') describedBy = '';
-  @HostBinding() id = `lintel-key-value-${KeyValueComponent.nextID++}`;
-
-  @Input() asArray = false;
-  @Input() asArrayOfHashes: KeyValueTuple;
+  @Input() asArrayOfHashes: [string, string];
+  @Input() asArrayOfTuples = false;
   @Input() asHash = true;
 
-  @Input() 
-  get disabled(): boolean {
-    return this._disabled; 
-  }
-  set disabled(disabled: boolean) {
-    this._disabled = coerceBooleanProperty(disabled);
-    this.stateChanges.next();
-  }
+  duplicateKey: boolean;
 
   @Input() duplicateKeyMessage = 'This key already used';
   @Input() keyConstraints: string[];
+
+  keyValueForm: FormGroup;
+  keys: string[] = [];
+
+  @Input() label: string;
   @Input() maxVisibleValues = 3;
 
-  @Input() 
-  get placeholder(): string {
-    return this._placeholder; 
-  }
-  set placeholder(placeholder: string) {
-    this._placeholder = placeholder;
-    this.stateChanges.next();
-  }
+  @ViewChild('newKey', { static: false }) newKey: any;
 
-  @Input() 
-  get required(): boolean {
-    return this._required; 
-  }
-  set required(required: boolean) {
-    this._required = coerceBooleanProperty(required);
-    this.stateChanges.next();
-  }
+  @Input() newKeyMessage = 'Enter key and hit +';
+
+  // TODO: this is a hack based on the fact that we "know" checkboxes are 24x24
+  // but it works over an extrememe range of realistic font sizes
+  rowHeight = 64;
 
   @Input() 
   get value(): KeyValueType {
@@ -119,117 +85,85 @@ export class KeyValueComponent implements ControlValueAccessor, MatFormFieldCont
     // grab the new value as the canonical hashmap and calculate difference
     const oldKeys = Object.keys(this.keyValues);
     const oldKeySet = new Set(oldKeys);
-    this.fromKeyValueType(value);
+    this.keyValues = this.fromKeyValueType(value);
     this.keys = Object.keys(this.keyValues);
     const newKeySet = new Set(this.keys);
     const added = new Set(this.keys.filter(key => !oldKeySet.has(key)));
     const removed = new Set(oldKeys.filter(key => !newKeySet.has(key)));
     // remove controls for missing keys
+    this.underConstruction = true;
     removed.forEach(key => this.keyValueForm.removeControl(key));
     // add controls for new keys
     added.forEach(key => {
-      const field = { value: null, disabled: this.disabled };
-      const control = new FormControl(field, Validators.required);
+      const control = new FormControl(this.keyValues[key]);
       this.keyValueForm.addControl(key, control);
     });
+    this.underConstruction = false;
     // patch in the new values
     this.keyValueForm.patchValue(this.keyValues);
-    this.stateChanges.next();
+    this.onChange?.(this.value);
   }
-
-  get empty(): boolean {
-    return this.utils.isObjectEmpty(this.keyValues); 
-  }
-  get errorState(): boolean {
-    return this.keyValueForm.invalid || (this.required && this.utils.isObjectEmpty(this.keyValues)); 
-  }
-
-  @ViewChild('newKey', { static: false }) newKey: any;
-
-  duplicateKey: boolean;
-  errorStateMatcher = new KeyValueErrorStateMatcher();
-  keys: string[] = [];
-  keyValueForm: FormGroup;
-
-  // @see MatFormFieldControl
-  controlType = 'lintel-key-value';
-  focused = false;
-  shouldLabelFloat = false;
-  stateChanges = new Subject<void>();
-
-  // TODO: this is a hack based on the fact that we "know" checkboxes are 24x24
-  // but it works over an extrememe range of realistic font sizes
-  rowHeight = 64;
 
   private keyValues = { } as KeyValueHash;
   private notifier = new Subject<void>();
   private onChange: Function;
-
-  // these shadow visible properties
-  private _disabled: boolean;
-  private _placeholder: string;
-  private _required: boolean;
+  private underConstruction: boolean;
 
   /** ctor  */
-  constructor(private element: ElementRef,
-              private focusMonitor: FocusMonitor,
-              private formBuilder: FormBuilder,
-              @Optional() @Self() public ngControl: NgControl,
+  constructor(private formBuilder: FormBuilder,
               private utils: Utils) { 
     // initialize the form
     this.keyValueForm = this.formBuilder.group({ });
-    // @see https://material.angular.io/guide/creating-a-custom-form-field-control
-    if (this.ngControl)
-      this.ngControl.valueAccessor = this;
   }
 
   /** Add a new key */
   addKey(key: string): void {
-    if (!this.disabled && key) {
-      // NOTE: guarded because we are not using real buttons due to submit issues
+    if (key) {
       if (this.keyValues[key] === undefined) {
         this.keyValues[key] = null;
         // we need the keys as an array for *ngFor
         this.keys = Object.keys(this.keyValues);
         // add a new control to the form
-        const field = { value: null, disabled: this.disabled };
-        const control = new FormControl(field, Validators.required);
+        const control = new FormControl(null);
         this.keyValueForm.addControl(key, control);
         // propagate the change
-        this.stateChanges.next();
+        this.onChange?.(this.value);
         // clean out the newKey adder control
-        if (this.keyConstraints)
-          this.newKey.value = null;
-        else this.newKey.nativeElement.value = null;
+        this.newKey.value = null;
       } else this.duplicateKey = true;
     }
   }
 
   /** Delete a key */
   deleteKey(key: string): void {
-    if (!this.disabled && key) {
-      // NOTE: guarded because we are not using real buttons due to submit issues
-      delete this.keyValues[key]; 
-      // we need the keys as an array for *ngFor
-      this.keys = Object.keys(this.keyValues);
-      // remove the control from the form
-      this.keyValueForm.removeControl(key);
-      // propagate the changes
-      this.stateChanges.next();
-    }
+    delete this.keyValues[key]; 
+    // we need the keys as an array for *ngFor
+    this.keys = Object.keys(this.keyValues);
+    // remove the control from the form
+    this.keyValueForm.removeControl(key);
+    // propagate the changes
+    this.onChange?.(this.value);
   }
 
-  /** New value for a key */
-  newKeyValue(): string {
-    if (!this.newKey)
-      return null;
-    else if (this.keyConstraints)
-      return this.newKey.value;
-    else return this.newKey.nativeElement.value;
+  /** When we're done */
+  ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
   }
 
-  /** @see MatFormFieldControl */
-  onContainerClick(_: MouseEvent): void { }
+  /** When we're ready */
+  ngOnInit(): void {
+    this.keyValueForm.valueChanges
+      .pipe(
+        filter(_ => !this.underConstruction),
+        takeUntil(this.notifier)
+      )
+      .subscribe(values => {
+        this.duplicateKey = false;
+        this.keys.forEach(key => this.keyValues[key] = values[key]);
+        this.onChange?.(this.value);
+      });
+  }
 
   /** @see ControlValueAccessor */
   registerOnChange(fn): void {
@@ -239,11 +173,6 @@ export class KeyValueComponent implements ControlValueAccessor, MatFormFieldCont
   /** @see ControlValueAccessor */
   registerOnTouched(_): void { }
 
-  /** @see MatFormFieldControl */
-  setDescribedByIds(ids: string[]): void {
-    this.describedBy = ids.join(' ');
-  }
-
   /** @see ControlValueAccessor */
   writeValue(value): void {
     this.value = value;
@@ -251,61 +180,30 @@ export class KeyValueComponent implements ControlValueAccessor, MatFormFieldCont
 
   // lifecycle methods
 
-  ngOnInit(): void {
-    // monitor for focus
-    this.focusMonitor.monitor(this.element.nativeElement, true)
-      .pipe(takeUntil(this.notifier))
-      .subscribe(origin => {
-        this.focused = !!origin;
-        this.stateChanges.next();
-      });
-    // monitor for value
-    this.keyValueForm.valueChanges
-      .pipe(takeUntil(this.notifier))
-      .subscribe(values => {
-        this.duplicateKey = false;
-        this.keys.forEach(key => this.keyValues[key] = values[key]);
-        // @see https://github.com/angular/angular/issues/14057
-        // we can't see anythung better to do as the spurious error seems harmless
-        try {
-          if (this.onChange)
-            this.onChange(this.value);
-        } catch (ignored) { }
-        this.stateChanges.next();
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.notifier.next();
-    this.notifier.complete();
-    this.stateChanges.complete();
-    this.focusMonitor.stopMonitoring(this.element.nativeElement);
-  }
-
   // private methods
 
-  private fromKeyValueType(value: KeyValueType): void {
+  private fromKeyValueType(value: KeyValueType): KeyValueType {
     if (!value)
-      this.keyValues = { } as KeyValueHash;
-    else if (this.asArray) {
-      this.keyValues = (value as KeyValueArray).reduce((acc, tuple) => {
+      return { } as KeyValueHash;
+    else if (this.asArrayOfTuples) {
+      return (value as KeyValueArrayOfTuples).reduce((acc, tuple) => {
         acc[tuple[0]] = tuple[1];
         return acc;
       }, { } as KeyValueHash);
     } else if (this.asArrayOfHashes) {
       const k = this.asArrayOfHashes[0];
       const v = this.asArrayOfHashes[1];
-      this.keyValues = (value as KeyValueArrayOfHashes).reduce((acc, hash) => {
+      return (value as KeyValueArrayOfHashes).reduce((acc, hash) => {
         acc[hash[k]] = hash[v];
         return acc;
       }, { } as KeyValueHash);
     } else if (this.asHash)
-      this.keyValues = { ...value as KeyValueHash };
-    else this.keyValues = { } as KeyValueHash;
+      return { ...value as KeyValueHash };
+    else return { } as KeyValueHash;
   }
 
   private toKeyValueType(): KeyValueType {
-    if (this.asArray) {
+    if (this.asArrayOfTuples) {
       return Object.keys(this.keyValues).map(key => {
         return [key, this.keyValues[key]] as KeyValueTuple;
       });

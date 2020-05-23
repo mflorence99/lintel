@@ -1,88 +1,62 @@
 <div
   [formGroup]="keyValueForm"
   class="key-value">
-    
-  <mat-form-field>
 
-    <ng-container matPrefix>
-      <ng-content select="[matPrefix]"></ng-content>
-    </ng-container>
+  <!-- <mat-select
+    [errorStateMatcher]="errorStateMatcher"
+    [placeholder]="placeholder"
+    *ngIf="keyConstraints"
+    #newKey
+    autocomplete="off">
+    <mat-option
+      [value]="key"
+      *ngFor="let key of keyConstraints">
+      {{ key }}
+    </mat-option>
+  </mat-select> -->
 
-    <mat-select
-      [disabled]="disabled"
-      [errorStateMatcher]="errorStateMatcher"
-      [placeholder]="placeholder"
-      *ngIf="keyConstraints"
-      #newKey
-      autocomplete="off">
-      <mat-option
-        [value]="key"
-        *ngFor="let key of keyConstraints">
-        {{ key }}
-      </mat-option>
-    </mat-select>
-
-    <input
-      [disabled]="disabled"
-      [errorStateMatcher]="errorStateMatcher"
-      [placeholder]="placeholder"
-      *ngIf="!keyConstraints"
-      #newKey
-      autocomplete="off"
-      matInput
-      type="text">
+  <lintel-input
+    [placeholder]="newKeyMessage"
+    *ngIf="!keyConstraints"
+    #newKey>
 
     <fa-icon
-      (click)="addKey(newKeyValue())"
+      (click)="addKey(newKey.value)"
       [icon]="['fas', 'plus']"
-      [ngClass]="{ disabled: disabled || !newKeyValue() }"
-      matSuffix
+      [ngClass]="{ disabled: !newKey.value }"
+      suffix
       title="Add a new key">
     </fa-icon>
 
-    <mat-hint>
-
-      <span 
-        [ngStyle]="{color: 'var(--vscode-errorForeground)'}"
-        *ngIf="duplicateKey">
-        {{ duplicateKeyMessage }}
-      </span>
-
-      <span 
-        *ngIf="!duplicateKey">
-        To create a new item, enter its name and hit <fa-icon [icon]="['fas', 'plus']"></fa-icon>. 
-      </span>
-
-    </mat-hint>
-
-  </mat-form-field>
+  </lintel-input>
 
   <div 
-    [ngClass]="{focused: focused}" 
+    [ngStyle]="{color: 'var(--vscode-errorForeground)'}"
+    *ngIf="duplicateKey">
+    {{ duplicateKeyMessage }}
+  </div>
+
+  <div 
     [ngStyle]="{'max-height.px': rowHeight * maxVisibleValues}"
     *ngIf="keys.length > 0"
     class="values">
       
-    <mat-form-field
+    <ng-container
       *ngFor="let key of keys">
 
-      <input
-        [errorStateMatcher]="errorStateMatcher"
-        [formControlName]="key"
-        [placeholder]="key"
-        autocomplete="off"
-        matInput
-        type="text">
+      <lintel-input
+        [formControlName]="key">
 
-      <fa-icon
-        (click)="deleteKey(key)"
-        [icon]="['fas', 'times']"
-        [ngClass]="{ disabled: disabled }"
-        matSuffix
-        title="Remove this key">
-      </fa-icon>
+        <fa-icon
+          (click)="deleteKey(key)"
+          [icon]="['fas', 'times']"
+          suffix
+          title="Remove this key">
+        </fa-icon>
 
-    </mat-form-field>
+      </lintel-input>
+
+    </ng-container>
 
   </div>
 

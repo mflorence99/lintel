@@ -39,7 +39,7 @@ export class InputComponent implements ControlValueAccessor {
 
   @ViewChild('input', { static: true }) input: ElementRef;
 
-  @Input() placeholder: string;
+  @Input() placeholder = '';
 
   @Input()
   get value(): string {

@@ -7,10 +7,10 @@
   display: grid;
   grid-row-gap: 0.5rem;
   grid-template-areas:
-    "prefix label       suffix"
-    "rule   rule        rule"
-    ".      checkboxes  checkboxes"
-    ".      readout     readout";
+    "prefix     label       suffix"
+    "rule       rule        rule"
+    "checkboxes checkboxes  checkboxes"
+    "readout    readout     readout";
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto 1fr;
 
