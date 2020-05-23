@@ -28,6 +28,7 @@
 
   .prefix {
     grid-area: prefix;
+    opacity: 0.6;
   }
 
   .rule {
@@ -42,7 +43,10 @@
   }
 
   .suffix {
+    // NOTE: suffis is assumed to be a call to action
+    cursor: pointer;
     grid-area: suffix;
+    opacity: 0.6;
   }
 
 }

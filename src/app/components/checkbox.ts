@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { ElementRef } from '@angular/core';
@@ -36,6 +37,8 @@ export class CheckboxComponent implements ControlValueAccessor {
 
   @ViewChild('checkbox', { static: true }) checkbox: ElementRef;
 
+  @Input() label = '';
+
   @Input()
   get value(): boolean {
     return this.checked;
@@ -43,10 +46,15 @@ export class CheckboxComponent implements ControlValueAccessor {
   set value(checked: boolean) {
     this.checked = checked;
     this.onChange?.(checked);
+    // TODO: Angular can be so weird!
+    this.cdf.detectChanges();
   }
 
   private checked: boolean;
   private onChange: Function;
+
+  /** ctor */
+  constructor(private cdf: ChangeDetectorRef) { }
 
   /** @see ControlValueAccessor */
   registerOnChange(fn): void {

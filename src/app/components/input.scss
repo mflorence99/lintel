@@ -15,10 +15,20 @@ input[type=text] {
   width: 100%;
 }
 
-::ng-deep [prefix] {
+::ng-deep lintel-input fa-icon {
+  opacity: 0.6;
+}
+
+::ng-deep lintel-input fa-icon.disabled {
+  opacity: 0.3;
+}
+
+::ng-deep lintel-input [prefix] {
   padding-right: 0.5rem;
 }
 
-::ng-deep [suffix] {
+::ng-deep lintel-input [suffix] {
+  // NOTE: suffis is assumed to be a call to action
+  cursor: pointer;
   padding-left: 0.5rem;
 }

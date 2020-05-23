@@ -16,7 +16,7 @@
     "rule-empty-line-before": null,
     "scss/at-rule-no-unknown": true,
     "selector-type-no-unknown": [true, { "ignore": "custom-elements" }],
-    "selector-pseudo-element-no-unknown": [true, { "ignorePseudoElements": ["::ng-deep"] }],
+    "selector-pseudo-element-no-unknown": [true, { "ignorePseudoElements": ["ng-deep"] }],
     "value-keyword-case": null
   }
 }

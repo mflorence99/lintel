@@ -27,8 +27,8 @@
 
     <lintel-checkbox
       [formControl]="control"
+      [label]="getOptionDecoded(ix)"
       *ngFor="let control of controls; let ix = index">
-      {{ getOptionDecoded(ix) }}
     </lintel-checkbox>
 
   </div>
