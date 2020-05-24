@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { FormArray } from '@angular/forms';
@@ -55,7 +56,6 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
 
   controls: FormControl[] = [];
 
-  @Input() label: string;
   @Input() maxVisibleOptions = 5;
 
   multiSelectorForm: FormGroup;
@@ -85,6 +85,8 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
     // create controls for each option
     this.controls.forEach(control => checkboxes.push(control));
     this.onChange?.(this.value);
+    // TODO: Angular can be so weird!
+    this.cdf.detectChanges();
   }
 
   @Input()
@@ -98,6 +100,8 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
     const patch = this._options.map(option => this.values.has(option[0]));
     checkboxes.patchValue(patch, { emitEvent: false });
     this.onChange?.(this.value);
+    // TODO: Angular can be so weird!
+    this.cdf.detectChanges();
   }
 
   // these shadow visible properties
@@ -109,7 +113,8 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
   private valuesType: 'array' | 'object';
 
   /** ctor  */
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private cdf: ChangeDetectorRef,
+              private formBuilder: FormBuilder) {
     this.multiSelectorForm = this.formBuilder.group({
       checkboxes: new FormArray([])
     });

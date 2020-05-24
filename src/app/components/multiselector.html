@@ -1,25 +1,5 @@
-<div
-  [formGroup]="multiSelectorForm"
-  class="multiselector">
-
-  <div 
-    class="prefix">
-    <ng-content select="[prefix]"></ng-content>
-  </div>
-
-  <label
-    class="label">
-    {{ label }}
-  </label>
-
-  <div 
-    class="suffix">
-    <ng-content select="[suffix]"></ng-content>
-  </div>
-
-  <div
-   class="rule">
-  </div>
+<ng-container
+  [formGroup]="multiSelectorForm">
 
   <div 
     [ngStyle]="{'max-height.px': rowHeight * maxVisibleOptions}" 
@@ -37,4 +17,4 @@
     {{ readout() }}
   </div>
 
-</div>
+</ng-container>

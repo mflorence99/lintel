@@ -4,7 +4,7 @@
   border: 1px solid transparent;
   color: var(--vscode-settings-textInputForeground);
   display: flex;
-  padding: 0.5rem;
+  padding: 0.4rem;
 }
 
 :host(.focus) {
@@ -16,11 +16,11 @@ input[type=text] {
 }
 
 ::ng-deep lintel-input fa-icon {
-  opacity: 0.6;
+  opacity: var(--lintel-opacity-icon);
 }
 
 ::ng-deep lintel-input fa-icon.disabled {
-  opacity: 0.3;
+  opacity: var(--lintel-opacity-disabled);
 }
 
 ::ng-deep lintel-input [prefix] {

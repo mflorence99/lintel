@@ -2,6 +2,11 @@
 
 @include mat-core();
 
+:root {
+  --lintel-opacity-disabled: 0.3;
+  --lintel-opacity-icon: 0.6;
+}
+
 body,
 html { height: 100%; }
 
@@ -44,6 +49,8 @@ input {
 fa-icon {
   color: var(--vscode-editorWidget-foreground);
 }
+
+// attempt to coerce material widgets into VSCode styles
 
 .mat-tab-label,
 .mat-tab-group {

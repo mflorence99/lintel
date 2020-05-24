@@ -2,51 +2,14 @@
   display: block;
 }
 
-.multiselector {
-  align-items: center;
+.checkboxes {
   display: grid;
-  grid-row-gap: 0.5rem;
-  grid-template-areas:
-    "prefix     label       suffix"
-    "rule       rule        rule"
-    "checkboxes checkboxes  checkboxes"
-    "readout    readout     readout";
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: auto 1fr;
+  grid-row-gap: 8px;
+  grid-template-columns: auto;
+  overflow: auto;
+}
 
-  .checkboxes {
-    display: grid;
-    grid-area: checkboxes;
-    grid-row-gap: 8px;
-    grid-template-columns: auto;
-    overflow: auto;
-  }
-
-  .label {
-    grid-area: label;
-  }
-
-  .prefix {
-    grid-area: prefix;
-    opacity: 0.6;
-  }
-
-  .rule {
-    background-color: var(--vscode-editorWidget-foreground);
-    grid-area: rule;
-    height: 1px;
-  }
-
-  .readout {
-    font-size: 0.66rem;
-    grid-area: readout;
-  }
-
-  .suffix {
-    // NOTE: suffis is assumed to be a call to action
-    cursor: pointer;
-    grid-area: suffix;
-    opacity: 0.6;
-  }
-
+.readout {
+  font-size: 0.66rem;
+  padding-top: 0.5rem;
 }

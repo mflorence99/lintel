@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -9,7 +10,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Utils } from '../services/utils';
 import { ViewChild } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
@@ -102,6 +102,8 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
     // patch in the new values
     this.keyValueForm.patchValue(this.keyValues);
     this.onChange?.(this.value);
+    // TODO: Angular can be so weird!
+    this.cdf.detectChanges();
   }
 
   private keyValues = { } as KeyValueHash;
@@ -110,8 +112,8 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
   private underConstruction: boolean;
 
   /** ctor  */
-  constructor(private formBuilder: FormBuilder,
-              private utils: Utils) { 
+  constructor(private cdf: ChangeDetectorRef,
+              private formBuilder: FormBuilder) { 
     // initialize the form
     this.keyValueForm = this.formBuilder.group({ });
   }

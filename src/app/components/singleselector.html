@@ -1,0 +1,18 @@
+<select
+  (change)="selectByIndex($event.target.selectedIndex)"
+  tabIndex=0
+  #select>
+
+  <option
+    [value]="null"
+    *ngIf="placeholder">
+    {{ placeholder }}
+  </option>
+
+  <option
+    [value]="option[0]"
+    *ngFor="let option of options">
+    {{ option[1] }}
+  </option>
+
+</select>

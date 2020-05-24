@@ -1,7 +1,5 @@
-<form
-  [formGroup]="filterForm"
-  autocomplete="off"
-  novalidate>
+<ng-container
+  [formGroup]="filterForm">
 
   <lintel-input
     formControlName="filter"
@@ -23,4 +21,4 @@
 
   </lintel-input>
 
-</form>
+</ng-container>

@@ -23,7 +23,7 @@
     opacity: 0;
 
     &.checked {
-      opacity: 0.6;
+      opacity: var(--lintel-opacity-icon);
     }
 
   }

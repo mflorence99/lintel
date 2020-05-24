@@ -1,16 +1,3 @@
 :host {
   display: block;
 }
-
-.key-value {
-  align-items: center;
-  display: grid;
-  grid-template-columns: 1fr;
-
-  .values {
-    display: grid;
-    grid-template-columns: 1fr;
-    overflow: auto;
-  }
-
-}

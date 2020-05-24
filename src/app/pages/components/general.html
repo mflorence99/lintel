@@ -4,17 +4,13 @@
 
   <lintel-multiselector
     [options]="opts"
-    formControlName="env"
-    label="Environment">
-
-    <fa-icon 
-      (click)="this.testForm.patchValue({ env: { } })"
-      [icon]="['fas', 'times']"
-      suffix
-      title="Clear settings">
-    </fa-icon>
-
+    formControlName="env">
   </lintel-multiselector>
+
+  <lintel-singleselector
+    [options]="opts"
+    formControlName="sel">
+  </lintel-singleselector>
 
   <lintel-key-value
     formControlName="kv"
@@ -22,14 +18,3 @@
   </lintel-key-value>
 
 </form>
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-{{ testForm.valueChanges | async | json }}

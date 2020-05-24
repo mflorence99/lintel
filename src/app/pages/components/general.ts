@@ -33,7 +33,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
     // TODO: all crap
     this.testForm = this.formBuilder.group({
       env: this.configs.configuration.env,
-      kv: this.configs.configuration.parserOptions
+      kv: this.configs.configuration.parserOptions,
+      sel: 'jest'
     });
     this.testForm.valueChanges.subscribe(x => console.log(x));
   }
