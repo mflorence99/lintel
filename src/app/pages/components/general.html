@@ -1,20 +1,38 @@
-<form
-  [formGroup]="testForm"
-  novalidate>
+<ng-container
+  [formGroup]="generalForm">
 
-  <lintel-multiselector
-    [options]="opts"
-    formControlName="env">
-  </lintel-multiselector>
+  <ng-container
+    *ngFor="let property of properties">
 
-  <lintel-singleselector
-    [options]="opts"
-    formControlName="sel">
-  </lintel-singleselector>
+    <div
+      [ngClass]="{active: configs.configuration.hasOwnProperty(property)}"
+      class="gutter">
+    </div>
 
-  <lintel-key-value
-    formControlName="kv"
-    label="This is a test">
-  </lintel-key-value>
+    <div 
+      [ngClass]="property"
+      class="property">
 
-</form>
+      <div
+        [ngClass]="{active: configs.configuration.hasOwnProperty(property)}"
+        class="name">
+        {{ property }}
+      </div>
+
+      <div
+        class="description">
+
+        <lintel-checkbox
+          *ngIf="property === 'root'"
+          formControlName="root">
+        </lintel-checkbox>
+
+        <div>{{ schema.properties[property].description }}</div>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</ng-container>

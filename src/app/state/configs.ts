@@ -29,6 +29,7 @@ export interface Configuration {
   extends?: string[];
   parserOptions?: any;
   plugins?: string[];
+  root?: boolean;
   rules?: Record<string, Settings>;
 }
 

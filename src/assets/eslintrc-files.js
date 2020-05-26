@@ -33,7 +33,6 @@ eslintrcFiles = {
       "@typescript-eslint"
     ],
     "reportUnusedDisableDirectives": true,
-    "root": true,
     "rules": {
       "@typescript-eslint/brace-style": 2,
       "@typescript-eslint/class-literal-property-style": [

@@ -8,7 +8,7 @@ export class Params {
 
   activeCategory = 'Active Rules';
   basePluginName = 'eslint';
-  generalSettings = 'General Settings';
+  generalSettings = 'ESLint Config';
   unknownCategory = 'Unknown Rules';
 
   get debounceTimeout(): number {

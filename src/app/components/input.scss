@@ -24,11 +24,11 @@ input[type=text] {
 }
 
 ::ng-deep lintel-input [prefix] {
-  padding-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 ::ng-deep lintel-input [suffix] {
   // NOTE: suffis is assumed to be a call to action
   cursor: pointer;
-  padding-left: 0.5rem;
+  margin-left: 0.5rem;
 }

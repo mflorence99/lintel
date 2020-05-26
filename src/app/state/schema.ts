@@ -1,3 +1,4 @@
+import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
@@ -35,6 +36,12 @@ export class SchemaState extends NgxsDataRepository<SchemaStateModel> {
   @DataAction({ insideZone: true })
   initialize(): void {
     this.ctx.setState(this.resolve$refs(eslintSchema));
+  }
+
+  // accessors
+
+  @Computed() get properties(): any {
+    return this.snapshot.properties;
   }
 
   // private methods
