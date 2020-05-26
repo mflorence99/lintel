@@ -1,6 +1,11 @@
+import '../../assets/eslint-rules.js';
+
+import { RulesStateModel } from '../state/rules';
 import { Utils } from './utils';
 
 import { prepare } from './service.spec';
+
+declare const eslintRules: RulesStateModel;
 
 describe('Utils', () => {
 
@@ -18,6 +23,14 @@ describe('Utils', () => {
     const obj1 = { a: 1, b: { c: 2 } };
     const obj2 = utils.deepCopy(obj1);
     expect(obj1.b.c).toEqual(obj2.b.c);
+  });
+
+  test('Object can be deep searched', done => {
+    const utils: Utils = services[0];
+    utils.deepSearch(eslintRules, '$ref', (container, _) => {
+      expect(container['$ref']).toBeTruthy();
+      done();
+    });
   });
 
   test('Object is empty', () => {

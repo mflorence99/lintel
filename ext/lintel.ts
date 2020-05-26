@@ -33,6 +33,7 @@ export function activate(context: vscode.ExtensionContext): void {
       const indexHtml = fs.readFileSync(indexPath, { encoding: 'utf8' })
         // TODO: not yet
         // .replace('src='assets/eslintrc-files.js'', '')
+        // .replace('src='assets/eslint-rules.js'', '')
         // .replace('src='assets/eslint-schema.js'', '')
         .replace('src="assets/vscode-scripts.js"', '')
         .replace('href="assets/vscode-styles.css"', '')

@@ -2,21 +2,25 @@ import { ConfigsState } from './configs';
 import { ConfigsStateModel } from './configs';
 import { FilterState } from './filter';
 import { FilterStateModel } from './filter';
-import { SchemasState } from './schemas';
-import { SchemasStateModel } from './schemas';
+import { RulesState } from './rules';
+import { RulesStateModel } from './rules';
+import { SchemaState } from './schema';
+import { SchemaStateModel } from './schema';
 import { SelectionState } from './selection';
 import { SelectionStateModel } from './selection';
 
 export interface AppState {
   configs: ConfigsStateModel;
   filter: FilterStateModel;
-  schemas: SchemasStateModel;
+  rules: RulesStateModel;
+  schema: SchemaStateModel;
   selection: SelectionStateModel;
 }
 
 export const states = [
   ConfigsState,
   FilterState,
-  SchemasState,
+  RulesState,
+  SchemaState,
   SelectionState
 ];

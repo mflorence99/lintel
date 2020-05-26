@@ -3,12 +3,12 @@ import { DataAction } from '@ngxs-labs/data/decorators';
 import { Debounce } from '@ngxs-labs/data/decorators';
 import { FilterState } from './filter';
 import { Injectable } from '@angular/core';
-import { Level } from './schemas';
+import { Level } from './rules';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Params } from '../services/params';
 import { Payload } from '@ngxs-labs/data/decorators';
-import { Rule } from './schemas';
-import { SchemasState } from './schemas';
+import { Rule } from './rules';
+import { RulesState } from './rules';
 import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
@@ -59,9 +59,10 @@ export type Settings = [Level, any];
 
 export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
+  /** ctor */
   constructor(private filter: FilterState,
               private params: Params,
-              private schemas: SchemasState, 
+              private rules: RulesState, 
               private selection: SelectionState,
               private utils: Utils) { 
     super();
@@ -89,7 +90,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   // accessors
 
   @Computed() get activeView(): View {
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
+    const rules = this.rules.snapshot[this.selection.pluginName]?.rules || { };
     const settings = this.snapshot[this.selection.fileName]?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
@@ -111,7 +112,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get categoryView(): CategoryView {
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
+    const rules = this.rules.snapshot[this.selection.pluginName]?.rules || { };
     const settings = this.snapshot[this.selection.fileName]?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
@@ -131,7 +132,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get inheritedView(): View {
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
+    const rules = this.rules.snapshot[this.selection.pluginName]?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .filter(ruleName => this.isRuleInherited(ruleName))
@@ -144,7 +145,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get inheritedCategoryView(): CategoryView {
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
+    const rules = this.rules.snapshot[this.selection.pluginName]?.rules || { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .filter(ruleName => this.isRuleInherited(ruleName))
@@ -165,7 +166,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         acc.push(...(this.snapshot[fileName].plugins || []));
         return acc;
       }, [])
-      .filter(pluginName => this.schemas.snapshot[pluginName]);
+      .filter(pluginName => this.rules.snapshot[pluginName]);
     return [this.params.basePluginName, ...this.utils.deduplicateArray(raw)];
   }
 
@@ -181,7 +182,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         return (parts.length === 2) ? 
           [parts[0], ruleName] : [this.params.basePluginName, ruleName];
       })
-      .filter(([pluginName, ruleName]) => !this.schemas.snapshot[pluginName]?.rules?.[ruleName])
+      .filter(([pluginName, ruleName]) => !this.rules.snapshot[pluginName]?.rules?.[ruleName])
       .reduce((acc, [_, ruleName]) => {
         acc[ruleName] = [null, settings[ruleName]];
         return acc;
@@ -213,8 +214,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   private isRuleInherited(ruleName: string): boolean {
     const extensions = this.snapshot[this.selection.fileName]?.extends || [];
-    const inherits = this.schemas.snapshot[this.selection.pluginName]?.lintel?.inherits || { };
-    const rules = this.schemas.snapshot[this.selection.pluginName]?.rules || { };
+    const inherits = this.rules.snapshot[this.selection.pluginName]?.lintel?.inherits || { };
+    const rules = this.rules.snapshot[this.selection.pluginName]?.rules || { };
     return Object.keys(inherits)
       .filter(extension => extensions.includes(extension))
       .some(extension => {

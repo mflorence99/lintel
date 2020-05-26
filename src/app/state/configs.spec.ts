@@ -8,7 +8,7 @@ describe('ConfigsState', () => {
 
   beforeEach(() => bundle = prepare());
 
-  test('Config state is initialized', () => {
+  test('ConfigsState is initialized', () => {
     expect(bundle.configs.snapshot['package.json']).toBeTruthy();
     expect(bundle.configs.fileNames.length).toEqual(4);
     expect(bundle.configs.fileNames[0]).toEqual('package.json');
@@ -59,7 +59,7 @@ describe('ConfigsState', () => {
   test('Rule digest is properly constructed', () => {
     bundle.selection.select({ fileName: 'package.json', pluginName: bundle.params.basePluginName });
     const ruleName = 'brace-style';
-    const rule = bundle.schemas.snapshot[bundle.params.basePluginName]?.rules?.[ruleName];
+    const rule = bundle.rules.snapshot[bundle.params.basePluginName]?.rules?.[ruleName];
     const settings = bundle.configs.snapshot['package.json']?.rules?.[ruleName];
     const digest = bundle.configs.makeRuleDigest(ruleName, rule, settings);
     expect(digest.description).toEqual('enforce consistent brace style for blocks');

@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { Params } from '../../services/params';
-import { SchemasState } from '../../state/schemas';
+import { RulesState } from '../../state/rules';
+import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
 
 /**
@@ -21,10 +22,12 @@ export class RootPageComponent {
   /** ctor */
   constructor(public configs: ConfigsState,
               public params: Params,
-              public schemas: SchemasState,
+              public rules: RulesState,
+              public schema: SchemaState,
               public selection: SelectionState) {
     this.configs.initialize();
-    this.schemas.initialize();
+    this.rules.initialize();
+    this.schema.initialize();
   }
 
 }
