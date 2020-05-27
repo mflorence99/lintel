@@ -3,6 +3,9 @@
 </lintel-configs>
 
 <ng-container
+  *ngIf="selection.fileName">
+
+<ng-container
   [ngSwitch]="selection.category">
 
   <lintel-general 
@@ -15,5 +18,7 @@
     *ngSwitchDefault
     class="settings">
   </lintel-settings>
+
+</ng-container>
 
 </ng-container>

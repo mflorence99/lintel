@@ -24,9 +24,12 @@ export type View = Record<string, [Rule, Settings]>;
 export type CategoryView = Record<string, View>;
 
 export interface Configuration {
-  // TODO: more analysis
+  ecmaFeatures?: Record<string, boolean>;
   env?: Record<string, boolean>;
   extends?: string[];
+  globals?: Record<string, boolean>;
+  ignorePatterns?: string[];
+  noInlineConfig?: boolean;
   parserOptions?: any;
   plugins?: string[];
   root?: boolean;

@@ -2,7 +2,7 @@
   [formGroup]="multiSelectorForm">
 
   <div 
-    [ngStyle]="{'max-height.px': rowHeight * maxVisibleOptions}" 
+    [ngStyle]="{'grid-template-columns': 'repeat(auto-fit, ' + columnWidth + ')'}"
     class="checkboxes">
 
     <lintel-checkbox

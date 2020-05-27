@@ -1,4 +1,5 @@
 :host {
+  color: var(--vscode-settings-textInputForeground);
   cursor: pointer;
   display: flex;
 }
@@ -7,12 +8,11 @@
   align-items: center;
   background-color: var(--vscode-settings-textInputBackground);
   border: 1px solid transparent;
-  color: var(--vscode-settings-textInputForeground);
   display: grid;
-  height: 16px;
+  height: 18px;
   justify-content: center;
   margin-right: 0.5rem;
-  width: 16px;
+  width: 18px;
 
   &:focus {
     border-color: var(--vscode-focusBorder);

@@ -22,12 +22,32 @@
       <div
         class="description">
 
+        <!-- NOTE: special version of description for properties that are just a checkbox -->
+
+        <lintel-checkbox
+          *ngIf="property === 'noInlineConfig'"
+          formControlName="noInlineConfig">
+        </lintel-checkbox>
+
         <lintel-checkbox
           *ngIf="property === 'root'"
           formControlName="root">
         </lintel-checkbox>
 
         <div>{{ schema.properties[property].description }}</div>
+
+      </div>
+
+      <div
+        [ngSwitch]="property"
+        class="settings">
+
+        <lintel-multiselector
+          [options]="envs"
+          *ngSwitchCase="'env'"
+          columnWidth="10rem"
+          formControlName="env">
+        </lintel-multiselector>
 
       </div>
 

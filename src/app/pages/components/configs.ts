@@ -36,8 +36,11 @@ export class ConfigsComponent {
 
   /** Select a file name */
   selectFileName(event: Event, fileName: string): void {
-    if (fileName !== this.selection.fileName) 
-      this.selection.select({ fileName });
+    if (fileName !== this.selection.fileName) {
+      this.selection.select({ fileName: null });
+      // TODO: this trick forces us to rebuild when fileName changes
+      this.utils.nextTick(() => this.selection.select({ fileName }));
+    }
     event.stopPropagation();
   }
 

@@ -54,18 +54,14 @@ export type MultiselectorValues = string[] | Record<string, boolean>;
 
 export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
-  controls: FormControl[] = [];
+  @Input() columnWidth = '10rem';
 
-  @Input() maxVisibleOptions = 5;
+  controls: FormControl[] = [];
 
   multiSelectorForm: FormGroup;
 
   @Input() nameOfDecoded = 'value';
   @Input() nameOfEncoded = 'id';
-
-  // TODO: this is a hack based on the fact that we "know" checkboxes are 24x24
-  // but it works over an extrememe range of realistic font sizes
-  rowHeight = 24;
 
   values = new Set<string>();
 

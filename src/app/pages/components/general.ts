@@ -23,9 +23,9 @@ import { takeUntil } from 'rxjs/operators';
 
 export class GeneralComponent implements OnInit, OnDestroy { 
 
+  envs = [];
   generalForm: FormGroup;
-
-  properties = ['root', 'ignorePatterns'];
+  properties = ['root', 'env', 'noInlineConfig'];
 
   private notifier = new Subject<void>();
 
@@ -34,8 +34,12 @@ export class GeneralComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder,
               public schema: SchemaState) {
     this.generalForm = this.formBuilder.group({
+      env: this.configs.configuration.env,
+      noInlineConfig: this.configs.configuration.noInlineConfig,
       root: this.configs.configuration.root
     });
+    // TODO: temporary hack
+    this.envs = Object.keys(this.schema.properties.env.properties).sort();
   }
 
   /** When we're done */

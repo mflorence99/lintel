@@ -4,9 +4,10 @@
 
 .checkboxes {
   display: grid;
-  grid-row-gap: 8px;
-  grid-template-columns: auto;
-  overflow: auto;
+  grid-gap: 0.5rem;
+  // NOTE: actual with set by style from control input
+  // grid-template-columns: repeat(auto-fit, 160px);
+  overflow-y: auto;
 }
 
 .readout {

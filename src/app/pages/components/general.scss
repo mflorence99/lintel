@@ -34,17 +34,18 @@
 
   }
 
+  .settings {
+    margin-top: 0.5rem;
+  }
+
+  // NOTE: special version of description for properties that are just a checkbox
+
+  &.noInlineConfig,
   &.root {
 
     .description {
       display: grid;
       grid-template-columns: auto 1fr;
-
-      // TODO: hack for checkbox embedded in description
-      lintel-checkbox {
-        margin-top: 0.2rem;
-      }
-
     }
 
   }
