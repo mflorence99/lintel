@@ -17,8 +17,12 @@ import { takeUntil } from 'rxjs/operators';
 
 // NOTE: options can be one of the following:
 // -- array of encoded values
-// -- array of [encoded, decoded] values <-- PREFERRED
-// -- array of {[nameOfEncoded]: encoded, [nameOfDecoded]: decoded} values
+// -- array of [encoded, decoded, description] values <-- PREFERRED
+// -- array of {
+//               [nameOfEncoded]: encoded, 
+//               [nameOfDecoded]: decoded, 
+//               [nameOfDescription]: description
+//             } values
 
 export type MultiselectorOptions = string[] | string[][];
 
@@ -58,9 +62,12 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
 
   controls: FormControl[] = [];
 
+  description: string;
+
   multiSelectorForm: FormGroup;
 
   @Input() nameOfDecoded = 'value';
+  @Input() nameOfDescription = 'description';
   @Input() nameOfEncoded = 'id';
 
   values = new Set<string>();
@@ -121,6 +128,11 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
     return this._options[ix][1];
   }
 
+  /** Get an indexed option description */
+  getOptionDescription(ix: number): string {
+    return this._options[ix][2];
+  }
+
   /** Get an indexed encoded option value */
   getOptionEncoded(ix: number): string {
     return this._options[ix][0];
@@ -168,6 +180,10 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
     this.value = value;
   }
 
+  xxx(desc): void {
+    console.log(desc);
+  }
+
   // private methods
 
   private fromMultiselectorOptions(options: MultiselectorOptions): string[][] {
@@ -175,11 +191,11 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
     // NOTE: see above for different options for supplying options
     if (Array.isArray(options) && (options.length > 0)) {
       if (typeof options[0] === 'string')
-        normalized = (options as string[]).map(option => [option, option]);
+        normalized = (options as string[]).map(option => [option, option, null]);
       else if (Array.isArray(options[0]))
         normalized = options as string[][];
       else if (typeof options[0] === 'object')
-        normalized = (options as string[]).map(option => [option[this.nameOfEncoded], option[this.nameOfDecoded]]);
+        normalized = (options as string[]).map(option => [option[this.nameOfEncoded], option[this.nameOfDecoded], option[this.nameOfDescription]]);
     }
     return normalized;
   }

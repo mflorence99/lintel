@@ -34,7 +34,12 @@
           formControlName="root">
         </lintel-checkbox>
 
-        <div>{{ schema.properties[property].description }}</div>
+        <lintel-checkbox
+          *ngIf="property === 'reportUnusedDisableDirectives'"
+          formControlName="reportUnusedDisableDirectives">
+        </lintel-checkbox>
+
+        <div>{{ schema.properties[property]?.description }}</div>
 
       </div>
 
@@ -43,11 +48,23 @@
         class="settings">
 
         <lintel-multiselector
-          [options]="envs"
+          [options]="options.ecmaFeatures"
+          *ngSwitchCase="'ecmaFeatures'"
+          columnWidth="15rem"
+          formControlName="ecmaFeatures">
+        </lintel-multiselector>
+
+        <lintel-multiselector
+          [options]="options.env"
           *ngSwitchCase="'env'"
           columnWidth="10rem"
           formControlName="env">
         </lintel-multiselector>
+
+        <lintel-input
+          *ngSwitchCase="'parser'"
+          formControlName="parser">
+        </lintel-input>
 
       </div>
 

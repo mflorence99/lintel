@@ -30,8 +30,10 @@ export interface Configuration {
   globals?: Record<string, boolean>;
   ignorePatterns?: string[];
   noInlineConfig?: boolean;
+  parser?: string;
   parserOptions?: any;
   plugins?: string[];
+  reportUnusedDisableDirectives?: boolean;
   root?: boolean;
   rules?: Record<string, Settings>;
 }

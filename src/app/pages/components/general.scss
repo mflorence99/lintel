@@ -7,6 +7,7 @@
   // TODO: hack for scrolling -- extra 2rem a fudge for main padding
   height: calc(100vh - 2rem);
   overflow-y: auto;
+  padding-right: 1rem;
 }
 
 .gutter {
@@ -25,6 +26,7 @@
   }
 
   .name {
+    color: var(--vscode-textPreformat-foreground);
     font-family: monospace;
     line-height: 175%;
 
