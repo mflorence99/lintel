@@ -180,10 +180,6 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
     this.value = value;
   }
 
-  xxx(desc): void {
-    console.log(desc);
-  }
-
   // private methods
 
   private fromMultiselectorOptions(options: MultiselectorOptions): string[][] {
@@ -215,7 +211,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
       const obj = this._options.reduce((acc, option) => {
         acc[option[0]] = false;
         return acc;
-      }, {});
+      }, { });
       this.values.forEach(value => obj[value] = true);
       return obj;
     } else return Array.from(this.values) as MultiselectorValues;

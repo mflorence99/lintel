@@ -1,5 +1,6 @@
 import { BarrelModule } from '../barrel';
 import { CheckboxComponent } from './checkbox';
+import { InputArrayComponent } from './input-array';
 import { InputComponent } from './input';
 import { KeyValueComponent } from './key-value';
 import { MultiselectorComponent } from './multiselector';
@@ -12,6 +13,7 @@ import { SingleselectorComponent } from './singleselector';
 
 const COMPONENTS = [
   CheckboxComponent,
+  InputArrayComponent,
   InputComponent,
   KeyValueComponent,
   MultiselectorComponent,

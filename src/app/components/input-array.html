@@ -1,0 +1,23 @@
+<ng-container
+  [formGroup]="inputArrayForm">
+
+  <div 
+    [ngStyle]="{'grid-template-columns': 'repeat(auto-fit, ' + columnWidth + ')'}"
+    class="inputs">
+
+    <lintel-input
+      [formControl]="input"
+      *ngFor="let input of inputArrayForm.controls.inputs['controls']; let ix = index">
+
+      <a
+        (click)="addInput()"
+        *ngIf="ix === inputArrayForm.controls.inputs['controls'].length - 1"
+        suffix>
+        More...
+      </a>
+
+    </lintel-input>
+
+  </div>
+
+</ng-container>

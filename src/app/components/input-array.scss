@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+.inputs {
+  display: grid;
+  grid-gap: 0.5rem;
+  // NOTE: actual with set by style from control input
+  // grid-template-columns: repeat(auto-fit, ...);
+  overflow-y: auto;
+}

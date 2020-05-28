@@ -36,6 +36,7 @@ export interface Configuration {
   reportUnusedDisableDirectives?: boolean;
   root?: boolean;
   rules?: Record<string, Settings>;
+  settings?: Record<string, any>;
 }
 
 export type ConfigsStateModel = Record<string, Configuration>;

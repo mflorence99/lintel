@@ -40,7 +40,14 @@ export class InputComponent implements ControlValueAccessor {
 
   @ViewChild('input', { static: true }) input: ElementRef;
 
+  @Input() max: number;
+  @Input() min: number;
+
   @Input() placeholder = '';
+
+  @Input() step: number;
+
+  @Input() type: 'number' | 'text' = 'text';
 
   @Input()
   get value(): string {

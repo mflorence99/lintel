@@ -26,9 +26,16 @@
   }
 
   .name {
+    border: 0 solid var(--vscode-textPreformat-foreground);
     color: var(--vscode-textPreformat-foreground);
     font-family: monospace;
     line-height: 175%;
+    outline: none;
+    text-decoration: none;
+
+    &:hover {
+      border-bottom-width: 1px;
+    }
 
     &.active {
       font-weight: bold;

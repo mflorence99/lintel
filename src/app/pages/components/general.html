@@ -5,19 +5,21 @@
     *ngFor="let property of properties">
 
     <div
-      [ngClass]="{active: configs.configuration.hasOwnProperty(property)}"
+      [ngClass]="{active: configs.configuration.hasOwnProperty(property[0])}"
       class="gutter">
     </div>
 
     <div 
-      [ngClass]="property"
+      [ngClass]="property[0]"
       class="property">
 
-      <div
-        [ngClass]="{active: configs.configuration.hasOwnProperty(property)}"
-        class="name">
-        {{ property }}
-      </div>
+      <a
+        [href]="'https://eslint.org/docs/user-guide/configuring#' + property[1]"
+        [ngClass]="{active: configs.configuration.hasOwnProperty(property[0])}"
+        class="name"
+        target="lintel">
+        {{ property[0] }}
+      </a>
 
       <div
         class="description">
@@ -25,26 +27,26 @@
         <!-- NOTE: special version of description for properties that are just a checkbox -->
 
         <lintel-checkbox
-          *ngIf="property === 'noInlineConfig'"
+          *ngIf="property[0] === 'noInlineConfig'"
           formControlName="noInlineConfig">
         </lintel-checkbox>
 
         <lintel-checkbox
-          *ngIf="property === 'root'"
+          *ngIf="property[0] === 'root'"
           formControlName="root">
         </lintel-checkbox>
 
         <lintel-checkbox
-          *ngIf="property === 'reportUnusedDisableDirectives'"
+          *ngIf="property[0] === 'reportUnusedDisableDirectives'"
           formControlName="reportUnusedDisableDirectives">
         </lintel-checkbox>
 
-        <div>{{ schema.properties[property]?.description }}</div>
+        <div>{{ schema.properties[property[0]]?.description }}</div>
 
       </div>
 
       <div
-        [ngSwitch]="property"
+        [ngSwitch]="property[0]"
         class="settings">
 
         <lintel-multiselector
@@ -61,10 +63,28 @@
           formControlName="env">
         </lintel-multiselector>
 
+        <lintel-input-array
+          *ngSwitchCase="'extends'"
+          columnWidth="20rem"
+          formControlName="extends">
+        </lintel-input-array>
+
+        <lintel-input-array
+          *ngSwitchCase="'ignorePatterns'"
+          columnWidth="10rem"
+          formControlName="ignorePatterns">
+        </lintel-input-array>
+
         <lintel-input
           *ngSwitchCase="'parser'"
           formControlName="parser">
         </lintel-input>
+
+        <lintel-input-array
+          *ngSwitchCase="'plugins'"
+          columnWidth="10rem"
+          formControlName="plugins">
+        </lintel-input-array>
 
       </div>
 

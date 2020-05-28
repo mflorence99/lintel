@@ -4,10 +4,13 @@
   (blur)="focus = false"
   (focus)="focus = true"
   (input)="value = $event.target.value"
+  [max]="max"
+  [min]="min"
   [placeholder]="placeholder"
+  [step]="step"
+  [type]="type"
   [value]="value"
   #input 
-  autocomplete="off"
-  type="text">
+  autocomplete="off">
 
 <ng-content select="[suffix]"></ng-content>

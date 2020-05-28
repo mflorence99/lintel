@@ -38,17 +38,18 @@ export class GeneralComponent implements OnInit, OnDestroy {
   }; 
 
   properties = [
-    'extends',
-    'parserOptions', 
-    'parser', 
-    'env', 
-    'globals',
-    'plugins',
-    'root', 
-    'noInlineConfig', 
-    'ecmaFeatures',
-    'settings',
-    'reportUnusedDisableDirectives'
+    ['extends', 'extending-configuration-files'],
+    ['parserOptions', 'specifying-parser-options'], 
+    ['ecmaFeatures', 'specifying-parser-options'],
+    ['parser', 'specifying-parser'], 
+    ['env', 'specifying-environments'], 
+    ['globals', 'specifying-globals'],
+    ['plugins', 'configuring-plugins'],
+    ['root', 'configuration-cascading-and-hierarchy'], 
+    ['noInlineConfig', 'disabling-rules-with-inline-comments'], 
+    ['ignorePatterns', 'ignoring-files-and-directories'],
+    ['settings', 'adding-shared-settings'],
+    ['reportUnusedDisableDirectives', 'configuring-inline-comment-behaviors']
   ];
 
   private notifier = new Subject<void>();
@@ -58,12 +59,15 @@ export class GeneralComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder,
               public schema: SchemaState) {
     this.generalForm = this.formBuilder.group({
-      ecmaFeatures: this.configs.configuration.ecmaFeatures,
-      env: this.configs.configuration.env,
-      noInlineConfig: this.configs.configuration.noInlineConfig,
-      parser: this.configs.configuration.parser,
-      reportUnusedDisableDirectives: this.configs.configuration.reportUnusedDisableDirectives,
-      root: this.configs.configuration.root
+      ecmaFeatures: [this.configs.configuration.ecmaFeatures],
+      env: [this.configs.configuration.env],
+      extends: [this.configs.configuration.extends],
+      ignorePatterns: [this.configs.configuration.ignorePatterns],
+      noInlineConfig: [this.configs.configuration.noInlineConfig],
+      parser: [this.configs.configuration.parser],
+      plugins: [this.configs.configuration.plugins],
+      reportUnusedDisableDirectives: [this.configs.configuration.reportUnusedDisableDirectives],
+      root: [this.configs.configuration.root]
     });
   }
 
@@ -79,8 +83,11 @@ export class GeneralComponent implements OnInit, OnDestroy {
     const changes = [
       this.makeValueChanges('ecmaFeatures'),
       this.makeValueChanges('env'),
+      this.makeValueChanges('extends'),
+      this.makeValueChanges('ignorePatterns'),
       this.makeValueChanges('noInlineConfig'),
       this.makeValueChanges('parser'),
+      this.makeValueChanges('plugins'),
       this.makeValueChanges('reportUnusedDisableDirectives'),
       this.makeValueChanges('root')
     ];

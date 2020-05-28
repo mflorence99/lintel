@@ -66,7 +66,6 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
   keyValueForm: FormGroup;
   keys: string[] = [];
 
-  @Input() label: string;
   @Input() maxVisibleValues = 3;
 
   @ViewChild('newKey', { static: false }) newKey: any;
