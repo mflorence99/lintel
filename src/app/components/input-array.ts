@@ -57,18 +57,18 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
     return this.values;
   }
   set value(value: InputArrayType) {
-    this.values = value;
+    this.values = value || [];
     this.underConstruction = true;
     const inputs = this.inputArrayForm.controls.inputs as FormArray;
     // NOTE: there's always one more input for a new value
     // trim off excess inputs
-    while (inputs.length > (value.length + 1))
+    while (inputs.length > (this.values.length + 1))
       inputs.removeAt(inputs.length - 1);
-    while (inputs.length < (value.length + 1))
+    while (inputs.length < (this.values.length + 1))
       inputs.push(new FormControl(null));
-    inputs.patchValue([...value, null], { emitEvent: false });
+    inputs.patchValue([...this.values, null], { emitEvent: false });
     this.underConstruction = false;
-    this.onChange?.(value);
+    this.onChange?.(this.values);
     // TODO: Angular can be so weird!
     this.cdf.detectChanges();
   }
@@ -118,6 +118,12 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
 
   /** @see ControlValueAccessor */
   registerOnTouched(_): void { }
+
+  /** Remove specified input */
+  removeInput(ix: number): void {
+    const inputs = this.inputArrayForm.controls.inputs as FormArray;
+    inputs.removeAt(ix);
+  }
 
   /** @see ControlValueAccessor */
   writeValue(value): void {

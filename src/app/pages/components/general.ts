@@ -28,13 +28,23 @@ import { takeUntil } from 'rxjs/operators';
 
 export class GeneralComponent implements OnInit, OnDestroy { 
 
-  // TODO: temporary hack
+  defaults =  {
+    ecmaVersion: this.schema.properties.parserOptions.properties.ecmaVersion.default,
+    sourceType: this.schema.properties.parserOptions.properties.sourceType.default
+  };
+
+  descriptions = {
+    ecmaVersion: this.schema.properties.parserOptions.properties.ecmaVersion.description,
+    sourceType: this.schema.properties.parserOptions.properties.sourceType.description
+  };
 
   generalForm: FormGroup;
 
   options = {
-    ecmaFeatures: this.makeOptions('ecmaFeatures'),
-    env: this.makeOptions('env')
+    ecmaFeatures: this.makeOptionsFromProperties('properties.ecmaFeatures.properties'),
+    ecmaVersion: this.makeOptionsFromEnum('properties.parserOptions.properties.ecmaVersion.enum'),
+    env: this.makeOptionsFromProperties('properties.env.properties'),
+    sourceType: this.makeOptionsFromEnum('properties.parserOptions.properties.sourceType.enum')
   }; 
 
   properties = [
@@ -59,12 +69,22 @@ export class GeneralComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder,
               public schema: SchemaState) {
     this.generalForm = this.formBuilder.group({
-      ecmaFeatures: [this.configs.configuration.ecmaFeatures],
-      env: [this.configs.configuration.env],
+      // NOTE: ecmaFeatures moved from the top level into parseOptions
+      ecmaFeatures: [this.configs.configuration.parserOptions?.ecmaFeatures || { }],
+      env: [this.configs.configuration.env || { }],
       extends: [this.configs.configuration.extends],
       ignorePatterns: [this.configs.configuration.ignorePatterns],
       noInlineConfig: [this.configs.configuration.noInlineConfig],
       parser: [this.configs.configuration.parser],
+      parserOptions: this.formBuilder.group({ 
+        ecmaVersion: [this.configs.configuration.parserOptions?.ecmaVersion],
+        extraFileExtensions: [this.configs.configuration.parserOptions?.extraFileExtensions],
+        project: [this.configs.configuration.parserOptions?.project],
+        projectFolderIgnoreList: [this.configs.configuration.parserOptions?.projectFolderIgnoreList],
+        sourceType: [this.configs.configuration.parserOptions?.sourceType],
+        tsconfigRootDir: [this.configs.configuration.parserOptions?.tsconfigRootDir],
+        warnOnUnsupportedTypeScriptVersion: [this.configs.configuration.parserOptions?.warnOnUnsupportedTypeScriptVersion]
+      }),
       plugins: [this.configs.configuration.plugins],
       reportUnusedDisableDirectives: [this.configs.configuration.reportUnusedDisableDirectives],
       root: [this.configs.configuration.root]
@@ -79,7 +99,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
   /** When we're ready */
   ngOnInit(): void {
-    // NOTE: subscribe to each individually  so we change only minimum config
+    // NOTE: subscribe to each individually so we change only minimum config
     const changes = [
       this.makeValueChanges('ecmaFeatures'),
       this.makeValueChanges('env'),
@@ -87,21 +107,36 @@ export class GeneralComponent implements OnInit, OnDestroy {
       this.makeValueChanges('ignorePatterns'),
       this.makeValueChanges('noInlineConfig'),
       this.makeValueChanges('parser'),
+      this.makeValueChanges('parserOptions'),
       this.makeValueChanges('plugins'),
       this.makeValueChanges('reportUnusedDisableDirectives'),
       this.makeValueChanges('root')
     ];
     merge(...changes)
       .pipe(
-        map(([changes, key]) => ({ [key]: changes })),
+        map(([changes, key]) => {
+          // NOTE: ecmaFeatures moved from the top level into parseOptions
+          if (key === 'ecmaFeatures')
+            return { parserOptions: { ...this.configs.configuration.parserOptions, ecmaFeatures: changes }};
+          // NOTE: we can't know that parserOptions is complete, because each parser
+          // defines its own superset
+          else if (key === 'parserOptions')
+            return { parserOptions: { ...this.configs.configuration.parserOptions, ...changes } };
+          return { [key]: changes };
+        }),
         takeUntil(this.notifier)
       ).subscribe(changes => this.configs.changeConfiguration(changes));
   }
 
   // private methods
 
-  private makeOptions(key: string): string[][] {
-    const properties = this.schema.properties[key].properties;
+  private makeOptionsFromEnum(path: string): string[][] {
+    const options = eval(`this.schema.${path}`);
+    return options.map(option => [option, option]);
+  }
+
+  private makeOptionsFromProperties(path: string): string[][] {
+    const properties = eval(`this.schema.${path}`);
     return Object.keys(properties)
       .sort()
       .map(property => [property, property, properties[property].description]);

@@ -9,11 +9,19 @@
       [formControl]="input"
       *ngFor="let input of inputArrayForm.controls.inputs['controls']; let ix = index">
 
+      <fa-icon 
+        (click)="removeInput(ix)"
+        [icon]="['fas', 'times']"
+        *ngIf="ix !== inputArrayForm.controls.inputs['controls'].length - 1"
+        suffix
+        title="Remove this item">
+      </fa-icon>
+
       <a
         (click)="addInput()"
         *ngIf="ix === inputArrayForm.controls.inputs['controls'].length - 1"
         suffix>
-        More...
+        More
       </a>
 
     </lintel-input>

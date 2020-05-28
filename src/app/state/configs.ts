@@ -31,7 +31,7 @@ export interface Configuration {
   ignorePatterns?: string[];
   noInlineConfig?: boolean;
   parser?: string;
-  parserOptions?: any;
+  parserOptions?: ParserOptions;
   plugins?: string[];
   reportUnusedDisableDirectives?: boolean;
   root?: boolean;
@@ -52,6 +52,17 @@ export interface Digest {
   ruleName: string;
   settings: Settings;
   url: string;
+}
+
+export interface ParserOptions {
+  ecmaFeatures?: Record<string, boolean>;
+  ecmaVersion?: number;
+  extraFileExtensions?: string[];
+  project?: string | string[];
+  projectFolderIgnoreList?: (string | RegExp)[];
+  sourceType?: string;
+  tsconfigRootDir?: string;
+  warnOnUnsupportedTypeScriptVersion?: boolean;  
 }
 
 // TODO: much more analysis

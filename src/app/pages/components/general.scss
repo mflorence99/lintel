@@ -45,11 +45,43 @@
 
   .settings {
     margin-top: 0.5rem;
+
+    hr {
+      border: 1px solid var(--vscode-descriptionForeground);
+      margin: 1rem 0;
+    }
+
+    .parserOptions {
+      display: grid;
+      grid-gap: 1rem;
+      grid-template-columns: repeat(auto-fit, 20rem);
+
+      .option {
+        align-content: start;
+        display: grid;
+        grid-gap: 0.25rem;
+        grid-template-columns: 1fr;
+
+        .desc {
+          color: var(--vscode-descriptionForeground);
+          line-height: 125%;
+        }
+
+        .tag {
+          color: var(--vscode-textPreformat-foreground);
+          font-family: monospace;
+        }
+
+      }
+
+    }
+
   }
 
   // NOTE: special version of description for properties that are just a checkbox
 
   &.noInlineConfig,
+  &.reportUnusedDisableDirectives,
   &.root {
 
     .description {

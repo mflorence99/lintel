@@ -17,7 +17,8 @@
         [href]="'https://eslint.org/docs/user-guide/configuring#' + property[1]"
         [ngClass]="{active: configs.configuration.hasOwnProperty(property[0])}"
         class="name"
-        target="lintel">
+        target="lintel"
+        tabIndex=-1>
         {{ property[0] }}
       </a>
 
@@ -26,22 +27,50 @@
 
         <!-- NOTE: special version of description for properties that are just a checkbox -->
 
-        <lintel-checkbox
-          *ngIf="property[0] === 'noInlineConfig'"
-          formControlName="noInlineConfig">
-        </lintel-checkbox>
+        <ng-container
+          [ngSwitch]="property[0]">
 
-        <lintel-checkbox
-          *ngIf="property[0] === 'root'"
-          formControlName="root">
-        </lintel-checkbox>
+          <ng-container
+            *ngSwitchCase="'noInlineConfig'">
 
-        <lintel-checkbox
-          *ngIf="property[0] === 'reportUnusedDisableDirectives'"
-          formControlName="reportUnusedDisableDirectives">
-        </lintel-checkbox>
+            <lintel-checkbox
+              formControlName="noInlineConfig">
+            </lintel-checkbox>
 
-        <div>{{ schema.properties[property[0]]?.description }}</div>
+            <div>{{ schema.properties.noInlineConfig.description }}</div>
+
+          </ng-container>
+
+          <ng-container
+            *ngSwitchCase="'root'">
+
+            <lintel-checkbox
+              formControlName="root">
+            </lintel-checkbox>
+
+            <div>{{ schema.properties.root.description }}</div>
+
+          </ng-container>
+
+          <ng-container
+            *ngSwitchCase="'reportUnusedDisableDirectives'">
+
+            <lintel-checkbox
+              formControlName="reportUnusedDisableDirectives">
+            </lintel-checkbox>
+
+            <!-- NOTE: for some reason, this isn't in the schema -->
+
+            <div>To report unused eslint-disable comments, use reportUnusedDisableDirectives setting.</div>
+
+          </ng-container>
+
+          <div
+            *ngSwitchDefault>
+            {{ schema.properties[property[0]]?.description }}
+          </div>
+
+        </ng-container>
 
       </div>
 
@@ -80,6 +109,15 @@
           formControlName="parser">
         </lintel-input>
 
+        <ng-container
+          *ngSwitchCase="'parserOptions'">
+
+          <ng-container 
+            *ngTemplateOutlet="parserOptions">
+          </ng-container>
+
+        </ng-container>
+
         <lintel-input-array
           *ngSwitchCase="'plugins'"
           columnWidth="10rem"
@@ -91,5 +129,101 @@
     </div>
 
   </ng-container>
+
+  <!-- NOTE: parserOptions isolated for readability -->
+
+  <ng-template 
+    #parserOptions>
+
+    <ng-container
+      formGroupName="parserOptions">
+
+      <div
+        class="parserOptions">
+
+        <div
+          *ngFor="let option of ['ecmaVersion', 'sourceType']"
+          class="option">
+
+          <div
+            class="tag">
+            .{{ option }}
+          </div>
+
+          <lintel-singleselector
+            [formControlName]="option"
+            [options]="options[option]"
+            placeholder="-- Default value of '{{ defaults[option] }}' --">
+          </lintel-singleselector>
+
+          <div
+            class="desc">
+            {{ descriptions[option] }}
+          </div>
+
+        </div>
+
+      </div>
+
+      <ng-container
+        *ngIf="configs.configuration.parser === '@typescript-eslint/parser'">
+
+        <hr>
+
+        <div
+          class="parserOptions">
+
+          <div
+            *ngFor="let option of ['project', 'projectFolderIgnoreList', 'extraFileExtensions']"
+            class="option">
+
+            <div
+              class="tag">
+              .{{ option }}
+            </div>
+
+            <lintel-input-array
+              [formControlName]="option"
+              columnWidth="1fr">
+            </lintel-input-array>
+
+          </div>
+
+          <div  
+             class="option">
+
+            <div
+              class="tag">
+              .tsconfigRootDir
+            </div>
+
+            <lintel-input
+              formControlName="tsconfigRootDir">
+            </lintel-input>
+
+          </div>
+
+          <div  
+             class="option">
+
+            <div
+              class="tag">
+              .warnOnUnsupportedTypeScriptVersion
+            </div>
+
+            <lintel-checkbox
+              formControlName="warnOnUnsupportedTypeScriptVersion"
+              label="Toggle parser warning for a version of TypeScript not explicitly supported">
+            </lintel-checkbox>
+
+          </div>
+
+        </div>
+
+      </ng-container>
+
+    </ng-container>
+
+  </ng-template>
 
 </ng-container>
