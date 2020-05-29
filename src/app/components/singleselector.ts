@@ -3,6 +3,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { ElementRef } from '@angular/core';
+import { HostBinding } from '@angular/core';
 import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ViewChild } from '@angular/core';
@@ -45,6 +46,8 @@ export type SingleselectorValue = string;
 })
 
 export class SingleselectorComponent implements ControlValueAccessor {
+
+  @HostBinding('class.focus') focus = false;
 
   @Input() nameOfDecoded = 'value';
   @Input() nameOfEncoded = 'id';

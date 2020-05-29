@@ -11,7 +11,7 @@
   border-color: var(--vscode-focusBorder);
 }
 
-input[type=text] {
+input {
   width: 100%;
 }
 
@@ -28,7 +28,7 @@ input[type=text] {
 }
 
 ::ng-deep lintel-input [suffix] {
-  // NOTE: suffis is assumed to be a call to action
+  // NOTE: suffix is assumed to be a call to action
   cursor: pointer;
   margin-left: 0.5rem;
 }

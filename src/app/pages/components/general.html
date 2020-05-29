@@ -94,9 +94,16 @@
 
         <lintel-input-array
           *ngSwitchCase="'extends'"
-          columnWidth="20rem"
+          columnWidth="20.5rem"
           formControlName="extends">
         </lintel-input-array>
+
+        <lintel-key-value
+          [valueConstraints]="options.globals"
+          *ngSwitchCase="'globals'"
+          columnWidth="20.5rem"
+          formControlName="globals">
+        </lintel-key-value>
 
         <lintel-input-array
           *ngSwitchCase="'ignorePatterns'"
@@ -123,6 +130,12 @@
           columnWidth="10rem"
           formControlName="plugins">
         </lintel-input-array>
+
+        <lintel-key-value
+          *ngSwitchCase="'settings'"
+          columnWidth="20.5rem"
+          formControlName="settings">
+        </lintel-key-value>
 
       </div>
 
@@ -163,15 +176,9 @@
 
         </div>
 
-      </div>
+        <ng-container
+          *ngIf="configs.configuration.parser === '@typescript-eslint/parser'">
 
-      <ng-container
-        *ngIf="configs.configuration.parser === '@typescript-eslint/parser'">
-
-        <hr>
-
-        <div
-          class="parserOptions">
 
           <div
             *ngFor="let option of ['project', 'projectFolderIgnoreList', 'extraFileExtensions']"
@@ -218,9 +225,9 @@
 
           </div>
 
-        </div>
-
-      </ng-container>
+        </ng-container>
+        
+      </div>
 
     </ng-container>
 

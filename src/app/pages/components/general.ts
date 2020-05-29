@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
+import { Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -44,6 +45,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     ecmaFeatures: this.makeOptionsFromProperties('properties.ecmaFeatures.properties'),
     ecmaVersion: this.makeOptionsFromEnum('properties.parserOptions.properties.ecmaVersion.enum'),
     env: this.makeOptionsFromProperties('properties.env.properties'),
+    globals: this.makeOptionsFromEnum('properties.globals.additionalProperties.oneOf[0].enum'),
     sourceType: this.makeOptionsFromEnum('properties.parserOptions.properties.sourceType.enum')
   }; 
 
@@ -73,6 +75,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
       ecmaFeatures: [this.configs.configuration.parserOptions?.ecmaFeatures || { }],
       env: [this.configs.configuration.env || { }],
       extends: [this.configs.configuration.extends],
+      globals: [this.configs.configuration.globals],
       ignorePatterns: [this.configs.configuration.ignorePatterns],
       noInlineConfig: [this.configs.configuration.noInlineConfig],
       parser: [this.configs.configuration.parser],
@@ -87,7 +90,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
       }),
       plugins: [this.configs.configuration.plugins],
       reportUnusedDisableDirectives: [this.configs.configuration.reportUnusedDisableDirectives],
-      root: [this.configs.configuration.root]
+      root: [this.configs.configuration.root],
+      settings: [this.configs.configuration.settings]
     });
   }
 
@@ -104,13 +108,15 @@ export class GeneralComponent implements OnInit, OnDestroy {
       this.makeValueChanges('ecmaFeatures'),
       this.makeValueChanges('env'),
       this.makeValueChanges('extends'),
+      this.makeValueChanges('globals'),
       this.makeValueChanges('ignorePatterns'),
       this.makeValueChanges('noInlineConfig'),
       this.makeValueChanges('parser'),
       this.makeValueChanges('parserOptions'),
       this.makeValueChanges('plugins'),
       this.makeValueChanges('reportUnusedDisableDirectives'),
-      this.makeValueChanges('root')
+      this.makeValueChanges('root'),
+      this.makeValueChanges('settings')
     ];
     merge(...changes)
       .pipe(

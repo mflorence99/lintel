@@ -1,7 +1,12 @@
+<ng-content select="[prefix]"></ng-content>
+
 <select
+  (blur)="focus = false"
   (change)="selectByIndex($event.target.selectedIndex)"
+  (focus)="focus = true"
+  #select
   tabIndex=0
-  #select>
+  autocomplete="off">
 
   <option
     [value]="null"
@@ -16,3 +21,5 @@
   </option>
 
 </select>
+
+<ng-content select="[suffix]"></ng-content>

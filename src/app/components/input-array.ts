@@ -66,6 +66,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
       inputs.removeAt(inputs.length - 1);
     while (inputs.length < (this.values.length + 1))
       inputs.push(new FormControl(null));
+    // patch in the new values
     inputs.patchValue([...this.values, null], { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.values);

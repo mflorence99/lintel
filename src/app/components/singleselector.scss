@@ -1,20 +1,42 @@
 :host {
-  display: block;
+  align-items: center;
+  background: var(--vscode-settings-textInputBackground);
+  border: 1px solid transparent;
+  color: var(--vscode-settings-textInputForeground);
+  display: flex;
+  height: 2rem;
+  padding-right: 0.4rem;
+}
+
+:host(.focus) {
+  border-color: var(--vscode-focusBorder);
 }
 
 select {
   background-color: var(--vscode-settings-textInputBackground);
-  border: 1px solid transparent;
+  border: 0;
   color: var(--vscode-settings-textInputForeground);
   font-family: var(--vscode-font-family);
   font-size: var(--vscode-font-size);
   font-weight: var(--vscode-font-weight);
-  height: 2rem;
+  height: 100%;
   width: 100%;
+}
 
-  &:focus {
-    border-color: var(--vscode-focusBorder);
-    outline: none;
-  }
+::ng-deep lintel-singleselector fa-icon {
+  opacity: var(--lintel-opacity-icon);
+}
 
+::ng-deep lintel-singleselector fa-icon.disabled {
+  opacity: var(--lintel-opacity-disabled);
+}
+
+::ng-deep lintel-singleselector [prefix] {
+  margin-right: 0.5rem;
+}
+
+::ng-deep lintel-singleselector [suffix] {
+  // NOTE: suffix is assumed to be a call to action
+  cursor: pointer;
+  margin-left: 0.5rem;
 }

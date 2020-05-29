@@ -46,15 +46,11 @@
   .settings {
     margin-top: 0.5rem;
 
-    hr {
-      border: 1px solid var(--vscode-descriptionForeground);
-      margin: 1rem 0;
-    }
-
     .parserOptions {
       display: grid;
-      grid-gap: 1rem;
-      grid-template-columns: repeat(auto-fit, 20rem);
+      grid-column-gap: 0.5rem;
+      grid-row-gap: 1rem;
+      grid-template-columns: repeat(auto-fit, 20.5rem);
 
       .option {
         align-content: start;

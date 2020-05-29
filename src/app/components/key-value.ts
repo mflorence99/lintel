@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
@@ -10,23 +11,12 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ViewChild } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
-// NOTE: key-value types can be one of the following
-
-export type KeyValueArrayOfTuples = KeyValueTuple[];
-
-export type KeyValueArrayOfHashes = KeyValueHash[];
-
-export type KeyValueHash = Record<string, any>;
-
-export type KeyValueTuple = [string, any];
-
-export type KeyValueType = KeyValueArrayOfTuples | KeyValueArrayOfHashes | KeyValueHash | null;
+export type KeyValueType = Record<string, string | number>;
 
 /**
  * <key-value> component
@@ -54,58 +44,39 @@ export type KeyValueType = KeyValueArrayOfTuples | KeyValueArrayOfHashes | KeyVa
 
 export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestroy { 
 
-  @Input() asArrayOfHashes: [string, string];
-  @Input() asArrayOfTuples = false;
-  @Input() asHash = true;
+  @Input() columnWidth = '20rem';
 
-  duplicateKey: boolean;
-
-  @Input() duplicateKeyMessage = 'This key already used';
   @Input() keyConstraints: string[];
 
   keyValueForm: FormGroup;
-  keys: string[] = [];
+  keyValues: KeyValueType = { };
 
-  @Input() maxVisibleValues = 3;
-
-  @ViewChild('newKey', { static: false }) newKey: any;
-
-  @Input() newKeyMessage = 'Enter key and hit +';
-
-  // TODO: this is a hack based on the fact that we "know" checkboxes are 24x24
-  // but it works over an extrememe range of realistic font sizes
-  rowHeight = 64;
+  @Input() valueConstraints: string[];
 
   @Input() 
   get value(): KeyValueType {
-    return this.toKeyValueType(); 
+    return this.keyValues; 
   }
   set value(value: KeyValueType) {
-    // grab the new value as the canonical hashmap and calculate difference
-    const oldKeys = Object.keys(this.keyValues);
-    const oldKeySet = new Set(oldKeys);
-    this.keyValues = this.fromKeyValueType(value);
-    this.keys = Object.keys(this.keyValues);
-    const newKeySet = new Set(this.keys);
-    const added = new Set(this.keys.filter(key => !oldKeySet.has(key)));
-    const removed = new Set(oldKeys.filter(key => !newKeySet.has(key)));
-    // remove controls for missing keys
+    this.keyValues = value || { };
     this.underConstruction = true;
-    removed.forEach(key => this.keyValueForm.removeControl(key));
-    // add controls for new keys
-    added.forEach(key => {
-      const control = new FormControl(this.keyValues[key]);
-      this.keyValueForm.addControl(key, control);
-    });
-    this.underConstruction = false;
+    const keyValues = this.keyValueForm.controls.keyValues as FormArray;
+    // NOTE: there's always one more array for a new key-value
+    // trim off excess keyValues
+    const keys = Object.keys(this.keyValues);
+    while (keyValues.length > (keys.length + 1))
+      keyValues.removeAt(keyValues.length - 1);
+    while (keyValues.length < (keys.length + 1))
+      keyValues.push(new FormArray([new FormControl(null), new FormControl(null)]));
     // patch in the new values
-    this.keyValueForm.patchValue(this.keyValues);
+    const patch = Object.entries(this.keyValues).concat([[null, null]]);
+    keyValues.patchValue(patch, { emitEvent: false });
+    this.underConstruction = false;
     this.onChange?.(this.value);
     // TODO: Angular can be so weird!
     this.cdf.detectChanges();
   }
 
-  private keyValues = { } as KeyValueHash;
   private notifier = new Subject<void>();
   private onChange: Function;
   private underConstruction: boolean;
@@ -114,36 +85,15 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
   constructor(private cdf: ChangeDetectorRef,
               private formBuilder: FormBuilder) { 
     // initialize the form
-    this.keyValueForm = this.formBuilder.group({ });
+    this.keyValueForm = this.formBuilder.group({
+      keyValues: new FormArray([])
+    });
   }
 
-  /** Add a new key */
-  addKey(key: string): void {
-    if (key) {
-      if (this.keyValues[key] === undefined) {
-        this.keyValues[key] = null;
-        // we need the keys as an array for *ngFor
-        this.keys = Object.keys(this.keyValues);
-        // add a new control to the form
-        const control = new FormControl(null);
-        this.keyValueForm.addControl(key, control);
-        // propagate the change
-        this.onChange?.(this.value);
-        // clean out the newKey adder control
-        this.newKey.value = null;
-      } else this.duplicateKey = true;
-    }
-  }
-
-  /** Delete a key */
-  deleteKey(key: string): void {
-    delete this.keyValues[key]; 
-    // we need the keys as an array for *ngFor
-    this.keys = Object.keys(this.keyValues);
-    // remove the control from the form
-    this.keyValueForm.removeControl(key);
-    // propagate the changes
-    this.onChange?.(this.value);
+  /** Add a new key-value pair */
+  addKeyValue(): void {
+    const keyValues = this.keyValueForm.controls.keyValues as FormArray;
+    keyValues.push(new FormArray([new FormControl(null), new FormControl(null)]));
   }
 
   /** When we're done */
@@ -159,9 +109,14 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
         filter(_ => !this.underConstruction),
         takeUntil(this.notifier)
       )
-      .subscribe(values => {
-        this.duplicateKey = false;
-        this.keys.forEach(key => this.keyValues[key] = values[key]);
+      .subscribe(value => {
+        // NOTE: TypeScript not recognizing Object.fromEntries 
+        this.keyValues = value.keyValues
+          .filter(entry => !!entry[0])
+          .reduce((acc, cur) => {
+            acc[cur[0]] = cur[1];
+            return acc;
+          }, { });
         this.onChange?.(this.value);
       });
   }
@@ -174,49 +129,15 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
   /** @see ControlValueAccessor */
   registerOnTouched(_): void { }
 
+  /** Remove a specified key-value pair */
+  removeKeyValue(ix: number): void {
+    const keyValues = this.keyValueForm.controls.keyValues as FormArray;
+    keyValues.removeAt(ix);
+  }
+
   /** @see ControlValueAccessor */
   writeValue(value): void {
     this.value = value;
-  }
-
-  // lifecycle methods
-
-  // private methods
-
-  private fromKeyValueType(value: KeyValueType): KeyValueType {
-    if (!value)
-      return { } as KeyValueHash;
-    else if (this.asArrayOfTuples) {
-      return (value as KeyValueArrayOfTuples).reduce((acc, tuple) => {
-        acc[tuple[0]] = tuple[1];
-        return acc;
-      }, { } as KeyValueHash);
-    } else if (this.asArrayOfHashes) {
-      const k = this.asArrayOfHashes[0];
-      const v = this.asArrayOfHashes[1];
-      return (value as KeyValueArrayOfHashes).reduce((acc, hash) => {
-        acc[hash[k]] = hash[v];
-        return acc;
-      }, { } as KeyValueHash);
-    } else if (this.asHash)
-      return { ...value as KeyValueHash };
-    else return { } as KeyValueHash;
-  }
-
-  private toKeyValueType(): KeyValueType {
-    if (this.asArrayOfTuples) {
-      return Object.keys(this.keyValues).map(key => {
-        return [key, this.keyValues[key]] as KeyValueTuple;
-      });
-    } else if (this.asArrayOfHashes) {
-      return Object.keys(this.keyValues).map(key => {
-        const k = this.asArrayOfHashes[0];
-        const v = this.asArrayOfHashes[1];
-        return { [k]: key, [v]: this.keyValues[key] } as KeyValueHash;
-      });
-    } else if (this.asHash)
-      return { ...this.keyValues };
-    else return { };
   }
 
 }

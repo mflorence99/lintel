@@ -33,6 +33,13 @@ eslintrcFiles = {
       "@typescript-eslint"
     ],
     "reportUnusedDisableDirectives": true,
+    "globals": {
+      "window": "readonly",
+      "globalThis": "off"
+    },
+    "settings": {
+      "hello": "World!"
+    },
     "rules": {
       "@typescript-eslint/brace-style": 2,
       "@typescript-eslint/class-literal-property-style": [

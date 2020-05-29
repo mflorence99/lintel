@@ -1,61 +1,68 @@
 <ng-container
   [formGroup]="keyValueForm">
 
-  <!-- <mat-select
-    [errorStateMatcher]="errorStateMatcher"
-    [placeholder]="placeholder"
-    *ngIf="keyConstraints"
-    #newKey
-    autocomplete="off">
-    <mat-option
-      [value]="key"
-      *ngFor="let key of keyConstraints">
-      {{ key }}
-    </mat-option>
-  </mat-select> -->
-
-  <lintel-input
-    [placeholder]="newKeyMessage"
-    *ngIf="!keyConstraints"
-    #newKey>
-
-    <fa-icon
-      (click)="addKey(newKey.value)"
-      [icon]="['fas', 'plus']"
-      [ngClass]="{ disabled: !newKey.value }"
-      suffix
-      title="Add a new key">
-    </fa-icon>
-
-  </lintel-input>
-
   <div 
-    [ngStyle]="{color: 'var(--vscode-errorForeground)'}"
-    *ngIf="duplicateKey">
-    {{ duplicateKeyMessage }}
-  </div>
+    [ngStyle]="{'grid-template-columns': 'repeat(auto-fit, ' + columnWidth + ')'}"
+    class="keyValues">
 
-  <div 
-    [ngStyle]="{'max-height.px': rowHeight * maxVisibleValues}"
-    *ngIf="keys.length > 0"
-    class="values">
-      
-    <ng-container
-      *ngFor="let key of keys">
+    <div
+      *ngFor="let keyValue of keyValueForm.controls.keyValues['controls']; let ix = index"
+      class="keyValue">
 
       <lintel-input
-        [formControlName]="key">
+        [formControl]="keyValue['controls'][0]">
+      </lintel-input>
 
-        <fa-icon
-          (click)="deleteKey(key)"
+      <div
+        class="separator">
+        :
+      </div>
+
+      <lintel-input
+        [formControl]="keyValue['controls'][1]"
+        *ngIf="!valueConstraints">
+
+        <fa-icon 
+          (click)="removeKeyValue(ix)"
           [icon]="['fas', 'times']"
+          *ngIf="ix !== keyValueForm.controls.keyValues['controls'].length - 1"
           suffix
-          title="Remove this key">
+          title="Remove this item">
         </fa-icon>
+
+        <a
+          (click)="addKeyValue()"
+          *ngIf="ix === keyValueForm.controls.keyValues['controls'].length - 1"
+          suffix>
+          More
+        </a>
 
       </lintel-input>
 
-    </ng-container>
+      <lintel-singleselector
+        [formControl]="keyValue['controls'][1]"
+        [options]="valueConstraints"
+        *ngIf="!!valueConstraints"
+        placeholder=" ">
+
+        <fa-icon 
+          (click)="removeKeyValue(ix)"
+          [icon]="['fas', 'times']"
+          *ngIf="ix !== keyValueForm.controls.keyValues['controls'].length - 1"
+          suffix
+          title="Remove this item">
+        </fa-icon>
+
+        <a
+          (click)="addKeyValue()"
+          *ngIf="ix === keyValueForm.controls.keyValues['controls'].length - 1"
+          suffix>
+          More
+        </a>
+
+      </lintel-singleselector>
+
+    </div>
 
   </div>
 
