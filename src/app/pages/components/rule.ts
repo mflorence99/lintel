@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
-import { Digest } from '../../state/configs';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
 import { Settings } from '../../state/configs';
 import { Subject } from 'rxjs';
@@ -29,21 +29,21 @@ import { takeUntil } from 'rxjs/operators';
 export class RuleComponent implements OnInit, OnDestroy {
 
   @Input() 
-  get digest(): Digest {
-    return this._digest;
+  get ruleDigest(): RuleDigest {
+    return this._ruleDigest;
   }
-  set digest(digest: Digest) {
-    this._digest = digest;
-    if (digest) {
+  set ruleDigest(ruleDigest: RuleDigest) {
+    this._ruleDigest = ruleDigest;
+    if (ruleDigest) {
       this.underConstruction = true;
-      this.ruleForm.patchValue({ level: digest.level }, { emitEvent: false });
+      this.ruleForm.patchValue({ level: ruleDigest.level }, { emitEvent: false });
       this.underConstruction = false;
     }
   }
 
   ruleForm: FormGroup;
 
-  private _digest: Digest;
+  private _ruleDigest: RuleDigest;
   private notifier = new Subject<void>();
   private underConstruction: boolean;
 
@@ -69,7 +69,7 @@ export class RuleComponent implements OnInit, OnDestroy {
         filter(_ => !this.underConstruction),
         map(changes => [changes.level]),
         takeUntil(this.notifier)
-      ).subscribe((changes: Settings) => this.configs.changeRule(changes, this.digest.ruleName));
+      ).subscribe((changes: Settings) => this.configs.changeRule(changes, this.ruleDigest.ruleName));
   }
 
 }

@@ -23,9 +23,6 @@ export class ConfigsComponent {
               public params: Params,
               public selection: SelectionState,
               public utils: Utils) { 
-    this.selection.select({ fileName: this.configs.fileNames[0] });
-    this.selection.select({ pluginName: this.configs.pluginNames[0] });
-    this.selection.select({ category: this.params.generalSettings });
   }
   /** Select a category */
   selectCategory(event: Event, category: string): void {

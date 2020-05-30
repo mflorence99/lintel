@@ -5,15 +5,15 @@
     *ngFor="let item of view | keyvalue; trackBy: trackByRule">
 
     <ng-container
-      *ngIf="configs.makeRuleDigest(item.key, item.value[0], item.value[1]) as digest">
+      *ngIf="configs.makeRuleDigest(item.key, item.value[0], item.value[1]) as ruleDigest">
 
       <div
-        [ngClass]="{active: !!digest.settings, inherited: digest.inherited, unknown: !digest.rule}"
+        [ngClass]="{active: !!ruleDigest.settings, inherited: ruleDigest.inherited, unknown: !ruleDigest.rule}"
         class="gutter">
       </div>
 
       <lintel-rule
-        [digest]="digest">
+        [ruleDigest]="ruleDigest">
       </lintel-rule>
 
     </ng-container>

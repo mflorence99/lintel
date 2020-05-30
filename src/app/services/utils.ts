@@ -42,4 +42,20 @@ export class Utils {
     setTimeout(fn, 0);
   }
 
+  /** Extract search params from launch URL */
+  parseInitialSearchParams(): any {
+    if (location.search.length > 1) {
+      const raw = location.search.substring(1).split('&');
+      return raw.reduce((params, pair) => {
+        const [k, v] = pair.split('=');
+        // NOTE: a bit cheesy
+        if (v === 'false')
+          params[v] = false;
+        else if (v === 'true')
+          params[v] = true;
+        else params[k] = v;
+        return params;
+      }, { });
+    } else return { };
+  }
 }

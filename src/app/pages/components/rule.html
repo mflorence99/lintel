@@ -1,29 +1,30 @@
 <a
-  [href]="digest.url"
-  [ngClass]="{inherited: digest.inherited}"
-  class="ruleName {{ digest.level }}"
+  [href]="ruleDigest.url"
+  [ngClass]="{inherited: ruleDigest.inherited}"
+  class="ruleName {{ ruleDigest.level }}"
   target="lintel">
-  {{ digest.ruleName }}: '{{ digest.level }}'
+  {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
 </a>
 
 <div
-  *ngIf="digest.description">
-  {{ digest.description }}
+  *ngIf="ruleDigest.description">
+  {{ ruleDigest.description }}
 </div>
 
 <div
-  *ngIf="digest.deprecated"
+  *ngIf="ruleDigest.deprecated"
   class="deprecated">
   <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
   Deprecated.
   <span
-    *ngIf="digest.replacedBy.length">
-    Please use <span class="replacedBy">{{ digest.replacedBy.join(', ') }}</span>.
+    *ngIf="ruleDigest.replacedBy.length">
+    Please use <span class="replacedBy">{{ ruleDigest.replacedBy.join(', ') }}</span>.
   </span>
 </div>
 
 <div 
   [formGroup]="ruleForm"
+  *ngIf="ruleDigest.rule"
   class="settings">
 
   <lintel-singleselector
@@ -31,6 +32,8 @@
     formControlName="level">
   </lintel-singleselector>
 
-  <div></div>
+  <div>
+    {{ ruleDigest.schemaDigest | json }}
+  </div>
 
 </div>

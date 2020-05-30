@@ -9,6 +9,7 @@ import { Params } from '../services/params';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { Rule } from './rules';
 import { RulesState } from './rules';
+import { SchemaDigest } from './rules';
 import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
@@ -42,19 +43,6 @@ export interface Configuration {
 
 export type ConfigsStateModel = Record<string, Configuration>;
 
-export interface Digest {
-  deprecated: boolean;
-  description: string;
-  inherited: boolean;
-  level: Level | null;
-  recommended: Level | boolean;
-  replacedBy: string[];
-  rule: Rule;
-  ruleName: string;
-  settings: Settings;
-  url: string;
-}
-
 export interface ParserOptions {
   ecmaFeatures?: Record<string, boolean>;
   ecmaVersion?: number;
@@ -64,6 +52,20 @@ export interface ParserOptions {
   sourceType?: string;
   tsconfigRootDir?: string;
   warnOnUnsupportedTypeScriptVersion?: boolean;  
+}
+
+export interface RuleDigest {
+  deprecated: boolean;
+  description: string;
+  inherited: boolean;
+  level: Level | null;
+  recommended: Level | boolean;
+  replacedBy: string[];
+  rule: Rule;
+  ruleName: string;
+  schemaDigest?: SchemaDigest;
+  settings: Settings;
+  url: string;
 }
 
 export type Settings = [Level, ...any[]];
@@ -103,6 +105,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @DataAction({ insideZone: true }) 
   initialize(): void {
     this.ctx.setState(this.normalize(eslintrcFiles));
+    if (this.params.searchParams.freshStart || !this.selection.fileName) {
+      this.selection.select({ fileName: this.fileNames[0] });
+      this.selection.select({ pluginName: this.pluginNames[0] });
+      this.selection.select({ category: this.params.generalSettings });
+    }
   }
 
   // accessors
@@ -209,7 +216,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   // public methods
 
-  makeRuleDigest(ruleName: string, rule: Rule, settings: Settings): Digest {
+  makeRuleDigest(ruleName: string, rule: Rule, settings: Settings): RuleDigest {
     return {
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
@@ -219,6 +226,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       replacedBy: rule?.meta?.replacedBy || [],
       rule: rule,
       ruleName: ruleName,
+      schemaDigest: rule ? this.rules.makeSchemaDigest(rule) : { },
       settings: settings,
       url: rule?.meta?.docs?.url
     };

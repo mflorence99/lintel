@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Utils } from './utils';
 
 @Injectable({ providedIn: 'root' })
 export class Params {
@@ -9,6 +10,9 @@ export class Params {
   activeCategory = 'Active Rules';
   basePluginName = 'eslint';
   generalSettings = 'ESLint Config';
+  searchParams: {
+    freshStart: boolean;
+  };
   unknownCategory = 'Unknown Rules';
 
   get debounceTimeout(): number {
@@ -17,6 +21,11 @@ export class Params {
 
   set debounceTimeout(timeout: number) {
     Params.debounceTimeout = timeout;
+  }
+
+  /** ctor */
+  constructor(utils: Utils) { 
+    this.searchParams = utils.parseInitialSearchParams();
   }
   
 }

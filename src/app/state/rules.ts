@@ -39,6 +39,16 @@ export interface Rules {
 
 export type RulesStateModel = Record<string, Rules>;
 
+export interface SchemaDigest {
+  canGUI?: boolean;
+  elements?: GUIElement[];
+}
+
+export interface GUIElement {
+  options?: string[];
+  type: 'multiselect' | 'singleselect';
+}
+
 @Injectable({ providedIn: 'root' })
 @StateRepository()
 @State<RulesStateModel>({
@@ -60,7 +70,45 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
     this.ctx.setState(this.resolve$refs(eslintRules));
   }
 
+  // public methods
+
+  makeSchemaDigest(rule: Rule): SchemaDigest {
+    const digest: SchemaDigest = { 
+      canGUI: false,
+      elements: []
+    };
+    if (Array.isArray(rule.meta?.schema)) {
+      rule.meta.schema
+        .forEach(scheme => {
+          const element = this.makeSingleselect(scheme) || this.makeMultiselect(scheme);
+          if (element)
+            digest.elements.push(element);
+        });
+      digest.canGUI = (digest.elements.length === rule.meta.schema.length);
+    }
+    return digest;
+  }
+
   // private methods
+
+  private makeMultiselect(scheme: any): GUIElement {
+    if ((scheme.type === 'object')
+      && Object.values(scheme.properties).every((value: any) => value.type === 'boolean')) {
+      return {
+        options: Object.keys(scheme.properties),
+        type: 'multiselect'
+      };
+    } else return null;
+  }
+
+  private makeSingleselect(scheme: any): GUIElement {
+    if (scheme.enum) {
+      return {
+        options: scheme.enum,
+        type: 'singleselect'
+      };
+    } else return null;
+  }
 
   private resolve$refs(eslintRules: RulesStateModel): RulesStateModel {
     const model = this.utils.deepCopy(eslintRules);
