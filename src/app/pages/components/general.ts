@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
-import { Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -93,6 +92,14 @@ export class GeneralComponent implements OnInit, OnDestroy {
       root: [this.configs.configuration.root],
       settings: [this.configs.configuration.settings]
     });
+  }
+
+  /** Has this section been configured? */
+  isConfigured(key: string): boolean {
+    // NOTE: ecmaFeatures moved from the top level into parseOptions
+    if (key === 'ecmaFeatures')
+      return this.configs.configuration.parserOptions?.hasOwnProperty(key);
+    else return this.configs.configuration.hasOwnProperty(key);
   }
 
   /** When we're done */

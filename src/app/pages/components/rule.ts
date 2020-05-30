@@ -2,7 +2,18 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { Digest } from '../../state/configs';
+import { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
+import { OnDestroy } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { RulesState } from '../../state/rules';
+import { Settings } from '../../state/configs';
+import { Subject } from 'rxjs';
+
+import { filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * Rule component
@@ -15,19 +26,50 @@ import { Input } from '@angular/core';
   styleUrls: ['rule.scss']
 })
 
-export class RuleComponent {
+export class RuleComponent implements OnInit, OnDestroy {
 
-  @Input() digest: Digest;
+  @Input() 
+  get digest(): Digest {
+    return this._digest;
+  }
+  set digest(digest: Digest) {
+    this._digest = digest;
+    if (digest) {
+      this.underConstruction = true;
+      this.ruleForm.patchValue({ level: digest.level }, { emitEvent: false });
+      this.underConstruction = false;
+    }
+  }
+
+  ruleForm: FormGroup;
+
+  private _digest: Digest;
+  private notifier = new Subject<void>();
+  private underConstruction: boolean;
 
   /** ctor */
-  constructor(public configs: ConfigsState) { }
+  constructor(public configs: ConfigsState,
+              private formBuilder: FormBuilder,
+              public rules: RulesState) { 
+    this.ruleForm = this.formBuilder.group({
+      level: null
+    });
+  }
 
-  /** Clean up the descripton to make it look like a sentence */
-  sentence(description: string): string {
-    if (!description)
-      return null;
-    const tweaked = description.substring(0, 1).toUpperCase() + description.substring(1);
-    return tweaked.endsWith('.') ? tweaked : `${tweaked}.`;
+  /** When we're done */
+  ngOnDestroy(): void {
+    this.notifier.next();
+    this.notifier.complete();
+  }
+
+  /** When we're ready */
+  ngOnInit(): void {
+    this.ruleForm.valueChanges
+      .pipe(
+        filter(_ => !this.underConstruction),
+        map(changes => [changes.level]),
+        takeUntil(this.notifier)
+      ).subscribe((changes: Settings) => this.configs.changeRule(changes, this.digest.ruleName));
   }
 
 }

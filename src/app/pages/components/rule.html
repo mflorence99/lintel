@@ -8,7 +8,7 @@
 
 <div
   *ngIf="digest.description">
-  {{ sentence(digest.description) }}
+  {{ digest.description }}
 </div>
 
 <div
@@ -20,4 +20,17 @@
     *ngIf="digest.replacedBy.length">
     Please use <span class="replacedBy">{{ digest.replacedBy.join(', ') }}</span>.
   </span>
+</div>
+
+<div 
+  [formGroup]="ruleForm"
+  class="settings">
+
+  <lintel-singleselector
+    [options]="['off', 'warn', 'error']"
+    formControlName="level">
+  </lintel-singleselector>
+
+  <div></div>
+
 </div>

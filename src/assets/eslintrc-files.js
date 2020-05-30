@@ -25,7 +25,7 @@ eslintrcFiles = {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "ecmaVersion": 2018,
-      "project": ["./tsconfig.json"],
+      "project": "./tsconfig.json",
       "sourceType": "module"
     },
     "plugins": [
@@ -34,7 +34,9 @@ eslintrcFiles = {
     ],
     "reportUnusedDisableDirectives": true,
     "globals": {
-      "window": "readonly",
+      "window": true,
+      "document": false,
+      "navigator": "readable",
       "globalThis": "off"
     },
     "settings": {
@@ -208,17 +210,13 @@ eslintrcFiles = {
   },
   "src/.eslintrc.yml": {
     "plugins": [
-      'does-not-exist',
-      "@typescript-eslint"
+      'does-not-exist'
     ],
     "rules": {
       "@typescript-eslint/brace-style": "off",
     }
   },
   "src/app/.eslintrc.js": {
-    "plugins": [
-      "@typescript-eslint"
-    ],
     "rules": {
       "@typescript-eslint/no-empty-function": "error",
       "@typescript-eslint/no-explicit-any": "error"

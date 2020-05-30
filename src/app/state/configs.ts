@@ -15,6 +15,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
 import { patch } from '@ngxs/store/operators';
+import { updateItems } from './operators';
 
 // NOTE: config content is provided statically in index.html
 declare const eslintrcFiles: ConfigsStateModel;
@@ -27,7 +28,7 @@ export interface Configuration {
   ecmaFeatures?: Record<string, boolean>;
   env?: Record<string, boolean>;
   extends?: string[];
-  globals?: Record<string, boolean>;
+  globals?: Record<string, boolean | string>;
   ignorePatterns?: string[];
   noInlineConfig?: boolean;
   parser?: string;
@@ -65,8 +66,7 @@ export interface ParserOptions {
   warnOnUnsupportedTypeScriptVersion?: boolean;  
 }
 
-// TODO: much more analysis
-export type Settings = [Level, any];
+export type Settings = [Level, ...any[]];
 
 @Injectable({ providedIn: 'root' })
 @StateRepository()
@@ -96,8 +96,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @DataAction({ insideZone: true })
   @Debounce(Params.debounceTimeout)
-  changeRule(@Payload('changes') changes: any, rule: string): void {
-    this.ctx.setState(patch({ [this.selection.fileName]: patch({ rules : patch({ [rule]: changes }) }) }));
+  changeRule(@Payload('changes') changes: Settings, rule: string): void {
+    this.ctx.setState(patch({ [this.selection.fileName]: patch({ rules : patch({ [rule]: updateItems(changes) }) }) }));
   }
 
   @DataAction({ insideZone: true }) 
@@ -248,9 +248,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   private normalize(eslintrcFiles: ConfigsStateModel): ConfigsStateModel {
     const model = this.utils.deepCopy(eslintrcFiles);
-    // NOTE: is is very convenient to normalize eslintrcFiles before use
     Object.entries(eslintrcFiles)
       .forEach(([fileName, configuration]) => {
+        // NOTE: is is very convenient to normalize eslintrcFiles before use
         configuration.rules = configuration.rules || { };
         Object.entries(configuration.rules)
           .forEach(([ruleName, rule]) => {
@@ -261,6 +261,23 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
               normalized[0] = ['off', 'warn', 'error'][normalized[0]];
             model[fileName].rules[ruleName] = normalized;
           });
+        // also very convenient to normalize parserOptions.project to a string[]
+        const project = configuration.parserOptions?.project;
+        if (typeof project === 'string')
+          model[fileName].parserOptions.project = [project];
+        // also very convenient to normalize global values
+        if (configuration.globals) 
+          model[fileName].globals = Object.keys(configuration.globals)
+            .reduce((acc, key) => {
+              if ((configuration.globals[key] === true) 
+              || (configuration.globals[key] === 'writeable'))
+                acc[key] = 'writable';
+              else if ((configuration.globals[key] === false) 
+              || (configuration.globals[key] === 'readable'))
+                acc[key] = 'readonly';
+              else acc[key] = configuration.globals[key];
+              return acc;
+            }, { });
       });
     return model;
   }

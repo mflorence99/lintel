@@ -58,6 +58,10 @@
         grid-gap: 0.25rem;
         grid-template-columns: 1fr;
 
+        .checkbox {
+          display: flex;
+        }
+
         .desc {
           color: var(--vscode-descriptionForeground);
           line-height: 125%;

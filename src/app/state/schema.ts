@@ -58,6 +58,13 @@ export class SchemaState extends NgxsDataRepository<SchemaStateModel> {
           Object.assign(container, resolved);
         });
       });
+    // NOTE: while we're at it, descriptions can be sloppy
+    this.utils.deepSearch(model, 'description', (container, description: string) => {
+      let tweaked = description.substring(0, 1).toUpperCase() + description.substring(1);
+      if (!tweaked.endsWith('.'))
+        tweaked += '.';
+      container.description = tweaked;
+    });
     return model;
   }
 
