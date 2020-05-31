@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  align-items: center;
+  display: grid;
 }
 
 .keyValues {
@@ -22,4 +23,11 @@
 
   }
 
+}
+
+::ng-deep lintel-key-value lintel-input.key input,
+::ng-deep lintel-key-value lintel-singleselector.key select {
+  color: var(--vscode-textPreformat-foreground);
+  font-family: monospace;
+  font-size: 0.8rem;
 }

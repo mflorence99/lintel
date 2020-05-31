@@ -8,7 +8,8 @@ import { StateOperator } from '@ngxs/store';
 
 export function updateItems(items: any[]): StateOperator<Readonly<any[]>> {
   return (state: any[]): Readonly<any[]> => {
-    return [...items, ...state.slice(items.length)];
+    const remaining = state ? state.slice(items.length) : [];
+    return [...items, ...remaining];
   };
   
 }

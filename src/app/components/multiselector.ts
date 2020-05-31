@@ -12,6 +12,7 @@ import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
+import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
@@ -27,8 +28,8 @@ import { takeUntil } from 'rxjs/operators';
 export type MultiselectorOptions = string[] | string[][];
 
 // NOTE: values can be one of the following:
-// -- array of encoded values <-- PREFERRED
-// -- Record<string, boolean>
+// -- array of encoded values 
+// -- Record<string, boolean> <-- PREFERRED
 
 export type MultiselectorValues = string[] | Record<string, boolean>;
 
@@ -77,19 +78,21 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
     return this._origOptions;
   }
   set options(options: MultiselectorOptions) {
-    this._origOptions = options;
-    this._options = this.fromMultiselectorOptions(options);
-    // NOTE: now options are [encoded, decoded]
-    this.controls = this._options.map(option => new FormControl(this.values.has(option[0])));
-    // remove all prior controls from form
-    const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
-    while (checkboxes.controls.length)
-      checkboxes.removeAt(0);
-    // create controls for each option
-    this.controls.forEach(control => checkboxes.push(control));
-    this.onChange?.(this.value);
-    // TODO: Angular can be so weird!
-    this.cdf.detectChanges();
+    if (options && !this._origOptions) {
+      this._origOptions = options;
+      this._options = this.fromMultiselectorOptions(options);
+      this.underConstruction = true;
+      // create controls for each option
+      // NOTE: now options are [encoded, decoded]
+      this.controls = this._options
+        .map(option => new FormControl(this.values.has(option[0])));
+      const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
+      this.controls.forEach(control => checkboxes.push(control));
+      this.underConstruction = false;
+      this.onChange?.(this.value);
+      // TODO: Angular can be so weird!
+      this.cdf.detectChanges();
+    }
   }
 
   @Input()
@@ -99,9 +102,11 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
   set value(values: MultiselectorValues) {
     this.values = this.fromMultiselectorValues(values);
     // patch the form to reflect the values
+    this.underConstruction = true;
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
     const patch = this._options.map(option => this.values.has(option[0]));
     checkboxes.patchValue(patch, { emitEvent: false });
+    this.underConstruction = false;
     this.onChange?.(this.value);
     // TODO: Angular can be so weird!
     this.cdf.detectChanges();
@@ -113,6 +118,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
 
   private notifier = new Subject<void>();
   private onChange: Function;
+  private underConstruction: boolean;
   private valuesType: 'array' | 'object';
 
   /** ctor  */
@@ -148,7 +154,10 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
   ngOnInit(): void {
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
     checkboxes.valueChanges
-      .pipe(takeUntil(this.notifier))
+      .pipe(
+        filter(_ => !this.underConstruction),
+        takeUntil(this.notifier)
+      )
       .subscribe((settings: boolean[]) => {
         // NOTE: remember options are [encoded, decoded]
         const values = this._options
@@ -157,14 +166,6 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
         this.values = new Set(values);
         this.onChange?.(this.value);
       });
-  }
-
-  /** Develop readout of selected options */
-  readout(): string {
-    return this._options
-      .filter(option => this.values.has(option[0]))
-      .map(option => option[1])
-      .join(', ');
   }
 
   /** @see ControlValueAccessor */
@@ -197,13 +198,16 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
   }
 
   private fromMultiselectorValues(values: MultiselectorValues): Set<string> {
-    if (!values || Array.isArray(values)) {
+    if (Array.isArray(values)) {
       this.valuesType = 'array';
       return new Set(values as string[]);
-    } else if (typeof values === 'object') {
+    } else if (values && typeof values === 'object') {
       this.valuesType = 'object';
       return new Set(Object.keys(values).filter(val => values[val]));
-    } else return new Set();
+    } else {
+      this.valuesType = 'object';
+      return new Set();
+    }
   }
 
   private toMultiselectorValues(): MultiselectorValues {

@@ -32,8 +32,38 @@
     formControlName="level">
   </lintel-singleselector>
 
-  <div>
-    {{ ruleDigest.schemaDigest | json }}
+  <div
+    *ngIf="schemaDigest.canGUI"
+    class="elements">
+
+    <ng-container
+      *ngFor="let element of schemaDigest.elements; let ix = index">
+
+      <ng-container
+        [ngSwitch]="element.type">
+
+        <lintel-multiselector
+          [formControl]="controls[ix]"
+          [options]="element.options"
+          *ngSwitchCase="'multiselect'"
+          columnWidth="5rem">
+        </lintel-multiselector>
+
+        <lintel-singleselector
+          [formControl]="controls[ix]"
+          [options]="element.options"
+          *ngSwitchCase="'singleselect'">
+        </lintel-singleselector>
+
+      </ng-container>
+
+    </ng-container>
+
   </div>
+
+  <pre
+    *ngIf="!schemaDigest.canGUI">
+    {{ ruleDigest.rule.meta.schema | json }}
+  </pre>
 
 </div>

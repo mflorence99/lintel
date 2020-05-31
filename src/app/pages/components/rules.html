@@ -13,7 +13,8 @@
       </div>
 
       <lintel-rule
-        [ruleDigest]="ruleDigest">
+        [ruleDigest]="ruleDigest"
+        [schemaDigest]="rules.makeSchemaDigest(item.value[0])">
       </lintel-rule>
 
     </ng-container>

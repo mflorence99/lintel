@@ -77,7 +77,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       canGUI: false,
       elements: []
     };
-    if (Array.isArray(rule.meta?.schema)) {
+    if (Array.isArray(rule?.meta?.schema)) {
       rule.meta.schema
         .forEach(scheme => {
           const element = this.makeSingleselect(scheme) || this.makeMultiselect(scheme);

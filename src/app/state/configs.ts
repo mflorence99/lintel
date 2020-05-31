@@ -9,7 +9,6 @@ import { Params } from '../services/params';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { Rule } from './rules';
 import { RulesState } from './rules';
-import { SchemaDigest } from './rules';
 import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
@@ -63,7 +62,6 @@ export interface RuleDigest {
   replacedBy: string[];
   rule: Rule;
   ruleName: string;
-  schemaDigest?: SchemaDigest;
   settings: Settings;
   url: string;
 }
@@ -163,7 +161,6 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .filter(ruleName => this.isRuleInherited(ruleName))
       .sort()
       .reduce((acc, ruleName) => {
-        // TODO: fabricate settings from recommended, type
         acc[ruleName] = [rules[ruleName], this.settingsForInherited(rules[ruleName])];
         return acc;
       }, { });
@@ -179,7 +176,6 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         const category = rules[ruleName].meta?.docs?.category;
         if (!acc[category])
           acc[category] = { };
-        // TODO: fabricate settings from recommended, type
         acc[category][ruleName] = [rules[ruleName], this.settingsForInherited(rules[ruleName])];
         return acc;
       }, { });
@@ -220,13 +216,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return {
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
-      inherited: settings?.[1]?.inherited,
+      // @see settingsForInherited below
+      inherited: settings?.['_inherited'],
       level: settings?.[0] || 'off',
       recommended: rule?.meta?.docs?.recommended,
       replacedBy: rule?.meta?.replacedBy || [],
       rule: rule,
       ruleName: ruleName,
-      schemaDigest: rule ? this.rules.makeSchemaDigest(rule) : { },
       settings: settings,
       url: rule?.meta?.docs?.url
     };
@@ -297,7 +293,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     if (!recommended || recommended === true)
       level = (type === 'problem') ? 'error' : 'warn';
     else level = recommended;
-    return [level, { inherited: true }];
+    const settings: Settings = [level];
+    // fake inherited property
+    settings['_inherited'] = true;
+    return settings;
   }
 
 }

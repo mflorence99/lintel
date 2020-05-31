@@ -10,8 +10,18 @@
       class="keyValue">
 
       <lintel-input
-        [formControl]="keyValue['controls'][0]">
+        [formControl]="keyValue['controls'][0]"
+        *ngIf="!keyConstraints"
+        class="key">
       </lintel-input>
+
+      <lintel-singleselector
+        [formControl]="keyValue['controls'][0]"
+        [options]="keyConstraints"
+        *ngIf="!!keyConstraints"
+        class="key"
+        placeholder=" ">
+      </lintel-singleselector>
 
       <div
         class="separator">
@@ -20,7 +30,8 @@
 
       <lintel-input
         [formControl]="keyValue['controls'][1]"
-        *ngIf="!valueConstraints">
+        *ngIf="!valueConstraints"
+        class="value">
 
         <fa-icon 
           (click)="removeKeyValue(ix)"
@@ -43,6 +54,7 @@
         [formControl]="keyValue['controls'][1]"
         [options]="valueConstraints"
         *ngIf="!!valueConstraints"
+        class="value"
         placeholder=" ">
 
         <fa-icon 

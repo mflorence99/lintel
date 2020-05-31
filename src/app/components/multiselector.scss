@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  align-items: center;
+  display: grid;
 }
 
 .checkboxes {
@@ -7,9 +8,4 @@
   grid-gap: 0.5rem;
   // NOTE: actual with set by style from control input
   // grid-template-columns: repeat(auto-fit, ...);
-}
-
-.readout {
-  font-size: 0.66rem;
-  margin-top: 0.5rem;
 }
