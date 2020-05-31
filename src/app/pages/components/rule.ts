@@ -95,7 +95,9 @@ export class RuleComponent implements OnInit, OnDestroy {
         filter(_ => !this.underConstruction),
         map(changes => [changes.level, ...changes.elements]),
         takeUntil(this.notifier)
-      ).subscribe((changes: Settings) => this.configs.changeRule(changes, this.ruleDigest.ruleName));
+      ).subscribe((changes: Settings) => {
+        this.configs.changeRule(changes, this.ruleDigest.ruleName);
+      });
   }
 
 }

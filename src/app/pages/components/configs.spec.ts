@@ -24,11 +24,14 @@ describe('ConfigsComponent', () => {
     expect(component.selection.category).toEqual('Best Practices');
   });
 
-  test('Filename can be selected', () => {
+  test('Filename can be selected', done => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
     component.selectFileName(new Event('click'), 'package.json');
-    expect(component.selection.fileName).toEqual('package.json');
+    component.utils.nextTick(() => {
+      expect(component.selection.fileName).toEqual('package.json');
+      done();
+    });
   });
 
 });

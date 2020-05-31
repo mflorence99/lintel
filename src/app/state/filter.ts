@@ -6,8 +6,6 @@ import { Persistence } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 
-export type FilterCallback = () => void;
-
 export interface FilterStateModel {
   ruleNameFilter?: string;
   showInheritedRules?: boolean;
@@ -28,16 +26,14 @@ export class FilterState extends NgxsDataRepository<FilterStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  filterRuleName(@Payload('filterRuleName') ruleNameFilter: string, done?: FilterCallback): void {
+  filterRuleName(@Payload('filterRuleName') ruleNameFilter: string): void {
     this.ctx.patchState({ ruleNameFilter });
-    done?.();
   }
 
   @DataAction({ insideZone: true })
-  toggleInheritedRules(done?: FilterCallback): void {
+  toggleInheritedRules(): void {
     const state = this.ctx.getState();
     this.ctx.patchState({ showInheritedRules: !state.showInheritedRules });
-    done?.();
   }
 
 }

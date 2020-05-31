@@ -6,6 +6,7 @@ import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from './module';
 import { ComponentsModule as CommonComponents } from '../../components/module';
 import { ConfigsState } from '../../state/configs';
+import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { Params } from '../../services/params';
@@ -23,9 +24,11 @@ export function prepare(): void {
       CommonComponents,
       ComponentsModule,
       NgxsModule.forRoot(states),
-      NgxsDataPluginModule.forRoot(),
+      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
     ]
   }).compileComponents();
+
+  window['__SEARCH_PARAMS'] = '?freshStart=true';
 
   TestBed.inject(ConfigsState).initialize();
   TestBed.inject(RulesState).initialize();

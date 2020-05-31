@@ -4,6 +4,7 @@ import '../../../assets/eslintrc-files.js';
 
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from '../components/module';
+import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { RootPageComponent } from './page';
@@ -23,9 +24,11 @@ describe('RootPageComponent', () => {
         BarrelModule,
         ComponentsModule,
         NgxsModule.forRoot(states),
-        NgxsDataPluginModule.forRoot(),
+        NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
       ]
     }).compileComponents();
+
+    window['__SEARCH_PARAMS'] = '?freshStart=true';
   }));
 
   test('App is created', () => {

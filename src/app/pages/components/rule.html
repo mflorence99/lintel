@@ -55,15 +55,27 @@
           *ngSwitchCase="'singleselect'">
         </lintel-singleselector>
 
+        <lintel-input-array
+          [formControl]="controls[ix]"
+          [uniqueItems]="element.uniqueItems"
+          *ngSwitchCase="'string-array'"
+          columnWidth="15rem">
+        </lintel-input-array>
+
+        <lintel-input
+          [formControl]="controls[ix]"
+          *ngSwitchCase="'string-input'">
+        </lintel-input>
+
       </ng-container>
 
     </ng-container>
 
   </div>
 
-  <!-- <pre
+  <pre
     *ngIf="!schemaDigest.canGUI">
     {{ ruleDigest.rule.meta.schema | json }}
-  </pre> -->
+  </pre>
 
 </div>

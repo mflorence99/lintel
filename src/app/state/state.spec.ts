@@ -4,6 +4,7 @@ import '../../assets/eslintrc-files.js';
 
 import { ConfigsState } from '../state/configs';
 import { FilterState } from '../state/filter';
+import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { Params } from '../services/params';
@@ -32,9 +33,11 @@ export function prepare(): Bundle {
   TestBed.configureTestingModule({
     imports: [
       NgxsModule.forRoot(states),
-      NgxsDataPluginModule.forRoot(),
+      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
     ]
   });
+
+  window['__SEARCH_PARAMS'] = '?freshStart=true';
 
   bundle.configs = TestBed.inject(ConfigsState);
   bundle.filter = TestBed.inject(FilterState);

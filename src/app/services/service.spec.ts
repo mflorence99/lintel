@@ -1,3 +1,4 @@
+import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { TestBed } from '@angular/core/testing';
@@ -9,9 +10,11 @@ export function prepare(services: any[]): any[] {
   TestBed.configureTestingModule({
     imports: [
       NgxsModule.forRoot(states),
-      NgxsDataPluginModule.forRoot(),
+      NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
     ]
   });
+
+  window['__SEARCH_PARAMS'] = '?freshStart=true';
 
   return services.map(service => TestBed.inject(service));
 

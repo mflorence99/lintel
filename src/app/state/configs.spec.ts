@@ -33,6 +33,7 @@ describe('ConfigsState', () => {
   });
 
   test('No categories can be determined unless a pluginName is selected first', () => {
+    bundle.selection.select({ fileName: null, pluginName: null });
     expect(bundle.configs.categories.length).toEqual(0);
   });
 
@@ -62,7 +63,7 @@ describe('ConfigsState', () => {
     const rule = bundle.rules.snapshot[bundle.params.basePluginName]?.rules?.[ruleName];
     const settings = bundle.configs.snapshot['package.json']?.rules?.[ruleName];
     const digest = bundle.configs.makeRuleDigest(ruleName, rule, settings);
-    expect(digest.description).toEqual('enforce consistent brace style for blocks');
+    expect(digest.description).toEqual('Enforce consistent brace style for blocks.');
     expect(digest.level).toEqual('error');
     expect(digest.ruleName).toEqual('brace-style');
   });

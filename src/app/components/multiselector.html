@@ -6,10 +6,9 @@
     class="checkboxes">
 
     <lintel-checkbox
-      (mouseout)="description = null"
-      (mouseover)="description = getOptionDescription(ix)"
       [formControl]="control"
       [label]="getOptionDecoded(ix)"
+      [title]="getOptionDescription(ix) || ''"
       *ngFor="let control of controls; let ix = index">
     </lintel-checkbox>
 

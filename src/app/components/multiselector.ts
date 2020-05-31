@@ -63,8 +63,6 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
 
   controls: FormControl[] = [];
 
-  description: string;
-
   multiSelectorForm: FormGroup;
 
   @Input() nameOfDecoded = 'value';

@@ -8,6 +8,12 @@ import { Utils } from '../services/utils';
 // NOTE: rules content is provided statically in index.html
 declare const eslintRules: RulesStateModel;
 
+export interface GUIElement {
+  options?: string[];
+  type: 'multiselect' | 'singleselect' | 'string-array' | 'string-input';
+  uniqueItems?: boolean;
+}
+
 export type Level = 'error' | 'warn' | 'off';
 
 export interface Lintel {
@@ -44,11 +50,6 @@ export interface SchemaDigest {
   elements?: GUIElement[];
 }
 
-export interface GUIElement {
-  options?: string[];
-  type: 'multiselect' | 'singleselect';
-}
-
 @Injectable({ providedIn: 'root' })
 @StateRepository()
 @State<RulesStateModel>({
@@ -77,15 +78,22 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       canGUI: false,
       elements: []
     };
-    if (Array.isArray(rule?.meta?.schema)) {
-      rule.meta.schema
-        .forEach(scheme => {
-          const element = this.makeSingleselect(scheme) || this.makeMultiselect(scheme);
-          if (element)
-            digest.elements.push(element);
-        });
-      digest.canGUI = (digest.elements.length === rule.meta.schema.length);
-    }
+    let schema = rule?.meta?.schema;
+    // NOTE: sometimes the schema is an object, but most often an array
+    if (schema && !Array.isArray(schema))
+      schema = [schema];
+    // try to construct a GUI for each element in the schema
+    schema.forEach(scheme => {
+      const element = 
+        this.makeMultiselect(scheme) ||
+        this.makeSingleselect(scheme) || 
+        this.makeStringArray(scheme) || 
+        this.makeStringInput(scheme); 
+      if (element)
+        digest.elements.push(element);
+    });
+    // only good if ALL elements can be represented
+    digest.canGUI = (digest.elements.length === schema.length);
     return digest;
   }
 
@@ -106,6 +114,23 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       return {
         options: scheme.enum,
         type: 'singleselect'
+      };
+    } else return null;
+  }
+
+  private makeStringArray(scheme: any): GUIElement {
+    if ((scheme.type === 'array') && (scheme.items?.type === 'string')) {
+      return {
+        type: 'string-array',
+        uniqueItems: !!scheme.uniqueItems
+      };
+    } else return null;
+  }
+
+  private makeStringInput(scheme: any): GUIElement {
+    if (scheme.type === 'string') {
+      return {
+        type: 'string-input'
       };
     } else return null;
   }
