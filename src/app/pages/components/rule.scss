@@ -3,13 +3,8 @@
   line-height: 150%;
 }
 
-.deprecated {
-  font-size: 0.8rem;
-
-  .replacedBy {
-    font-family: monospace;
-  }
-
+.replacedBy {
+  font-family: monospace;
 }
 
 .ruleName {

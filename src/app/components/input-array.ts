@@ -11,6 +11,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Utils } from '../services/utils';
 
 import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
@@ -48,7 +49,11 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
 
   inputArrayForm: FormGroup;
 
+  @Input() maxItems = Infinity;
+
   @Input() type: 'number' | 'text' = 'text';
+
+  @Input() uniqueItems: boolean;
 
   values: InputArrayType = [];
 
@@ -80,7 +85,8 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
 
   /** ctor */
   constructor(private cdf: ChangeDetectorRef,
-              private formBuilder: FormBuilder) { 
+              private formBuilder: FormBuilder,
+              private utils: Utils) { 
     // initialize the form
     this.inputArrayForm = this.formBuilder.group({
       inputs: new FormArray([])
@@ -108,6 +114,8 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
       )
       .subscribe(value => {
         this.values = value.inputs.filter(val => !!val);
+        if (this.uniqueItems)
+          this.values = this.utils.deduplicateArray(this.values);
         this.onChange?.(this.value);
       });
   }

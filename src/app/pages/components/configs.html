@@ -21,6 +21,7 @@
       <div
         (click)="selectCategory($event, params.activeCategory)"
         [ngClass]="{selected: selection.category === params.activeCategory}"
+        *ngIf="!utils.isObjectEmpty(configs.activeView)"
         class="category">
         &bull; {{ params.activeCategory }}
       </div>

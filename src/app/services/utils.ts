@@ -6,7 +6,7 @@ export type DeepSearchCallback = (container: any, value: any) => void;
 export class Utils {
 
   /** Deduplicate array contents */
-  deduplicateArray(array: string[]): string[] {
+  deduplicateArray(array: any[]): any[] {
     return array
       .slice()
       .sort()
@@ -44,8 +44,10 @@ export class Utils {
 
   /** Extract search params from launch URL */
   parseInitialSearchParams(): any {
-    if (location.search.length > 1) {
-      const raw = location.search.substring(1).split('&');
+    // NOTE: we can and do fake search params in the real VSCode extension
+    const searchParams = window['__SEARCH_PARAMS'] || location.search;
+    if (searchParams.length > 1) {
+      const raw = searchParams.substring(1).split('&');
       return raw.reduce((params, pair) => {
         const [k, v] = pair.split('=');
         // NOTE: a bit cheesy

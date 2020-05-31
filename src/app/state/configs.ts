@@ -1,6 +1,5 @@
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
-import { Debounce } from '@ngxs-labs/data/decorators';
 import { FilterState } from './filter';
 import { Injectable } from '@angular/core';
 import { Level } from './rules';
@@ -89,13 +88,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  @Debounce(Params.debounceTimeout)
   changeConfiguration(@Payload('changes') changes: any): void {
     this.ctx.setState(patch({ [this.selection.fileName]: patch(changes) }));
   }
 
   @DataAction({ insideZone: true })
-  @Debounce(Params.debounceTimeout)
   changeRule(@Payload('changes') changes: Settings, rule: string): void {
     this.ctx.setState(patch({ [this.selection.fileName]: patch({ rules : patch({ [rule]: updateItems(changes) }) }) }));
   }

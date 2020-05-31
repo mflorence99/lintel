@@ -18,7 +18,6 @@ import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
 
 /**
  * Rule component
@@ -95,7 +94,6 @@ export class RuleComponent implements OnInit, OnDestroy {
       .pipe(
         filter(_ => !this.underConstruction),
         map(changes => [changes.level, ...changes.elements]),
-        tap(changes => console.log(changes)),
         takeUntil(this.notifier)
       ).subscribe((changes: Settings) => this.configs.changeRule(changes, this.ruleDigest.ruleName));
   }

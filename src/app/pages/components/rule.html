@@ -8,18 +8,18 @@
 
 <div
   *ngIf="ruleDigest.description">
-  {{ ruleDigest.description }}
-</div>
 
-<div
-  *ngIf="ruleDigest.deprecated"
-  class="deprecated">
-  <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-  Deprecated.
   <span
-    *ngIf="ruleDigest.replacedBy.length">
-    Please use <span class="replacedBy">{{ ruleDigest.replacedBy.join(', ') }}</span>.
+    *ngIf="ruleDigest.deprecated">
+    <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+    Deprecated.
+    <span
+      *ngIf="ruleDigest.replacedBy.length">
+      Please use <span class="replacedBy">{{ ruleDigest.replacedBy.join(', ') }}</span>.
+    </span>
   </span>
+
+  {{ ruleDigest.description }}
 </div>
 
 <div 
@@ -46,7 +46,7 @@
           [formControl]="controls[ix]"
           [options]="element.options"
           *ngSwitchCase="'multiselect'"
-          columnWidth="5rem">
+          columnWidth="20rem">
         </lintel-multiselector>
 
         <lintel-singleselector
@@ -61,9 +61,9 @@
 
   </div>
 
-  <pre
+  <!-- <pre
     *ngIf="!schemaDigest.canGUI">
     {{ ruleDigest.rule.meta.schema | json }}
-  </pre>
+  </pre> -->
 
 </div>

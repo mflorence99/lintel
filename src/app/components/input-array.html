@@ -19,7 +19,7 @@
 
       <a
         (click)="addInput()"
-        *ngIf="ix === inputArrayForm.controls.inputs['controls'].length - 1"
+        *ngIf="ix === (inputArrayForm.controls.inputs['controls'].length - 1) && ix < (maxItems - 1)"
         suffix>
         More
       </a>
