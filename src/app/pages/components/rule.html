@@ -45,9 +45,16 @@
         <lintel-multiselector
           [formControl]="controls[ix]"
           [options]="element.options"
-          *ngSwitchCase="'multiselect'"
-          columnWidth="20rem">
+          *ngSwitchCase="'multiselect'">
         </lintel-multiselector>
+
+        <lintel-input
+          [formControl]="controls[ix]"
+          [max]="element.max"
+          [min]="element.min"
+          *ngSwitchCase="'number-input'"
+          type="number">
+        </lintel-input>
 
         <lintel-singleselector
           [formControl]="controls[ix]"
@@ -64,7 +71,8 @@
 
         <lintel-input
           [formControl]="controls[ix]"
-          *ngSwitchCase="'string-input'">
+          *ngSwitchCase="'string-input'"
+          type="text">
         </lintel-input>
 
       </ng-container>
@@ -74,8 +82,14 @@
   </div>
 
   <pre
-    *ngIf="!schemaDigest.canGUI">
+    *ngIf="!schemaDigest.canGUI && !notYet()">
     {{ ruleDigest.rule.meta.schema | json }}
   </pre>
+
+  <div
+    *ngIf="!schemaDigest.canGUI && notYet()"
+    class="notYet">
+    Contains "oneOf" or "anyOf".
+  </div>
 
 </div>

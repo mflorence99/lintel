@@ -9,8 +9,14 @@ import { Utils } from '../services/utils';
 declare const eslintRules: RulesStateModel;
 
 export interface GUIElement {
+  max?: number;
+  min?: number;
   options?: string[];
-  type: 'multiselect' | 'singleselect' | 'string-array' | 'string-input';
+  type: 'multiselect' | 
+        'number-input'  |
+        'singleselect' | 
+        'string-array' | 
+        'string-input';
   uniqueItems?: boolean;
 }
 
@@ -68,7 +74,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
 
   @DataAction({ insideZone: true }) 
   initialize(): void {
-    this.ctx.setState(this.resolve$refs(eslintRules));
+    this.ctx.setState(this.prepare(eslintRules));
   }
 
   // public methods
@@ -78,22 +84,21 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       canGUI: false,
       elements: []
     };
-    let schema = rule?.meta?.schema;
-    // NOTE: sometimes the schema is an object, but most often an array
-    if (schema && !Array.isArray(schema))
-      schema = [schema];
-    // try to construct a GUI for each element in the schema
-    schema.forEach(scheme => {
-      const element = 
-        this.makeMultiselect(scheme) ||
-        this.makeSingleselect(scheme) || 
-        this.makeStringArray(scheme) || 
-        this.makeStringInput(scheme); 
-      if (element)
-        digest.elements.push(element);
-    });
-    // only good if ALL elements can be represented
-    digest.canGUI = (digest.elements.length === schema.length);
+    if (rule?.meta?.schema) {
+      // try to construct a GUI for each element in the schema
+      rule.meta.schema.forEach(scheme => {
+        const element = 
+          this.makeMultiselect(scheme) ||
+          this.makeNumberInput(scheme) || 
+          this.makeSingleselect(scheme) || 
+          this.makeStringArray(scheme) || 
+          this.makeStringInput(scheme); 
+        if (element)
+          digest.elements.push(element);
+      });
+      // only good if ALL elements can be represented
+      digest.canGUI = (digest.elements.length === rule.meta.schema.length);
+    }
     return digest;
   }
 
@@ -105,6 +110,16 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       return {
         options: Object.keys(scheme.properties),
         type: 'multiselect'
+      };
+    } else return null;
+  }
+
+  private makeNumberInput(scheme: any): GUIElement {
+    if (scheme.type === 'integer') {
+      return {
+        max: scheme.maximum,
+        min: scheme.minimum,
+        type: 'number-input'
       };
     } else return null;
   }
@@ -135,13 +150,31 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
     } else return null;
   }
 
-  private resolve$refs(eslintRules: RulesStateModel): RulesStateModel {
+  private normalizeDescriptions(model: RulesStateModel): void {
+    this.utils.deepSearch(model, 'description', (container, description: string) => {
+      let tweaked = description.substring(0, 1).toUpperCase() + description.substring(1);
+      if (!tweaked.endsWith('.'))
+        tweaked += '.';
+      container.description = tweaked;
+    });
+  }
+
+  private normalizeRule(rule: Rule): any {
+    if (this.utils.isObjectEmpty(rule.meta.schema))
+      rule.meta.schema = [];
+    if (!Array.isArray(rule.meta.schema))
+      rule.meta.schema = [rule.meta.schema];
+    return rule.meta.schema;
+  }
+
+  private prepare(eslintRules: RulesStateModel): RulesStateModel {
     const model = this.utils.deepCopy(eslintRules);
     // NOTE: each rule has its own schema
     Object.entries(model)
       .forEach(([_, rules]: [string, Rules]) => {
         Object.entries(rules.rules)
-          .map(([_, rule]: [string, Rule]) => rule.meta.schema)
+          .map(([_, rule]: [string, Rule]) => rule)
+          .map(rule => this.normalizeRule(rule))
           .filter(schema => schema.definitions)
           .forEach(schema => {
             // resolve $ref with definitions within rule schema
@@ -153,13 +186,8 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
             });
           });
       });
-    // NOTE: while we're at it, descriptions can be sloppy
-    this.utils.deepSearch(model, 'description', (container, description: string) => {
-      let tweaked = description.substring(0, 1).toUpperCase() + description.substring(1);
-      if (!tweaked.endsWith('.'))
-        tweaked += '.';
-      container.description = tweaked;
-    });
+    // NOTE: while we're at it, more cleanup tasks
+    this.normalizeDescriptions(model);
     return model;
 
   }

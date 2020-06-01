@@ -35,7 +35,7 @@ export class SchemaState extends NgxsDataRepository<SchemaStateModel> {
 
   @DataAction({ insideZone: true })
   initialize(): void {
-    this.ctx.setState(this.resolve$refs(eslintSchema));
+    this.ctx.setState(this.prepare(eslintSchema));
   }
 
   // accessors
@@ -46,7 +46,16 @@ export class SchemaState extends NgxsDataRepository<SchemaStateModel> {
 
   // private methods
 
-  private resolve$refs(eslintSchema: SchemaStateModel): SchemaStateModel {
+  private normalizeDescriptions(model: SchemaStateModel): void {
+    this.utils.deepSearch(model, 'description', (container, description: string) => {
+      let tweaked = description.substring(0, 1).toUpperCase() + description.substring(1);
+      if (!tweaked.endsWith('.'))
+        tweaked += '.';
+      container.description = tweaked;
+    });
+  }
+
+  private prepare(eslintSchema: SchemaStateModel): SchemaStateModel {
     const model = this.utils.deepCopy(eslintSchema);
     Object.entries(model)
       .forEach(([_, obj]) => {
@@ -58,13 +67,8 @@ export class SchemaState extends NgxsDataRepository<SchemaStateModel> {
           Object.assign(container, resolved);
         });
       });
-    // NOTE: while we're at it, descriptions can be sloppy
-    this.utils.deepSearch(model, 'description', (container, description: string) => {
-      let tweaked = description.substring(0, 1).toUpperCase() + description.substring(1);
-      if (!tweaked.endsWith('.'))
-        tweaked += '.';
-      container.description = tweaked;
-    });
+    // NOTE: while we're at it, more cleanup tasks
+    this.normalizeDescriptions(model);
     return model;
   }
 

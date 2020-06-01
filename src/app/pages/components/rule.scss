@@ -53,9 +53,20 @@
       margin-right: 0.5rem;
     }
 
-    > lintel-input {
+    > lintel-input[type=number] {
+      width: 5rem;
+    }
+
+    > lintel-input[type=text] {
       width: 100%;
     }
+
+  }
+
+  .notYet {
+    align-items: center;
+    color: red;
+    display: grid;
 
   }
 
