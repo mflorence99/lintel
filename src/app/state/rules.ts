@@ -9,11 +9,14 @@ import { Utils } from '../services/utils';
 declare const eslintRules: RulesStateModel;
 
 export interface GUIElement {
+  elements?: GUIElement[];
   max?: number;
   min?: number;
+  name?: string;
   options?: string[];
   type: 'multiselect' | 
         'number-input'  |
+        'object' |
         'singleselect' | 
         'string-array' | 
         'string-input';

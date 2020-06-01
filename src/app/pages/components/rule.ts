@@ -58,7 +58,7 @@ export class RuleComponent implements OnInit, OnDestroy {
       // create controls for each GUI element
       this.controls = this.schemaDigest.elements
         .map((element, ix) => new FormControl(this.ruleDigest.settings?.[ix + 1]));
-      const elements = this.ruleForm.controls.elements as FormArray;
+      const elements = this.ruleForm.controls.root['controls'].elements as FormArray;
       this.controls.forEach(control => elements.push(control));
       this.underConstruction = false;
       // TODO: Angular can be so weird!
@@ -77,8 +77,10 @@ export class RuleComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder,
               public rules: RulesState) { 
     this.ruleForm = this.formBuilder.group({
-      elements: new FormArray([]),
-      level: null
+      level: null,
+      root: this.formBuilder.group({ 
+        elements: new FormArray([])
+      })
     });
   }
 
@@ -93,7 +95,7 @@ export class RuleComponent implements OnInit, OnDestroy {
     this.ruleForm.valueChanges
       .pipe(
         filter(_ => !this.underConstruction),
-        map(changes => [changes.level, ...changes.elements]),
+        map(changes => [changes.level, ...changes.root.elements]),
         takeUntil(this.notifier)
       ).subscribe((changes: Settings) => {
         this.configs.changeRule(changes, this.ruleDigest.ruleName);

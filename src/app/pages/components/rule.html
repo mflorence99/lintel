@@ -34,49 +34,11 @@
 
   <div
     *ngIf="schemaDigest.canGUI"
+    formGroupName="root"
     class="elements">
 
     <ng-container
-      *ngFor="let element of schemaDigest.elements; let ix = index">
-
-      <ng-container
-        [ngSwitch]="element.type">
-
-        <lintel-multiselector
-          [formControl]="controls[ix]"
-          [options]="element.options"
-          *ngSwitchCase="'multiselect'">
-        </lintel-multiselector>
-
-        <lintel-input
-          [formControl]="controls[ix]"
-          [max]="element.max"
-          [min]="element.min"
-          *ngSwitchCase="'number-input'"
-          type="number">
-        </lintel-input>
-
-        <lintel-singleselector
-          [formControl]="controls[ix]"
-          [options]="element.options"
-          *ngSwitchCase="'singleselect'">
-        </lintel-singleselector>
-
-        <lintel-input-array
-          [formControl]="controls[ix]"
-          [uniqueItems]="element.uniqueItems"
-          *ngSwitchCase="'string-array'"
-          columnWidth="15rem">
-        </lintel-input-array>
-
-        <lintel-input
-          [formControl]="controls[ix]"
-          *ngSwitchCase="'string-input'"
-          type="text">
-        </lintel-input>
-
-      </ng-container>
-
+      *ngTemplateOutlet="elements;context:{elements: schemaDigest.elements}">
     </ng-container>
 
   </div>
@@ -93,3 +55,54 @@
   </div>
 
 </div>
+
+<!-- NOTE: elements built recursively -->
+
+<ng-template
+  #elements
+  let-elements="elements">
+
+  <ng-container
+    *ngFor="let element of elements; let ix = index">
+
+    <ng-container
+      [ngSwitch]="element.type">
+
+      <lintel-multiselector
+        [formControl]="controls[ix]"
+        [options]="element.options"
+        *ngSwitchCase="'multiselect'">
+      </lintel-multiselector>
+
+      <lintel-input
+        [formControl]="controls[ix]"
+        [max]="element.max"
+        [min]="element.min"
+        *ngSwitchCase="'number-input'"
+        type="number">
+      </lintel-input>
+
+      <lintel-singleselector
+        [formControl]="controls[ix]"
+        [options]="element.options"
+        *ngSwitchCase="'singleselect'">
+      </lintel-singleselector>
+
+      <lintel-input-array
+        [formControl]="controls[ix]"
+        [uniqueItems]="element.uniqueItems"
+        *ngSwitchCase="'string-array'"
+        columnWidth="15rem">
+      </lintel-input-array>
+
+      <lintel-input
+        [formControl]="controls[ix]"
+        *ngSwitchCase="'string-input'"
+        type="text">
+      </lintel-input>
+
+    </ng-container>
+
+  </ng-container>
+
+</ng-template>
