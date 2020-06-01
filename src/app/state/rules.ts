@@ -9,13 +9,14 @@ import { Utils } from '../services/utils';
 declare const eslintRules: RulesStateModel;
 
 export interface GUIElement {
+  default?: any;
   elements?: GUIElement[];
   max?: number;
   min?: number;
   name?: string;
   options?: string[];
-  // NOTE: myltiselect must come before object
-  type: 'multiselect' | 
+  type: 'checkbox' |
+        'multiselect' | 
         'number-input'  |
         'object' |
         'singleselect' | 
@@ -101,21 +102,34 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
 
   makeSchemaDigestElement(scheme: any, name = null): GUIElement {
     const element =
+      // NOTE: multiselect MUST come before object
+      this.makeCheckbox(scheme) ||
       this.makeMultiselect(scheme) ||
       this.makeNumberInput(scheme) ||
       this.makeObject(scheme) ||
       this.makeSingleselect(scheme) ||
       this.makeStringArray(scheme) ||
       this.makeStringInput(scheme); 
-    if (element)
+    if (element) {
+      element.default = scheme.default;
       element.name = name;
+    }
     return element;
   }
 
   // private methods
 
+  private makeCheckbox(scheme: any): GUIElement {
+    if (scheme.type === 'boolean') {
+      return {
+        type: 'checkbox'
+      };
+    } else return null;
+  }
+
   private makeMultiselect(scheme: any): GUIElement {
     if ((scheme.type === 'object') && scheme.properties
+      && (Object.keys(scheme.properties).length > 1)
       && Object.values(scheme.properties).every((value: any) => value.type === 'boolean')) {
       return {
         options: Object.keys(scheme.properties),
@@ -158,7 +172,8 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
   }
 
   private makeStringArray(scheme: any): GUIElement {
-    if ((scheme.type === 'array') && (scheme.items?.type === 'string')) {
+    if ((scheme.type === 'array') 
+      && ((scheme.items?.type === 'string') || (scheme.items?.[0]?.type === 'string'))) {
       return {
         type: 'string-array',
         uniqueItems: !!scheme.uniqueItems

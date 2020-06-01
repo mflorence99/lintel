@@ -45,7 +45,7 @@
 
   <pre
     *ngIf="!schemaDigest.canGUI && !notYet()">
-    {{ ruleDigest.rule.meta.schema | json }}
+    {{ ruleDigest.ruleName === 'keyword-spacing' ? 'Blah blah' : ruleDigest.rule.meta.schema | json }}
   </pre>
 
   <div
@@ -74,6 +74,11 @@
         class="name">
         {{ element.name }}:
       </div>
+
+      <lintel-checkbox
+        [formControl]="controls[ix]"
+        *ngSwitchCase="'checkbox'">
+      </lintel-checkbox>
 
       <lintel-multiselector
         [formControl]="controls[ix]"

@@ -61,7 +61,7 @@ export class RuleComponent implements OnInit, OnDestroy {
         return element.elements.reduce((acc, element) => {
           if (element.type === 'object')
             acc[element.name] = this.formBuilder.group(makeGroup(element, settings?.name));
-          else acc[element.name] = [settings?.name];
+          else acc[element.name] = [settings?.name ?? element.default];
           return acc;
         }, { });
       };
@@ -70,7 +70,7 @@ export class RuleComponent implements OnInit, OnDestroy {
         .map((element, ix) => {
           const settings = this.ruleDigest.settings?.[ix + 1];
           if (element.type === 'object')
-            return this.formBuilder.group(makeGroup(element, settings));
+            return this.formBuilder.group(makeGroup(element, settings ?? element.default));
           return new FormControl(settings);
         });
       const elements = this.ruleForm.controls.root['controls'].elements as FormArray;
