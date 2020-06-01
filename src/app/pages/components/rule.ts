@@ -1,3 +1,4 @@
+import { AbstractControl } from '@angular/forms';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
@@ -32,7 +33,7 @@ import { takeUntil } from 'rxjs/operators';
 
 export class RuleComponent implements OnInit, OnDestroy {
 
-  controls: FormControl[] = [];
+  controls: AbstractControl[] = [];
 
   ruleForm: FormGroup;
 
@@ -55,9 +56,23 @@ export class RuleComponent implements OnInit, OnDestroy {
     if (schemaDigest && !this._schemaDigest) {
       this._schemaDigest = schemaDigest;
       this.underConstruction = true;
+      // recursively make a group from an object element
+      const makeGroup = (element, settings): any => {
+        return element.elements.reduce((acc, element) => {
+          if (element.type === 'object')
+            acc[element.name] = this.formBuilder.group(makeGroup(element, settings?.name));
+          else acc[element.name] = [settings?.name];
+          return acc;
+        }, { });
+      };
       // create controls for each GUI element
       this.controls = this.schemaDigest.elements
-        .map((element, ix) => new FormControl(this.ruleDigest.settings?.[ix + 1]));
+        .map((element, ix) => {
+          const settings = this.ruleDigest.settings?.[ix + 1];
+          if (element.type === 'object')
+            return this.formBuilder.group(makeGroup(element, settings));
+          return new FormControl(settings);
+        });
       const elements = this.ruleForm.controls.root['controls'].elements as FormArray;
       this.controls.forEach(control => elements.push(control));
       this.underConstruction = false;
@@ -84,6 +99,11 @@ export class RuleComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** Get all the controls from a FormGroup */
+  formGroupControls(group: FormGroup): AbstractControl[] {
+    return Object.values(group.controls);
+  }
+
   /** When we're done */
   ngOnDestroy(): void {
     this.notifier.next();
@@ -98,7 +118,7 @@ export class RuleComponent implements OnInit, OnDestroy {
         map(changes => [changes.level, ...changes.root.elements]),
         takeUntil(this.notifier)
       ).subscribe((changes: Settings) => {
-        this.configs.changeRule(changes, this.ruleDigest.ruleName);
+        this.configs.changeRule({ changes, ruleName: this.ruleDigest.ruleName });
       });
   }
 

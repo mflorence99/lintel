@@ -38,7 +38,7 @@
     class="elements">
 
     <ng-container
-      *ngTemplateOutlet="elements;context:{elements: schemaDigest.elements}">
+      *ngTemplateOutlet="elementsTemplate; context: {controls: controls, elements: schemaDigest.elements}">
     </ng-container>
 
   </div>
@@ -59,7 +59,8 @@
 <!-- NOTE: elements built recursively -->
 
 <ng-template
-  #elements
+  #elementsTemplate
+  let-controls="controls"
   let-elements="elements">
 
   <ng-container
@@ -67,6 +68,12 @@
 
     <ng-container
       [ngSwitch]="element.type">
+
+      <div
+        *ngIf="element.name"
+        class="name">
+        {{ element.name }}:
+      </div>
 
       <lintel-multiselector
         [formControl]="controls[ix]"
@@ -81,6 +88,16 @@
         *ngSwitchCase="'number-input'"
         type="number">
       </lintel-input>
+
+      <div
+        *ngSwitchCase="'object'"
+        class="object">
+
+        <ng-container
+          *ngTemplateOutlet="elementsTemplate; context: {controls: formGroupControls(controls[ix]), elements: element.elements}">
+        </ng-container>
+
+      </div>
 
       <lintel-singleselector
         [formControl]="controls[ix]"

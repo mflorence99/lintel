@@ -58,7 +58,20 @@
     }
 
     > lintel-input[type=text] {
-      width: 100%;
+      width: 15rem;
+    }
+
+    .object {
+      display: grid;
+      grid-gap: 0.5rem;
+      grid-template-columns: auto auto;
+
+      .name {
+        color: var(--vscode-textPreformat-foreground);
+        font-family: monospace;
+        font-size: 0.8rem;
+      }
+
     }
 
   }

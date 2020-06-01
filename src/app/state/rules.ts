@@ -14,6 +14,7 @@ export interface GUIElement {
   min?: number;
   name?: string;
   options?: string[];
+  // NOTE: myltiselect must come before object
   type: 'multiselect' | 
         'number-input'  |
         'object' |
@@ -82,33 +83,39 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
 
   // public methods
 
-  makeSchemaDigest(rule: Rule): SchemaDigest {
+  makeSchemaDigest(ruleName: string, rule: Rule): SchemaDigest {
     const digest: SchemaDigest = { 
       canGUI: false,
       elements: []
     };
-    if (rule?.meta?.schema) {
+    if (rule?.meta?.schema /* TODO */ && ruleName !== 'keyword-spacing') {
       // try to construct a GUI for each element in the schema
-      rule.meta.schema.forEach(scheme => {
-        const element = 
-          this.makeMultiselect(scheme) ||
-          this.makeNumberInput(scheme) || 
-          this.makeSingleselect(scheme) || 
-          this.makeStringArray(scheme) || 
-          this.makeStringInput(scheme); 
-        if (element)
-          digest.elements.push(element);
-      });
+      digest.elements = rule.meta.schema
+        .map(scheme => this.makeSchemaDigestElement(scheme))
+        .filter(element => !!element); 
       // only good if ALL elements can be represented
       digest.canGUI = (digest.elements.length === rule.meta.schema.length);
     }
     return digest;
   }
 
+  makeSchemaDigestElement(scheme: any, name = null): GUIElement {
+    const element =
+      this.makeMultiselect(scheme) ||
+      this.makeNumberInput(scheme) ||
+      this.makeObject(scheme) ||
+      this.makeSingleselect(scheme) ||
+      this.makeStringArray(scheme) ||
+      this.makeStringInput(scheme); 
+    if (element)
+      element.name = name;
+    return element;
+  }
+
   // private methods
 
   private makeMultiselect(scheme: any): GUIElement {
-    if ((scheme.type === 'object')
+    if ((scheme.type === 'object') && scheme.properties
       && Object.values(scheme.properties).every((value: any) => value.type === 'boolean')) {
       return {
         options: Object.keys(scheme.properties),
@@ -124,6 +131,20 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
         min: scheme.minimum,
         type: 'number-input'
       };
+    } else return null;
+  }
+
+  private makeObject(scheme: any): GUIElement {
+    if ((scheme.type === 'object') && scheme.properties) {
+      const entries = Object.entries(scheme.properties);
+      const element: GUIElement = {
+        elements: entries
+          .map(([name, property]) => this.makeSchemaDigestElement(property, name))
+          .filter(element => !!element),
+        type: 'object'
+      };
+      // only good if ALL elements can be represented
+      return (element.elements.length === entries.length) ? element : null;
     } else return null;
   }
 

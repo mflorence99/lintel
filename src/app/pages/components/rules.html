@@ -14,7 +14,7 @@
 
       <lintel-rule
         [ruleDigest]="ruleDigest"
-        [schemaDigest]="rules.makeSchemaDigest(item.value[0])">
+        [schemaDigest]="rules.makeSchemaDigest(item.key, item.value[0])">
       </lintel-rule>
 
     </ng-container>

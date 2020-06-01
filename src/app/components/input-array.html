@@ -12,7 +12,7 @@
       <fa-icon 
         (click)="removeInput(ix)"
         [icon]="['fas', 'times']"
-        *ngIf="ix !== inputArrayForm.controls.inputs['controls'].length - 1"
+        *ngIf="inputArrayForm.controls.inputs['controls'].length > 1"
         suffix
         title="Remove this item">
       </fa-icon>

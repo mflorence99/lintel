@@ -93,8 +93,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeRule(@Payload('changes') changes: Settings, rule: string): void {
-    this.ctx.setState(patch({ [this.selection.fileName]: patch({ rules : patch({ [rule]: updateItems(changes) }) }) }));
+  changeRule(@Payload('changes') { changes, ruleName }): void {
+    this.ctx.setState(patch({ [this.selection.fileName]: patch({ rules : patch({ [ruleName]: updateItems(changes) }) }) }));
   }
 
   @DataAction({ insideZone: true }) 

@@ -32,11 +32,11 @@ export class RootPageComponent {
     this.schema.initialize();
   }
 
-  /** Scroll to wherever */
-  scrollTo(options: ScrollToOptions): void {
+  /** Scroll to top */
+  scrollToTop(): void {
     const scroller = this.host.nativeElement.querySelector('#scroller');
     if (scroller)
-      scroller.scrollTo(options);
+      scroller.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }
 
 }
