@@ -2,6 +2,8 @@ import { AfterViewChecked } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
+import { EventEmitter } from '@angular/core';
+import { Output } from '@angular/core';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { Utils } from '../../services/utils';
@@ -18,6 +20,8 @@ import { Utils } from '../../services/utils';
 })
 
 export class ConfigsComponent implements AfterViewChecked {
+
+  @Output() categorySelected = new EventEmitter<void>();
 
   /** ctor */
   constructor(public configs: ConfigsState,
@@ -45,8 +49,10 @@ export class ConfigsComponent implements AfterViewChecked {
 
   /** Select a category */
   selectCategory(event: Event, category: string): void {
-    if (category !== this.selection.category)
+    if (category !== this.selection.category) {
       this.selection.select({ category });
+      this.categorySelected.emit();
+    }
     event.stopPropagation();
   }
 

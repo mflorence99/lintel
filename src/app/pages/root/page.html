@@ -1,24 +1,56 @@
 <lintel-configs
+  (categorySelected)="scrollTo({ top: 0, left: 0, behavior: 'smooth' })"
   class="configs">
 </lintel-configs>
 
 <ng-container
   *ngIf="selection.fileName">
 
-<ng-container
-  [ngSwitch]="selection.category">
+  <ng-container
+    [ngSwitch]="selection.category">
 
-  <lintel-general 
-    *ngSwitchCase="params.generalSettings"
-    class="settings">
-  </lintel-general>
+    <lintel-general 
+      *ngSwitchCase="params.generalSettings"
+      class="general settings">
+    </lintel-general>
 
+    <div
+      *ngSwitchDefault
+      class="rules settings">
 
-  <lintel-settings
-    *ngSwitchDefault
-    class="settings">
-  </lintel-settings>
+      <lintel-filter
+        class="filter">
+      </lintel-filter>
 
-</ng-container>
+      <lintel-tabs
+        (pluginSelected)="scrollTo({ top: 0, left: 0, behavior: 'smooth' })"
+        class="tabs">
+      </lintel-tabs>
+
+      <div
+        [ngSwitch]="selection.category"
+        id="scroller"
+        class="rules">
+
+        <lintel-rules 
+          [view]="configs.activeView"
+          *ngSwitchCase="params.activeCategory">
+        </lintel-rules>
+
+        <lintel-rules 
+          [view]="configs.unknownView"
+          *ngSwitchCase="params.unknownCategory">
+        </lintel-rules>
+
+        <lintel-rules 
+          [view]="configs.categoryView[selection.category]"
+          *ngSwitchDefault>
+        </lintel-rules>
+
+      </div>
+
+    </div>
+
+  </ng-container>
 
 </ng-container>
