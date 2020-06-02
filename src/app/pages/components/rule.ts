@@ -59,9 +59,10 @@ export class RuleComponent implements OnInit, OnDestroy {
       // recursively make a group from an object element
       const makeGroup = (element, settings): any => {
         return element.elements.reduce((acc, element) => {
+          const setting = settings?.[element.name];
           if (element.type === 'object')
-            acc[element.name] = this.formBuilder.group(makeGroup(element, settings?.name));
-          else acc[element.name] = [settings?.name ?? element.default];
+            acc[element.name] = this.formBuilder.group(makeGroup(element, setting));
+          else acc[element.name] = [setting ?? element.default];
           return acc;
         }, { });
       };
