@@ -1,0 +1,32 @@
+<ng-container
+  [formGroup]="selectArrayForm">
+
+  <div 
+    [ngStyle]="{'grid-template-columns': 'repeat(auto-fit, ' + columnWidth + ')'}"
+    class="selects">
+
+    <lintel-singleselector
+      [formControl]="select"
+      [options]="options"
+      *ngFor="let select of selectArrayForm.controls.selects['controls']; let ix = index">
+
+      <fa-icon 
+        (click)="removeSelector(ix)"
+        [icon]="['fas', 'times']"
+        *ngIf="selectArrayForm.controls.selects['controls'].length > 1"
+        suffix
+        title="Remove this item">
+      </fa-icon>
+
+      <a
+        (click)="addSelector()"
+        *ngIf="ix === (selectArrayForm.controls.selects['controls'].length - 1) && ix < (maxItems - 1)"
+        suffix>
+        More
+      </a>
+
+    </lintel-singleselector>
+
+  </div>
+
+</ng-container>

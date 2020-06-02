@@ -5,6 +5,7 @@ import { InputComponent } from './input';
 import { KeyValueComponent } from './key-value';
 import { MultiselectorComponent } from './multiselector';
 import { NgModule } from '@angular/core';
+import { SelectArrayComponent } from './select-array';
 import { SingleselectorComponent } from './singleselector';
 
 /**
@@ -17,6 +18,7 @@ const COMPONENTS = [
   InputComponent,
   KeyValueComponent,
   MultiselectorComponent,
+  SelectArrayComponent,
   SingleselectorComponent
 ];
 

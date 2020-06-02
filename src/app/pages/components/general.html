@@ -120,7 +120,7 @@
           *ngSwitchCase="'parserOptions'">
 
           <ng-container 
-            *ngTemplateOutlet="parserOptions">
+            *ngTemplateOutlet="parserOptionsTemplate">
           </ng-container>
 
         </ng-container>
@@ -146,7 +146,7 @@
   <!-- NOTE: parserOptions isolated for readability -->
 
   <ng-template 
-    #parserOptions>
+    #parserOptionsTemplate>
 
     <ng-container
       formGroupName="parserOptions">

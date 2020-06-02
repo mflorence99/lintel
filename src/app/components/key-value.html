@@ -33,19 +33,9 @@
         *ngIf="!valueConstraints"
         class="value">
 
-        <fa-icon 
-          (click)="removeKeyValue(ix)"
-          [icon]="['fas', 'times']"
-          *ngIf="keyValueForm.controls.keyValues['controls'].length > 1"
-          title="Remove this item">
-        </fa-icon>
-
-        <a
-          (click)="addKeyValue()"
-          *ngIf="ix === keyValueForm.controls.keyValues['controls'].length - 1"
-          suffix>
-          More
-        </a>
+        <ng-container
+          *ngTemplateOutlet="suffixTemplate">
+        </ng-container>
 
       </lintel-input>
 
@@ -55,6 +45,17 @@
         *ngIf="!!valueConstraints"
         class="value"
         placeholder=" ">
+
+        <ng-container
+          *ngTemplateOutlet="suffixTemplate">
+        </ng-container>
+
+      </lintel-singleselector>
+
+      <!-- NOTE: common suffix for different value controls -->
+
+      <ng-template
+        #suffixTemplate>
 
         <fa-icon 
           (click)="removeKeyValue(ix)"
@@ -71,7 +72,7 @@
           More
         </a>
 
-      </lintel-singleselector>
+      </ng-template>
 
     </div>
 

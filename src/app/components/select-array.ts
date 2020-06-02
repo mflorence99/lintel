@@ -10,6 +10,7 @@ import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { SingleselectorOptions } from './singleselector';
 import { Subject } from 'rxjs';
 import { Utils } from '../services/utils';
 
@@ -17,10 +18,10 @@ import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
-export type InputArrayType = number[] | string[];
+export type SelectArrayType = string[];
 
 /**
- * Input array form control
+ * Select array form control
  *
  * NOTE: just enough to be able to match VSCode as well as possible
  *
@@ -34,45 +35,47 @@ export type InputArrayType = number[] | string[];
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputArrayComponent),
+      useExisting: forwardRef(() => SelectArrayComponent),
       multi: true
     }
   ],
-  selector: 'lintel-input-array',
-  templateUrl: 'input-array.html',
-  styleUrls: ['input-array.scss']
+  selector: 'lintel-select-array',
+  templateUrl: 'select-array.html',
+  styleUrls: ['select-array.scss']
 })
 
-export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class SelectArrayComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
   @Input() columnWidth = '10rem';
 
-  inputArrayForm: FormGroup;
-
   @Input() maxItems = Infinity;
+
+  @Input() options: SingleselectorOptions = [];
+
+  selectArrayForm: FormGroup;
 
   @Input() type: 'number' | 'text' = 'text';
 
   @Input() uniqueItems: boolean;
 
-  values: InputArrayType = [];
+  values: SelectArrayType = [];
 
   @Input()
-  get value(): InputArrayType {
+  get value(): SelectArrayType {
     return this.values;
   }
-  set value(value: InputArrayType) {
+  set value(value: SelectArrayType) {
     this.values = value || [];
     this.underConstruction = true;
-    const inputs = this.inputArrayForm.controls.inputs as FormArray;
+    const selects = this.selectArrayForm.controls.selects as FormArray;
     // NOTE: there's always one more input for a new value
-    // trim off excess inputs
-    while (inputs.length > (this.values.length + 1))
-      inputs.removeAt(inputs.length - 1);
-    while (inputs.length < (this.values.length + 1))
-      inputs.push(new FormControl(null));
+    // trim off excess selects
+    while (selects.length > (this.values.length + 1))
+      selects.removeAt(selects.length - 1);
+    while (selects.length < (this.values.length + 1))
+      selects.push(new FormControl(null));
     // patch in the new values
-    inputs.patchValue([...this.values, null], { emitEvent: false });
+    selects.patchValue([...this.values, null], { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.values);
     // TODO: Angular can be so weird!
@@ -86,17 +89,17 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
   /** ctor */
   constructor(private cdf: ChangeDetectorRef,
               private formBuilder: FormBuilder,
-              private utils: Utils) { 
+              private utils: Utils) {
     // initialize the form
-    this.inputArrayForm = this.formBuilder.group({
-      inputs: new FormArray([])
+    this.selectArrayForm = this.formBuilder.group({
+      selects: new FormArray([])
     });
   }
 
-  /** Add another input */
-  addInput(): void {
-    const inputs = this.inputArrayForm.controls.inputs as FormArray;
-    inputs.push(new FormControl(null));
+  /** Add another selector */
+  addSelector(): void {
+    const selects = this.selectArrayForm.controls.selects as FormArray;
+    selects.push(new FormControl(null));
   }
 
   /** When we're done */
@@ -107,15 +110,14 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
 
   /** When we're ready */
   ngOnInit(): void {
-    this.inputArrayForm.valueChanges
+    this.selectArrayForm.valueChanges
       .pipe(
         filter(_ => !this.underConstruction),
         takeUntil(this.notifier)
       )
       .subscribe(value => {
-        this.values = value.inputs
-          .filter(val => !!val)
-          .map(val => (this.type === 'number') ? Number(val) : val);
+        this.values = value.selects
+          .filter(val => !!val);
         if (this.uniqueItems)
           this.values = this.utils.deduplicateArray(this.values);
         this.onChange?.(this.value);
@@ -130,10 +132,10 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
   /** @see ControlValueAccessor */
   registerOnTouched(_): void { }
 
-  /** Remove specified input */
-  removeInput(ix: number): void {
-    const inputs = this.inputArrayForm.controls.inputs as FormArray;
-    inputs.removeAt(ix);
+  /** Remove specified selector */
+  removeSelector(ix: number): void {
+    const selects = this.selectArrayForm.controls.selects as FormArray;
+    selects.removeAt(ix);
   }
 
   /** @see ControlValueAccessor */

@@ -17,8 +17,10 @@ export interface GUIElement {
   options?: string[];
   type: 'checkbox' |
         'multiselect' | 
+        'number-array'  |
         'number-input'  |
         'object' |
+        'select-array' |
         'singleselect' | 
         'string-array' | 
         'string-input';
@@ -105,8 +107,10 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       // NOTE: multiselect MUST come before object
       this.makeCheckbox(scheme) ||
       this.makeMultiselect(scheme) ||
+      this.makeNumberArray(scheme) ||
       this.makeNumberInput(scheme) ||
       this.makeObject(scheme) ||
+      this.makeSelectArray(scheme) ||
       this.makeSingleselect(scheme) ||
       this.makeStringArray(scheme) ||
       this.makeStringInput(scheme); 
@@ -138,6 +142,16 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
     } else return null;
   }
 
+  private makeNumberArray(scheme: any): GUIElement {
+    if ((scheme.type === 'array')
+      && ((scheme.items?.type === 'integer') || (scheme.items?.[0]?.type === 'integer'))) {
+      return {
+        type: 'number-array',
+        uniqueItems: !!scheme.uniqueItems
+      };
+    } else return null;
+  }
+
   private makeNumberInput(scheme: any): GUIElement {
     if (scheme.type === 'integer') {
       return {
@@ -159,6 +173,16 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       };
       // only good if ALL elements can be represented
       return (element.elements.length === entries.length) ? element : null;
+    } else return null;
+  }
+
+  private makeSelectArray(scheme: any): GUIElement {
+    if ((scheme.type === 'array') && scheme.items?.enum) {
+      return {
+        options: scheme.items.enum,
+        type: 'select-array',
+        uniqueItems: !!scheme.uniqueItems
+      };
     } else return null;
   }
 

@@ -86,6 +86,14 @@
         *ngSwitchCase="'multiselect'">
       </lintel-multiselector>
 
+      <lintel-input-array
+        [formControl]="controls[ix]"
+        [uniqueItems]="element.uniqueItems"
+        *ngSwitchCase="'number-array'"
+        columnWidth="5rem"
+        type="number">
+      </lintel-input-array>
+
       <lintel-input
         [formControl]="controls[ix]"
         [max]="element.max"
@@ -104,6 +112,14 @@
 
       </div>
 
+      <lintel-select-array
+        [formControl]="controls[ix]"
+        [uniqueItems]="element.uniqueItems"
+        [options]="element.options"
+        *ngSwitchCase="'select-array'"
+        columnWidth="15rem">
+      </lintel-select-array>
+
       <lintel-singleselector
         [formControl]="controls[ix]"
         [options]="element.options"
@@ -114,7 +130,8 @@
         [formControl]="controls[ix]"
         [uniqueItems]="element.uniqueItems"
         *ngSwitchCase="'string-array'"
-        columnWidth="15rem">
+        columnWidth="15rem"
+        type="text">
       </lintel-input-array>
 
       <lintel-input
