@@ -71,8 +71,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
               public schema: SchemaState) {
     this.generalForm = this.formBuilder.group({
       // NOTE: ecmaFeatures moved from the top level into parseOptions
-      ecmaFeatures: [this.configs.configuration.parserOptions?.ecmaFeatures || { }],
-      env: [this.configs.configuration.env || { }],
+      ecmaFeatures: [this.configs.configuration.parserOptions?.ecmaFeatures ?? { }],
+      env: [this.configs.configuration.env ?? { }],
       extends: [this.configs.configuration.extends],
       globals: [this.configs.configuration.globals],
       ignorePatterns: [this.configs.configuration.ignorePatterns],

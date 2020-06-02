@@ -62,6 +62,12 @@
       width: 15rem;
     }
 
+    .checkbox {
+      align-items: end;
+      display: grid;
+      height: 2rem;
+    }
+
     .object {
       display: grid;
       grid-gap: 0.5rem;
@@ -71,6 +77,8 @@
         color: var(--vscode-textPreformat-foreground);
         font-family: monospace;
         font-size: 0.8rem;
+        height: 2rem;
+        line-height: 2rem;
       }
 
     }

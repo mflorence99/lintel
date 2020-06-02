@@ -34,10 +34,10 @@ export class ConfigsComponent implements AfterViewChecked {
     // NOTE: general settings always available
     if (this.selection.category !== this.params.generalSettings) {
       const categories = [];
-      if (!this.utils.isObjectEmpty(this.configs.activeView))
+      if (!this.utils.isEmptyObject(this.configs.activeView))
         categories.push(this.params.activeCategory);
       categories.push(...this.configs.categories);
-      if (!this.utils.isObjectEmpty(this.configs.unknownView))
+      if (!this.utils.isEmptyObject(this.configs.unknownView))
         categories.push(this.params.unknownCategory);
       // categories is now all the available categories in order
       // if the selected category is no longer available, pick the first that is

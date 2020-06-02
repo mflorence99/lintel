@@ -15,7 +15,10 @@ export interface GUIElement {
   min?: number;
   name?: string;
   options?: string[];
+  step?: number;
+  subType?: 'boolean' | 'number' | 'string';
   type: 'checkbox' |
+        'key-value' | 
         'multiselect' | 
         'number-array'  |
         'number-input'  |
@@ -46,7 +49,7 @@ export interface Rule {
       url: string;
     };
     replacedBy: string[];
-    schema: any;
+    schema: Schema;
     type: 'problem' | 'suggestion' | 'layout';
   };
 }
@@ -58,10 +61,35 @@ export interface Rules {
 
 export type RulesStateModel = Record<string, Rules>;
 
+// NOTE: schema can be any of the following:
+// - scheme                    <--- eg: id-blacklist, consistent-this
+// - scheme[]                  <--- most common
+// - { anyOf: scheme[] }
+// - { oneOf: scheme[] }
+// - { items: { anyOf: scheme[] } }
+// - { items: { oneOf: scheme[] } }
+// - { definitions: { ... }, items: scheme[] }     <--- eg: func-names
+
+export type Schema = Scheme[] | SchemaWithDiscriminants | SchemaWith$refs | Scheme;
+
 export interface SchemaDigest {
   canGUI?: boolean;
   elements?: GUIElement[];
 }
+
+export interface SchemaWithDiscriminants {
+  anyOf?: Scheme[];
+  items?: SchemaWithDiscriminants;
+  oneOf?: Scheme[];
+}
+
+export interface SchemaWith$refs {
+  definitions: Record<string, any>;
+  // @see padding-line-between-statements for oddball case
+  items: Scheme[] | Scheme;
+}
+
+export type Scheme = Record<string, any>;
 
 @Injectable({ providedIn: 'root' })
 @StateRepository()
@@ -91,29 +119,41 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       canGUI: false,
       elements: []
     };
-    if (rule?.meta?.schema /* TODO */ && ruleName !== 'keyword-spacing') {
-      // try to construct a GUI for each element in the schema
-      digest.elements = rule.meta.schema
+    if (rule?.meta?.schema) {
+      // TODO: currently ignoring anything with anyOf or oneOf
+      // so we don't worry ATM about SchemaWithDiscriminants
+      const schema = rule.meta.schema as SchemaWith$refs;
+      let schemes = rule.meta.schema as Scheme[];
+      if (!Array.isArray(schemes)) {
+        if (schema.definitions && schema.items)
+          schemes = Array.isArray(schema.items) ? schema.items : [schema.items];
+        // NOTE: worried as this is the hardest to tell
+        // @see id-blacklist, consistent-this
+        else schemes = [schemes];
+      }
+      // now that schemes are normalized, analyze each one
+      digest.elements = schemes
         .map(scheme => this.makeSchemaDigestElement(scheme))
         .filter(element => !!element); 
       // only good if ALL elements can be represented
-      digest.canGUI = (digest.elements.length === rule.meta.schema.length);
+      digest.canGUI = (digest.elements.length === schemes.length);
     }
     return digest;
   }
 
   makeSchemaDigestElement(scheme: any, name = null): GUIElement {
     const element =
-      // NOTE: multiselect MUST come before object
       this.makeCheckbox(scheme) ||
+      this.makeKeyValue(scheme) ||
       this.makeMultiselect(scheme) ||
       this.makeNumberArray(scheme) ||
       this.makeNumberInput(scheme) ||
-      this.makeObject(scheme) ||
       this.makeSelectArray(scheme) ||
       this.makeSingleselect(scheme) ||
       this.makeStringArray(scheme) ||
-      this.makeStringInput(scheme); 
+      this.makeStringInput(scheme) ||
+      // NOTE Object is last because its definition is the most expansive
+      this.makeObject(scheme);
     if (element) {
       element.default = scheme.default;
       element.name = name;
@@ -131,6 +171,23 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
     } else return null;
   }
 
+  private makeKeyValue(scheme: any): GUIElement {
+    if ((scheme.type === 'object') 
+      && (scheme.additionalProperties || scheme.patternProperties)) {
+      // TODO: hack for no-multi-spaces
+      const rawType = scheme.additionalProperties?.type ?? 'boolean';
+      let subType = rawType;
+      if (rawType === 'boolean')
+        subType = 'checkbox';
+      else if (rawType === 'string')
+        subType = 'text';
+      return {
+        subType: subType,
+        type: 'key-value'
+      };
+    } else return null;
+  }
+
   private makeMultiselect(scheme: any): GUIElement {
     if ((scheme.type === 'object') && scheme.properties
       && (Object.keys(scheme.properties).length > 1)
@@ -144,7 +201,8 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
 
   private makeNumberArray(scheme: any): GUIElement {
     if ((scheme.type === 'array')
-      && ((scheme.items?.type === 'integer') || (scheme.items?.[0]?.type === 'integer'))) {
+      && (['integer', 'number'].includes(scheme.items?.type) 
+      || ['integer', 'number'].includes(scheme.items?.[0]?.type))) {
       return {
         type: 'number-array',
         uniqueItems: !!scheme.uniqueItems
@@ -153,7 +211,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
   }
 
   private makeNumberInput(scheme: any): GUIElement {
-    if (scheme.type === 'integer') {
+    if (['integer', 'number'].includes(scheme.type)) {
       return {
         max: scheme.maximum,
         min: scheme.minimum,
@@ -163,7 +221,9 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
   }
 
   private makeObject(scheme: any): GUIElement {
-    if ((scheme.type === 'object') && scheme.properties) {
+    // NOTE: type: "object" can be assumed
+    // @see nonblock-statement-body-position
+    if (/* (scheme.type === 'object') && */ scheme.properties) {
       const entries = Object.entries(scheme.properties);
       const element: GUIElement = {
         elements: entries
@@ -222,24 +282,21 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
     });
   }
 
-  private normalizeRule(rule: Rule): any {
-    if (this.utils.isObjectEmpty(rule.meta.schema))
-      rule.meta.schema = [];
-    if (!Array.isArray(rule.meta.schema))
-      rule.meta.schema = [rule.meta.schema];
-    return rule.meta.schema;
-  }
-
   private prepare(eslintRules: RulesStateModel): RulesStateModel {
     const model = this.utils.deepCopy(eslintRules);
     // NOTE: each rule has its own schema
     Object.entries(model)
       .forEach(([_, rules]: [string, Rules]) => {
         Object.entries(rules.rules)
-          .map(([_, rule]: [string, Rule]) => rule)
-          .map(rule => this.normalizeRule(rule))
-          .filter(schema => schema.definitions)
-          .forEach(schema => {
+          // NOTE: take care of obvious data noise case
+          .map(([_, rule]: [string, Rule]) => {
+            if (this.utils.isEmptyObject(rule.meta.schema))
+              rule.meta.schema = [];
+            return rule;
+          })
+          .map(rule => rule.meta.schema)
+          .filter((schema: SchemaWith$refs) => schema.definitions)
+          .forEach((schema: SchemaWith$refs) => {
             // resolve $ref with definitions within rule schema
             this.utils.deepSearch(schema, '$ref', (container, value: string) => {
               const path = value.replace(/#/g, 'schema').replace(/\//g, '.');

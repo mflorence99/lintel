@@ -65,7 +65,7 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit, OnDes
     return this.values;
   }
   set value(value: SelectArrayType) {
-    this.values = value || [];
+    this.values = value ?? [];
     this.underConstruction = true;
     const selects = this.selectArrayForm.controls.selects as FormArray;
     // NOTE: there's always one more input for a new value

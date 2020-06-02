@@ -23,11 +23,11 @@ select {
   width: 100%;
 }
 
-::ng-deep lintel-singleselector fa-icon {
+::ng-deep lintel-singleselector > fa-icon {
   opacity: var(--lintel-opacity-icon);
 }
 
-::ng-deep lintel-singleselector fa-icon.disabled {
+::ng-deep lintel-singleselector > fa-icon.disabled {
   opacity: var(--lintel-opacity-disabled);
 }
 

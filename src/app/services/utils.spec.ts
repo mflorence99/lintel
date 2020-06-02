@@ -35,8 +35,8 @@ describe('Utils', () => {
 
   test('Object is empty', () => {
     const utils: Utils = services[0];
-    expect(utils.isObjectEmpty({ })).toBeTruthy();
-    expect(utils.isObjectEmpty({ x: 1 })).toBeFalsy();
+    expect(utils.isEmptyObject({ })).toBeTruthy();
+    expect(utils.isEmptyObject({ x: 1 })).toBeFalsy();
   });
 
   test('nextTick works asynchronously', done => {

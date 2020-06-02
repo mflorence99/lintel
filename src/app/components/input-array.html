@@ -7,6 +7,10 @@
 
     <lintel-input
       [formControl]="input"
+      [max]="max"
+      [min]="min"
+      [step]="step"
+      [type]="type"
       *ngFor="let input of inputArrayForm.controls.inputs['controls']; let ix = index">
 
       <fa-icon 

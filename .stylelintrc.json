@@ -8,6 +8,7 @@
     "at-rule-no-unknown": null,
     "block-closing-brace-empty-line-before": null,
     "color-hex-length": "long",
+    "no-descending-specificity": null,
     "order/order": [
       "custom-properties",
       "declarations"
@@ -15,8 +16,20 @@
     "order/properties-alphabetical-order": true,
     "rule-empty-line-before": null,
     "scss/at-rule-no-unknown": true,
-    "selector-type-no-unknown": [true, { "ignore": "custom-elements" }],
-    "selector-pseudo-element-no-unknown": [true, { "ignorePseudoElements": ["ng-deep"] }],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": [
+          "ng-deep"
+        ]
+      }
+    ],
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignore": "custom-elements"
+      }
+    ],
     "value-keyword-case": null
   }
 }

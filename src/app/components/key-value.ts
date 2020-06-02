@@ -16,7 +16,9 @@ import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
-export type KeyValueType = Record<string, string | number>;
+export type KeyValueType = Record<string, ValueType>;
+
+export type ValueType = string | number | boolean | Record<string, boolean>;
 
 /**
  * <key-value> component
@@ -51,6 +53,13 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
   keyValueForm: FormGroup;
   keyValues: KeyValueType = { };
 
+  @Input() max: number;
+  @Input() min: number;
+
+  @Input() step: number;
+
+  @Input() type: 'checkbox' | 'number' | 'text' = 'text';
+
   @Input() valueConstraints: string[];
 
   @Input() 
@@ -58,7 +67,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
     return this.keyValues; 
   }
   set value(value: KeyValueType) {
-    this.keyValues = value || { };
+    this.keyValues = value ?? { };
     this.underConstruction = true;
     const keyValues = this.keyValueForm.controls.keyValues as FormArray;
     // NOTE: there's always one more array for a new key-value
@@ -110,11 +119,10 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
         takeUntil(this.notifier)
       )
       .subscribe(value => {
-        // NOTE: TypeScript not recognizing Object.fromEntries 
         this.keyValues = value.keyValues
           .filter(entry => !!entry[0])
           .reduce((acc, cur) => {
-            acc[cur[0]] = cur[1];
+            acc[cur[0]] = (this.type === 'number') ? Number(cur[1]) : cur[1];
             return acc;
           }, { });
         this.onChange?.(this.value);

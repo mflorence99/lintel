@@ -513,7 +513,7 @@ eslintRules = {
                 },
                 "allowPrivateClassPropertyAccess": {
                   "default": false,
-                  "tyoe": "boolean"
+                  "type": "boolean"
                 }
               },
               "type": "object"

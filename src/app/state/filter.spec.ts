@@ -29,7 +29,7 @@ describe('FilterState', () => {
     bundle.filter.filterRuleName('xxx');
     expect(bundle.filter.snapshot.ruleNameFilter).toEqual('xxx');
     expect(bundle.configs.categories.length).toEqual(0);
-    expect(bundle.utils.isObjectEmpty(bundle.configs.categoryView)).toBeTruthy();
+    expect(bundle.utils.isEmptyObject(bundle.configs.categoryView)).toBeTruthy();
   });
 
 });

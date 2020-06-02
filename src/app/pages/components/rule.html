@@ -45,7 +45,7 @@
 
   <pre
     *ngIf="!schemaDigest.canGUI && !notYet()">
-    {{ ruleDigest.ruleName === 'keyword-spacing' ? 'Blah blah' : ruleDigest.rule.meta.schema | json }}
+    {{ ruleDigest.rule.meta.schema | json }}
   </pre>
 
   <div
@@ -77,8 +77,19 @@
 
       <lintel-checkbox
         [formControl]="controls[ix]"
-        *ngSwitchCase="'checkbox'">
+        *ngSwitchCase="'checkbox'"
+        class="checkbox">
       </lintel-checkbox>
+
+      <lintel-key-value
+        [formControl]="controls[ix]"
+        [max]="element.max"
+        [min]="element.min"
+        [step]="element.step"
+        [type]="element.subType"
+        *ngSwitchCase="'key-value'"
+        class="key-value">
+      </lintel-key-value>
 
       <lintel-multiselector
         [formControl]="controls[ix]"
@@ -90,7 +101,8 @@
         [formControl]="controls[ix]"
         [uniqueItems]="element.uniqueItems"
         *ngSwitchCase="'number-array'"
-        columnWidth="5rem"
+        class="number-array"
+        columnWidth="10rem"
         type="number">
       </lintel-input-array>
 
@@ -98,7 +110,9 @@
         [formControl]="controls[ix]"
         [max]="element.max"
         [min]="element.min"
+        [step]="element.step"
         *ngSwitchCase="'number-input'"
+        class="number-input"
         type="number">
       </lintel-input>
 
@@ -117,19 +131,22 @@
         [uniqueItems]="element.uniqueItems"
         [options]="element.options"
         *ngSwitchCase="'select-array'"
+        class="select-array"
         columnWidth="15rem">
       </lintel-select-array>
 
       <lintel-singleselector
         [formControl]="controls[ix]"
         [options]="element.options"
-        *ngSwitchCase="'singleselect'">
+        *ngSwitchCase="'singleselect'"
+        class="single-select">
       </lintel-singleselector>
 
       <lintel-input-array
         [formControl]="controls[ix]"
         [uniqueItems]="element.uniqueItems"
         *ngSwitchCase="'string-array'"
+        class="string-array"
         columnWidth="15rem"
         type="text">
       </lintel-input-array>
@@ -137,6 +154,7 @@
       <lintel-input
         [formControl]="controls[ix]"
         *ngSwitchCase="'string-input'"
+        class="string-input"
         type="text">
       </lintel-input>
 

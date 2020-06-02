@@ -12,7 +12,8 @@
       <lintel-input
         [formControl]="keyValue['controls'][0]"
         *ngIf="!keyConstraints"
-        class="key">
+        class="key"
+        type="text">
       </lintel-input>
 
       <lintel-singleselector
@@ -28,16 +29,39 @@
         :
       </div>
 
-      <lintel-input
-        [formControl]="keyValue['controls'][1]"
-        *ngIf="!valueConstraints"
-        class="value">
+      <ng-container
+        [ngSwitch]="type"
+        *ngIf="!valueConstraints">
 
-        <ng-container
-          *ngTemplateOutlet="suffixTemplate">
-        </ng-container>
+        <lintel-checkbox
+          [formControl]="keyValue['controls'][1]"
+          *ngSwitchCase="'checkbox'"
+          class="value">
 
-      </lintel-input>
+          <div
+            *ngTemplateOutlet="suffixTemplate"
+            suffix>
+          </div>
+
+        </lintel-checkbox>
+
+        <lintel-input
+          [formControl]="keyValue['controls'][1]"
+          [max]="max"
+          [min]="min"
+          [step]="step"
+          [type]="type"
+          *ngSwitchDefault
+          class="value">
+
+          <div
+            *ngTemplateOutlet="suffixTemplate"
+            suffix>
+          </div>
+
+        </lintel-input>
+        
+      </ng-container>
 
       <lintel-singleselector
         [formControl]="keyValue['controls'][1]"
@@ -46,9 +70,10 @@
         class="value"
         placeholder=" ">
 
-        <ng-container
-          *ngTemplateOutlet="suffixTemplate">
-        </ng-container>
+        <div
+          *ngTemplateOutlet="suffixTemplate"
+          suffix>
+        </div>
 
       </lintel-singleselector>
 

@@ -32,3 +32,21 @@
 .label {
   white-space: nowrap;
 }
+
+::ng-deep lintel-checkbox > fa-icon {
+  opacity: var(--lintel-opacity-icon);
+}
+
+::ng-deep lintel-checkbox > fa-icon.disabled {
+  opacity: var(--lintel-opacity-disabled);
+}
+
+::ng-deep lintel-checkbox [prefix] {
+  margin-right: 0.5rem;
+}
+
+::ng-deep lintel-checkbox [suffix] {
+  // NOTE: suffix is assumed to be a call to action
+  cursor: pointer;
+  margin-left: 0.5rem;
+}

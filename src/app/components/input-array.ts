@@ -49,7 +49,11 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
 
   inputArrayForm: FormGroup;
 
+  @Input() max: number;
   @Input() maxItems = Infinity;
+  @Input() min: number;
+
+  @Input() step: number;
 
   @Input() type: 'number' | 'text' = 'text';
 
@@ -62,7 +66,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit, OnDest
     return this.values;
   }
   set value(value: InputArrayType) {
-    this.values = value || [];
+    this.values = value ?? [];
     this.underConstruction = true;
     const inputs = this.inputArrayForm.controls.inputs as FormArray;
     // NOTE: there's always one more input for a new value

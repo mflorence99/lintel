@@ -33,7 +33,7 @@ export class Utils {
   }
 
   /** Is supplied object empty? */
-  isObjectEmpty(obj: Record<string, any>): boolean {
+  isEmptyObject(obj: Record<string, any>): boolean {
     return (obj === null) || (obj === undefined) || (Object.getOwnPropertyNames(obj).length === 0);
   }
 

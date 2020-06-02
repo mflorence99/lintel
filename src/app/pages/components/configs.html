@@ -21,7 +21,7 @@
       <div
         (click)="selectCategory($event, params.activeCategory)"
         [ngClass]="{selected: selection.category === params.activeCategory}"
-        *ngIf="!utils.isObjectEmpty(configs.activeView)"
+        *ngIf="!utils.isEmptyObject(configs.activeView)"
         class="category">
         &bull; {{ params.activeCategory }}
       </div>
@@ -37,7 +37,7 @@
       <div
         (click)="selectCategory($event, params.unknownCategory)"
         [ngClass]="{selected: selection.category === params.unknownCategory}"
-        *ngIf="!utils.isObjectEmpty(configs.unknownView)"
+        *ngIf="!utils.isEmptyObject(configs.unknownView)"
         class="category">
         &bull; {{ params.unknownCategory }}
       </div>
