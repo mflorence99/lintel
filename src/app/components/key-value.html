@@ -9,12 +9,16 @@
       *ngFor="let keyValue of keyValueForm.controls.keyValues['controls']; let ix = index"
       class="keyValue">
 
+      <!-- key w/o key constraints -->
+
       <lintel-input
         [formControl]="keyValue['controls'][0]"
         *ngIf="!keyConstraints"
         class="key"
         type="text">
       </lintel-input>
+
+      <!-- key with key constraints -->
 
       <lintel-singleselector
         [formControl]="keyValue['controls'][0]"
@@ -29,21 +33,27 @@
         :
       </div>
 
+      <!-- value w/o value constraints -->
+
       <ng-container
         [ngSwitch]="type"
         *ngIf="!valueConstraints">
 
-        <lintel-checkbox
-          [formControl]="keyValue['controls'][1]"
+        <div
           *ngSwitchCase="'checkbox'"
-          class="value">
+          class="suffixed value">
 
-          <div
-            *ngTemplateOutlet="suffixTemplate"
-            suffix>
+          <lintel-checkbox
+            [formControl]="keyValue['controls'][1]">
+          </lintel-checkbox>
+
+          <div suffix>
+            <ng-content
+              *ngTemplateOutlet="suffixTemplate">
+            </ng-content>
           </div>
 
-        </lintel-checkbox>
+        </div>
 
         <lintel-input
           [formControl]="keyValue['controls'][1]"
@@ -63,19 +73,44 @@
         
       </ng-container>
 
-      <lintel-singleselector
-        [formControl]="keyValue['controls'][1]"
-        [options]="valueConstraints"
-        *ngIf="!!valueConstraints"
-        class="value"
-        placeholder=" ">
+      <!-- value with value constraints -->
+
+      <ng-container
+        [ngSwitch]="type"
+        *ngIf="!!valueConstraints">
 
         <div
-          *ngTemplateOutlet="suffixTemplate"
-          suffix>
+          *ngSwitchCase="'multicheckbox'"
+          class="suffixed value">
+
+          <lintel-multiselector
+            [formControl]="keyValue['controls'][1]"
+            [options]="valueConstraints">
+          </lintel-multiselector>
+
+          <div suffix>
+            <ng-content
+              *ngTemplateOutlet="suffixTemplate">
+            </ng-content>
+          </div>
+
         </div>
 
-      </lintel-singleselector>
+        <lintel-singleselector
+          [formControl]="keyValue['controls'][1]"
+          [options]="valueConstraints"
+          *ngSwitchDefault
+          class="value"
+          placeholder=" ">
+
+          <div
+            *ngTemplateOutlet="suffixTemplate"
+            suffix>
+          </div>
+
+        </lintel-singleselector>
+
+      </ng-container>
 
       <!-- NOTE: common suffix for different value controls -->
 

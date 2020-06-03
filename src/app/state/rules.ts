@@ -11,12 +11,13 @@ declare const eslintRules: RulesStateModel;
 export interface GUIElement {
   default?: any;
   elements?: GUIElement[];
+  keys?: string[];
   max?: number;
   min?: number;
   name?: string;
   options?: string[];
   step?: number;
-  subType?: 'boolean' | 'number' | 'string';
+  subType?: 'checkbox' | 'multicheckbox' | 'number' | 'text';
   type: 'checkbox' |
         'key-value' | 
         'multiselect' | 
@@ -145,6 +146,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
     const element =
       this.makeCheckbox(scheme) ||
       this.makeKeyValue(scheme) ||
+      this.makeKeyValueWithMultiselect(scheme) ||
       this.makeMultiselect(scheme) ||
       this.makeNumberArray(scheme) ||
       this.makeNumberInput(scheme) ||
@@ -186,6 +188,36 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
         type: 'key-value'
       };
     } else return null;
+  }
+
+  private makeKeyValueWithMultiselect(scheme: any): GUIElement {
+    if ((scheme.type === 'object') && scheme.properties
+      && (Object.keys(scheme.properties).length > 1)
+      && Object.values(scheme.properties).every((value: any) => value.type === 'object')) {
+      // that was a good start, but now we need to look at structure of inner properties
+      // @see keyword-spacing for example of what we're looking at
+      const keys = Object.keys(scheme.properties);
+      const firstObject = scheme.properties[keys[0]];
+      if ((firstObject.type === 'object') && firstObject.properties
+        && (Object.keys(firstObject.properties).length > 1)
+        && Object.values(firstObject.properties).every((value: any) => value.type === 'boolean')) {
+        // now we know that the first object is a multiselect,
+        // we want to make sure that all the others are identical
+        const options = Object.keys(firstObject.properties);
+        const template = JSON.stringify(firstObject);
+        if (keys.every(key => template === JSON.stringify(scheme.properties[key]))) {
+          return {
+            keys: keys,
+            options: options,
+            subType: 'multicheckbox',
+            type: 'key-value'
+          };
+        }
+      }
+
+    } 
+    // NOTE: watch out for cascading conditions above
+    return null;
   }
 
   private makeMultiselect(scheme: any): GUIElement {

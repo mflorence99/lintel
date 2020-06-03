@@ -60,10 +60,10 @@ export class SingleselectorComponent implements ControlValueAccessor {
     return this._options;
   }
   set options(options: SingleselectorOptions) {
-    this._options = this.fromSingleselectorOptions(options);
-    this.onChange?.(this.value);
-    // TODO: Angular can be so weird!
-    this.cdf.detectChanges();
+    if (options && !this._origOptions) {
+      this._origOptions = options;
+      this._options = this.fromSingleselectorOptions(options);
+    }
   }
 
   @Input()
@@ -80,6 +80,7 @@ export class SingleselectorComponent implements ControlValueAccessor {
 
   // these shadow visible properties
   private _options: string[][] = [];
+  private _origOptions: SingleselectorOptions;
 
   private onChange: Function;
 

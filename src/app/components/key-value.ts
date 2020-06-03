@@ -58,7 +58,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
 
   @Input() step: number;
 
-  @Input() type: 'checkbox' | 'number' | 'text' = 'text';
+  @Input() type: 'checkbox' | 'multicheckbox' | 'number' | 'text' = 'text';
 
   @Input() valueConstraints: string[];
 

@@ -69,6 +69,7 @@
     }
 
     .object {
+      align-items: center;
       display: grid;
       grid-gap: 0.5rem;
       grid-template-columns: auto auto;
@@ -87,9 +88,7 @@
 
   .notYet {
     align-items: center;
-    color: red;
-    display: grid;
-
+    display: flex;
   }
 
 }

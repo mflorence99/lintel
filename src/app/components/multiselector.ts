@@ -87,9 +87,6 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
       const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
       this.controls.forEach(control => checkboxes.push(control));
       this.underConstruction = false;
-      this.onChange?.(this.value);
-      // TODO: Angular can be so weird!
-      this.cdf.detectChanges();
     }
   }
 

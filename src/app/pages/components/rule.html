@@ -49,9 +49,9 @@
   </pre>
 
   <div
-    *ngIf="!schemaDigest.canGUI && notYet()"
+    *ngIf="!schemaDigest.canGUI && notYet() && (ruleDigest.level !== 'off')"
     class="notYet">
-    Contains "oneOf" or "anyOf".
+    Edit these settings directly in&nbsp; <a>{{ selection.fileName }}</a>.
   </div>
 
 </div>
@@ -83,10 +83,12 @@
 
       <lintel-key-value
         [formControl]="controls[ix]"
+        [keyConstraints]="element.keys"
         [max]="element.max"
         [min]="element.min"
         [step]="element.step"
         [type]="element.subType"
+        [valueConstraints]="element.options"
         *ngSwitchCase="'key-value'"
         class="key-value">
       </lintel-key-value>

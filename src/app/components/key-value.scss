@@ -21,6 +21,30 @@
       width: 0.5rem;
     }
 
+    .suffixed.value {
+      align-items: center;
+      display: grid;
+      // TODO: 3rem is a horrible hack, for fixed suffix size
+      grid-template-columns: 1fr 3rem;
+
+      [suffix] {
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+
+        > * {
+          cursor: pointer;
+          margin-left: 0.5rem;
+        }
+
+        fa-icon {
+          opacity: var(--lintel-opacity-icon);
+        }
+
+      }
+
+    }
+
   }
 
 }

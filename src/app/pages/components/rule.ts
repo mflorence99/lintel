@@ -13,6 +13,7 @@ import { OnInit } from '@angular/core';
 import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
 import { SchemaDigest } from '../../state/rules';
+import { SelectionState } from '../../state/selection';
 import { Settings } from '../../state/configs';
 import { Subject } from 'rxjs';
 
@@ -91,7 +92,8 @@ export class RuleComponent implements OnInit, OnDestroy {
   constructor(private cdf: ChangeDetectorRef,
               public configs: ConfigsState,
               private formBuilder: FormBuilder,
-              public rules: RulesState) { 
+              public rules: RulesState,
+              public selection: SelectionState) { 
     this.ruleForm = this.formBuilder.group({
       level: null,
       root: this.formBuilder.group({ 
