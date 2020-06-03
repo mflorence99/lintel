@@ -88,5 +88,19 @@
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
     "vscode:prepublish": "npm run build"
   },
+  "src/.eslintrc.yml": {
+    "plugins": [
+      "does-not-exist"
+    ],
+    "rules": {
+      "@typescript-eslint/brace-style": "off"
+    }
+  },
+  "src/app/.eslintrc.js": {
+    "rules": {
+      "@typescript-eslint/no-empty-function": "error",
+      "@typescript-eslint/no-explicit-any": "error"
+    }
+  },
   "version": "0.0.0"
 }

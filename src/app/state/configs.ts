@@ -1,5 +1,6 @@
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
+import { FilesState } from './files';
 import { FilterState } from './filter';
 import { Injectable } from '@angular/core';
 import { Level } from './rules';
@@ -15,9 +16,6 @@ import { Utils } from '../services/utils';
 
 import { patch } from '@ngxs/store/operators';
 import { updateItems } from './operators';
-
-// NOTE: config content is provided statically in index.html
-declare const eslintrcFiles: ConfigsStateModel;
 
 export type View = Record<string, [Rule, Settings]>;
 
@@ -77,7 +75,8 @@ export type Settings = [Level, ...any[]];
 export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   /** ctor */
-  constructor(private filter: FilterState,
+  constructor(private files: FilesState,
+              private filter: FilterState,
               private params: Params,
               private rules: RulesState, 
               private selection: SelectionState,
@@ -99,7 +98,14 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @DataAction({ insideZone: true }) 
   initialize(): void {
-    this.ctx.setState(this.normalize(eslintrcFiles));
+    // initialize from parsed files
+    const configs = this.files.fileNames
+      .reduce((acc, fileName) => {
+        acc[fileName] = this.files.parse(fileName);
+        return acc;
+      }, { });
+    this.ctx.setState(this.normalize(configs));
+    // only override saved selection on a fresh start
     if (this.params.searchParams.freshStart || !this.selection.fileName) {
       this.selection.select({ fileName: this.fileNames[0] });
       this.selection.select({ pluginName: this.pluginNames[0] });
@@ -247,11 +253,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       });
   }
 
-  private normalize(eslintrcFiles: ConfigsStateModel): ConfigsStateModel {
-    const model = this.utils.deepCopy(eslintrcFiles);
-    Object.entries(eslintrcFiles)
+  private normalize(configs: ConfigsStateModel): ConfigsStateModel {
+    const model = this.utils.deepCopy(configs);
+    Object.entries(configs)
       .forEach(([fileName, configuration]) => {
-        // NOTE: is is very convenient to normalize eslintrcFiles before use
+        // NOTE: is is very convenient to normalize configs before use
         configuration.rules = configuration.rules ?? { };
         Object.entries(configuration.rules)
           .forEach(([ruleName, rule]) => {

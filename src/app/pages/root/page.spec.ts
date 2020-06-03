@@ -1,6 +1,6 @@
+import '../../../assets/eslint-files/unit-tests.js';
 import '../../../assets/eslint-rules.js';
 import '../../../assets/eslint-schema.js';
-import '../../../assets/eslintrc-files.js';
 
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from '../components/module';

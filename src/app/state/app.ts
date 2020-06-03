@@ -1,5 +1,7 @@
 import { ConfigsState } from './configs';
 import { ConfigsStateModel } from './configs';
+import { FilesState } from './files';
+import { FilesStateModel } from './files';
 import { FilterState } from './filter';
 import { FilterStateModel } from './filter';
 import { RulesState } from './rules';
@@ -11,6 +13,7 @@ import { SelectionStateModel } from './selection';
 
 export interface AppState {
   configs: ConfigsStateModel;
+  files: FilesStateModel;
   filter: FilterStateModel;
   rules: RulesStateModel;
   schema: SchemaStateModel;
@@ -19,6 +22,7 @@ export interface AppState {
 
 export const states = [
   ConfigsState,
+  FilesState,
   FilterState,
   RulesState,
   SchemaState,

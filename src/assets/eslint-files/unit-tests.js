@@ -4,8 +4,81 @@
   NOTE:  deleted from index.html when running as extension
 */
 
-eslintrcFiles = {
-  "package.json": {
+eslintFiles = {
+
+  'package.json': `{
+  "activationEvents": [
+    "onCommand:lintel.start"
+  ],
+  "author": "Mark Florence",
+  "categories": [
+    "Linters"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "category": "ESLint",
+        "command": "lintel.start",
+        "title": "Edit settings with Lintel"
+      }
+    ]
+  },
+  "dependencies": {
+    "@angular/animations": "~9.1.4",
+    "@angular/cdk": "^9.2.3",
+    "@angular/common": "~9.1.4",
+    "@angular/compiler": "~9.1.4",
+    "@angular/core": "~9.1.4",
+    "@angular/forms": "~9.1.4",
+    "@angular/material": "^9.2.3",
+    "@angular/platform-browser": "~9.1.4",
+    "@angular/platform-browser-dynamic": "~9.1.4",
+    "@angular/router": "~9.1.4",
+    "@fortawesome/angular-fontawesome": "^0.6.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@ngxs-labs/data": "^3.0.4",
+    "@ngxs/logger-plugin": "^3.6.2",
+    "@ngxs/store": "^3.6.2",
+    "rxjs": "~6.5.4",
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2"
+  },
+  "description": "VSCode extension to provide a GUI for building and testing ESLint configurations",
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.901.4",
+    "@angular-eslint/builder": "0.0.1-alpha.29",
+    "@angular-eslint/eslint-plugin": "0.0.1-alpha.29",
+    "@angular-eslint/eslint-plugin-template": "0.0.1-alpha.29",
+    "@angular-eslint/schematics": "0.0.1-alpha.29",
+    "@angular-eslint/template-parser": "0.0.1-alpha.29",
+    "@angular/cli": "~9.1.4",
+    "@angular/compiler-cli": "~9.1.4",
+    "@angular/language-service": "~9.1.4",
+    "@types/eslint": "^6.8.0",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^12.11.1",
+    "@types/vscode": "^1.44.0",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.9.0",
+    "jest": "^25.2.1",
+    "jest-preset-angular": "^8.1.3",
+    "make-coverage-badge": "^1.2.0",
+    "stylelint": "^13.3.3",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.0.0",
+    "stylelint-scss": "^3.17.1",
+    "ts-node": "~8.3.0",
+    "typescript": "~3.8.3",
+    "vscode-test": "^1.3.0"
+  },
+  "engines": {
+    "vscode": "^1.41.0"
+  },
+  "eslintConfig": {
     "env": {
       "browser": true,
       "es2020": true,
@@ -18,6 +91,12 @@ eslintrcFiles = {
       "plugin:@typescript-eslint/recommended",
       "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
+    "globals": {
+      "document": false,
+      "globalThis": "off",
+      "navigator": "readable",
+      "window": true
+    },
     "ignorePatterns": [
       "*.js",
       "node_modules/"
@@ -33,15 +112,6 @@ eslintrcFiles = {
       "@typescript-eslint"
     ],
     "reportUnusedDisableDirectives": true,
-    "globals": {
-      "window": true,
-      "document": false,
-      "navigator": "readable",
-      "globalThis": "off"
-    },
-    "settings": {
-      "hello": "World!"
-    },
     "rules": {
       "@typescript-eslint/brace-style": 2,
       "@typescript-eslint/class-literal-property-style": [
@@ -163,8 +233,8 @@ eslintrcFiles = {
         "error",
         "always"
       ],
-      "comma-spacing": "off",
       "brace-style": "error",
+      "comma-spacing": "off",
       "default-param-last": "off",
       "eqeqeq": "error",
       "func-call-spacing": "error",
@@ -172,6 +242,7 @@ eslintrcFiles = {
         "error",
         2
       ],
+      "jest/no-existential-angst": "warn",
       "keyword-spacing": [
         "error",
         {
@@ -179,6 +250,7 @@ eslintrcFiles = {
           "before": true
         }
       ],
+      "prefer-shaken-not-stirred": "error",
       "quotes": 0,
       "semi": "off",
       "space-before-blocks": [
@@ -198,22 +270,36 @@ eslintrcFiles = {
       "spaced-comment": [
         "error",
         "always"
-      ],
-      "prefer-shaken-not-stirred": "error",
-      "jest/no-existential-angst": "warn"
+      ]
+    },
+    "settings": {
+      "hello": "World!"
     }
   },
-  "ext/.eslintrc.json": {
-    "rules": {
-      "@typescript-eslint/brace-style": "warn",
-    }
+  "license": "MIT",
+  "main": "./dist/ext/lintel.js",
+  "name": "lintel",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mflorence99/lintel"
+  },
+  "scripts": {
+    "build": "ng build && tsc -p tsconfig.ext.json",
+    "clean:caches": "jest --clearCache",
+    "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
+    "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",
+    "ng": "ng",
+    "start": "ng serve --open",
+    "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
+    "vscode:prepublish": "npm run build"
   },
   "src/.eslintrc.yml": {
     "plugins": [
-      'does-not-exist'
+      "does-not-exist"
     ],
     "rules": {
-      "@typescript-eslint/brace-style": "off",
+      "@typescript-eslint/brace-style": "off"
     }
   },
   "src/app/.eslintrc.js": {
@@ -221,5 +307,8 @@ eslintrcFiles = {
       "@typescript-eslint/no-empty-function": "error",
       "@typescript-eslint/no-explicit-any": "error"
     }
-  }
-}
+  },
+  "version": "0.0.0"
+}`
+
+};

@@ -1,8 +1,9 @@
+import '../../assets/eslint-files/unit-tests.js';
 import '../../assets/eslint-rules.js';
 import '../../assets/eslint-schema.js';
-import '../../assets/eslintrc-files.js';
 
 import { ConfigsState } from '../state/configs';
+import { FilesState } from '../state/files';
 import { FilterState } from '../state/filter';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
@@ -18,6 +19,7 @@ import { states } from './app';
 
 export interface Bundle {
   configs?: ConfigsState;
+  files?: FilesState;
   filter?: FilterState;
   params?: Params;
   rules?: RulesState;
@@ -40,6 +42,7 @@ export function prepare(): Bundle {
   window['__SEARCH_PARAMS'] = '?freshStart=true';
 
   bundle.configs = TestBed.inject(ConfigsState);
+  bundle.files = TestBed.inject(FilesState);
   bundle.filter = TestBed.inject(FilterState);
   bundle.params = TestBed.inject(Params);
   bundle.rules = TestBed.inject(RulesState);
@@ -47,6 +50,8 @@ export function prepare(): Bundle {
   bundle.selection = TestBed.inject(SelectionState);
   bundle.utils = TestBed.inject(Utils);
 
+  // TODO: must do files first
+  bundle.files.initialize();
   bundle.configs.initialize();
   bundle.rules.initialize();
   bundle.schema.initialize();

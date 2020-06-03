@@ -32,7 +32,6 @@ export function activate(context: vscode.ExtensionContext): void {
       // NOTE: strip out all the VSCode emulation code and add in the ESLint rules, schema
       const indexHtml = fs.readFileSync(indexPath, { encoding: 'utf8' })
         // TODO: not yet
-        // .replace('src='assets/eslintrc-files.js'', '')
         // .replace('src='assets/eslint-rules.js'', '')
         // .replace('src='assets/eslint-schema.js'', '')
         .replace('src="assets/vscode-scripts.js"', '<script>window["__SEARCH_PARAMS"] = "?freshStart=true"</script>')
