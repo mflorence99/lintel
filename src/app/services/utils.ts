@@ -52,9 +52,9 @@ export class Utils {
         const [k, v] = pair.split('=');
         // NOTE: a bit cheesy
         if (v === 'false')
-          params[v] = false;
+          params[k] = false;
         else if (v === 'true')
-          params[v] = true;
+          params[k] = true;
         else params[k] = v;
         return params;
       }, { });

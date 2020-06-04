@@ -33,7 +33,7 @@
   </lintel-singleselector>
 
   <div
-    *ngIf="schemaDigest.canGUI"
+    *ngIf="hydrated && schemaDigest.canGUI"
     formGroupName="root"
     class="elements">
 

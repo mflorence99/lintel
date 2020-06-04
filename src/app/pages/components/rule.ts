@@ -36,6 +36,8 @@ export class RuleComponent implements OnInit, OnDestroy {
 
   controls: AbstractControl[] = [];
 
+  @Input() hydrated: boolean;
+
   ruleForm: FormGroup;
 
   @Input() 

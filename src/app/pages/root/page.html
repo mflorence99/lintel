@@ -27,10 +27,13 @@
         class="tabs">
       </lintel-tabs>
 
-      <div
+      <lintel-scroller
+        [hydratorMargin]="'100px'" 
+        [hydratorTrace]="true"
         [ngSwitch]="selection.category"
-        id="scroller"
-        class="rules">
+        class="rules"
+        id="theScroller"
+        lintelHydrator>
 
         <lintel-rules 
           [view]="configs.activeView"
@@ -47,7 +50,7 @@
           *ngSwitchDefault>
         </lintel-rules>
 
-      </div>
+      </lintel-scroller>
 
     </div>
 

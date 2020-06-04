@@ -32,6 +32,7 @@
     "@ngxs-labs/data": "^3.0.4",
     "@ngxs/logger-plugin": "^3.6.2",
     "@ngxs/store": "^3.6.2",
+    "angular2-uuid": "^1.1.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

@@ -107,9 +107,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     this.ctx.setState(this.normalize(configs));
     // only override saved selection on a fresh start
     if (this.params.searchParams.freshStart || !this.selection.fileName) {
-      this.selection.select({ fileName: this.fileNames[0] });
-      this.selection.select({ pluginName: this.pluginNames[0] });
-      this.selection.select({ category: this.params.generalSettings });
+      this.utils.nextTick(() => {
+        this.selection.select({ fileName: this.fileNames[0] });
+        this.selection.select({ pluginName: this.pluginNames[0] });
+        this.selection.select({ category: this.params.generalSettings });
+      });
     }
   }
 

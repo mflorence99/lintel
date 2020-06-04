@@ -1,11 +1,13 @@
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule as CommonComponentsModule } from '../../components/module';
 import { ConfigsComponent } from './configs';
+import { DirectivesModule } from '../../directives/module';
 import { FilterComponent } from './filter';
 import { GeneralComponent } from './general';
 import { NgModule } from '@angular/core';
 import { RuleComponent } from './rule';
 import { RulesComponent } from './rules';
+import { ScrollerComponent } from './scroller';
 import { TabsComponent } from './tabs';
 
 /**
@@ -18,6 +20,7 @@ const COMPONENTS = [
   GeneralComponent,
   RuleComponent,
   RulesComponent,
+  ScrollerComponent,
   TabsComponent
 ];
 
@@ -33,7 +36,8 @@ const COMPONENTS = [
 
   imports: [
     BarrelModule,
-    CommonComponentsModule
+    CommonComponentsModule,
+    DirectivesModule
   ]
 
 })
