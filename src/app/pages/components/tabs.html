@@ -1,7 +1,6 @@
 <mat-tab-group
   (selectedIndexChange)="onTabSelect($event)"
-  [selectedIndex]="tabIndex"
-  *ngIf="selection.category !== params.unknownCategory">
+  [selectedIndex]="tabIndex">
 
   <mat-tab
     [label]="pluginName"
@@ -9,10 +8,3 @@
   </mat-tab>
 
 </mat-tab-group>
-
-<p
-  *ngIf="selection.category === params.unknownCategory">
-  <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-  These rules are defined in your ESLint file but cannot currently be configured by Lintel.
-</p>
-

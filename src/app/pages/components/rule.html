@@ -1,10 +1,18 @@
 <a
   [href]="ruleDigest.url"
   [ngClass]="{inherited: ruleDigest.inherited}"
+  *ngIf="ruleDigest.url"
   class="ruleName {{ ruleDigest.level }}"
   target="lintel">
   {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
 </a>
+
+<div
+  [ngClass]="{inherited: ruleDigest.inherited}"
+  *ngIf="!ruleDigest.url"
+  class="ruleName {{ ruleDigest.level }}">
+  {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
+</div>
 
 <div
   *ngIf="ruleDigest.description">
@@ -24,7 +32,6 @@
 
 <div 
   [formGroup]="ruleForm"
-  *ngIf="ruleDigest.rule"
   class="settings">
 
   <lintel-singleselector
@@ -43,16 +50,21 @@
 
   </div>
 
-  <pre
-    *ngIf="!schemaDigest.canGUI && !notYet()">
-    {{ ruleDigest.rule.meta.schema | json }}
-  </pre>
+  <ng-container
+    *ngIf="!schemaDigest.canGUI">
 
-  <div
-    *ngIf="!schemaDigest.canGUI && notYet() && (ruleDigest.level !== 'off')"
-    class="notYet">
-    Edit these settings directly in&nbsp; <a>{{ selection.fileName }}</a>.
-  </div>
+    <div
+      *ngIf="notYet() || !ruleDigest.rule; else debugWithJSON"
+      class="notYet">
+      Edit these settings directly in&nbsp; <a>{{ selection.fileName }}</a>.
+    </div>
+
+    <ng-template
+      #debugWithJSON>
+      <pre>{{ ruleDigest.rule?.meta.schema | json }}</pre>
+    </ng-template>
+
+  </ng-container>
 
 </div>
 

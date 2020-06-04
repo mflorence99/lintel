@@ -130,8 +130,8 @@ export class RuleComponent implements OnInit, OnDestroy {
   // TODO: temporary
 
   notYet(): boolean {
-    const json = JSON.stringify(this.ruleDigest.rule.meta.schema);
-    return json.includes('"anyOf":') || json.includes('"oneOf":');
+    const json = JSON.stringify(this.ruleDigest.rule?.meta.schema);
+    return json && (json.includes('"anyOf":') || json.includes('"oneOf":'));
   }
 
 }
