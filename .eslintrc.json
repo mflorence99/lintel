@@ -165,7 +165,7 @@
     "brace-style": "error",
     "comma-spacing": "off",
     "default-param-last": "off",
-    "eqeqeq": "error",
+    "eqeqeq": ["error", "smart"],
     "func-call-spacing": "error",
     "indent": [
       "error",

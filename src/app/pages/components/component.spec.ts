@@ -6,6 +6,7 @@ import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from './module';
 import { ComponentsModule as CommonComponents } from '../../components/module';
 import { ConfigsState } from '../../state/configs';
+import { DirectivesModule } from '../../directives/module';
 import { FilesState } from '../../state/files';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
@@ -24,6 +25,7 @@ export function prepare(): void {
       BarrelModule,
       CommonComponents,
       ComponentsModule,
+      DirectivesModule,
       NgxsModule.forRoot(states),
       NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
     ]

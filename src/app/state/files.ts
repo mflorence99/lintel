@@ -1,4 +1,4 @@
-import * as json5 from 'json5';
+import * as CommentJSON from '../comment-json';
 import * as jsyaml from 'js-yaml';
 
 import { Computed } from '@ngxs-labs/data/decorators';
@@ -12,8 +12,6 @@ import { Utils } from '../services/utils';
 
 // NOTE: files content is provided statically in index.html
 declare const eslintFiles: Record<string, string>;
-
-declare const JSON5: typeof json5;
 
 export interface FilesStateModel {
   files: Record<string, string>;
@@ -92,7 +90,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
       return module.exports;
     } else if (fileName.endsWith('.yml') || fileName.endsWith('.yaml')) {
       return jsyaml.load(source); 
-    } else return JSON5.parse(source);
+    } else return CommentJSON.parse(source);
   }
 
 }

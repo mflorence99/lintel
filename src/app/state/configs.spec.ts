@@ -10,12 +10,12 @@ describe('ConfigsState', () => {
 
   test('ConfigsState is initialized', () => {
     expect(bundle.configs.snapshot['package.json']).toBeTruthy();
-    expect(bundle.configs.fileNames.length).toEqual(4);
+    expect(bundle.configs.fileNames.length).toEqual(1);
     expect(bundle.configs.fileNames[0]).toEqual('package.json');
   });
 
   test('fileNames are properly constructed', () => {
-    expect(bundle.configs.fileNames.length).toEqual(4);
+    expect(bundle.configs.fileNames.length).toEqual(1);
     expect(bundle.configs.fileNames[0]).toEqual('package.json');
   });
 
