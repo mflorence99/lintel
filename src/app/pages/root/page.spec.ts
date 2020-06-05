@@ -28,7 +28,7 @@ describe('RootPageComponent', () => {
       ]
     }).compileComponents();
 
-    window['__SEARCH_PARAMS'] = '?freshStart=true';
+    window['lintelSearchParams'] = '?freshStart=true';
   }));
 
   test('App is created', () => {

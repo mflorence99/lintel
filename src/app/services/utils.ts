@@ -45,7 +45,7 @@ export class Utils {
   /** Extract search params from launch URL */
   parseInitialSearchParams(): any {
     // NOTE: we can and do fake search params in the real VSCode extension
-    const searchParams = window['__SEARCH_PARAMS'] || location.search;
+    const searchParams = window['lintelSearchParams'] || location.search;
     if (searchParams.length > 1) {
       const raw = searchParams.substring(1).split('&');
       return raw.reduce((params, pair) => {

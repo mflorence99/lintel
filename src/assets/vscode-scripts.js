@@ -15,7 +15,7 @@ const acquireVsCodeApi = (function() {
  * We want to do it dynamically, so we can test load a variety of configurations.
  */
 
-(function() {
+const lintelIsReady = (function() {
 
   // grab the search params
   let params = { };
@@ -31,11 +31,16 @@ const acquireVsCodeApi = (function() {
   // find which script to load
   const whichFiles = `assets/eslint-files/${params['eslintFiles'] || 'unit-tests'}.js`;
 
-  // dynamically load the script
-  let script = document.createElement('script');
-  script.onload = function () {
-    console.log(`%cLoaded test files from ${whichFiles}`, 'color: red');
-  };
-  script.src = whichFiles;
-  document.head.appendChild(script);
+  return new Promise((resolve, _) => {
+
+    // dynamically load the script
+    let script = document.createElement('script');
+    script.onload = function () {
+      console.log(`%cLoaded test files from ${whichFiles}`, 'color: red');
+      resolve();
+    };
+    script.src = whichFiles;
+    document.head.appendChild(script);
+
+  });
 })();

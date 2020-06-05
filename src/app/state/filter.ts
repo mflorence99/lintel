@@ -31,6 +31,16 @@ export class FilterState extends NgxsDataRepository<FilterStateModel> {
   }
 
   @DataAction({ insideZone: true })
+  hideInheritedRules(): void {
+    this.ctx.patchState({ showInheritedRules: false });
+  }
+
+  @DataAction({ insideZone: true })
+  showInheritedRules(): void {
+    this.ctx.patchState({ showInheritedRules: true });
+  }
+
+  @DataAction({ insideZone: true })
   toggleInheritedRules(): void {
     const state = this.ctx.getState();
     this.ctx.patchState({ showInheritedRules: !state.showInheritedRules });

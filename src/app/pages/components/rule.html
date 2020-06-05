@@ -54,9 +54,9 @@
     *ngIf="!schemaDigest.canGUI">
 
     <div
-      *ngIf="notYet() || !ruleDigest.rule; else debugWithJSON"
+      *ngIf="rules.notYet(ruleDigest.ruleName, ruleDigest.rule) || !ruleDigest.rule; else debugWithJSON"
       class="notYet">
-      Edit these settings directly in&nbsp; <a>{{ selection.fileName }}</a>.
+      <a>Edit in {{ selection.fileName }}</a>
     </div>
 
     <ng-template

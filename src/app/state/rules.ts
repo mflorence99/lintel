@@ -120,7 +120,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       canGUI: false,
       elements: []
     };
-    if (rule?.meta?.schema) {
+    if (rule?.meta?.schema && !this.notYet(ruleName, rule)) {
       // TODO: currently ignoring anything with anyOf or oneOf
       // so we don't worry ATM about SchemaWithDiscriminants
       const schema = rule.meta.schema as SchemaWith$refs;
@@ -161,6 +161,17 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       element.name = name;
     }
     return element;
+  }
+
+  // TODO: temporary
+
+  notYet(ruleName: string, rule: Rule): boolean {
+    if (['no-mixed-operators'].includes(ruleName))
+      return true;
+    else {
+      const json = JSON.stringify(rule.meta.schema);
+      return json && (json.includes('"anyOf":') || json.includes('"oneOf":'));
+    }
   }
 
   // private methods

@@ -89,11 +89,15 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @DataAction({ insideZone: true })
   changeConfiguration(@Payload('changes') changes: any): void {
     this.ctx.setState(patch({ [this.selection.fileName]: patch(changes) }));
+    // now patch source file
+    this.files.changeConfiguration({ changes, fileName: this.selection.fileName });
   }
 
   @DataAction({ insideZone: true })
   changeRule(@Payload('changes') { changes, ruleName }): void {
     this.ctx.setState(patch({ [this.selection.fileName]: patch({ rules : patch({ [ruleName]: updateItems(changes) }) }) }));
+    // now patch source file
+    this.files.changeRule({ changes, fileName: this.selection.fileName, ruleName });
   }
 
   @DataAction({ insideZone: true }) 
@@ -111,6 +115,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         this.selection.select({ fileName: this.fileNames[0] });
         this.selection.select({ pluginName: this.pluginNames[0] });
         this.selection.select({ category: this.params.generalSettings });
+        this.filter.filterRuleName(null);
+        this.filter.showInheritedRules();
       });
     }
   }

@@ -34,7 +34,7 @@ export function activate(context: vscode.ExtensionContext): void {
         // TODO: not yet
         // .replace('src='assets/eslint-rules.js'', '')
         // .replace('src='assets/eslint-schema.js'', '')
-        .replace('src="assets/vscode-scripts.js"', '<script>window["__SEARCH_PARAMS"] = "?freshStart=true"</script>')
+        .replace('src="assets/vscode-scripts.js"', '<script>window["lintelSearchParams"] = "?freshStart=true"; window["lintelIsReady"] = Promise.resolve();</script>')
         .replace('href="assets/vscode-styles.css"', '')
         .replace('<base href="/">', `<base href="${String(baseUri)}/">`)
         .replace('<body class="vscode-dark">', '<body>');

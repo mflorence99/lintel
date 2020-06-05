@@ -14,7 +14,7 @@ export function prepare(services: any[]): any[] {
     ]
   });
 
-  window['__SEARCH_PARAMS'] = '?freshStart=true';
+  window['lintelSearchParams'] = '?freshStart=true';
 
   return services.map(service => TestBed.inject(service));
 

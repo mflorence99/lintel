@@ -29,7 +29,7 @@ export function prepare(): void {
     ]
   }).compileComponents();
 
-  window['__SEARCH_PARAMS'] = '?freshStart=true';
+  window['lintelSearchParams'] = '?freshStart=true';
 
   // TODO: must do files first
   TestBed.inject(FilesState).initialize();

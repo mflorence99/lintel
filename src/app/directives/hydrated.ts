@@ -5,7 +5,6 @@ import { HydratorDirective } from './hydrator';
 import { Input } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Optional } from '@angular/core';
 import { Output } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 
@@ -27,7 +26,7 @@ export class HydratedDirective implements Hydrateable, OnDestroy, OnInit {
 
   /** ctor */
   constructor(public element: ElementRef,
-              @Optional() private hydrator?: HydratorDirective) { }
+              private hydrator: HydratorDirective) { }
 
   // property accessors / mutators
   

@@ -8,6 +8,8 @@ import { RulesState } from '../../state/rules';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
 
+declare const lintelIsReady: Promise<void>;
+
 /**
  * Lintel Root
  */
@@ -21,6 +23,8 @@ import { SelectionState } from '../../state/selection';
 
 export class RootPageComponent {
 
+  initialized: boolean;
+
   /** ctor */
   constructor(public configs: ConfigsState,
               public files: FilesState,
@@ -29,11 +33,14 @@ export class RootPageComponent {
               public rules: RulesState,
               public schema: SchemaState,
               public selection: SelectionState) {
-    // TODO: must do files first
-    this.files.initialize();
-    this.configs.initialize();
-    this.rules.initialize();
-    this.schema.initialize();
+    // NOTE: must do files first
+    lintelIsReady.then(() => {
+      this.files.initialize();
+      this.configs.initialize();
+      this.rules.initialize();
+      this.schema.initialize();
+      this.initialized = true;
+    });
   }
 
   /** Scroll to top */

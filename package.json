@@ -33,6 +33,7 @@
     "@ngxs/logger-plugin": "^3.6.2",
     "@ngxs/store": "^3.6.2",
     "angular2-uuid": "^1.1.1",
+    "js-yaml": "^3.14.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -50,6 +51,8 @@
     "@angular/language-service": "~9.1.4",
     "@types/eslint": "^6.8.0",
     "@types/jest": "^25.2.1",
+    "@types/json5": "0.0.30",
+    "@types/js-yaml": "^3.12.4",
     "@types/node": "^12.11.1",
     "@types/vscode": "^1.44.0",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
@@ -85,7 +88,7 @@
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
     "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",
     "ng": "ng",
-    "start": "ng serve --open",
+    "start": "ng serve",
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
     "vscode:prepublish": "npm run build"
   },

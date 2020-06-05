@@ -39,7 +39,7 @@ export function prepare(): Bundle {
     ]
   });
 
-  window['__SEARCH_PARAMS'] = '?freshStart=true';
+  window['lintelSearchParams'] = '?freshStart=true';
 
   bundle.configs = TestBed.inject(ConfigsState);
   bundle.files = TestBed.inject(FilesState);
