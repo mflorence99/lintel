@@ -15,8 +15,9 @@
   </option>
 
   <option
+    [attr.selected]="(value === option[0]) || ((ix === 0) && !placeholder)? true : null"
     [value]="option[0]"
-    *ngFor="let option of options">
+    *ngFor="let option of options; let ix = index">
     {{ option[1] }}
   </option>
 

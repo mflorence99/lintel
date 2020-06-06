@@ -8,7 +8,8 @@
     <lintel-singleselector
       [formControl]="select"
       [options]="options"
-      *ngFor="let select of selectArrayForm.controls.selects['controls']; let ix = index">
+      *ngFor="let select of selectArrayForm.controls.selects['controls']; let ix = index"
+      placeholder=" ">
 
       <fa-icon 
         (click)="removeSelector(ix)"

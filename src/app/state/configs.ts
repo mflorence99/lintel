@@ -88,16 +88,26 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @DataAction({ insideZone: true })
   changeConfiguration(@Payload('changes') changes: any): void {
-    this.ctx.setState(patch({ [this.selection.fileName]: patch(changes) }));
-    // now patch source file
-    this.files.changeConfiguration({ changes, fileName: this.selection.fileName });
+    const fileName = this.selection.fileName;
+    this.ctx.setState(patch({ [fileName]: patch(changes) }));
+    // now patch source file by resolving changes to a full replacement
+    const state = this.ctx.getState();
+    const replacement = Object.keys(changes)
+      .reduce((acc, key) => {
+        acc[key] = state[fileName][key];
+        return acc;
+      }, { });
+    this.files.changeConfiguration({ fileName, replacement });
   }
 
   @DataAction({ insideZone: true })
   changeRule(@Payload('changes') { changes, ruleName }): void {
-    this.ctx.setState(patch({ [this.selection.fileName]: patch({ rules : patch({ [ruleName]: updateItems(changes) }) }) }));
-    // now patch source file
-    this.files.changeRule({ changes, fileName: this.selection.fileName, ruleName });
+    const fileName = this.selection.fileName;
+    this.ctx.setState(patch({ [fileName]: patch({ rules : patch({ [ruleName]: updateItems(changes) }) }) }));
+    // now patch source file by resolving rule changes to a full replacement
+    const state = this.ctx.getState();
+    const replacement = state[fileName].rules[ruleName];
+    this.files.changeRule({ fileName, ruleName, replacement });
   }
 
   @DataAction({ insideZone: true }) 
@@ -105,12 +115,14 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     // initialize from parsed files
     const configs = this.files.fileNames
       .reduce((acc, fileName) => {
-        acc[fileName] = this.files.parse(fileName);
+        acc[fileName] = this.files.load(fileName);
         return acc;
       }, { });
     this.ctx.setState(this.normalize(configs));
     // only override saved selection on a fresh start
-    if (this.params.searchParams.freshStart || !this.selection.fileName) {
+    if (this.params.searchParams.freshStart 
+      || !this.selection.fileName
+      || !this.fileNames.includes(this.selection.fileName)) {
       this.utils.nextTick(() => {
         this.selection.select({ fileName: this.fileNames[0] });
         this.selection.select({ pluginName: this.pluginNames[0] });

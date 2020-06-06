@@ -14,12 +14,12 @@ import { forwardRef } from '@angular/core';
 // -- array of encoded values
 // -- array of [encoded, decoded] values <-- PREFERRED
 
-export type SingleselectorOptions = string[] | string[][];
+export type SingleselectorOptions = (string | number)[] | (string | number)[][];
 
 // NOTE: values can be one of the following:
-// -- enc oded value <-- PREFERRED
+// -- encoded value <-- PREFERRED
 
-export type SingleselectorValue = string;
+export type SingleselectorValue = string | number;
 
 /**
  * Singleselect values via select/options
@@ -67,11 +67,12 @@ export class SingleselectorComponent implements ControlValueAccessor {
   }
 
   @Input()
-  get value(): string {
-    return this.getOptionEncoded(this.select?.nativeElement.selectedIndex ?? -1);
+  get value(): SingleselectorValue {
+    return this._value;
   }
-  set value(value: string) {
-    if (this.select?.nativeElement)
+  set value(value: SingleselectorValue) {
+    this._value = value;
+    if (this.select?.nativeElement && this.select.nativeElement.options.length)
       this.select.nativeElement.selectedIndex = this.getOptionIndex(value);
     this.onChange?.(value);
     // TODO: Angular can be so weird!
@@ -81,6 +82,7 @@ export class SingleselectorComponent implements ControlValueAccessor {
   // these shadow visible properties
   private _options: string[][] = [];
   private _origOptions: SingleselectorOptions;
+  private _value: SingleselectorValue;
 
   private onChange: Function;
 
@@ -102,7 +104,7 @@ export class SingleselectorComponent implements ControlValueAccessor {
   }
 
   /** Get an indexed encoded option value */
-  getOptionIndex(value: string): number {
+  getOptionIndex(value: SingleselectorValue): number {
     const ix = this.options.findIndex(option => option[0] === value);
     return this.placeholder ? ix + 1 : ix;
   }
