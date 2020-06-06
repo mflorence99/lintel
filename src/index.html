@@ -16,15 +16,21 @@
     <script src="assets/eslint-rules.js"></script>
     <script src="assets/eslint-schema.js"></script>
 
-    <!-- NOTE: test files loaded dynamically here -->
-    <script src="assets/vscode-scripts.js"></script>
-
     <!-- NOTE: removed when deployed as VSCode extension -->
     <link href="assets/vscode-styles.css" rel="stylesheet" type="text/css">
 </head>
 
   <!-- NOTE: class removed when deployed as VSCode extension -->
   <body class="vscode-dark">
+
+    <!-- 
+      NOTE: test files loaded dynamically here along with simulation of acquireVsCodeApi
+      This is replaced when deployed as a VSCode extension by code to actually
+      call acquireVsCodeApi. It has to go in the body to be sure to be after
+      all the VSCode added scripts.
+    -->
+    <script src="assets/vscode-scripts.js"></script>
+
     <lintel-root>
 
       <aside class="startup-loading">

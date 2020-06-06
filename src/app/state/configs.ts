@@ -123,6 +123,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     if (this.params.searchParams.freshStart 
       || !this.selection.fileName
       || !this.fileNames.includes(this.selection.fileName)) {
+      this.selection.select({ fileName: null });
+      // TODO: this trick forces us to rebuild when fileName changes
       this.utils.nextTick(() => {
         this.selection.select({ fileName: this.fileNames[0] });
         this.selection.select({ pluginName: this.pluginNames[0] });

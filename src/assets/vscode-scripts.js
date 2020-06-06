@@ -5,9 +5,11 @@
 */
 
 /**  Emulate callbacks into the extension proper */
-const acquireVsCodeApi = (function() {
-  // TBD
-})();
+const lintelVSCodeAPI = {
+  postMessage: message => {
+    console.log('%cpostMessage()', 'color: green', message.command, message.fileName /*, message.text*/);
+  }
+}
 
 /** 
  * But first we have to load the script containing the ESLint files.
