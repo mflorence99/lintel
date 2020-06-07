@@ -1,63 +1,58 @@
-<ng-container
-  *ngIf="initialized">
+<lintel-configs
+  (categorySelected)="scrollToTop()"
+  class="configs">
+</lintel-configs>
 
-  <lintel-configs
-    (categorySelected)="scrollToTop()"
-    class="configs">
-  </lintel-configs>
+<ng-container
+  *ngIf="selection.fileName">
 
   <ng-container
-    *ngIf="selection.fileName">
+    [ngSwitch]="selection.category">
 
-    <ng-container
-      [ngSwitch]="selection.category">
+    <lintel-general 
+      *ngSwitchCase="params.generalSettings"
+      class="general settings">
+    </lintel-general>
 
-      <lintel-general 
-        *ngSwitchCase="params.generalSettings"
-        class="general settings">
-      </lintel-general>
+    <div
+      *ngSwitchDefault
+      class="rules settings">
 
-      <div
-        *ngSwitchDefault
-        class="rules settings">
+      <lintel-filter
+        class="filter">
+      </lintel-filter>
 
-        <lintel-filter
-          class="filter">
-        </lintel-filter>
+      <lintel-tabs
+        (pluginSelected)="scrollToTop()"
+        class="tabs">
+      </lintel-tabs>
 
-        <lintel-tabs
-          (pluginSelected)="scrollToTop()"
-          class="tabs">
-        </lintel-tabs>
+      <lintel-scroller
+        [hydratorMargin]="'100px'" 
+        [hydratorTrace]="true"
+        [ngSwitch]="selection.category"
+        class="rules"
+        id="theScroller"
+        lintelHydrator>
 
-        <lintel-scroller
-          [hydratorMargin]="'100px'" 
-          [hydratorTrace]="true"
-          [ngSwitch]="selection.category"
-          class="rules"
-          id="theScroller"
-          lintelHydrator>
+        <lintel-rules 
+          [view]="configs.activeView"
+          *ngSwitchCase="params.activeCategory">
+        </lintel-rules>
 
-          <lintel-rules 
-            [view]="configs.activeView"
-            *ngSwitchCase="params.activeCategory">
-          </lintel-rules>
+        <lintel-rules 
+          [view]="configs.unknownView"
+          *ngSwitchCase="params.unknownCategory">
+        </lintel-rules>
 
-          <lintel-rules 
-            [view]="configs.unknownView"
-            *ngSwitchCase="params.unknownCategory">
-          </lintel-rules>
+        <lintel-rules 
+          [view]="configs.categoryView[selection.category]"
+          *ngSwitchDefault>
+        </lintel-rules>
 
-          <lintel-rules 
-            [view]="configs.categoryView[selection.category]"
-            *ngSwitchDefault>
-          </lintel-rules>
+      </lintel-scroller>
 
-        </lintel-scroller>
-
-      </div>
-
-    </ng-container>
+    </div>
 
   </ng-container>
 

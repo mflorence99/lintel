@@ -138,7 +138,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   // accessors
 
   @Computed() get activeView(): View {
-    const rules = this.rules.snapshot[this.selection.pluginName]?.rules ?? { };
+    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
@@ -160,7 +160,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get categoryView(): CategoryView {
-    const rules = this.rules.snapshot[this.selection.pluginName]?.rules ?? { };
+    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
@@ -180,7 +180,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get inheritedView(): View {
-    const rules = this.rules.snapshot[this.selection.pluginName]?.rules ?? { };
+    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .filter(ruleName => this.isRuleInherited(ruleName))
@@ -192,7 +192,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get inheritedCategoryView(): CategoryView {
-    const rules = this.rules.snapshot[this.selection.pluginName]?.rules ?? { };
+    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .filter(ruleName => this.isRuleInherited(ruleName))
@@ -228,7 +228,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         return (parts.length === 2) ? 
           [parts[0], ruleName] : [this.params.basePluginName, ruleName];
       })
-      .filter(([pluginName, ruleName]) => !this.rules.snapshot[pluginName]?.rules?.[ruleName])
+      .filter(([pluginName, ruleName]) => !this.rules.snapshot[pluginName]?.[ruleName])
       .reduce((acc, [_, ruleName]) => {
         acc[ruleName] = [null, settings[ruleName]];
         return acc;
@@ -261,8 +261,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   private isRuleInherited(ruleName: string): boolean {
     const extensions = this.snapshot[this.selection.fileName]?.extends ?? [];
-    const inherits = this.rules.snapshot[this.selection.pluginName]?.lintel?.inherits ?? { };
-    const rules = this.rules.snapshot[this.selection.pluginName]?.rules ?? { };
+    const inherits = this.params.inherits[this.selection.pluginName] ?? { };
+    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     return Object.keys(inherits)
       .filter(extension => extensions.includes(extension))
       .some(extension => {

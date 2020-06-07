@@ -1,4 +1,5 @@
 import * as CommentJSON from '../comment-json';
+import * as esprima from 'esprima';
 import * as jsyaml from 'js-yaml';
 
 import { Computed } from '@ngxs-labs/data/decorators';
@@ -11,6 +12,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
 import { patch } from '@ngxs/store/operators';
+import { safeAssign } from './operators';
 
 // NOTE: files content is provided statically in index.html
 declare const eslintFiles: Record<string, string>;
@@ -34,7 +36,7 @@ export interface FilesStateModel {
 @State<FilesStateModel>({
   name: 'files',
   defaults: { 
-    files: eslintFiles,
+    files: { },
     objects: { }
   }
 })
@@ -48,13 +50,11 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     constructor(private superThis: FilesState) { }
 
     changeConfiguration(fileName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch(replacement) }) }));
-      // TODO: need to update AST
+      console.log(fileName, esprima.parseScript(JSON.stringify(replacement).replace(/:/g, '=')));
     }
 
     changeRule(fileName: string, ruleName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch({ rules: patch({ [ruleName]: replacement }) }) }) }));
-      // TODO: need to update AST
+      console.log(fileName, ruleName, esprima.parseScript(JSON.stringify(replacement)));
     }
 
     load(fileName: string): any {
@@ -80,13 +80,11 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     constructor(private superThis: FilesState) { }
 
     changeConfiguration(fileName: string, replacement: any): void {
-      // TODO: need to preserve comments
-      console.log('%cchangeConfiguration()', 'color: red', { fileName, replacement });
+      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: safeAssign(replacement) }) }));
     }
 
     changeRule(fileName: string, ruleName: string, replacement: any): void {
-      // TODO: need to preserve comments
-      console.log('%cchangeRule()', 'color: red', { fileName, ruleName, replacement });
+      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch({ rules: safeAssign({ [ruleName]: replacement }) }) }) }));
     }
 
     load(fileName: string): any {
@@ -197,7 +195,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
         objs[fileName] = impl.parse(eslintFiles[fileName]);
         return objs;
       }, { });
-    this.ctx.patchState({ objects  });
+    this.ctx.setState({ files: eslintFiles, objects  });
   }
 
   // accessors

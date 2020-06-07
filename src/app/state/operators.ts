@@ -1,5 +1,7 @@
 import { StateOperator } from '@ngxs/store';
 
+import { assign } from '../comment-json';
+
 /**
  * Common state operators
  *
@@ -11,5 +13,10 @@ export function updateItems(items: any[]): StateOperator<Readonly<any[]>> {
     const remaining = state ? state.slice(items.length) : [];
     return [...items, ...remaining];
   };
-  
+}
+
+export function safeAssign(source: any): StateOperator<Readonly<any>> {
+  return (state: any): Readonly<any> => {
+    return assign({ ...state }, source);
+  };
 }

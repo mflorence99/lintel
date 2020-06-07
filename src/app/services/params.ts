@@ -10,9 +10,33 @@ export class Params {
   activeCategory = 'Active Rules';
   basePluginName = 'eslint';
   generalSettings = 'ESLint Config';
-  searchParams: {
-    freshStart: boolean;
+
+  // TODO: this belongs SOMEWHERE, we just don't know where yet
+  inherits = {
+    'eslint': {
+      'eslint:recommended': {
+        'recommended': 'truthy'
+      }
+    },
+    '@typescript-eslint': {
+      'plugin:@typescript-eslint/eslint-recommended': {
+        'extendsBaseRule': 'truthy'
+      },
+      'plugin:@typescript-eslint/recommended': {
+        'recommended': 'truthy',
+        'requiresTypeChecking': 'falsy'
+      },
+      'plugin:@typescript-eslint/recommended-requiring-type-checking': {
+        'recommended': 'truthy',
+        'requiresTypeChecking': 'truthy'
+      }
+    }
   };
+
+  searchParams = {
+    freshStart: false
+  };
+
   unknownCategory = 'Unknown Rules';
 
   get debounceTimeout(): number {

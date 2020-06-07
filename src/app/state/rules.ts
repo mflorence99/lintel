@@ -33,11 +33,6 @@ export interface GUIElement {
 
 export type Level = 'error' | 'warn' | 'off';
 
-export interface Lintel {
-  inherits: Record<string, Record<string, 'truthy' | 'falsy'>>;
-  version: string;
-}
-
 export interface Rule {
   meta: {
     deprecated: boolean;
@@ -55,12 +50,7 @@ export interface Rule {
   };
 }
 
-export interface Rules {
-  lintel: Lintel;
-  rules: Record<string, Rule>;
-}
-
-export type RulesStateModel = Record<string, Rules>;
+export type RulesStateModel = Record<string, Record<string, Rule>>;
 
 // NOTE: schema can be any of the following:
 // - scheme                    <--- eg: id-blacklist, consistent-this
@@ -169,7 +159,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
     if (['no-mixed-operators'].includes(ruleName))
       return true;
     else {
-      const json = JSON.stringify(rule.meta.schema);
+      const json = JSON.stringify(rule?.meta.schema);
       return json && (json.includes('"anyOf":') || json.includes('"oneOf":'));
     }
   }
@@ -329,8 +319,8 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
     const model = this.utils.deepCopy(eslintRules);
     // NOTE: each rule has its own schema
     Object.entries(model)
-      .forEach(([_, rules]: [string, Rules]) => {
-        Object.entries(rules.rules)
+      .forEach(([_, rules]: [string, Record<string, Rule>]) => {
+        Object.entries(rules)
           // NOTE: take care of obvious data noise case
           .map(([_, rule]: [string, Rule]) => {
             if (this.utils.isEmptyObject(rule.meta.schema))
