@@ -224,7 +224,7 @@ const restore_prop = () => {
 };
 
 const parse_object = () => {
-  const obj = {};
+  const obj = { };
   set_comments_host(obj);
   set_prop(UNDEFINED, true);
 
@@ -391,7 +391,7 @@ export function parse(code, rev = null, no_comments = false) {
   index = -1;
   next();
 
-  set_comments_host({});
+  set_comments_host({ });
 
   parse_comments(PREFIX_BEFORE_ALL);
 
