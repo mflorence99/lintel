@@ -49,7 +49,7 @@ module.exports = {
 
   "env": {
 
-    "browser": false,                       // browser global variables
+    "browser": false, /* browser global variables */
     "node": false,                          // Node.js global variables and Node.js scoping.
     "commonjs": false,                      // CommonJS global variables and CommonJS scoping (use this for browser-only code that uses Browserify/WebPack).
     "shared-node-browser": false,           // Globals common to both Node and Browser.

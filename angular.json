@@ -47,7 +47,11 @@
             "main": "src/main.ts",
             "outputPath": "dist/lintel",
             "polyfills": "src/polyfills.ts",
-            "scripts": [],
+            "scripts": [
+              "src/scripts/escodegen@1.14.2/escodegen.browser.js",
+              "src/scripts/esprima@4.1/esprima.js",
+              "src/scripts/js-yaml@3.14.0/js-yaml.min.js"
+            ],
             "styles": [
               "src/theme.scss"
             ],

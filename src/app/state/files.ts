@@ -1,4 +1,5 @@
 import * as CommentJSON from '../comment-json';
+import * as escodegen from 'escodegen';
 import * as esprima from 'esprima';
 import * as jsyaml from 'js-yaml';
 
@@ -18,7 +19,16 @@ import { safeAssign } from './operators';
 declare const eslintFiles: Record<string, string>;
 declare const lintelVSCodeAPI;
 
+const eprismaOptions: any = {
+  comment: true,
+  loc: true,
+  range: true,
+  tokens: true,
+  tolerant: true
+};
+
 interface ESLintFile {
+  ast(source: string): esprima.Program;
   changeConfiguration(fileName: string, replacement: any): void;
   changeRule(fileName: string, ruleName: string, replacement: any): void;
   load(fileName: string): any;
@@ -27,8 +37,15 @@ interface ESLintFile {
 }
 
 export interface FilesStateModel {
-  files: Record<string, string>;
+  indents: Record<string, Indent>;
   objects: Record<string, any>;
+}
+
+export interface Indent {
+  amount: number;
+  indent: string;
+  quotes: 'double' | 'single';
+  type: 'space' | 'tab';
 }
 
 @Injectable({ providedIn: 'root' })
@@ -36,12 +53,16 @@ export interface FilesStateModel {
 @State<FilesStateModel>({
   name: 'files',
   defaults: { 
-    files: { },
+    indents: { },
     objects: { }
   }
 })
 
 export class FilesState extends NgxsDataRepository<FilesStateModel> {
+
+  // NOTE: keeping ASTs here rather than in state because we really want
+  // a mutable, write-only object
+  private asts: Record<string, esprima.Program> = { };
 
   // @see https://stackoverflow.com/questions/32494174
 
@@ -49,12 +70,18 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     constructor(private superThis: FilesState) { }
 
+    ast(source: string): esprima.Program {
+      return esprima.parseScript(source, eprismaOptions);
+    }
+
     changeConfiguration(fileName: string, replacement: any): void {
-      console.log(fileName, esprima.parseScript(JSON.stringify(replacement).replace(/:/g, '=')));
+      const ast = this.superThis.asts[fileName];
+      const patch = esprima.parseScript(`replacement = ${JSON.stringify(replacement)}`);
+      console.log(ast, patch);
     }
 
     changeRule(fileName: string, ruleName: string, replacement: any): void {
-      console.log(fileName, ruleName, esprima.parseScript(JSON.stringify(replacement)));
+      console.log(fileName, ruleName, replacement);
     }
 
     load(fileName: string): any {
@@ -62,15 +89,19 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
 
     parse(source: string): any {
-      // TODO: need to create AST
       const module: any = { };
       eval(source);
       return module.exports;
     }
 
     save(fileName: string): void {
-      // TODO: need to serialize AST
-      console.log({ fileName });
+      const command = 'save';
+      const indent = this.superThis.snapshot.indents[fileName];
+      let ast = this.superThis.asts[fileName];
+      // @see https://gist.github.com/vkz/c87186074d613cddbcf4
+      ast = escodegen.attachComments(ast, ast.comments, ast.tokens);
+      const source = escodegen.generate(ast, { comment: true, format: {indent: { style: indent.indent }, quotes: indent.quotes } });
+      lintelVSCodeAPI.postMessage({ command, fileName, source });
     }
 
   }(this);
@@ -78,6 +109,10 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   private jsonFile = new class implements ESLintFile {
 
     constructor(private superThis: FilesState) { }
+
+    ast(_: string): esprima.Program {
+      return null;
+    }
 
     changeConfiguration(fileName: string, replacement: any): void {
       this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: safeAssign(replacement) }) }));
@@ -97,7 +132,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     save(fileName: string): void {
       const command = 'save';
-      const indent = CommentJSON.detectIndent(this.superThis.snapshot.files[fileName]);
+      const indent = this.superThis.snapshot.indents[fileName];
       const object = this.superThis.snapshot.objects[fileName];
       const source = CommentJSON.stringify(object, null, indent.indent);
       lintelVSCodeAPI.postMessage({ command, fileName, source });
@@ -107,6 +142,10 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   private packageJSONFile = new class implements ESLintFile {
 
     constructor(private superThis: FilesState) { }
+
+    ast(_: string): esprima.Program {
+      return null;
+    }
 
     changeConfiguration(fileName: string, replacement: any): void {
       this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch({ eslintConfig: patch(replacement) }) }) }));
@@ -126,7 +165,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     save(fileName: string): void {
       const command = 'save';
-      const indent = CommentJSON.detectIndent(this.superThis.snapshot.files[fileName]);
+      const indent = this.superThis.snapshot.indents[fileName];
       const object = this.superThis.snapshot.objects[fileName];
       const source = JSON.stringify(object, null, indent.indent);
       lintelVSCodeAPI.postMessage({ command, fileName, source });
@@ -137,6 +176,10 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   private yamlFile = new class implements ESLintFile {
 
     constructor(private superThis: FilesState) { }
+
+    ast(_: string): esprima.Program {
+      return null;
+    }
 
     changeConfiguration(fileName: string, replacement: any): void {
       this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch(replacement) }) }));
@@ -156,7 +199,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     save(fileName: string): void {
       const command = 'save';
-      const indent = CommentJSON.detectIndent(this.superThis.snapshot.files[fileName]);
+      const indent = this.superThis.snapshot.indents[fileName];
       const object = this.superThis.snapshot.objects[fileName];
       const source = jsyaml.safeDump(object, { indent: indent.amount });
       lintelVSCodeAPI.postMessage({ command, fileName, source });
@@ -189,13 +232,26 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   @DataAction({ insideZone: true })
   initialize(): void {
-    const objects = Object.keys(eslintFiles)
-      .reduce((objs, fileName) => {
+    // NOTE: we keep ASTs out of state, see above
+    this.asts = Object.keys(eslintFiles)
+      .reduce((acc, fileName) => {
         const impl = this.impl(fileName);
-        objs[fileName] = impl.parse(eslintFiles[fileName]);
-        return objs;
+        acc[fileName] = impl.ast(eslintFiles[fileName]);
+        return acc;
       }, { });
-    this.ctx.setState({ files: eslintFiles, objects  });
+    const indents = Object.keys(eslintFiles)
+      .reduce((acc, fileName) => {
+        acc[fileName] = CommentJSON.detectIndent(eslintFiles[fileName]);
+        return acc;
+      }, { });
+    this.ctx.patchState({ indents });
+    const objects = Object.keys(eslintFiles)
+      .reduce((acc, fileName) => {
+        const impl = this.impl(fileName);
+        acc[fileName] = impl.parse(eslintFiles[fileName]);
+        return acc;
+      }, { });
+    this.ctx.patchState({ objects });
   }
 
   // accessors

@@ -135,6 +135,12 @@ export function detectIndent(string) {
   let type;
   let amount = 0;
   let indent = '';
+  // MEF added 6/7/2020
+  // NOTE: crude but maybe works
+  // @see https://stackoverflow.com/questions/881085
+  const numDoubles = (string.match(/"/g) || []).length;
+  const numSingles = (string.match(/'/g) || []).length;
+  let quotes = (numDoubles > numSingles) ? 'double' : 'single';
 
   if (keyOfMostUsedIndent !== undefined) {
     ({ type, amount } = decodeIndentsKey(keyOfMostUsedIndent));
@@ -144,6 +150,8 @@ export function detectIndent(string) {
   return {
     amount,
     type,
-    indent
+    indent, 
+  // MEF added 6/7/2020
+    quotes
   };
 };
