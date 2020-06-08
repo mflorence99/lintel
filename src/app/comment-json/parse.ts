@@ -254,8 +254,16 @@ const parse_object = () => {
     }
 
     started = true;
-    expect('String');
-    name = JSON.parse(current.value);
+
+    // MEF 6/8/2020
+    try {
+      expect('String');
+      name = JSON.parse(current.value);
+    }
+    catch (exception) {
+      expect('Identifier');
+      name = current.value;
+    }
 
     set_prop(name);
     assign_comments(PREFIX_BEFORE);

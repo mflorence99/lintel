@@ -67,7 +67,15 @@ const escape = string => {
 // Escape no control characters, no quote characters,
 // and no backslash characters,
 // then we can safely slap some quotes around it.
-const quote = string => `"${escape(string)}"`;
+const quote = string => `${quoteStr}${escape(string)}${quoteStr}`;
+
+// MEF 6/8/2020
+const quoteKey = key => {
+  if (!quoteKeys && key.match(/^([a-zA-Z_$][a-zA-Z\d_$]*)$/))
+    return key;
+  return quote(key);
+};
+
 const comment_stringify = (value, line) => line
   ? `//${value}`
   : `/*${value}*/`;
@@ -106,10 +114,16 @@ const process_comments = (host, symbol_tag, deeper_gap, display_block = false) =
 
 let replacer = null;
 let indent = EMPTY;
+// MEF 6/8/2020
+let quoteStr = '"';
+let quoteKeys = true;
 
 const clean = () => {
   replacer = null;
   indent = EMPTY;
+  // MEF 6/8/2020
+  quoteStr = '"';
+  quoteKeys = true;
 };
 
 const join = (one, two, gap) =>
@@ -232,7 +246,7 @@ const object_stringify = (value, gap) => {
 
     inside += before || (LF + deeper_gap);
 
-    inside += quote(key)
+    inside += quoteKey(key) // MEF 6/8/2020
       + process_comments(value, AFTER_PROP(key), deeper_gap)
       + COLON
       + process_comments(value, AFTER_COLON(key), deeper_gap)
@@ -318,7 +332,9 @@ const get_indent = space => isString(space)
 
 // @param {function()|Array} replacer
 // @param {string|number} space
-export function stringify(value, replacer_ = null, space = null) {
+export function stringify(value, replacer_ = null, space = null, 
+  // MEF 6/8/2020 -- ugly, but it does the job
+  quoteStr_ = '"', quoteKeys_ = true) {
   // The stringify method takes a value and an optional replacer, and an optional
   // space parameter, and returns a JSON text. The replacer can be a function
   // that can replace values, or an array of strings that will select the keys.
@@ -342,6 +358,9 @@ export function stringify(value, replacer_ = null, space = null) {
 
   replacer = replacer_;
   indent = indent_;
+  // MEF 6/8/2020
+  quoteStr = quoteStr_;
+  quoteKeys = quoteKeys_;
 
   const str = base_stringify('', { '': value }, EMPTY);
 

@@ -140,7 +140,7 @@ export function detectIndent(string) {
   // @see https://stackoverflow.com/questions/881085
   const numDoubles = (string.match(/"/g) || []).length;
   const numSingles = (string.match(/'/g) || []).length;
-  let quotes = (numDoubles > numSingles) ? 'double' : 'single';
+  let quotes = (numDoubles > numSingles) ? '"' : "'";
 
   if (keyOfMostUsedIndent !== undefined) {
     ({ type, amount } = decodeIndentsKey(keyOfMostUsedIndent));
