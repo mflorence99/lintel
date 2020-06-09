@@ -1,5 +1,6 @@
 const fs = require('fs');
-const CLIEngine = require("eslint").CLIEngine;
+
+const CLIEngine = require('eslint').CLIEngine;
 
 const plugins = [
   ['@typescript-eslint', 'plugin:@typescript-eslint/all'],
@@ -19,13 +20,17 @@ plugins.forEach(plugin => {
       plugins: [plugin[0]],
       extends: [plugin[1]]
     },
-    useEslintrc: true
+    useEslintrc: false
   });
 
   const rules = cli.getRules();
 
   const obj = { };
-  rules.forEach((value, key) => obj[key] = value);
+  rules.forEach((value, key) => {
+    // TODO: we always get eslint:all -- why??
+    if (plugin[1].startsWith('eslint:') || key.includes('/'))
+      obj[key] = value;
+  });
 
   schema[plugin[0]] = obj;
 

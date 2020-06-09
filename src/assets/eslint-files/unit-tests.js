@@ -87,6 +87,9 @@ eslintFiles = {
       },
       "extends": [
         "eslint:recommended",
+        "plugin:jest/recommended",
+        "plugin:lodash/recommended",
+        "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
@@ -108,7 +111,9 @@ eslintFiles = {
         "sourceType": "module"
       },
       "plugins": [
-        "@angular-eslint",
+        "jest",
+        "lodash",
+        "react",
         "@typescript-eslint"
       ],
       "reportUnusedDisableDirectives": true,

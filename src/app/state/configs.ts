@@ -167,7 +167,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .sort()
       .reduce((acc, ruleName) => {
-        const category = rules[ruleName].meta?.docs?.category;
+        let category = rules[ruleName].meta?.docs?.category;
+        if (!category || (category.length === 0))
+          category = this.params.catchAllCategory;
         if (!acc[category])
           acc[category] = { };
         if (!acc[category][ruleName] || settings[ruleName])
@@ -199,7 +201,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .filter(ruleName => this.isRuleInherited(ruleName))
       .sort()
       .reduce((acc, ruleName) => {
-        const category = rules[ruleName].meta?.docs?.category;
+        let category = rules[ruleName].meta?.docs?.category;
+        if (!category || (category.length === 0))
+          category = this.params.catchAllCategory;
         if (!acc[category])
           acc[category] = { };
         acc[category][ruleName] = [rules[ruleName], this.settingsForInherited(rules[ruleName])];

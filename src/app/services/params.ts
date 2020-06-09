@@ -9,15 +9,11 @@ export class Params {
 
   activeCategory = 'Active Rules';
   basePluginName = 'eslint';
+  catchAllCategory = 'Other Rules';
   generalSettings = 'ESLint Config';
 
   // TODO: this belongs SOMEWHERE, we just don't know where yet
   inherits = {
-    'eslint': {
-      'eslint:recommended': {
-        'recommended': 'truthy'
-      }
-    },
     '@typescript-eslint': {
       'plugin:@typescript-eslint/eslint-recommended': {
         'extendsBaseRule': 'truthy'
@@ -30,7 +26,32 @@ export class Params {
         'recommended': 'truthy',
         'requiresTypeChecking': 'truthy'
       }
-    }
+    },
+    'eslint': {
+      'eslint:recommended': {
+        'recommended': 'truthy'
+      }
+    },
+    'jest': {
+      'plugin:jest/recommended': {
+        'recommended': 'truthy'
+      }
+    },
+    'lodash': {
+      'plugin:lodash/recommended': {
+        'recommended': 'truthy'
+      }
+    },
+    'lodash-fp': {
+      'plugin:lodash-fp/recommended': {
+        'recommended': 'truthy'
+      }
+    },
+    'react': {
+      'plugin:react/recommended': {
+        'recommended': 'truthy'
+      }
+    },
   };
 
   searchParams = {
