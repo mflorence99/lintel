@@ -9,6 +9,8 @@ import { RootPageComponent } from './pages/root/page';
 import { RootPageModule } from './pages/root/module';
 
 import { environment } from '../environments/environment';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { states } from './state/app';
 
@@ -49,7 +51,7 @@ export class LintelModule {
 
   /** ctor */
   constructor(library: FaIconLibrary) {
-    library.addIconPacks(fas);
+    library.addIconPacks(fab, far, fas);
   }
 
 }

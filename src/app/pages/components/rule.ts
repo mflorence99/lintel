@@ -7,6 +7,7 @@ import { FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
+import { HydratedDirective } from '../../directives/hydrated';
 import { Input } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -20,6 +21,8 @@ import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
+
+declare const lintelVSCodeAPI;
 
 /**
  * Rule component
@@ -35,8 +38,6 @@ import { takeUntil } from 'rxjs/operators';
 export class RuleComponent implements OnInit, OnDestroy {
 
   controls: AbstractControl[] = [];
-
-  @Input() hydrated: boolean;
 
   ruleForm: FormGroup;
 
@@ -94,6 +95,7 @@ export class RuleComponent implements OnInit, OnDestroy {
   constructor(private cdf: ChangeDetectorRef,
               public configs: ConfigsState,
               private formBuilder: FormBuilder,
+              public hydrated: HydratedDirective,
               public rules: RulesState,
               public selection: SelectionState) { 
     this.ruleForm = this.formBuilder.group({
@@ -102,6 +104,11 @@ export class RuleComponent implements OnInit, OnDestroy {
         elements: new FormArray([])
       })
     });
+  }
+
+  /** Edit a file */
+  editFile(fileName: string): void {
+    lintelVSCodeAPI.postMessage({ command: 'edit', fileName });
   }
 
   /** Get all the controls from a FormGroup */

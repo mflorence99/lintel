@@ -7,53 +7,73 @@
   *ngIf="selection.fileName">
 
   <ng-container
-    [ngSwitch]="selection.category">
+    *ngIf="configs.configuration; else invalidConfig">
 
-    <lintel-general 
-      *ngSwitchCase="params.generalSettings"
-      class="general settings">
-    </lintel-general>
+    <ng-container
+      [ngSwitch]="selection.category">
 
-    <div
-      *ngSwitchDefault
-      class="rules settings">
+      <lintel-general 
+        *ngSwitchCase="params.generalSettings"
+        class="general settings">
+      </lintel-general>
 
-      <lintel-filter
-        class="filter">
-      </lintel-filter>
+      <div
+        *ngSwitchDefault
+        class="rules settings">
 
-      <lintel-tabs
-        (pluginSelected)="scrollToTop()"
-        class="tabs">
-      </lintel-tabs>
+        <lintel-filter
+          class="filter">
+        </lintel-filter>
 
-      <lintel-scroller
-        [hydratorMargin]="'100px'" 
-        [hydratorTrace]="true"
-        [ngSwitch]="selection.category"
-        class="rules"
-        id="theScroller"
-        lintelHydrator>
+        <lintel-tabs
+          (pluginSelected)="scrollToTop()"
+          class="tabs">
+        </lintel-tabs>
 
-        <lintel-rules 
-          [view]="configs.activeView"
-          *ngSwitchCase="params.activeCategory">
-        </lintel-rules>
+        <lintel-scroller
+          [hydratorMargin]="'100px'" 
+          [hydratorTrace]="true"
+          [ngSwitch]="selection.category"
+          class="rules"
+          id="theScroller"
+          lintelHydrator>
 
-        <lintel-rules 
-          [view]="configs.unknownView"
-          *ngSwitchCase="params.unknownCategory">
-        </lintel-rules>
+          <lintel-rules 
+            [view]="configs.activeView"
+            *ngSwitchCase="params.activeCategory">
+          </lintel-rules>
 
-        <lintel-rules 
-          [view]="configs.categoryView[selection.category]"
-          *ngSwitchDefault>
-        </lintel-rules>
+          <lintel-rules 
+            [view]="configs.unknownView"
+            *ngSwitchCase="params.unknownCategory">
+          </lintel-rules>
 
-      </lintel-scroller>
+          <lintel-rules 
+            [view]="configs.categoryView[selection.category]"
+            *ngSwitchDefault>
+          </lintel-rules>
 
-    </div>
+        </lintel-scroller>
+
+      </div>
+
+    </ng-container>
 
   </ng-container>
+
+  <ng-template
+    #invalidConfig>
+
+    <div
+      (click)="editFile(selection.fileName)"
+      class="exception settings">
+      <div>
+        <div>This configuration file cannot be analyzed</div>
+        <a>Edit in {{ selection.fileName }}</a>
+      </div>
+    </div>
+
+  </ng-template>
+
 
 </ng-container>

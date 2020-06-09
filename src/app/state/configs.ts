@@ -156,7 +156,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get configuration(): Configuration {
-    return this.snapshot[this.selection.fileName] ?? { };
+    // NOTE: a null configuration is an upstream signal
+    return this.snapshot[this.selection.fileName];
   }
 
   @Computed() get categoryView(): CategoryView {
@@ -209,7 +210,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @Computed() get pluginNames(): string[] {
     const raw = Object.keys(this.snapshot)
       .reduce((acc, fileName) => {
-        acc.push(...(this.snapshot[fileName].plugins ?? []));
+        acc.push(...(this.snapshot[fileName]?.plugins ?? []));
         return acc;
       }, [])
       .filter(pluginName => this.rules.snapshot[pluginName]);
@@ -278,6 +279,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   private normalize(configs: ConfigsStateModel): ConfigsStateModel {
     const model = this.utils.deepCopy(configs);
     Object.entries(configs)
+      .filter(([_, configuration]) => !!configuration)
       .forEach(([fileName, configuration]) => {
         // NOTE: is is very convenient to normalize configs before use
         configuration.rules = configuration.rules ?? { };

@@ -8,6 +8,7 @@
     "at-rule-no-unknown": null,
     "block-closing-brace-empty-line-before": null,
     "color-hex-length": "long",
+    "custom-property-empty-line-before": null, 
     "no-descending-specificity": null,
     "order/order": [
       "custom-properties",

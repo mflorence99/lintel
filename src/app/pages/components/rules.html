@@ -13,8 +13,7 @@
       </div>
 
       <lintel-rule
-        (hydrated)="rule.hydrated = $event"
-        [hydrated]="true"
+        [isHydrated]="false"
         [lintelHydrated]="ruleDigest.ruleName"
         [ruleDigest]="ruleDigest"
         [schemaDigest]="rules.makeSchemaDigest(item.key, item.value[0])"

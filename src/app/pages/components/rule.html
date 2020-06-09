@@ -40,7 +40,7 @@
   </lintel-singleselector>
 
   <div
-    *ngIf="hydrated && schemaDigest.canGUI"
+    *ngIf="hydrated.isHydrated && schemaDigest.canGUI"
     formGroupName="root"
     class="elements">
 
@@ -54,6 +54,7 @@
     *ngIf="!schemaDigest.canGUI">
 
     <div
+      (click)="editFile(selection.fileName)"
       *ngIf="rules.notYet(ruleDigest.ruleName, ruleDigest.rule) || !ruleDigest.rule; else debugWithJSON"
       class="notYet">
       <a>Edit in {{ selection.fileName }}</a>

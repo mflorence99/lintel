@@ -8,6 +8,8 @@ import { RulesState } from '../../state/rules';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
 
+declare const lintelVSCodeAPI;
+
 /**
  * Lintel Root
  */
@@ -34,6 +36,11 @@ export class RootPageComponent {
     this.configs.initialize();
     this.rules.initialize();
     this.schema.initialize();
+  }
+
+  /** Edit a file */
+  editFile(fileName: string): void {
+    lintelVSCodeAPI.postMessage({ command: 'edit', fileName });
   }
 
   /** Scroll to top */

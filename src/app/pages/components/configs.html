@@ -6,10 +6,18 @@
     (click)="selectFileName($event, fileName)"
     [ngClass]="{selected: selection.fileName === fileName}"
     class="filename">
+
+    <fa-icon 
+      [fixedWidth]="true"
+      [icon]="iconForFile(fileName)"
+      [ngStyle]="{color: colorForFile(fileName)}"
+      size="lg">
+    </fa-icon>
+
     {{ fileName }}
 
     <ng-container
-      *ngIf="selection.fileName === fileName">
+      *ngIf="configs.configuration && (selection.fileName === fileName)">
 
       <div
         (click)="selectCategory($event, params.generalSettings)"

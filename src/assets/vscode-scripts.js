@@ -7,7 +7,7 @@
 /**  Emulate callbacks into the extension proper */
 const lintelVSCodeAPI = {
   postMessage: message => {
-    console.log('%cpostMessage()', 'color: green', message.command, message.fileName, message.source);
+    console.log('%cpostMessage()', 'color: green', { message });
   }
 }
 

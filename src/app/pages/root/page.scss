@@ -13,6 +13,23 @@
   grid-area: configs;
 }
 
+.exception {
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: grid;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+
+  > div {
+    line-height: 200%;
+    text-align: center;
+  }
+
+}
+
 .rules {
   display: grid;
   grid-template-areas:
@@ -40,4 +57,12 @@
 
 .settings {
   grid-area: settings;
+}
+
+::ng-deep body.vscode-dark lintel-root .exception {
+  background-image: url('../../../assets/exception-dark.svg');
+}
+
+::ng-deep body.vscode-light lintel-root .exception {
+  background-image: url('../../../assets/exception-light.svg');
 }

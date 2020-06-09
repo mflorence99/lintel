@@ -28,6 +28,8 @@
     "@angular/router": "~9.1.4",
     "@fortawesome/angular-fontawesome": "^0.6.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-brands-svg-icons": "^5.13.0",
+    "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@ngxs-labs/data": "^3.0.4",
     "@ngxs/logger-plugin": "^3.6.2",
@@ -93,20 +95,6 @@
     "start": "ng serve",
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
     "vscode:prepublish": "npm run build"
-  },
-  "src/.eslintrc.yml": {
-    "plugins": [
-      "does-not-exist"
-    ],
-    "rules": {
-      "@typescript-eslint/brace-style": "off"
-    }
-  },
-  "src/app/.eslintrc.js": {
-    "rules": {
-      "@typescript-eslint/no-empty-function": "error",
-      "@typescript-eslint/no-explicit-any": "error"
-    }
   },
   "version": "0.0.0"
 }

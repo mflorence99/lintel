@@ -2,6 +2,8 @@
 
 @include mat-core();
 
+@import 'colors.scss';
+
 :root {
   --lintel-opacity-disabled: 0.3;
   --lintel-opacity-icon: 0.6;

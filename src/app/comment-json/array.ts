@@ -49,6 +49,13 @@ const assign_key_comments = (target, source, keys) => {
       return
     }
 
+    // MEF 6/8/2020
+    if (!isArray(source[key]) && isObject(source[key])) {
+      if (!target[key])
+        target[key] = { };
+      return assign_key_comments(target[key], source[key], Object.keys(source[key]));
+    }
+
     target[key] = source[key]
     SYMBOL_PREFIXES.forEach(prefix => {
       assign_comments(target, source, key, key, prefix)

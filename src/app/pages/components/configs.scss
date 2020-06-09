@@ -8,14 +8,27 @@
   line-height: 175%;
   margin-bottom: 1rem;
 
+  .category {
+    margin-left: 0.5rem;
+  }
+
   .category,
   .filename {
     color: var(--vscode-editorWidget-foreground);
     font-weight: normal;
 
+    fa-icon {
+      opacity: var(--lintel-opacity-icon);
+    }
+
     &.selected {
       color: var(--vscode-settings-headerForeground);
       font-weight: bold;
+
+      fa-icon {
+        opacity: 1;
+      }
+
     }
 
   }

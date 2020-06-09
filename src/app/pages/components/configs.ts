@@ -29,6 +29,28 @@ export class ConfigsComponent implements AfterViewChecked {
               public selection: SelectionState,
               public utils: Utils) { }
 
+  /** Color code a file */
+  colorForFile(fileName: string): string {
+    if (fileName.endsWith('package.json'))
+      return 'var(--mat-amber-a100)';
+    else if (fileName.endsWith('.js'))
+      return 'var(--mat-blue-a100)';
+    else if (fileName.endsWith('.cjs'))
+      return 'var(--mat-red-a100)';
+    else if (fileName.endsWith('.yml') || fileName.endsWith('.yaml'))
+      return 'var(--mat-teal-a100)';
+    else return 'var(--mat-pink-a100)';
+  }
+
+  /** Make an icon for a file */
+  iconForFile(fileName: string): string[] {
+    if (fileName.endsWith('package.json'))
+      return ['fab', 'node-js'];
+    else if (fileName.endsWith('.js'))
+      return ['fab', 'js'];
+    else return ['fas', 'file-code'];
+  }
+
   /** On every change detection */
   ngAfterViewChecked(): void {
     // NOTE: general settings always available

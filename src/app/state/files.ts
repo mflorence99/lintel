@@ -10,8 +10,7 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
-import { patch } from '@ngxs/store/operators';
-import { safeAssign } from './operators';
+import { assign } from '../comment-json';
 
 // NOTE: files content is provided statically in index.html
 declare const eslintFiles: Record<string, string>;
@@ -22,13 +21,16 @@ interface ESLintFile {
   changeConfiguration(fileName: string, replacement: any): void;
   changeRule(fileName: string, ruleName: string, replacement: any): void;
   load(fileName: string): any;
+  normalize(object: any): any;
   parse(fileName: string, source: string): any;
   save(fileName: string): void;
 }
 
+// NOTE: we don't actually store anything in the store itself,
+// because it is just a convenient framework to hold write-only data
+// for the purpose of regenerating eslintrc files
 export interface FilesStateModel {
-  indents: Record<string, Indent>;
-  objects: Record<string, any>;
+  dummy?: boolean;
 }
 
 export interface Indent {
@@ -42,13 +44,14 @@ export interface Indent {
 @StateRepository()
 @State<FilesStateModel>({
   name: 'files',
-  defaults: { 
-    indents: { },
-    objects: { },
-  }
+  defaults: { }
 })
 
 export class FilesState extends NgxsDataRepository<FilesStateModel> {
+
+  /* eslint-disable @typescript-eslint/member-ordering */
+  private indents: Record<string, Indent> = { };
+  private objects: Record<string, any> = { };
 
   // @see https://stackoverflow.com/questions/32494174
 
@@ -60,31 +63,48 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     constructor(private superThis: FilesState) { }
 
     changeConfiguration(fileName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: safeAssign(replacement) }) }));
+      const object = this.superThis.objects[fileName];
+      assign(object, replacement);
     }
 
     changeRule(fileName: string, ruleName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch({ rules: safeAssign({ [ruleName]: replacement }) }) }) }));
+      const object = this.superThis.objects[fileName].rules;
+      assign(object, { [ruleName]: replacement });
     }
 
     load(fileName: string): any {
-      return this.superThis.utils.deepCopy(this.superThis.snapshot.objects[fileName]);
+      return this.superThis.objects[fileName];
+    }
+
+    normalize(object: any): any {
+      if (!object.hasOwnProperty('rules'))
+        object['rules'] = { };
+      return object;
     }
 
     parse(fileName: string, source: string): any {
-      // regex out the prefix and suffix, and the rest is comment-json!
-      this.prefix[fileName] = source.match(/^.*module\.exports[^{]*/gm)[0];
-      this.suffix[fileName] = source.substring(source.lastIndexOf('}') + 1);
-      const ix = this.prefix[fileName].length;
-      const iy = source.length - this.suffix[fileName].length;
-      const json = source.substring(ix, iy);
-      return CommentJSON.parse(json);
+      try {
+        // regex out the prefix and suffix, and the rest is comment-json!
+        this.prefix[fileName] = source.match(/^.*module\.exports[^{]*/gm)[0];
+        this.suffix[fileName] = source.substring(source.lastIndexOf('}') + 1);
+        const ix = this.prefix[fileName].length;
+        const iy = source.length - this.suffix[fileName].length;
+        const json = source.substring(ix, iy);
+        return CommentJSON.parse(json);
+      } catch (exception) {
+        // if that didn't work, try a compile but we lose comments
+        this.prefix[fileName] = 'module.exports = ';
+        this.suffix[fileName] = ';';
+        const module: any = { };
+        eval(source);
+        return  module.exports;
+      }
     }
 
     save(fileName: string): void {
       const command = 'save';
-      const indent = this.superThis.snapshot.indents[fileName];
-      const object = this.superThis.snapshot.objects[fileName];
+      const indent = this.superThis.indents[fileName];
+      const object = this.superThis.objects[fileName];
       const json = CommentJSON.stringify(object, null, indent.indent, indent.quotes, false);
       const source = this.prefix[fileName] + json + this.suffix[fileName];
       lintelVSCodeAPI.postMessage({ command, fileName, source });
@@ -97,15 +117,23 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     constructor(private superThis: FilesState) { }
 
     changeConfiguration(fileName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: safeAssign(replacement) }) }));
+      const object = this.superThis.objects[fileName];
+      assign(object, replacement);
     }
 
     changeRule(fileName: string, ruleName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch({ rules: safeAssign({ [ruleName]: replacement }) }) }) }));
+      const object = this.superThis.objects[fileName].rules;
+      assign(object, { [ruleName]: replacement });
     }
 
     load(fileName: string): any {
-      return this.superThis.utils.deepCopy(this.superThis.snapshot.objects[fileName]);
+      return this.superThis.objects[fileName];
+    }
+
+    normalize(object: any): any {
+      if (!object.hasOwnProperty('rules'))
+        object['rules'] = { };
+      return object;
     }
 
     parse(_: string, source: string): any {
@@ -114,8 +142,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     save(fileName: string): void {
       const command = 'save';
-      const indent = this.superThis.snapshot.indents[fileName];
-      const object = this.superThis.snapshot.objects[fileName];
+      const indent = this.superThis.indents[fileName];
+      const object = this.superThis.objects[fileName];
       const source = CommentJSON.stringify(object, null, indent.indent);
       lintelVSCodeAPI.postMessage({ command, fileName, source });
     }
@@ -126,16 +154,26 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     constructor(private superThis: FilesState) { }
 
+    // NOTE: no worries here about comments
+
     changeConfiguration(fileName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch({ eslintConfig: patch(replacement) }) }) }));
+      const object = this.superThis.objects[fileName]['eslintConfig'];
+      Object.assign(object, replacement);
     }
 
     changeRule(fileName: string, ruleName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch({ eslintConfig: patch({ rules: patch({ [ruleName]: replacement }) }) }) }) }));
+      const object = this.superThis.objects[fileName]['eslintConfig'].rules;
+      object[ruleName] = replacement;
     }
 
     load(fileName: string): any {
-      return this.superThis.utils.deepCopy(this.superThis.snapshot.objects[fileName]['eslintConfig']);
+      return this.superThis.objects[fileName]['eslintConfig'];
+    }
+
+    normalize(object: any): any {
+      if (!object['eslintConfig'].hasOwnProperty('rules'))
+        object['eslintConfig']['rules'] = { };
+      return object;
     }
 
     parse(_: string, source: string): any {
@@ -144,8 +182,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     save(fileName: string): void {
       const command = 'save';
-      const indent = this.superThis.snapshot.indents[fileName];
-      const object = this.superThis.snapshot.objects[fileName];
+      const indent = this.superThis.indents[fileName];
+      const object = this.superThis.objects[fileName];
       const source = JSON.stringify(object, null, indent.indent);
       lintelVSCodeAPI.postMessage({ command, fileName, source });
     }
@@ -156,16 +194,26 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     constructor(private superThis: FilesState) { }
 
+    // NOTE: YAML does not currently preserve comments
+
     changeConfiguration(fileName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch(replacement) }) }));
+      const object = this.superThis.objects[fileName];
+      Object.assign(object, replacement);
     }
 
     changeRule(fileName: string, ruleName: string, replacement: any): void {
-      this.superThis.ctx.setState(patch({ objects: patch({ [fileName]: patch({ rules: patch({ [ruleName]: replacement }) }) }) }));
+      const object = this.superThis.objects[fileName].rules;
+      object[ruleName] = replacement;
     }
 
     load(fileName: string): any {
-      return this.superThis.utils.deepCopy(this.superThis.snapshot.objects[fileName]);
+      return this.superThis.objects[fileName];
+    }
+
+    normalize(object: any): any {
+      if (!object.hasOwnProperty('rules'))
+        object['rules'] = { };
+      return object;
     }
 
     parse(_: string, source: string): any {
@@ -174,13 +222,15 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     save(fileName: string): void {
       const command = 'save';
-      const indent = this.superThis.snapshot.indents[fileName];
-      const object = this.superThis.snapshot.objects[fileName];
+      const indent = this.superThis.indents[fileName];
+      const object = this.superThis.objects[fileName];
       const source = jsyaml.safeDump(object, { indent: indent.amount });
       lintelVSCodeAPI.postMessage({ command, fileName, source });
     }
 
   }(this);
+
+  /* eslint-enable @typescript-eslint/member-ordering */
 
   /** ctor */
   constructor(private utils: Utils) {
@@ -207,25 +257,29 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   @DataAction({ insideZone: true })
   initialize(): void {
-    const indents = Object.keys(eslintFiles)
+    this.indents = Object.keys(eslintFiles)
       .reduce((acc, fileName) => {
         acc[fileName] = CommentJSON.detectIndent(eslintFiles[fileName]);
         return acc;
       }, { });
-    this.ctx.patchState({ indents });
-    const objects = Object.keys(eslintFiles)
+    this.objects = Object.keys(eslintFiles)
       .reduce((acc, fileName) => {
         const impl = this.impl(fileName);
-        acc[fileName] = impl.parse(fileName, eslintFiles[fileName]);
+        try {
+          // if the source can't be parsed ...
+          acc[fileName] = impl.normalize(impl.parse(fileName, eslintFiles[fileName]));
+        } catch (exception) {
+          // ... a nullobject is an upstream signal
+          acc[fileName] = null;
+        }
         return acc;
       }, { });
-    this.ctx.patchState({ objects });
   }
 
   // accessors
 
   @Computed() get fileNames(): any {
-    return Object.keys(this.snapshot.objects);
+    return Object.keys(this.objects);
   }
 
   // public methods
@@ -237,7 +291,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   // private methods
 
   private impl(fileName: string): ESLintFile {
-    if (fileName === 'package.json')
+    if (fileName.endsWith('package.json'))
       return this.packageJSONFile;
     else if (fileName.endsWith('.js'))
       return this.jsFile;
