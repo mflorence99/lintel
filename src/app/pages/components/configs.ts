@@ -32,14 +32,14 @@ export class ConfigsComponent implements AfterViewChecked {
   /** Color code a file */
   colorForFile(fileName: string): string {
     if (fileName.endsWith('package.json'))
-      return 'var(--mat-amber-a100)';
+      return 'var(--mat-green-a400)';
     else if (fileName.endsWith('.js'))
-      return 'var(--mat-blue-a100)';
+      return 'var(--mat-blue-a400)';
     else if (fileName.endsWith('.cjs'))
-      return 'var(--mat-red-a100)';
+      return 'var(--mat-red-a400)';
     else if (fileName.endsWith('.yml') || fileName.endsWith('.yaml'))
-      return 'var(--mat-teal-a100)';
-    else return 'var(--mat-pink-a100)';
+      return 'var(--mat-yellow-a400)';
+    else return 'var(--mat-orange-a400)';
   }
 
   /** Make an icon for a file */
@@ -48,7 +48,7 @@ export class ConfigsComponent implements AfterViewChecked {
       return ['fab', 'node-js'];
     else if (fileName.endsWith('.js'))
       return ['fab', 'js'];
-    else return ['fas', 'file-code'];
+    else return ['far', 'file-code'];
   }
 
   /** On every change detection */

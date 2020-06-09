@@ -314,6 +314,7 @@ eslintFiles = {
   }`,
   "empty.json": `{ /* empty */ }`,
   "invalid.json": `blah blah`,
+  "not-supported.cjs": `blah blah`,
   "src/app/.eslintrc.yaml": `
 parserOptions:
   ecmaFeatures:

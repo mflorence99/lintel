@@ -55,6 +55,28 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   // @see https://stackoverflow.com/questions/32494174
 
+  private cjsFile = new class implements ESLintFile {
+
+    constructor(private superThis: FilesState) { }
+
+    changeConfiguration(_fileName: string, _replacement: any): void { }
+
+    changeRule(_fileName: string, _ruleName: string, _replacement: any): void { }
+
+    load(_fileName: string): any {
+      return null;
+    }
+
+    normalize(_object: any): any { }
+
+    parse(fileName: string, _source: string): any {
+      throw new Error(`${fileName} format not supported`);
+    }
+
+    save(_fileName: string): void { }
+
+  }(this);
+
   private jsFile = new class implements ESLintFile {
 
     private prefix: Record<string, string> = { };
@@ -293,6 +315,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   private impl(fileName: string): ESLintFile {
     if (fileName.endsWith('package.json'))
       return this.packageJSONFile;
+    else if (fileName.endsWith('.cjs'))
+      return this.cjsFile;
     else if (fileName.endsWith('.js'))
       return this.jsFile;
     else if (fileName.endsWith('.yml') || fileName.endsWith('.yaml'))
