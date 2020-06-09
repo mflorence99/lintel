@@ -39,7 +39,7 @@ export class Params {
     },
     'lodash': {
       'plugin:lodash/recommended': {
-        'recommended': 'truthy'
+        'url': 'truthy'
       }
     },
     'lodash-fp': {

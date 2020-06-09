@@ -160,7 +160,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       return true;
     else {
       const json = JSON.stringify(rule?.meta.schema);
-      return json && (json.includes('"anyOf":') || json.includes('"oneOf":'));
+      return json && (json.includes('"allOf":') || json.includes('"anyOf":') || json.includes('"oneOf":'));
     }
   }
 

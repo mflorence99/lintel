@@ -14,12 +14,12 @@ import { forwardRef } from '@angular/core';
 // -- array of encoded values
 // -- array of [encoded, decoded] values <-- PREFERRED
 
-export type SingleselectorOptions = (string | number)[] | (string | number)[][];
+export type SingleselectorOptions = (SingleselectorValue)[] | (SingleselectorValue)[][];
 
 // NOTE: values can be one of the following:
 // -- encoded value <-- PREFERRED
 
-export type SingleselectorValue = string | number;
+export type SingleselectorValue = string | number | boolean;
 
 /**
  * Singleselect values via select/options
@@ -80,7 +80,7 @@ export class SingleselectorComponent implements ControlValueAccessor {
   }
 
   // these shadow visible properties
-  private _options: string[][] = [];
+  private _options: SingleselectorValue[][] = [];
   private _origOptions: SingleselectorOptions;
   private _value: SingleselectorValue;
 
@@ -129,14 +129,13 @@ export class SingleselectorComponent implements ControlValueAccessor {
 
   // private methods
 
-  private fromSingleselectorOptions(options: SingleselectorOptions): string[][] {
-    let normalized: string[][] = [];
+  private fromSingleselectorOptions(options: SingleselectorOptions): SingleselectorValue[][] {
+    let normalized: SingleselectorValue[][] = [];
     // NOTE: see above for different options for supplying options
     if (Array.isArray(options) && (options.length > 0)) {
-      if (typeof options[0] === 'string')
-        normalized = (options as string[]).map(option => [option, option]);
-      else if (Array.isArray(options[0]))
-        normalized = options as string[][];
+      if (Array.isArray(options[0]))
+        normalized = options as SingleselectorValue[][];
+      else normalized = (options as string[]).map(option => [option, option]);
     }
     return normalized;
   }
