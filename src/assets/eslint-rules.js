@@ -487,7 +487,7 @@ eslintRules = {
                 "default": ""
               },
               "allowPrivateClassPropertyAccess": {
-                "tyoe": "boolean",
+                "type": "boolean",
                 "default": false
               }
             },
@@ -18121,7 +18121,7 @@ eslintRules = {
               "forbid": {
                 "type": "array",
                 "items": {
-                  "onfOf": [
+                  "oneOf": [
                     {
                       "type": "string"
                     },

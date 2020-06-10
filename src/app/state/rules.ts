@@ -23,6 +23,7 @@ export interface GUIElement {
         'multiselect' | 
         'number-array'  |
         'number-input'  |
+        'noop' |
         'object' |
         'select-array' |
         'singleselect' | 
@@ -134,6 +135,9 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
 
   makeSchemaDigestElement(scheme: any, name = null): GUIElement {
     const element =
+      // NOTE: noop comes first because it eliminates schemes that don't
+      // correspond to any UI elements -- eg: an empty object
+      this.makeNoop(scheme) ||
       this.makeCheckbox(scheme) ||
       this.makeKeyValue(scheme) ||
       this.makeKeyValueWithMultiselect(scheme) ||
@@ -228,6 +232,14 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       return {
         options: Object.keys(scheme.properties),
         type: 'multiselect'
+      };
+    } else return null;
+  }
+
+  private makeNoop(scheme: any): GUIElement {
+    if (this.utils.isEmptyObject(scheme)) {
+      return {
+        type: 'noop'
       };
     } else return null;
   }

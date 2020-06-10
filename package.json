@@ -93,6 +93,7 @@
     "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",
     "ng": "ng",
     "start": "ng serve",
+    "rules": "node bin/eslint-rules.js",
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
     "vscode:prepublish": "npm run build"
   },

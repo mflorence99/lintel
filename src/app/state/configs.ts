@@ -167,9 +167,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .sort()
       .reduce((acc, ruleName) => {
-        let category = rules[ruleName].meta?.docs?.category;
-        if (!category || (category.length === 0))
-          category = this.params.catchAllCategory;
+        const category = this.normalizeCategory(rules[ruleName].meta?.docs?.category);
         if (!acc[category])
           acc[category] = { };
         if (!acc[category][ruleName] || settings[ruleName])
@@ -201,9 +199,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .filter(ruleName => this.isRuleInherited(ruleName))
       .sort()
       .reduce((acc, ruleName) => {
-        let category = rules[ruleName].meta?.docs?.category;
-        if (!category || (category.length === 0))
-          category = this.params.catchAllCategory;
+        const category = this.normalizeCategory(rules[ruleName].meta?.docs?.category);
         if (!acc[category])
           acc[category] = { };
         acc[category][ruleName] = [rules[ruleName], this.settingsForInherited(rules[ruleName])];
@@ -315,6 +311,16 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
             }, { });
       });
     return model;
+  }
+
+  private normalizeCategory(category: string): string {
+    let normalized = category;
+    if (!normalized || (normalized.length === 0))
+      normalized = this.params.catchAllCategory;
+    return normalized.toLowerCase()
+      .split(' ')
+      .map(word => `${word[0].toUpperCase()}${word.slice(1)}`)
+      .join(' ');
   }
 
   private settingsForInherited(rule: Rule): Settings {
