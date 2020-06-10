@@ -278,7 +278,9 @@ eslintFiles = {
         ]
       },
       "settings": {
-        "hello": "World!"
+        "hello": "World!",
+        "goodbye": true,
+        "ciao": 42
       }
     },
     "license": "MIT",

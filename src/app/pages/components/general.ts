@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SchemaState } from '../../state/schema';
+import { SelectionState } from '../../state/selection';
 import { Subject } from 'rxjs';
 
 import { combineLatest } from 'rxjs';
@@ -14,6 +15,8 @@ import { map } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+declare const lintelVSCodeAPI;
 
 /**
  * General settings component
@@ -68,7 +71,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
   /** ctor */
   constructor(public configs: ConfigsState,
               private formBuilder: FormBuilder,
-              public schema: SchemaState) {
+              public schema: SchemaState,
+              public selection: SelectionState) {
     this.generalForm = this.formBuilder.group({
       // NOTE: ecmaFeatures moved from the top level into parseOptions
       ecmaFeatures: [this.configs.configuration.parserOptions?.ecmaFeatures ?? { }],
@@ -92,6 +96,21 @@ export class GeneralComponent implements OnInit, OnDestroy {
       root: [this.configs.configuration.root],
       settings: [this.configs.configuration.settings]
     });
+  }
+
+  /** We can only process if all values are string, number or boolean */
+  canDoSettings(): boolean {
+    const settings = this.configs.configuration.settings ?? { };
+    return Object.values(settings).every(setting => {
+      return typeof setting === 'string'
+          || typeof setting === 'number'
+          || typeof setting === 'boolean';
+    })
+  }
+
+  /** Edit a file */
+  editFile(fileName: string): void {
+    lintelVSCodeAPI.postMessage({ command: 'edit', fileName });
   }
 
   /** Has this section been configured? */

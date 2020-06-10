@@ -122,7 +122,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
         this.keyValues = value.keyValues
           .filter(entry => !!entry[0])
           .reduce((acc, cur) => {
-            acc[cur[0]] = (this.type === 'number') ? Number(cur[1]) : cur[1];
+            acc[cur[0]] = this.coerce(cur[1]);
             return acc;
           }, { });
         this.onChange?.(this.value);
@@ -146,6 +146,22 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
   /** @see ControlValueAccessor */
   writeValue(value): void {
     this.value = value;
+  }
+
+  // private methods
+
+  coerce(value: any): any {
+    if (this.type === 'checkbox')
+      return Boolean(value);
+    else if (this.type === 'number')
+      return Number(value);
+    else if ((this.type === 'text') && (typeof value === 'string')) {
+      if (/^[0-9]*$/.test(value))
+        return Number(value);
+      else if (['true', 'false'].includes(value))
+        return Boolean(value === 'true');
+    }
+    return value;
   }
 
 }

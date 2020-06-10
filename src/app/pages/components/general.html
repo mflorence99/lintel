@@ -131,11 +131,25 @@
           formControlName="plugins">
         </lintel-input-array>
 
-        <lintel-key-value
-          *ngSwitchCase="'settings'"
-          columnWidth="20.5rem"
-          formControlName="settings">
-        </lintel-key-value>
+        <ng-container
+          *ngSwitchCase="'settings'">
+
+          <lintel-key-value
+            *ngIf="canDoSettings(); else cantDoSettings"
+            columnWidth="20.5rem"
+            formControlName="settings">
+          </lintel-key-value>
+
+          <ng-template
+            #cantDoSettings>
+            <div
+              (click)="editFile(selection.fileName)"
+              class="cantDoSettings">
+              <a>Edit in {{ selection.fileName }}</a>
+            </div>
+          </ng-template>
+
+        </ng-container>
 
       </div>
 

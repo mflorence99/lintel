@@ -103,7 +103,7 @@
         [type]="element.subType"
         [valueConstraints]="element.options"
         *ngSwitchCase="'key-value'"
-        class="key-value">
+        class="key-value {{ element.subType }}">
       </lintel-key-value>
 
       <lintel-multiselector

@@ -46,6 +46,10 @@
   .settings {
     margin-top: 0.5rem;
 
+    .cantDoSettings {
+      cursor: pointer;
+    }
+
     .parserOptions {
       display: grid;
       grid-column-gap: 0.5rem;
