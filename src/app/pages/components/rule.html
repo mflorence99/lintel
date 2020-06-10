@@ -57,7 +57,7 @@
       (click)="editFile(selection.fileName)"
       *ngIf="rules.notYet(ruleDigest.ruleName, ruleDigest.rule) || !ruleDigest.rule; else debugWithJSON"
       class="notYet">
-      <a>Edit in {{ selection.fileName }}</a>
+      <a>Edit other settings in {{ selection.fileName }}</a>
     </div>
 
     <ng-template

@@ -282,9 +282,9 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
   }
 
   private makeSelectArray(scheme: any): GUIElement {
-    if ((scheme.type === 'array') && scheme.items?.enum) {
+    if ((scheme.type === 'array') && (scheme.contains || scheme.items?.enum)) {
       return {
-        options: scheme.items.enum,
+        options: scheme.items?.enum ?? scheme.contains,
         type: 'select-array',
         uniqueItems: !!scheme.uniqueItems
       };
