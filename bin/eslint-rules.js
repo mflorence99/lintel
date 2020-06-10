@@ -9,6 +9,7 @@ const plugins = [
   ['lodash', 'plugin:lodash/recommended'],
   ['lodash-fp', 'plugin:lodash-fp/recommended'],
   ['react', 'plugin:react/all'],
+  ['vue', 'plugin:vue/recommended'],
 ]
 
 const schema = { };

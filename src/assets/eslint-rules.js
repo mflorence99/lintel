@@ -20304,5 +20304,3563 @@ eslintRules = {
         "schema": []
       }
     }
+  },
+  "vue": {
+    "vue/array-bracket-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent spacing inside array brackets",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/array-bracket-spacing.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "singleValue": {
+                "type": "boolean"
+              },
+              "objectsInArrays": {
+                "type": "boolean"
+              },
+              "arraysInArrays": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unexpectedSpaceAfter": "There should be no space after '{{tokenValue}}'.",
+          "unexpectedSpaceBefore": "There should be no space before '{{tokenValue}}'.",
+          "missingSpaceAfter": "A space is required after '{{tokenValue}}'.",
+          "missingSpaceBefore": "A space is required before '{{tokenValue}}'."
+        }
+      }
+    },
+    "vue/arrow-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent spacing before and after the arrow in arrow functions",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/arrow-spacing.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "before": {
+                "type": "boolean",
+                "default": true
+              },
+              "after": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "expectedBefore": "Missing space before =>.",
+          "unexpectedBefore": "Unexpected space before =>.",
+          "expectedAfter": "Missing space after =>.",
+          "unexpectedAfter": "Unexpected space after =>."
+        }
+      }
+    },
+    "vue/attribute-hyphenation": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce attribute naming style on custom components in template",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/attribute-hyphenation.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ignore": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "not": {
+                        "type": "string",
+                        "pattern": ":exit$"
+                      }
+                    },
+                    {
+                      "not": {
+                        "type": "string",
+                        "pattern": "^\\s*$"
+                      }
+                    }
+                  ]
+                },
+                "uniqueItems": true,
+                "additionalItems": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/attributes-order": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce order of attributes",
+          "category": "recommended",
+          "url": "https://eslint.vuejs.org/rules/attributes-order.html"
+        },
+        "fixable": "code",
+        "schema": {
+          "type": "array",
+          "properties": {
+            "order": {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 10,
+              "minItems": 10
+            }
+          }
+        }
+      }
+    },
+    "vue/block-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "disallow or enforce spaces inside of blocks after opening block and before closing block",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/block-spacing.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "missing": "Requires a space {{location}} '{{token}}'.",
+          "extra": "Unexpected space(s) {{location}} '{{token}}'."
+        }
+      }
+    },
+    "vue/brace-style": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent brace style for blocks",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/brace-style.html"
+        },
+        "schema": [
+          {
+            "enum": [
+              "1tbs",
+              "stroustrup",
+              "allman"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "allowSingleLine": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "fixable": "whitespace",
+        "messages": {
+          "nextLineOpen": "Opening curly brace does not appear on the same line as controlling statement.",
+          "sameLineOpen": "Opening curly brace appears on the same line as controlling statement.",
+          "blockSameLine": "Statement inside of curly braces should be on next line.",
+          "nextLineClose": "Closing curly brace does not appear on the same line as the subsequent block.",
+          "singleLineClose": "Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.",
+          "sameLineClose": "Closing curly brace appears on the same line as the subsequent block."
+        }
+      }
+    },
+    "vue/camelcase": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce camelcase naming convention",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/camelcase.html"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreDestructuring": {
+                "type": "boolean",
+                "default": false
+              },
+              "ignoreImports": {
+                "type": "boolean",
+                "default": false
+              },
+              "properties": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "allow": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "string"
+                  }
+                ],
+                "minItems": 0,
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "notCamelCase": "Identifier '{{name}}' is not in camel case."
+        }
+      }
+    },
+    "vue/comma-dangle": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require or disallow trailing commas",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/comma-dangle.html"
+        },
+        "fixable": "code",
+        "schema": {
+          "definitions": {
+            "value": {
+              "enum": [
+                "always-multiline",
+                "always",
+                "never",
+                "only-multiline"
+              ]
+            },
+            "valueWithIgnore": {
+              "enum": [
+                "always-multiline",
+                "always",
+                "ignore",
+                "never",
+                "only-multiline"
+              ]
+            }
+          },
+          "type": "array",
+          "items": [
+            {
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/value"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "arrays": {
+                      "$ref": "#/definitions/valueWithIgnore"
+                    },
+                    "objects": {
+                      "$ref": "#/definitions/valueWithIgnore"
+                    },
+                    "imports": {
+                      "$ref": "#/definitions/valueWithIgnore"
+                    },
+                    "exports": {
+                      "$ref": "#/definitions/valueWithIgnore"
+                    },
+                    "functions": {
+                      "$ref": "#/definitions/valueWithIgnore"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            }
+          ]
+        },
+        "messages": {
+          "unexpected": "Unexpected trailing comma.",
+          "missing": "Missing trailing comma."
+        }
+      }
+    },
+    "vue/comment-directive": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "support comment-directives in `<template>`",
+          "category": "base",
+          "url": "https://eslint.vuejs.org/rules/comment-directive.html"
+        },
+        "schema": []
+      }
+    },
+    "vue/component-definition-name-casing": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce specific casing for component definition name",
+          "url": "https://eslint.vuejs.org/rules/component-definition-name-casing.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "PascalCase",
+              "kebab-case"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/component-name-in-template-casing": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce specific casing for the component naming style in template",
+          "url": "https://eslint.vuejs.org/rules/component-name-in-template-casing.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "PascalCase",
+              "kebab-case"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true,
+                "additionalItems": false
+              },
+              "registeredComponentsOnly": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/component-tags-order": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce order of component top-level elements",
+          "url": "https://eslint.vuejs.org/rules/component-tags-order.html"
+        },
+        "fixable": null,
+        "schema": {
+          "type": "array",
+          "properties": {
+            "order": {
+              "type": "array"
+            }
+          }
+        },
+        "messages": {
+          "unexpected": "The <{{name}}> should be above the <{{firstUnorderedName}}> on line {{line}}."
+        }
+      }
+    },
+    "vue/dot-location": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent newlines before and after dots",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/dot-location.html"
+        },
+        "schema": [
+          {
+            "enum": [
+              "object",
+              "property"
+            ]
+          }
+        ],
+        "fixable": "code",
+        "messages": {
+          "expectedDotAfterObject": "Expected dot to be on same line as object.",
+          "expectedDotBeforeProperty": "Expected dot to be on same line as property."
+        }
+      }
+    },
+    "vue/eqeqeq": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require the use of `===` and `!==`",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/eqeqeq.html"
+        },
+        "schema": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "always"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "null": {
+                      "enum": [
+                        "always",
+                        "never",
+                        "ignore"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "additionalItems": false
+            },
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "smart",
+                    "allow-null"
+                  ]
+                }
+              ],
+              "additionalItems": false
+            }
+          ]
+        },
+        "fixable": "code",
+        "messages": {
+          "unexpected": "Expected '{{expectedOperator}}' and instead saw '{{actualOperator}}'."
+        }
+      }
+    },
+    "vue/html-closing-bracket-newline": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require or disallow a line break before tag's closing brackets",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/html-closing-bracket-newline.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "singleline": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "multiline": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/html-closing-bracket-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require or disallow a space before tag's closing brackets",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/html-closing-bracket-spacing.html"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "startTag": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "endTag": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "selfClosingTag": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "fixable": "whitespace"
+      }
+    },
+    "vue/html-end-tags": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce end tag style",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/html-end-tags.html"
+        },
+        "fixable": "code",
+        "schema": []
+      }
+    },
+    "vue/html-indent": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent indentation in `<template>`",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/html-indent.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "enum": [
+                  "tab"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "attribute": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "baseIndent": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "closeBracket": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "switchCase": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "alignAttributesVertically": {
+                "type": "boolean"
+              },
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "not": {
+                        "type": "string",
+                        "pattern": ":exit$"
+                      }
+                    },
+                    {
+                      "not": {
+                        "type": "string",
+                        "pattern": "^\\s*$"
+                      }
+                    }
+                  ]
+                },
+                "uniqueItems": true,
+                "additionalItems": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/html-quotes": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce quotes style of HTML attributes",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/html-quotes.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "double",
+              "single"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "avoidEscape": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/html-self-closing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce self-closing style",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/html-self-closing.html"
+        },
+        "fixable": "code",
+        "schema": {
+          "definitions": {
+            "optionValue": {
+              "enum": [
+                "always",
+                "never",
+                "any"
+              ]
+            }
+          },
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "html": {
+                  "type": "object",
+                  "properties": {
+                    "normal": {
+                      "$ref": "#/definitions/optionValue"
+                    },
+                    "void": {
+                      "$ref": "#/definitions/optionValue"
+                    },
+                    "component": {
+                      "$ref": "#/definitions/optionValue"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "svg": {
+                  "$ref": "#/definitions/optionValue"
+                },
+                "math": {
+                  "$ref": "#/definitions/optionValue"
+                }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "maxItems": 1
+        }
+      }
+    },
+    "vue/jsx-uses-vars": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "prevent variables used in JSX to be marked as unused",
+          "category": "base",
+          "url": "https://eslint.vuejs.org/rules/jsx-uses-vars.html"
+        },
+        "schema": []
+      }
+    },
+    "vue/key-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent spacing between keys and values in object literal properties",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/key-spacing.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "align": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "colon",
+                          "value"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "mode": {
+                            "enum": [
+                              "strict",
+                              "minimum"
+                            ]
+                          },
+                          "on": {
+                            "enum": [
+                              "colon",
+                              "value"
+                            ]
+                          },
+                          "beforeColon": {
+                            "type": "boolean"
+                          },
+                          "afterColon": {
+                            "type": "boolean"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "mode": {
+                    "enum": [
+                      "strict",
+                      "minimum"
+                    ]
+                  },
+                  "beforeColon": {
+                    "type": "boolean"
+                  },
+                  "afterColon": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "singleLine": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "enum": [
+                          "strict",
+                          "minimum"
+                        ]
+                      },
+                      "beforeColon": {
+                        "type": "boolean"
+                      },
+                      "afterColon": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "multiLine": {
+                    "type": "object",
+                    "properties": {
+                      "align": {
+                        "anyOf": [
+                          {
+                            "enum": [
+                              "colon",
+                              "value"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "mode": {
+                                "enum": [
+                                  "strict",
+                                  "minimum"
+                                ]
+                              },
+                              "on": {
+                                "enum": [
+                                  "colon",
+                                  "value"
+                                ]
+                              },
+                              "beforeColon": {
+                                "type": "boolean"
+                              },
+                              "afterColon": {
+                                "type": "boolean"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        ]
+                      },
+                      "mode": {
+                        "enum": [
+                          "strict",
+                          "minimum"
+                        ]
+                      },
+                      "beforeColon": {
+                        "type": "boolean"
+                      },
+                      "afterColon": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "singleLine": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "enum": [
+                          "strict",
+                          "minimum"
+                        ]
+                      },
+                      "beforeColon": {
+                        "type": "boolean"
+                      },
+                      "afterColon": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "multiLine": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "enum": [
+                          "strict",
+                          "minimum"
+                        ]
+                      },
+                      "beforeColon": {
+                        "type": "boolean"
+                      },
+                      "afterColon": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "align": {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "enum": [
+                          "strict",
+                          "minimum"
+                        ]
+                      },
+                      "on": {
+                        "enum": [
+                          "colon",
+                          "value"
+                        ]
+                      },
+                      "beforeColon": {
+                        "type": "boolean"
+                      },
+                      "afterColon": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        ],
+        "messages": {
+          "extraKey": "Extra space after {{computed}}key '{{key}}'.",
+          "extraValue": "Extra space before value for {{computed}}key '{{key}}'.",
+          "missingKey": "Missing space after {{computed}}key '{{key}}'.",
+          "missingValue": "Missing space before value for {{computed}}key '{{key}}'."
+        }
+      }
+    },
+    "vue/keyword-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent spacing before and after keywords",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/keyword-spacing.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "before": {
+                "type": "boolean",
+                "default": true
+              },
+              "after": {
+                "type": "boolean",
+                "default": true
+              },
+              "overrides": {
+                "type": "object",
+                "properties": {
+                  "abstract": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "as": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "async": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "await": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "boolean": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "break": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "byte": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "case": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "catch": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "char": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "class": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "const": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "continue": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "debugger": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "delete": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "do": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "double": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "else": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "enum": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "export": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "extends": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "false": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "final": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "finally": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "float": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "for": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "from": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "function": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "get": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "goto": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "if": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "implements": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "import": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "in": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "instanceof": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "int": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "interface": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "let": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "long": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "native": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "new": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "null": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "of": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "package": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "private": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "protected": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "public": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "return": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "set": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "short": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "static": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "super": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "switch": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "synchronized": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "this": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "throw": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "throws": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "transient": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "true": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "try": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "typeof": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "var": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "void": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "volatile": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "while": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "with": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "yield": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "boolean"
+                      },
+                      "after": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "expectedBefore": "Expected space(s) before \"{{value}}\".",
+          "expectedAfter": "Expected space(s) after \"{{value}}\".",
+          "unexpectedBefore": "Unexpected space(s) before \"{{value}}\".",
+          "unexpectedAfter": "Unexpected space(s) after \"{{value}}\"."
+        }
+      }
+    },
+    "vue/match-component-file-name": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require component name property to match its file name",
+          "url": "https://eslint.vuejs.org/rules/match-component-file-name.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "extensions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true,
+                "additionalItems": false
+              },
+              "shouldMatchCase": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/max-attributes-per-line": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce the maximum number of attributes per line",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/max-attributes-per-line.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "singleline": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "max": {
+                        "type": "number",
+                        "minimum": 1
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "multiline": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "max": {
+                        "type": "number",
+                        "minimum": 1
+                      },
+                      "allowFirstLine": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "vue/max-len": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce a maximum line length",
+          "url": "https://eslint.vuejs.org/rules/max-len.html"
+        },
+        "schema": [
+          {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "template": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "comments": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "tabWidth": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ignorePattern": {
+                    "type": "string"
+                  },
+                  "ignoreComments": {
+                    "type": "boolean"
+                  },
+                  "ignoreTrailingComments": {
+                    "type": "boolean"
+                  },
+                  "ignoreUrls": {
+                    "type": "boolean"
+                  },
+                  "ignoreStrings": {
+                    "type": "boolean"
+                  },
+                  "ignoreTemplateLiterals": {
+                    "type": "boolean"
+                  },
+                  "ignoreRegExpLiterals": {
+                    "type": "boolean"
+                  },
+                  "ignoreHTMLAttributeValues": {
+                    "type": "boolean"
+                  },
+                  "ignoreHTMLTextContents": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "integer",
+                "minimum": 0
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "template": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "comments": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "tabWidth": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ignorePattern": {
+                    "type": "string"
+                  },
+                  "ignoreComments": {
+                    "type": "boolean"
+                  },
+                  "ignoreTrailingComments": {
+                    "type": "boolean"
+                  },
+                  "ignoreUrls": {
+                    "type": "boolean"
+                  },
+                  "ignoreStrings": {
+                    "type": "boolean"
+                  },
+                  "ignoreTemplateLiterals": {
+                    "type": "boolean"
+                  },
+                  "ignoreRegExpLiterals": {
+                    "type": "boolean"
+                  },
+                  "ignoreHTMLAttributeValues": {
+                    "type": "boolean"
+                  },
+                  "ignoreHTMLTextContents": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "integer",
+                "minimum": 0
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "template": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "comments": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "tabWidth": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "ignorePattern": {
+                "type": "string"
+              },
+              "ignoreComments": {
+                "type": "boolean"
+              },
+              "ignoreTrailingComments": {
+                "type": "boolean"
+              },
+              "ignoreUrls": {
+                "type": "boolean"
+              },
+              "ignoreStrings": {
+                "type": "boolean"
+              },
+              "ignoreTemplateLiterals": {
+                "type": "boolean"
+              },
+              "ignoreRegExpLiterals": {
+                "type": "boolean"
+              },
+              "ignoreHTMLAttributeValues": {
+                "type": "boolean"
+              },
+              "ignoreHTMLTextContents": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "max": "This line has a length of {{lineLength}}. Maximum allowed is {{maxLength}}.",
+          "maxComment": "This line has a comment length of {{lineLength}}. Maximum allowed is {{maxCommentLength}}."
+        }
+      }
+    },
+    "vue/multiline-html-element-content-newline": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require a line break before and after the contents of a multiline element",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/multiline-html-element-content-newline.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreWhenEmpty": {
+                "type": "boolean"
+              },
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true,
+                "additionalItems": false
+              },
+              "allowEmptyLines": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unexpectedAfterClosingBracket": "Expected 1 line break after opening tag (`<{{name}}>`), but {{actual}} line breaks found.",
+          "unexpectedBeforeOpeningBracket": "Expected 1 line break before closing tag (`</{{name}}>`), but {{actual}} line breaks found."
+        }
+      }
+    },
+    "vue/mustache-interpolation-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce unified spacing in mustache interpolations",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/mustache-interpolation-spacing.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/name-property-casing": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce specific casing for the name property in Vue components",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/name-property-casing.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "PascalCase",
+              "kebab-case"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/no-async-in-computed-properties": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow asynchronous actions in computed properties",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-async-in-computed-properties.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-boolean-default": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow boolean defaults",
+          "url": "https://eslint.vuejs.org/rules/no-boolean-default.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "default-false",
+              "no-default"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/no-confusing-v-for-v-if": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow confusing `v-for` and `v-if` on the same element",
+          "category": "recommended",
+          "url": "https://eslint.vuejs.org/rules/no-confusing-v-for-v-if.html",
+          "replacedBy": [
+            "no-use-v-if-with-v-for"
+          ]
+        },
+        "deprecated": true,
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-deprecated-scope-attribute": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow deprecated `scope` attribute (in Vue.js 2.5.0+)",
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-scope-attribute.html"
+        },
+        "fixable": "code",
+        "schema": [],
+        "messages": {
+          "forbiddenScopeAttribute": "`scope` attributes are deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-slot-attribute": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow deprecated `slot` attribute (in Vue.js 2.6.0+)",
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-slot-attribute.html"
+        },
+        "fixable": "code",
+        "schema": [],
+        "messages": {
+          "forbiddenSlotAttribute": "`slot` attributes are deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-slot-scope-attribute": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow deprecated `slot-scope` attribute (in Vue.js 2.6.0+)",
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-slot-scope-attribute.html"
+        },
+        "fixable": "code",
+        "schema": [],
+        "messages": {
+          "forbiddenSlotScopeAttribute": "`slot-scope` are deprecated."
+        }
+      }
+    },
+    "vue/no-dupe-keys": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow duplication of field names",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-dupe-keys.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "groups": {
+                "type": "array"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/no-duplicate-attributes": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow duplication of attributes",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-duplicate-attributes.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowCoexistClass": {
+                "type": "boolean"
+              },
+              "allowCoexistStyle": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "vue/no-empty-pattern": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow empty destructuring patterns",
+          "recommended": true,
+          "url": "https://eslint.vuejs.org/rules/no-empty-pattern.html"
+        },
+        "schema": [],
+        "messages": {
+          "unexpected": "Unexpected empty {{type}} pattern."
+        }
+      }
+    },
+    "vue/no-irregular-whitespace": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow irregular whitespace",
+          "url": "https://eslint.vuejs.org/rules/no-irregular-whitespace.html"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "skipComments": {
+                "type": "boolean",
+                "default": false
+              },
+              "skipStrings": {
+                "type": "boolean",
+                "default": true
+              },
+              "skipTemplates": {
+                "type": "boolean",
+                "default": false
+              },
+              "skipRegExps": {
+                "type": "boolean",
+                "default": false
+              },
+              "skipHTMLAttributeValues": {
+                "type": "boolean",
+                "default": false
+              },
+              "skipHTMLTextContents": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "disallow": "Irregular whitespace not allowed."
+        }
+      }
+    },
+    "vue/no-multi-spaces": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "disallow multiple spaces",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/no-multi-spaces.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreProperties": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/no-parsing-error": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow parsing errors in `<template>`",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-parsing-error.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "abrupt-closing-of-empty-comment": {
+                "type": "boolean"
+              },
+              "absence-of-digits-in-numeric-character-reference": {
+                "type": "boolean"
+              },
+              "cdata-in-html-content": {
+                "type": "boolean"
+              },
+              "character-reference-outside-unicode-range": {
+                "type": "boolean"
+              },
+              "control-character-in-input-stream": {
+                "type": "boolean"
+              },
+              "control-character-reference": {
+                "type": "boolean"
+              },
+              "eof-before-tag-name": {
+                "type": "boolean"
+              },
+              "eof-in-cdata": {
+                "type": "boolean"
+              },
+              "eof-in-comment": {
+                "type": "boolean"
+              },
+              "eof-in-tag": {
+                "type": "boolean"
+              },
+              "incorrectly-closed-comment": {
+                "type": "boolean"
+              },
+              "incorrectly-opened-comment": {
+                "type": "boolean"
+              },
+              "invalid-first-character-of-tag-name": {
+                "type": "boolean"
+              },
+              "missing-attribute-value": {
+                "type": "boolean"
+              },
+              "missing-end-tag-name": {
+                "type": "boolean"
+              },
+              "missing-semicolon-after-character-reference": {
+                "type": "boolean"
+              },
+              "missing-whitespace-between-attributes": {
+                "type": "boolean"
+              },
+              "nested-comment": {
+                "type": "boolean"
+              },
+              "noncharacter-character-reference": {
+                "type": "boolean"
+              },
+              "noncharacter-in-input-stream": {
+                "type": "boolean"
+              },
+              "null-character-reference": {
+                "type": "boolean"
+              },
+              "surrogate-character-reference": {
+                "type": "boolean"
+              },
+              "surrogate-in-input-stream": {
+                "type": "boolean"
+              },
+              "unexpected-character-in-attribute-name": {
+                "type": "boolean"
+              },
+              "unexpected-character-in-unquoted-attribute-value": {
+                "type": "boolean"
+              },
+              "unexpected-equals-sign-before-attribute-name": {
+                "type": "boolean"
+              },
+              "unexpected-null-character": {
+                "type": "boolean"
+              },
+              "unexpected-question-mark-instead-of-tag-name": {
+                "type": "boolean"
+              },
+              "unexpected-solidus-in-tag": {
+                "type": "boolean"
+              },
+              "unknown-named-character-reference": {
+                "type": "boolean"
+              },
+              "end-tag-with-attributes": {
+                "type": "boolean"
+              },
+              "duplicate-attribute": {
+                "type": "boolean"
+              },
+              "end-tag-with-trailing-solidus": {
+                "type": "boolean"
+              },
+              "non-void-html-element-start-tag-with-trailing-solidus": {
+                "type": "boolean"
+              },
+              "x-invalid-end-tag": {
+                "type": "boolean"
+              },
+              "x-invalid-namespace": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/no-reserved-component-names": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow the use of reserved names in component definitions",
+          "url": "https://eslint.vuejs.org/rules/no-reserved-component-names.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-reserved-keys": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow overwriting reserved keys",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-reserved-keys.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "reserved": {
+                "type": "array"
+              },
+              "groups": {
+                "type": "array"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/no-restricted-syntax": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow specified syntax",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/no-restricted-syntax.html"
+        },
+        "schema": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "selector": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "selector"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 0
+        }
+      }
+    },
+    "vue/no-shared-component-data": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce component's data property to be a function",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-shared-component-data.html"
+        },
+        "fixable": "code",
+        "schema": []
+      }
+    },
+    "vue/no-side-effects-in-computed-properties": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow side effects in computed properties",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-side-effects-in-computed-properties.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-spaces-around-equal-signs-in-attribute": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "disallow spaces around equal signs in attribute",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/no-spaces-around-equal-signs-in-attribute.html"
+        },
+        "fixable": "whitespace",
+        "schema": []
+      }
+    },
+    "vue/no-static-inline-styles": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow static inline `style` attributes",
+          "url": "https://eslint.vuejs.org/rules/no-static-inline-styles.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowBinding": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "forbiddenStaticInlineStyle": "Static inline `style` are forbidden.",
+          "forbiddenStyleAttr": "`style` attributes are forbidden."
+        }
+      }
+    },
+    "vue/no-template-key": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow `key` attribute on `<template>`",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-template-key.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-template-shadow": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow variable declarations from shadowing variables declared in the outer scope",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/no-template-shadow.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-textarea-mustache": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow mustaches in `<textarea>`",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-textarea-mustache.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-unsupported-features": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow unsupported Vue.js syntax on the specified version",
+          "url": "https://eslint.vuejs.org/rules/no-unsupported-features.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string"
+              },
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "slot-scope-attribute",
+                    "dynamic-directive-arguments",
+                    "v-slot",
+                    "v-bind-prop-modifier-shorthand"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "forbiddenSlotScopeAttribute": "`slot-scope` are not supported until Vue.js \"2.5.0\".",
+          "forbiddenDynamicDirectiveArguments": "Dynamic arguments are not supported until Vue.js \"2.6.0\".",
+          "forbiddenVSlot": "`v-slot` are not supported until Vue.js \"2.6.0\".",
+          "forbiddenVBindPropModifierShorthand": "`.prop` shorthand are not supported except Vue.js \">=2.6.0-beta.1 <=2.6.0-beta.3\"."
+        }
+      }
+    },
+    "vue/no-unused-components": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow registering components that are not used inside templates",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-unused-components.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreWhenBindingPresent": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/no-unused-vars": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow unused variable definitions of v-for directives or scope attributes",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-unused-vars.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-use-v-if-with-v-for": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow use v-if on the same element as v-for",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/no-use-v-if-with-v-for.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowUsingIterationVar": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "vue/no-v-html": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow use of v-html to prevent XSS attack",
+          "category": "recommended",
+          "url": "https://eslint.vuejs.org/rules/no-v-html.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/object-curly-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent spacing inside braces",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/object-curly-spacing.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "arraysInObjects": {
+                "type": "boolean"
+              },
+              "objectsInObjects": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/order-in-components": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce order of properties in components",
+          "category": "recommended",
+          "url": "https://eslint.vuejs.org/rules/order-in-components.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "order": {
+                "type": "array"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/padding-line-between-blocks": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require or disallow padding lines between blocks",
+          "url": "https://eslint.vuejs.org/rules/padding-line-between-blocks.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "enum": [
+              "never",
+              "always"
+            ]
+          }
+        ],
+        "messages": {
+          "never": "Unexpected blank line before this block.",
+          "always": "Expected blank line before this block."
+        }
+      }
+    },
+    "vue/prop-name-casing": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce specific casing for the Prop name in Vue components",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/prop-name-casing.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "camelCase",
+              "snake_case"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/require-component-is": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "require `v-bind:is` of `<component>` elements",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/require-component-is.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/require-default-prop": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require default value for props",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/require-default-prop.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/require-direct-export": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require the component to be directly exported",
+          "url": "https://eslint.vuejs.org/rules/require-direct-export.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/require-name-property": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require a name property in Vue components",
+          "url": "https://eslint.vuejs.org/rules/require-name-property.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/require-prop-type-constructor": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require prop type to be a constructor",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/require-prop-type-constructor.html"
+        },
+        "fixable": "code",
+        "schema": []
+      }
+    },
+    "vue/require-prop-types": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require type definitions in props",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/require-prop-types.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/require-render-return": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce render function to always return value",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/require-render-return.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/require-v-for-key": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "require `v-bind:key` with `v-for` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/require-v-for-key.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/require-valid-default-prop": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce props default values to be valid",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/require-valid-default-prop.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/return-in-computed-property": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce that a return statement is present in computed property",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/return-in-computed-property.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "treatUndefinedAsUnspecified": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/script-indent": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent indentation in `<script>`",
+          "url": "https://eslint.vuejs.org/rules/script-indent.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "enum": [
+                  "tab"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "baseIndent": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "switchCase": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "not": {
+                        "type": "string",
+                        "pattern": ":exit$"
+                      }
+                    },
+                    {
+                      "not": {
+                        "type": "string",
+                        "pattern": "^\\s*$"
+                      }
+                    }
+                  ]
+                },
+                "uniqueItems": true,
+                "additionalItems": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/singleline-html-element-content-newline": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require a line break before and after the contents of a singleline element",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/singleline-html-element-content-newline.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreWhenNoAttributes": {
+                "type": "boolean"
+              },
+              "ignoreWhenEmpty": {
+                "type": "boolean"
+              },
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true,
+                "additionalItems": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unexpectedAfterClosingBracket": "Expected 1 line break after opening tag (`<{{name}}>`), but no line breaks found.",
+          "unexpectedBeforeOpeningBracket": "Expected 1 line break before closing tag (`</{{name}}>`), but no line breaks found."
+        }
+      }
+    },
+    "vue/sort-keys": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce sort-keys in a manner that is compatible with order-in-components",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/sort-keys.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "asc",
+              "desc"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "caseSensitive": {
+                "type": "boolean",
+                "default": true
+              },
+              "ignoreChildrenOf": {
+                "type": "array"
+              },
+              "ignoreGrandchildrenOf": {
+                "type": "array"
+              },
+              "minKeys": {
+                "type": "integer",
+                "minimum": 2,
+                "default": 2
+              },
+              "natural": {
+                "type": "boolean",
+                "default": false
+              },
+              "runOutsideVue": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/space-infix-ops": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require spacing around infix operators",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/space-infix-ops.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "int32Hint": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/space-unary-ops": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent spacing before or after unary operators",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/space-unary-ops.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "words": {
+                "type": "boolean",
+                "default": true
+              },
+              "nonwords": {
+                "type": "boolean",
+                "default": false
+              },
+              "overrides": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unexpectedBefore": "Unexpected space before unary operator '{{operator}}'.",
+          "unexpectedAfter": "Unexpected space after unary operator '{{operator}}'.",
+          "unexpectedAfterWord": "Unexpected space after unary word operator '{{word}}'.",
+          "wordOperator": "Unary word operator '{{word}}' must be followed by whitespace.",
+          "operator": "Unary operator '{{operator}}' must be followed by whitespace.",
+          "beforeUnaryExpressions": "Space is required before unary expressions '{{token}}'."
+        }
+      }
+    },
+    "vue/static-class-names-order": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://eslint.vuejs.org/rules/static-class-names-order.html",
+          "description": "enforce static class names order"
+        },
+        "fixable": "code",
+        "schema": []
+      }
+    },
+    "vue/this-in-template": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow usage of `this` in template",
+          "category": "recommended",
+          "url": "https://eslint.vuejs.org/rules/this-in-template.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/use-v-on-exact": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce usage of `exact` modifier on `v-on`",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/use-v-on-exact.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/v-bind-style": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce `v-bind` directive style",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/v-bind-style.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "shorthand",
+              "longform"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/v-on-function-call": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce or forbid parentheses after method calls without arguments in `v-on` directives",
+          "url": "https://eslint.vuejs.org/rules/v-on-function-call.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/v-on-style": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce `v-on` directive style",
+          "category": "strongly-recommended",
+          "url": "https://eslint.vuejs.org/rules/v-on-style.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "shorthand",
+              "longform"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/v-slot-style": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce `v-slot` directive style",
+          "url": "https://eslint.vuejs.org/rules/v-slot-style.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "anyOf": [
+              {
+                "enum": [
+                  "shorthand",
+                  "longform"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "atComponent": {
+                    "enum": [
+                      "shorthand",
+                      "longform",
+                      "v-slot"
+                    ]
+                  },
+                  "default": {
+                    "enum": [
+                      "shorthand",
+                      "longform",
+                      "v-slot"
+                    ]
+                  },
+                  "named": {
+                    "enum": [
+                      "shorthand",
+                      "longform"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        ],
+        "messages": {
+          "expectedShorthand": "Expected '#{{argument}}' instead of '{{actual}}'.",
+          "expectedLongform": "Expected 'v-slot:{{argument}}' instead of '{{actual}}'.",
+          "expectedVSlot": "Expected 'v-slot' instead of '{{actual}}'."
+        }
+      }
+    },
+    "vue/valid-template-root": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid template root",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-template-root.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-bind-sync": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `.sync` modifier on `v-bind` directives",
+          "url": "https://eslint.vuejs.org/rules/valid-v-bind-sync.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpectedInvalidElement": "'.sync' modifiers aren't supported on <{{name}}> non Vue-components.",
+          "unexpectedNonLhsExpression": "'.sync' modifiers require the attribute value which is valid as LHS.",
+          "unexpectedUpdateIterationVariable": "'.sync' modifiers cannot update the iteration variable '{{varName}}' itself."
+        }
+      }
+    },
+    "vue/valid-v-bind": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-bind` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-bind.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-cloak": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-cloak` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-cloak.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-else-if": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-else-if` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-else-if.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-else": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-else` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-else.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-for": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-for` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-for.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-html": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-html` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-html.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-if": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-if` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-if.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-model": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-model` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-model.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-on": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-on` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-on.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "modifiers": {
+                "type": "array"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/valid-v-once": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-once` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-once.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-pre": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-pre` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-pre.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-show": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-show` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-show.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/valid-v-slot": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-slot` directives",
+          "url": "https://eslint.vuejs.org/rules/valid-v-slot.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "ownerMustBeCustomElement": "'v-slot' directive must be owned by a custom element, but '{{name}}' is not.",
+          "namedSlotMustBeOnTemplate": "Named slots must use '<template>' on a custom element.",
+          "defaultSlotMustBeOnTemplate": "Default slot must use '<template>' on a custom element when there are other named slots.",
+          "disallowDuplicateSlotsOnElement": "An element cannot have multiple 'v-slot' directives.",
+          "disallowDuplicateSlotsOnChildren": "An element cannot have multiple '<template>' elements which are distributed to the same slot.",
+          "disallowArgumentUseSlotParams": "Dynamic argument of 'v-slot' directive cannot use that slot parameter.",
+          "disallowAnyModifier": "'v-slot' directive doesn't support any modifier.",
+          "requireAttributeValue": "'v-slot' directive on a custom element requires that attribute value."
+        }
+      }
+    },
+    "vue/valid-v-text": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-text` directives",
+          "category": "essential",
+          "url": "https://eslint.vuejs.org/rules/valid-v-text.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    }
   }
 }

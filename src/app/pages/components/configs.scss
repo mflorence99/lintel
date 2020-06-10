@@ -9,7 +9,17 @@
   margin-bottom: 1rem;
 
   .category {
-    margin-left: 0.5rem;
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+
+    > div {
+      line-height: 150%;
+    }
+
+    > div:first-of-type {
+      justify-self: center;
+    }
+
   }
 
   .category,

@@ -25,14 +25,14 @@
         (click)="selectCategory($event, params.generalSettings)"
         [ngClass]="{selected: selection.category === params.generalSettings}"
         class="category">
-        &bull; {{ params.generalSettings }}
+        <div>&bull;</div> <div>{{ params.generalSettings }}</div>
       </div>
 
       <div
         (click)="selectCategory($event, params.activeCategory)"
         [ngClass]="{selected: selection.category === params.activeCategory}"
         class="category">
-        &bull; {{ params.activeCategory }}
+        <div>&bull;</div> <div>{{ params.activeCategory }}</div>
       </div>
 
       <div
@@ -40,7 +40,7 @@
         [ngClass]="{selected: selection.category === category}"
         *ngFor="let category of configs.categories"
         class="category">
-        &bull; {{ category }}
+        <div>&bull;</div> <div>{{ category }}</div>
       </div>
 
       <div
@@ -48,7 +48,7 @@
         [ngClass]="{selected: selection.category === params.unknownCategory}"
         *ngIf="!utils.isEmptyObject(configs.unknownView)"
         class="category">
-        &bull; {{ params.unknownCategory }}
+        <div>&bull;</div> <div>{{ params.unknownCategory }}</div>
       </div>
 
     </ng-container>

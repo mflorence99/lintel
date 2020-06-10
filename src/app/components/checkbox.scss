@@ -9,6 +9,7 @@
   background-color: var(--vscode-settings-textInputBackground);
   border: 1px solid transparent;
   display: grid;
+  flex-shrink: 0;
   height: 18px;
   justify-content: center;
   margin-right: 0.5rem;
@@ -30,5 +31,5 @@
 }
 
 .label {
-  white-space: nowrap;
+  white-space: wrap;
 }

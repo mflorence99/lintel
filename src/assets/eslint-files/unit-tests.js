@@ -91,6 +91,7 @@ eslintFiles = {
         "plugin:lodash/recommended",
         "plugin:lodash-fp/recommended",
         "plugin:react/recommended",
+        "plugin:vue/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
@@ -116,6 +117,7 @@ eslintFiles = {
         "lodash",
         "lodash-fp",
         "react",
+        "vue",
         "@typescript-eslint"
       ],
       "reportUnusedDisableDirectives": true,

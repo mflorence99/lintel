@@ -52,6 +52,11 @@ export class Params {
         'recommended': 'truthy'
       }
     },
+    'vue': {
+      'plugin:vue/recommended': {
+        'url': 'truthy'
+      }
+    },
   };
 
   searchParams = {
