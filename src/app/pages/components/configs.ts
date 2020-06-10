@@ -53,8 +53,9 @@ export class ConfigsComponent implements AfterViewChecked {
 
   /** On every change detection */
   ngAfterViewChecked(): void {
-    // NOTE: general settings always available
-    if (this.selection.category !== this.params.generalSettings) {
+    // NOTE: general settings and active rules are always available
+    if ((this.selection.category !== this.params.generalSettings)
+      && (this.selection.category !== this.params.activeCategory)) {
       const categories = [];
       if (!this.utils.isEmptyObject(this.configs.activeView))
         categories.push(this.params.activeCategory);

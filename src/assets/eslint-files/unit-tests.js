@@ -89,6 +89,7 @@ eslintFiles = {
         "eslint:recommended",
         "plugin:jest/recommended",
         "plugin:lodash/recommended",
+        "plugin:lodash-fp/recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
@@ -113,6 +114,7 @@ eslintFiles = {
       "plugins": [
         "jest",
         "lodash",
+        "lodash-fp",
         "react",
         "@typescript-eslint"
       ],

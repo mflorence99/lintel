@@ -19,6 +19,8 @@
     <ng-container
       *ngIf="configs.configuration && (selection.fileName === fileName)">
 
+      <!-- NOTE: general settings and active rules are ALWAYS available -->
+
       <div
         (click)="selectCategory($event, params.generalSettings)"
         [ngClass]="{selected: selection.category === params.generalSettings}"
@@ -29,7 +31,6 @@
       <div
         (click)="selectCategory($event, params.activeCategory)"
         [ngClass]="{selected: selection.category === params.activeCategory}"
-        *ngIf="!utils.isEmptyObject(configs.activeView)"
         class="category">
         &bull; {{ params.activeCategory }}
       </div>
