@@ -8,6 +8,11 @@ import { Utils } from '../services/utils';
 // NOTE: rules content is provided statically in index.html
 declare const eslintRules: RulesStateModel;
 
+const blackList = [
+  'no-mixed-operators', 
+  'react/jsx-no-script-url'
+];
+
 export interface GUIElement {
   default?: any;
   elements?: GUIElement[];
@@ -160,7 +165,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
   // TODO: temporary
 
   notYet(ruleName: string, rule: Rule): boolean {
-    if (['no-mixed-operators'].includes(ruleName))
+    if (blackList.includes(ruleName))
       return true;
     else {
       const json = JSON.stringify(rule?.meta.schema);
@@ -301,8 +306,11 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
   }
 
   private makeStringArray(scheme: any): GUIElement {
-    if ((scheme.type === 'array') 
-      && ((scheme.items?.type === 'string') || (scheme.items?.[0]?.type === 'string'))) {
+    if (((scheme.type === 'array') || scheme.type?.[0]?.includes('array'))
+      // NOTE: assume 'string' if no items at all
+      && ((scheme.items?.type === 'string') 
+        || (scheme.items?.[0]?.type === 'string')
+        || !scheme.items)) {
       return {
         type: 'string-array',
         uniqueItems: !!scheme.uniqueItems
