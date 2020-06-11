@@ -1,18 +1,21 @@
 <a
-  [href]="ruleDigest.url"
+  (click)="openURL(ruleDigest.url)"
   [ngClass]="{inherited: ruleDigest.inherited}"
-  *ngIf="ruleDigest.url"
-  class="ruleName {{ ruleDigest.level }}"
+  *ngIf="ruleDigest.url && ruleDigest.rule; else unknownRule"
+  class="ruleName {{ ruleDigest.level }} known"
   target="lintel">
   {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
 </a>
 
-<div
-  [ngClass]="{inherited: ruleDigest.inherited}"
-  *ngIf="!ruleDigest.url"
-  class="ruleName {{ ruleDigest.level }}">
-  {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
-</div>
+<ng-template
+  #unknownRule>
+  <div
+    [ngClass]="{inherited: ruleDigest.inherited}"
+    *ngIf="!ruleDigest.url"
+    class="ruleName {{ ruleDigest.level }} unknown">
+    {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
+  </div>
+</ng-template>
 
 <div
   *ngIf="ruleDigest.description">
@@ -85,7 +88,7 @@
       <div
         *ngIf="element.name"
         class="name">
-        {{ element.name }}:
+        {{ breakable(element.name) }}:
       </div>
 
       <lintel-checkbox

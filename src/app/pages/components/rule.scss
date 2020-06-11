@@ -16,7 +16,11 @@
   outline: none;
   text-decoration: none;
 
-  &:hover {
+  &.known {
+    cursor: pointer;
+  }
+
+  &.known:hover {
     border-bottom-width: 1px;
   }
 
@@ -78,9 +82,8 @@
         color: var(--vscode-textPreformat-foreground);
         font-family: monospace;
         font-size: 0.8rem;
-        height: 2rem;
-        line-height: 2rem;
-        min-width: 10rem;
+        line-height: 125%;
+        width: 10rem;
       }
 
     }

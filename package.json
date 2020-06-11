@@ -63,6 +63,7 @@
     "eslint-plugin-jest": "^23.9.0",
     "eslint-plugin-lodash": "^7.1.0",
     "eslint-plugin-lodash-fp": "^2.2.0-a1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^25.2.1",

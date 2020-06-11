@@ -47,6 +47,11 @@ export class Params {
         'recommended': 'truthy'
       }
     },
+    'node': {
+      'plugin:node/recommended': {
+        'recommended': 'truthy'
+      }
+    },
     'react': {
       'plugin:react/recommended': {
         'recommended': 'truthy'

@@ -40,7 +40,8 @@ body.vscode-light {
 // NOTE: attempt to bridge VSCode vars with material theming
 
 a,
-input {
+input,
+select {
 
   &:focus {
     outline: none;

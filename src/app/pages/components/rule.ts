@@ -106,6 +106,12 @@ export class RuleComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** Make a camel case string breakable */
+  breakable(camelCase: string) : string {
+    const matches = camelCase.match(/($[a-z])|[A-Z][^A-Z]+/g);
+    return matches ? matches.join('\u200b') : camelCase;
+  }
+
   /** Edit a file */
   editFile(fileName: string): void {
     lintelVSCodeAPI.postMessage({ command: 'edit', fileName });
@@ -132,6 +138,11 @@ export class RuleComponent implements OnInit, OnDestroy {
       ).subscribe((changes: Settings) => {
         this.configs.changeRule({ changes, ruleName: this.ruleDigest.ruleName });
       });
+  }
+
+  /** Open URL */
+  openURL(url: string): void {
+    lintelVSCodeAPI.postMessage({ command: 'open', url });
   }
 
 }

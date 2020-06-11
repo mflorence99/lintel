@@ -8,6 +8,7 @@ const plugins = [
   ['jest', 'plugin:jest/all'],
   ['lodash', 'plugin:lodash/recommended'],
   ['lodash-fp', 'plugin:lodash-fp/recommended'],
+  ['node', 'plugin:node/recommended'],
   ['react', 'plugin:react/all'],
   ['vue', 'plugin:vue/recommended'],
 ]

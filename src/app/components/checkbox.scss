@@ -6,8 +6,8 @@
 
 .checkbox {
   align-items: center;
-  background-color: var(--vscode-settings-textInputBackground);
-  border: 1px solid transparent;
+  background-color: var(--vscode-settings-checkboxBackground);
+  border: 1px solid var(--vscode-settings-checkboxBorder);
   display: grid;
   flex-shrink: 0;
   height: 18px;

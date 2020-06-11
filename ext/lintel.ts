@@ -8,10 +8,11 @@ export function activate(context: vscode.ExtensionContext): void {
 
   let currentPanel: vscode.WebviewPanel | undefined = undefined;
 
+  // TODO: add back lintelIsReady when we remove eslint-files.js
   const vscodeScripts = `
     <script>
+      // window["lintelIsReady"] = Promise.resolve();
       window["lintelSearchParams"] = "?freshStart=true";
-      window["lintelIsReady"] = Promise.resolve();
       window["lintelVSCodeAPI"] = acquireVsCodeApi();
     </script>
   `;
@@ -40,6 +41,7 @@ export function activate(context: vscode.ExtensionContext): void {
       // NOTE: strip out all the VSCode emulation code and add in the ESLint rules, schema
       const indexHtml = fs.readFileSync(indexPath, { encoding: 'utf8' })
         // TODO: not yet
+        // .replace('<script src="assets/eslint-files.js"></script>', '')
         // .replace('<script src="assets/eslint-rules.js"></script>', '')
         // .replace('s<script src="assets/eslint-schema.js"></script>', '')
         .replace('<script src="assets/vscode-scripts.js"></script>', vscodeScripts)

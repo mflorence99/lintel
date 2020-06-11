@@ -1,8 +1,8 @@
 :host {
   align-items: center;
-  background: var(--vscode-settings-textInputBackground);
-  border: 1px solid transparent;
-  color: var(--vscode-settings-textInputForeground);
+  background: var(--vscode-settings-dropdownBackground);
+  border: 1px solid var(--vscode-settings-dropdownBorder);
+  color: var(--vscode-settings-dropdownForeground);
   display: flex;
   height: 2rem;
   padding: 0.4rem;

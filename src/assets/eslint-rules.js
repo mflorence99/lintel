@@ -17921,6 +17921,2073 @@ eslintRules = {
       }
     }
   },
+  "node": {
+    "node/callback-return": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require `return` statements after callbacks",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/callback-return.md"
+        },
+        "schema": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "fixable": null,
+        "messages": {
+          "missingReturn": "Expected return with your callback function."
+        }
+      }
+    },
+    "node/exports-style": {
+      "meta": {
+        "docs": {
+          "description": "enforce either `module.exports` or `exports`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/exports-style.md"
+        },
+        "type": "suggestion",
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "module.exports",
+              "exports"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "allowBatchAssign": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/file-extension-in-import": {
+      "meta": {
+        "docs": {
+          "description": "enforce the style of file extensions in `import` declarations",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/file-extension-in-import.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "requireExt": "require file extension '{{ext}}'.",
+          "forbidExt": "forbid file extension '{{ext}}'."
+        },
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "tryExtensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^\\."
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": {
+              "enum": [
+                "always",
+                "never"
+              ]
+            }
+          }
+        ],
+        "type": "suggestion"
+      }
+    },
+    "node/global-require": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require `require()` calls to be placed at top-level module scope",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/global-require.md"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "Unexpected require()."
+        }
+      }
+    },
+    "node/handle-callback-err": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require error handling in callbacks",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/handle-callback-err.md"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "string"
+          }
+        ],
+        "messages": {
+          "expected": "Expected error to be handled."
+        }
+      }
+    },
+    "node/no-callback-literal": {
+      "meta": {
+        "docs": {
+          "description": "ensure Node.js-style error-first callback pattern is followed",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-callback-literal.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "node/no-deprecated-api": {
+      "meta": {
+        "docs": {
+          "description": "disallow deprecated APIs",
+          "category": "Best Practices",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-deprecated-api.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string"
+              },
+              "ignoreModuleItems": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "_linklist",
+                    "_stream_wrap",
+                    "async_hooks.currentId",
+                    "async_hooks.triggerId",
+                    "buffer.Buffer()",
+                    "new buffer.Buffer()",
+                    "buffer.SlowBuffer",
+                    "constants",
+                    "crypto._toBuf",
+                    "crypto.Credentials",
+                    "crypto.DEFAULT_ENCODING",
+                    "crypto.createCipher",
+                    "crypto.createCredentials",
+                    "crypto.createDecipher",
+                    "crypto.fips",
+                    "crypto.prng",
+                    "crypto.pseudoRandomBytes",
+                    "crypto.rng",
+                    "domain",
+                    "events.EventEmitter.listenerCount",
+                    "events.listenerCount",
+                    "freelist",
+                    "fs.SyncWriteStream",
+                    "fs.exists",
+                    "fs.lchmod",
+                    "fs.lchmodSync",
+                    "http.createClient",
+                    "module.Module.createRequireFromPath",
+                    "module.Module.requireRepl",
+                    "module.Module._debug",
+                    "module.createRequireFromPath",
+                    "module.requireRepl",
+                    "module._debug",
+                    "net._setSimultaneousAccepts",
+                    "os.getNetworkInterfaces",
+                    "os.tmpDir",
+                    "path._makeLong",
+                    "process.EventEmitter",
+                    "process.assert",
+                    "process.binding",
+                    "process.env.NODE_REPL_HISTORY_FILE",
+                    "process.report.triggerReport",
+                    "punycode",
+                    "readline.codePointAt",
+                    "readline.getStringWidth",
+                    "readline.isFullWidthCodePoint",
+                    "readline.stripVTControlCharacters",
+                    "safe-buffer.Buffer()",
+                    "new safe-buffer.Buffer()",
+                    "safe-buffer.SlowBuffer",
+                    "sys",
+                    "timers.enroll",
+                    "timers.unenroll",
+                    "tls.CleartextStream",
+                    "tls.CryptoStream",
+                    "tls.SecurePair",
+                    "tls.convertNPNProtocols",
+                    "tls.createSecurePair",
+                    "tls.parseCertString",
+                    "tty.setRawMode",
+                    "url.parse",
+                    "url.resolve",
+                    "util.debug",
+                    "util.error",
+                    "util.isArray",
+                    "util.isBoolean",
+                    "util.isBuffer",
+                    "util.isDate",
+                    "util.isError",
+                    "util.isFunction",
+                    "util.isNull",
+                    "util.isNullOrUndefined",
+                    "util.isNumber",
+                    "util.isObject",
+                    "util.isPrimitive",
+                    "util.isRegExp",
+                    "util.isString",
+                    "util.isSymbol",
+                    "util.isUndefined",
+                    "util.log",
+                    "util.print",
+                    "util.pump",
+                    "util.puts",
+                    "util._extend",
+                    "vm.runInDebugContext"
+                  ]
+                },
+                "additionalItems": false,
+                "uniqueItems": true
+              },
+              "ignoreGlobalItems": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "Buffer()",
+                    "new Buffer()",
+                    "COUNTER_NET_SERVER_CONNECTION",
+                    "COUNTER_NET_SERVER_CONNECTION_CLOSE",
+                    "COUNTER_HTTP_SERVER_REQUEST",
+                    "COUNTER_HTTP_SERVER_RESPONSE",
+                    "COUNTER_HTTP_CLIENT_REQUEST",
+                    "COUNTER_HTTP_CLIENT_RESPONSE",
+                    "GLOBAL",
+                    "Intl.v8BreakIterator",
+                    "require.extensions",
+                    "root",
+                    "process.EventEmitter",
+                    "process.assert",
+                    "process.binding",
+                    "process.env.NODE_REPL_HISTORY_FILE",
+                    "process.report.triggerReport"
+                  ]
+                },
+                "additionalItems": false,
+                "uniqueItems": true
+              },
+              "ignoreIndirectDependencies": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-exports-assign": {
+      "meta": {
+        "docs": {
+          "description": "disallow the assignment to `exports`",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-exports-assign.md"
+        },
+        "fixable": null,
+        "messages": {
+          "forbidden": "Unexpected assignment to 'exports' variable. Use 'module.exports' instead."
+        },
+        "schema": [],
+        "type": "problem"
+      }
+    },
+    "node/no-extraneous-import": {
+      "meta": {
+        "docs": {
+          "description": "disallow `import` declarations which import extraneous modules",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-extraneous-import.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowModules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?:@[a-zA-Z0-9_\\-.]+/)?[a-zA-Z0-9_\\-.]+$"
+                },
+                "uniqueItems": true
+              },
+              "convertPath": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {},
+                    "patternProperties": {
+                      "^.+$": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "include": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1,
+                          "uniqueItems": true
+                        },
+                        "exclude": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "uniqueItems": true
+                        },
+                        "replace": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "include",
+                        "replace"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                ]
+              },
+              "resolvePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              },
+              "tryExtensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^\\."
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-extraneous-require": {
+      "meta": {
+        "docs": {
+          "description": "disallow `require()` expressions which import extraneous modules",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-extraneous-require.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowModules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?:@[a-zA-Z0-9_\\-.]+/)?[a-zA-Z0-9_\\-.]+$"
+                },
+                "uniqueItems": true
+              },
+              "convertPath": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {},
+                    "patternProperties": {
+                      "^.+$": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "include": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1,
+                          "uniqueItems": true
+                        },
+                        "exclude": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "uniqueItems": true
+                        },
+                        "replace": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "include",
+                        "replace"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                ]
+              },
+              "resolvePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              },
+              "tryExtensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^\\."
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-missing-import": {
+      "meta": {
+        "docs": {
+          "description": "disallow `import` declarations which import non-existence modules",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-missing-import.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowModules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?:@[a-zA-Z0-9_\\-.]+/)?[a-zA-Z0-9_\\-.]+$"
+                },
+                "uniqueItems": true
+              },
+              "tryExtensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^\\."
+                },
+                "uniqueItems": true
+              },
+              "resolvePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-missing-require": {
+      "meta": {
+        "docs": {
+          "description": "disallow `require()` expressions which import non-existence modules",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-missing-require.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowModules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?:@[a-zA-Z0-9_\\-.]+/)?[a-zA-Z0-9_\\-.]+$"
+                },
+                "uniqueItems": true
+              },
+              "tryExtensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^\\."
+                },
+                "uniqueItems": true
+              },
+              "resolvePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-mixed-requires": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow `require` calls to be mixed with regular variable declarations",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-mixed-requires.md"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "oneOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "grouping": {
+                    "type": "boolean"
+                  },
+                  "allowCall": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        ],
+        "messages": {
+          "noMixRequire": "Do not mix 'require' and other declarations.",
+          "noMixCoreModuleFileComputed": "Do not mix core, module, file and computed requires."
+        }
+      }
+    },
+    "node/no-new-require": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow `new` operators with calls to `require`",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-new-require.md"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "noNewRequire": "Unexpected use of new with require."
+        }
+      }
+    },
+    "node/no-path-concat": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow string concatenation with `__dirname` and `__filename`",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-path-concat.md"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "usePathFunctions": "Use path.join() or path.resolve() instead of string concatenation."
+        }
+      }
+    },
+    "node/no-process-env": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow the use of `process.env`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-process-env.md"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpectedProcessEnv": "Unexpected use of process.env."
+        }
+      }
+    },
+    "node/no-process-exit": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow the use of `process.exit()`",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-process-exit.md"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "noProcessExit": "Don't use process.exit(); throw an error instead."
+        }
+      }
+    },
+    "node/no-restricted-import": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow specified modules when loaded by `require`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-restricted-import.md"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        }
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "name"
+                  ]
+                }
+              ]
+            },
+            "additionalItems": false
+          }
+        ],
+        "messages": {
+          "restricted": "'{{name}}' module is restricted from being used.{{customMessage}}"
+        }
+      }
+    },
+    "node/no-restricted-require": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow specified modules when loaded by `require`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-restricted-require.md"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        }
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "name"
+                  ]
+                }
+              ]
+            },
+            "additionalItems": false
+          }
+        ],
+        "messages": {
+          "restricted": "'{{name}}' module is restricted from being used.{{customMessage}}"
+        }
+      }
+    },
+    "node/no-sync": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow synchronous methods",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-sync.md"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowAtRootLevel": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "noSync": "Unexpected sync method: '{{propertyName}}'."
+        }
+      }
+    },
+    "node/no-unpublished-bin": {
+      "meta": {
+        "docs": {
+          "description": "disallow `bin` files that npm ignores",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-unpublished-bin.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "convertPath": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {},
+                    "patternProperties": {
+                      "^.+$": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "include": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1,
+                          "uniqueItems": true
+                        },
+                        "exclude": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "uniqueItems": true
+                        },
+                        "replace": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "include",
+                        "replace"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "node/no-unpublished-import": {
+      "meta": {
+        "docs": {
+          "description": "disallow `import` declarations which import private modules",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-unpublished-import.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowModules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?:@[a-zA-Z0-9_\\-.]+/)?[a-zA-Z0-9_\\-.]+$"
+                },
+                "uniqueItems": true
+              },
+              "convertPath": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {},
+                    "patternProperties": {
+                      "^.+$": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "include": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1,
+                          "uniqueItems": true
+                        },
+                        "exclude": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "uniqueItems": true
+                        },
+                        "replace": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "include",
+                        "replace"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                ]
+              },
+              "resolvePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              },
+              "tryExtensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^\\."
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-unpublished-require": {
+      "meta": {
+        "docs": {
+          "description": "disallow `require()` expressions which import private modules",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-unpublished-require.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowModules": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?:@[a-zA-Z0-9_\\-.]+/)?[a-zA-Z0-9_\\-.]+$"
+                },
+                "uniqueItems": true
+              },
+              "convertPath": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {},
+                    "patternProperties": {
+                      "^.+$": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "include": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1,
+                          "uniqueItems": true
+                        },
+                        "exclude": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "uniqueItems": true
+                        },
+                        "replace": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "include",
+                        "replace"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                ]
+              },
+              "resolvePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              },
+              "tryExtensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^\\."
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-unsupported-features/es-builtins": {
+      "meta": {
+        "docs": {
+          "description": "disallow unsupported ECMAScript built-ins on the specified version",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-unsupported-features/es-builtins.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string"
+              },
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "Array.from",
+                    "Array.of",
+                    "BigInt",
+                    "Map",
+                    "Math.acosh",
+                    "Math.asinh",
+                    "Math.atanh",
+                    "Math.cbrt",
+                    "Math.clz32",
+                    "Math.cosh",
+                    "Math.expm1",
+                    "Math.fround",
+                    "Math.hypot",
+                    "Math.imul",
+                    "Math.log10",
+                    "Math.log1p",
+                    "Math.log2",
+                    "Math.sign",
+                    "Math.sinh",
+                    "Math.tanh",
+                    "Math.trunc",
+                    "Number.EPSILON",
+                    "Number.isFinite",
+                    "Number.isInteger",
+                    "Number.isNaN",
+                    "Number.isSafeInteger",
+                    "Number.MAX_SAFE_INTEGER",
+                    "Number.MIN_SAFE_INTEGER",
+                    "Number.parseFloat",
+                    "Number.parseInt",
+                    "Object.assign",
+                    "Object.fromEntries",
+                    "Object.getOwnPropertySymbols",
+                    "Object.is",
+                    "Object.setPrototypeOf",
+                    "Object.values",
+                    "Object.entries",
+                    "Object.getOwnPropertyDescriptors",
+                    "Promise",
+                    "Promise.allSettled",
+                    "Proxy",
+                    "Reflect",
+                    "Set",
+                    "String.fromCodePoint",
+                    "String.raw",
+                    "Symbol",
+                    "Int8Array",
+                    "Uint8Array",
+                    "Uint8ClampedArray",
+                    "Int16Array",
+                    "Uint16Array",
+                    "Int32Array",
+                    "Uint32Array",
+                    "BigInt64Array",
+                    "BigUint64Array",
+                    "Float32Array",
+                    "Float64Array",
+                    "DataView",
+                    "WeakMap",
+                    "WeakSet",
+                    "Atomics",
+                    "SharedArrayBuffer",
+                    "globalThis"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unsupported": "The '{{name}}' is not supported until Node.js {{supported}}. The configured version range is '{{version}}'."
+        }
+      }
+    },
+    "node/no-unsupported-features/es-syntax": {
+      "meta": {
+        "docs": {
+          "description": "disallow unsupported ECMAScript syntax on the specified version",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-unsupported-features/es-syntax.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string"
+              },
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "arrowFunctions",
+                    "binaryNumericLiterals",
+                    "blockScopedFunctions",
+                    "blockScopedVariables",
+                    "classes",
+                    "computedProperties",
+                    "defaultParameters",
+                    "destructuring",
+                    "forOfLoops",
+                    "generators",
+                    "modules",
+                    "new.target",
+                    "objectSuperProperties",
+                    "octalNumericLiterals",
+                    "propertyShorthands",
+                    "regexpU",
+                    "regexpY",
+                    "restParameters",
+                    "spreadElements",
+                    "templateLiterals",
+                    "unicodeCodePointEscapes",
+                    "exponentialOperators",
+                    "asyncFunctions",
+                    "trailingCommasInFunctions",
+                    "asyncIteration",
+                    "malformedTemplateLiterals",
+                    "regexpLookbehind",
+                    "regexpNamedCaptureGroups",
+                    "regexpS",
+                    "regexpUnicodeProperties",
+                    "restSpreadProperties",
+                    "jsonSuperset",
+                    "optionalCatchBinding",
+                    "bigint",
+                    "dynamicImport"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "no-arrow-functions": "Arrow functions are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-binary-numeric-literals": "Binary numeric literals are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-block-scoped-functions-strict": "Block-scoped functions in strict mode are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-block-scoped-functions-sloppy": "Block-scoped functions in non-strict mode are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-block-scoped-variables-strict": "Block-scoped variables in strict mode are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-block-scoped-variables-sloppy": "Block-scoped variables in non-strict mode are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-classes-strict": "Classes in strict mode are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-classes-sloppy": "Classes in non-strict mode are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-computed-properties": "Computed properties are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-default-parameters": "Default parameters are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-destructuring": "Destructuring is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-for-of-loops": "'for-of' loops are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-generators": "Generator functions are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-modules": "Import and export declarations are not supported yet.",
+          "no-new-target": "'new.target' is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-object-super-properties": "'super' in object literals is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-octal-numeric-literals": "Octal numeric literals are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-property-shorthands": "Property shorthands are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-property-shorthands-getset": "Property shorthands of 'get' and 'set' are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-regexp-u-flag": "RegExp 'u' flag is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-regexp-y-flag": "RegExp 'y' flag is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-rest-parameters": "Rest parameters are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-spread-elements": "Spread elements are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-template-literals": "Template literals are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-unicode-codepoint-escapes": "Unicode code point escapes are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-exponential-operators": "Exponential operators are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-async-functions": "Async functions are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-trailing-function-commas": "Trailing commas in function syntax are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-async-iteration": "Async iteration is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-malformed-template-literals": "Malformed template literals are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-regexp-lookbehind-assertions": "RegExp lookbehind assertions are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-regexp-named-capture-groups": "RegExp named capture groups are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-regexp-s-flag": "RegExp 's' flag is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-regexp-unicode-property-escapes": "RegExp Unicode property escapes are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-rest-spread-properties": "Rest/spread properties are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-json-superset": "'\\u{{code}}' in string literals is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-optional-catch-binding": "The omission of 'catch' binding is not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-bigint": "Bigint literals are not supported until Node.js {{supported}}. The configured version range is '{{version}}'.",
+          "no-bigint-property-names": "Bigint literal property names are not supported yet.",
+          "no-dynamic-import": "'import()' expressions are not supported yet."
+        }
+      }
+    },
+    "node/no-unsupported-features/node-builtins": {
+      "meta": {
+        "docs": {
+          "description": "disallow unsupported Node.js built-in APIs on the specified version",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-unsupported-features/node-builtins.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string"
+              },
+              "ignores": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "queueMicrotask",
+                    "require.resolve.paths",
+                    "Buffer.alloc",
+                    "Buffer.allocUnsafe",
+                    "Buffer.allocUnsafeSlow",
+                    "Buffer.from",
+                    "TextDecoder",
+                    "TextEncoder",
+                    "URL",
+                    "URLSearchParams",
+                    "console.clear",
+                    "console.count",
+                    "console.countReset",
+                    "console.debug",
+                    "console.dirxml",
+                    "console.group",
+                    "console.groupCollapsed",
+                    "console.groupEnd",
+                    "console.table",
+                    "console.markTimeline",
+                    "console.profile",
+                    "console.profileEnd",
+                    "console.timeLog",
+                    "console.timeStamp",
+                    "console.timeline",
+                    "console.timelineEnd",
+                    "process.allowedNodeEnvironmentFlags",
+                    "process.argv0",
+                    "process.channel",
+                    "process.cpuUsage",
+                    "process.emitWarning",
+                    "process.getegid",
+                    "process.geteuid",
+                    "process.hasUncaughtExceptionCaptureCallback",
+                    "process.hrtime.bigint",
+                    "process.ppid",
+                    "process.release",
+                    "process.report",
+                    "process.resourceUsage",
+                    "process.setegid",
+                    "process.seteuid",
+                    "process.setUncaughtExceptionCaptureCallback",
+                    "process.stdout.getColorDepth",
+                    "process.stdout.hasColor",
+                    "process.stderr.getColorDepth",
+                    "process.stderr.hasColor",
+                    "assert.strict",
+                    "assert.strict.doesNotReject",
+                    "assert.strict.rejects",
+                    "assert.deepStrictEqual",
+                    "assert.doesNotReject",
+                    "assert.notDeepStrictEqual",
+                    "assert.rejects",
+                    "async_hooks",
+                    "async_hooks.createHook",
+                    "buffer.Buffer.alloc",
+                    "buffer.Buffer.allocUnsafe",
+                    "buffer.Buffer.allocUnsafeSlow",
+                    "buffer.Buffer.from",
+                    "buffer.kMaxLength",
+                    "buffer.transcode",
+                    "buffer.constants",
+                    "child_process.ChildProcess",
+                    "crypto.Certificate.exportChallenge",
+                    "crypto.Certificate.exportPublicKey",
+                    "crypto.Certificate.verifySpkac",
+                    "crypto.ECDH",
+                    "crypto.KeyObject",
+                    "crypto.createPrivateKey",
+                    "crypto.createPublicKey",
+                    "crypto.createSecretKey",
+                    "crypto.constants",
+                    "crypto.fips",
+                    "crypto.generateKeyPair",
+                    "crypto.generateKeyPairSync",
+                    "crypto.getCurves",
+                    "crypto.getFips",
+                    "crypto.privateEncrypt",
+                    "crypto.publicDecrypt",
+                    "crypto.randomFillSync",
+                    "crypto.randomFill",
+                    "crypto.scrypt",
+                    "crypto.scryptSync",
+                    "crypto.setFips",
+                    "crypto.sign",
+                    "crypto.timingSafeEqual",
+                    "crypto.verify",
+                    "dns.Resolver",
+                    "dns.resolvePtr",
+                    "dns.promises",
+                    "events.EventEmitter.once",
+                    "events.once",
+                    "fs.Dirent",
+                    "fs.copyFile",
+                    "fs.copyFileSync",
+                    "fs.mkdtemp",
+                    "fs.mkdtempSync",
+                    "fs.realpath.native",
+                    "fs.realpathSync.native",
+                    "fs.promises",
+                    "fs.writev",
+                    "fs.writevSync",
+                    "http2",
+                    "inspector",
+                    "module.Module.builtinModules",
+                    "module.Module.createRequireFromPath",
+                    "module.Module.createRequire",
+                    "module.Module.syncBuiltinESMExports",
+                    "module.builtinModules",
+                    "module.createRequireFromPath",
+                    "module.createRequire",
+                    "module.syncBuiltinESMExports",
+                    "os.constants",
+                    "os.constants.priority",
+                    "os.getPriority",
+                    "os.homedir",
+                    "os.setPriority",
+                    "os.userInfo",
+                    "path.toNamespacedPath",
+                    "perf_hooks",
+                    "perf_hooks.monitorEventLoopDelay",
+                    "stream.Readable.from",
+                    "stream.finished",
+                    "stream.pipeline",
+                    "trace_events",
+                    "url.URL",
+                    "url.URLSearchParams",
+                    "url.domainToASCII",
+                    "url.domainToUnicode",
+                    "util.callbackify",
+                    "util.formatWithOptions",
+                    "util.getSystemErrorName",
+                    "util.inspect.custom",
+                    "util.inspect.defaultOptions",
+                    "util.inspect.replDefaults",
+                    "util.isDeepStrictEqual",
+                    "util.promisify",
+                    "util.TextDecoder",
+                    "util.TextEncoder",
+                    "util.types",
+                    "util.types.isBoxedPrimitive",
+                    "v8",
+                    "v8.DefaultDeserializer",
+                    "v8.DefaultSerializer",
+                    "v8.Deserializer",
+                    "v8.Serializer",
+                    "v8.cachedDataVersionTag",
+                    "v8.deserialize",
+                    "v8.getHeapCodeStatistics",
+                    "v8.getHeapSnapshot",
+                    "v8.getHeapSpaceStatistics",
+                    "v8.serialize",
+                    "v8.writeHeapSnapshot",
+                    "vm.Module",
+                    "vm.compileFunction",
+                    "worker_threads"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unsupported": "The '{{name}}' is not supported until Node.js {{supported}}. The configured version range is '{{version}}'."
+        }
+      }
+    },
+    "node/prefer-global/buffer": {
+      "meta": {
+        "docs": {
+          "description": "enforce either `Buffer` or `require(\"buffer\").Buffer`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-global/buffer.md"
+        },
+        "type": "suggestion",
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "preferGlobal": "Unexpected use of 'require(\"buffer\").Buffer'. Use the global variable 'Buffer' instead.",
+          "preferModule": "Unexpected use of the global variable 'Buffer'. Use 'require(\"buffer\").Buffer' instead."
+        }
+      }
+    },
+    "node/prefer-global/console": {
+      "meta": {
+        "docs": {
+          "description": "enforce either `console` or `require(\"console\")`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-global/console.md"
+        },
+        "type": "suggestion",
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "preferGlobal": "Unexpected use of 'require(\"console\")'. Use the global variable 'console' instead.",
+          "preferModule": "Unexpected use of the global variable 'console'. Use 'require(\"console\")' instead."
+        }
+      }
+    },
+    "node/prefer-global/process": {
+      "meta": {
+        "docs": {
+          "description": "enforce either `process` or `require(\"process\")`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-global/process.md"
+        },
+        "type": "suggestion",
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "preferGlobal": "Unexpected use of 'require(\"process\")'. Use the global variable 'process' instead.",
+          "preferModule": "Unexpected use of the global variable 'process'. Use 'require(\"process\")' instead."
+        }
+      }
+    },
+    "node/prefer-global/text-decoder": {
+      "meta": {
+        "docs": {
+          "description": "enforce either `TextDecoder` or `require(\"util\").TextDecoder`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-global/text-decoder.md"
+        },
+        "type": "suggestion",
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "preferGlobal": "Unexpected use of 'require(\"util\").TextDecoder'. Use the global variable 'TextDecoder' instead.",
+          "preferModule": "Unexpected use of the global variable 'TextDecoder'. Use 'require(\"util\").TextDecoder' instead."
+        }
+      }
+    },
+    "node/prefer-global/text-encoder": {
+      "meta": {
+        "docs": {
+          "description": "enforce either `TextEncoder` or `require(\"util\").TextEncoder`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-global/text-encoder.md"
+        },
+        "type": "suggestion",
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "preferGlobal": "Unexpected use of 'require(\"util\").TextEncoder'. Use the global variable 'TextEncoder' instead.",
+          "preferModule": "Unexpected use of the global variable 'TextEncoder'. Use 'require(\"util\").TextEncoder' instead."
+        }
+      }
+    },
+    "node/prefer-global/url-search-params": {
+      "meta": {
+        "docs": {
+          "description": "enforce either `URLSearchParams` or `require(\"url\").URLSearchParams`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-global/url-search-params.md"
+        },
+        "type": "suggestion",
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "preferGlobal": "Unexpected use of 'require(\"url\").URLSearchParams'. Use the global variable 'URLSearchParams' instead.",
+          "preferModule": "Unexpected use of the global variable 'URLSearchParams'. Use 'require(\"url\").URLSearchParams' instead."
+        }
+      }
+    },
+    "node/prefer-global/url": {
+      "meta": {
+        "docs": {
+          "description": "enforce either `URL` or `require(\"url\").URL`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-global/url.md"
+        },
+        "type": "suggestion",
+        "fixable": null,
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "preferGlobal": "Unexpected use of 'require(\"url\").URL'. Use the global variable 'URL' instead.",
+          "preferModule": "Unexpected use of the global variable 'URL'. Use 'require(\"url\").URL' instead."
+        }
+      }
+    },
+    "node/prefer-promises/dns": {
+      "meta": {
+        "docs": {
+          "description": "enforce `require(\"dns\").promises`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-promises/dns.md"
+        },
+        "fixable": null,
+        "messages": {
+          "preferPromises": "Use 'dns.promises.{{name}}()' instead.",
+          "preferPromisesNew": "Use 'new dns.promises.{{name}}()' instead."
+        },
+        "schema": [],
+        "type": "suggestion"
+      }
+    },
+    "node/prefer-promises/fs": {
+      "meta": {
+        "docs": {
+          "description": "enforce `require(\"fs\").promises`",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/prefer-promises/fs.md"
+        },
+        "fixable": null,
+        "messages": {
+          "preferPromises": "Use 'fs.promises.{{name}}()' instead."
+        },
+        "schema": [],
+        "type": "suggestion"
+      }
+    },
+    "node/process-exit-as-throw": {
+      "meta": {
+        "docs": {
+          "description": "make `process.exit()` expressions the same code path as `throw`",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/process-exit-as-throw.md"
+        },
+        "type": "problem",
+        "fixable": null,
+        "schema": [],
+        "supported": true
+      }
+    },
+    "node/shebang": {
+      "meta": {
+        "docs": {
+          "description": "suggest correct usage of shebang",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/shebang.md"
+        },
+        "type": "problem",
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "convertPath": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {},
+                    "patternProperties": {
+                      "^.+$": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "include": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1,
+                          "uniqueItems": true
+                        },
+                        "exclude": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "uniqueItems": true
+                        },
+                        "replace": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "include",
+                        "replace"
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-hide-core-modules": {
+      "meta": {
+        "docs": {
+          "description": "disallow third-party modules which are hiding core modules",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-hide-core-modules.md"
+        },
+        "type": "problem",
+        "deprecated": true,
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allow": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "assert",
+                    "buffer",
+                    "child_process",
+                    "cluster",
+                    "console",
+                    "constants",
+                    "crypto",
+                    "dgram",
+                    "dns",
+                    "events",
+                    "fs",
+                    "http",
+                    "https",
+                    "module",
+                    "net",
+                    "os",
+                    "path",
+                    "querystring",
+                    "readline",
+                    "repl",
+                    "stream",
+                    "string_decoder",
+                    "timers",
+                    "tls",
+                    "tty",
+                    "url",
+                    "util",
+                    "vm",
+                    "zlib"
+                  ]
+                },
+                "additionalItems": false,
+                "uniqueItems": true
+              },
+              "ignoreDirectDependencies": {
+                "type": "boolean"
+              },
+              "ignoreIndirectDependencies": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "node/no-unsupported-features": {
+      "meta": {
+        "docs": {
+          "description": "disallow unsupported ECMAScript features on the specified version",
+          "category": "Possible Errors",
+          "recommended": false,
+          "replacedBy": [
+            "node/no-unsupported-features/es-syntax",
+            "node/no-unsupported-features/es-builtins"
+          ],
+          "url": "https://github.com/mysticatea/eslint-plugin-node/blob/v11.1.0/docs/rules/no-unsupported-features.md"
+        },
+        "type": "problem",
+        "deprecated": true,
+        "fixable": null,
+        "schema": [
+          {
+            "anyOf": [
+              {
+                "enum": [
+                  0.1,
+                  0.12,
+                  4,
+                  5,
+                  6,
+                  6.5,
+                  7,
+                  7.6,
+                  8,
+                  8.3,
+                  9,
+                  10
+                ]
+              },
+              {
+                "type": "string",
+                "pattern": "^(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)$"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "version": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          0.1,
+                          0.12,
+                          4,
+                          5,
+                          6,
+                          6.5,
+                          7,
+                          7.6,
+                          8,
+                          8.3,
+                          9,
+                          10
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)$"
+                      }
+                    ]
+                  },
+                  "ignores": {
+                    "type": "array",
+                    "items": {
+                      "enum": [
+                        "syntax",
+                        "defaultParameters",
+                        "restParameters",
+                        "spreadOperators",
+                        "objectLiteralExtensions",
+                        "objectPropertyShorthandOfGetSet",
+                        "forOf",
+                        "binaryNumberLiterals",
+                        "octalNumberLiterals",
+                        "templateStrings",
+                        "regexpY",
+                        "regexpU",
+                        "destructuring",
+                        "unicodeCodePointEscapes",
+                        "new.target",
+                        "const",
+                        "let",
+                        "blockScopedFunctions",
+                        "arrowFunctions",
+                        "generatorFunctions",
+                        "classes",
+                        "modules",
+                        "exponentialOperators",
+                        "asyncAwait",
+                        "trailingCommasInFunctions",
+                        "templateLiteralRevision",
+                        "regexpS",
+                        "regexpNamedCaptureGroups",
+                        "regexpLookbehind",
+                        "regexpUnicodeProperties",
+                        "restProperties",
+                        "spreadProperties",
+                        "asyncGenerators",
+                        "forAwaitOf",
+                        "runtime",
+                        "globalObjects",
+                        "typedArrays",
+                        "Int8Array",
+                        "Uint8Array",
+                        "Uint8ClampedArray",
+                        "Int16Array",
+                        "Uint16Array",
+                        "Int32Array",
+                        "Uint32Array",
+                        "Float32Array",
+                        "Float64Array",
+                        "DataView",
+                        "Map",
+                        "Set",
+                        "WeakMap",
+                        "WeakSet",
+                        "Proxy",
+                        "Reflect",
+                        "Promise",
+                        "Symbol",
+                        "SharedArrayBuffer",
+                        "Atomics",
+                        "staticMethods",
+                        "Object.*",
+                        "Object.assign",
+                        "Object.is",
+                        "Object.getOwnPropertySymbols",
+                        "Object.setPrototypeOf",
+                        "Object.values",
+                        "Object.entries",
+                        "Object.getOwnPropertyDescriptors",
+                        "String.*",
+                        "String.raw",
+                        "String.fromCodePoint",
+                        "Array.*",
+                        "Array.from",
+                        "Array.of",
+                        "Number.*",
+                        "Number.isFinite",
+                        "Number.isInteger",
+                        "Number.isSafeInteger",
+                        "Number.isNaN",
+                        "Number.EPSILON",
+                        "Number.MIN_SAFE_INTEGER",
+                        "Number.MAX_SAFE_INTEGER",
+                        "Math.*",
+                        "Math.clz32",
+                        "Math.imul",
+                        "Math.sign",
+                        "Math.log10",
+                        "Math.log2",
+                        "Math.log1p",
+                        "Math.expm1",
+                        "Math.cosh",
+                        "Math.sinh",
+                        "Math.tanh",
+                        "Math.acosh",
+                        "Math.asinh",
+                        "Math.atanh",
+                        "Math.trunc",
+                        "Math.fround",
+                        "Math.cbrt",
+                        "Math.hypot",
+                        "Symbol.*",
+                        "Symbol.hasInstance",
+                        "Symbol.isConcatSpreadablec",
+                        "Symbol.iterator",
+                        "Symbol.species",
+                        "Symbol.replace",
+                        "Symbol.search",
+                        "Symbol.split",
+                        "Symbol.match",
+                        "Symbol.toPrimitive",
+                        "Symbol.toStringTag",
+                        "Symbol.unscopables",
+                        "Atomics.*",
+                        "Atomics.add",
+                        "Atomics.and",
+                        "Atomics.compareExchange",
+                        "Atomics.exchange",
+                        "Atomics.wait",
+                        "Atomics.wake",
+                        "Atomics.isLockFree",
+                        "Atomics.load",
+                        "Atomics.or",
+                        "Atomics.store",
+                        "Atomics.sub",
+                        "Atomics.xor",
+                        "extends",
+                        "extendsArray",
+                        "extendsRegExp",
+                        "extendsFunction",
+                        "extendsPromise",
+                        "extendsBoolean",
+                        "extendsNumber",
+                        "extendsString",
+                        "extendsMap",
+                        "extendsSet",
+                        "extendsNull"
+                      ]
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
   "react": {
     "react/boolean-prop-naming": {
       "meta": {
