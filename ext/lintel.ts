@@ -8,11 +8,12 @@ export function activate(context: vscode.ExtensionContext): void {
 
   let currentPanel: vscode.WebviewPanel | undefined = undefined;
 
-  // TODO: add back lintelIsReady when we remove eslint-files.js
+  let priorFiles: Record<string, string> = { };
+
   const vscodeScripts = `
     <script>
-      // window["lintelIsReady"] = Promise.resolve();
-      window["lintelSearchParams"] = "?freshStart=true";
+      window["lintelIsReady"] = Promise.resolve();
+      window["lintelSearchParams"] = "?freshStart=false";
       window["lintelVSCodeAPI"] = acquireVsCodeApi();
     </script>
   `;
@@ -30,27 +31,91 @@ export function activate(context: vscode.ExtensionContext): void {
         currentPanel.reveal(columnToShowIn);
       else currentPanel = vscode.window.createWebviewPanel('lintel', 'Lintel', columnToShowIn as any, { enableScripts: true });
 
+      // base directory of "current" project
+      // TODO: what if  null?
+      const projectFolder = vscode.workspace.workspaceFolders[0];
+      const projectPath = projectFolder.uri.fsPath;
+
+      // eslint files to process
+      const filePattern = new vscode.RelativePattern(projectFolder, '**/{package.json,.eslintrc,.eslintrc.cjs,.eslintrc.js,.eslintrc.json,.eslintrc.yaml}');
+
+      // watch for changes on ESLint files
+      const watcher = vscode.workspace.createFileSystemWatcher(filePattern);
+      watcher.onDidChange(_ => getWebviewContent());
+
       // clean up when we're done
-      currentPanel.onDidDispose(() => currentPanel = undefined, null, context.subscriptions);
+      currentPanel.onDidDispose(() => {
+        currentPanel = undefined;
+        watcher.dispose();
+      }, null, context.subscriptions);
 
-      // munge the Angular app's index.html
-      const appDistPath = path.join(context.extensionPath, 'dist/lintel');
-      const appDistPathUri = vscode.Uri.file(appDistPath);
-      const baseUri = currentPanel.webview.asWebviewUri(appDistPathUri);
-      const indexPath = path.join(appDistPath, 'index.html');
-      // NOTE: strip out all the VSCode emulation code and add in the ESLint rules, schema
-      const indexHtml = fs.readFileSync(indexPath, { encoding: 'utf8' })
-        // TODO: not yet
-        // .replace('<script src="assets/eslint-files.js"></script>', '')
-        // .replace('<script src="assets/eslint-rules.js"></script>', '')
-        // .replace('s<script src="assets/eslint-schema.js"></script>', '')
-        .replace('<script src="assets/vscode-scripts.js"></script>', vscodeScripts)
-        .replace('<link href="assets/vscode-styles.css" rel="stylesheet" type="text/css">', '')
-        .replace('<base href="/">', `<base href="${String(baseUri)}/">`)
-        .replace('<body class="vscode-dark">', '<body>');
+      // listen for messages from Lintel
+      currentPanel.webview.onDidReceiveMessage(message => {
+        switch (message.command) {
+          case 'editFile':
+            // TODO: there must be an easier way ... it works, docs suck
+            vscode.window.showTextDocument(vscode.Uri.parse(path.join(projectPath, message.fileName)), { viewColumn: vscode.ViewColumn.Beside });
+            break;
+          case 'openFile':
+            vscode.env.openExternal(vscode.Uri.parse(message.url));
+            break;
+          case 'saveFile':
+            break;
+        }
+      });
 
-      // now we can write out the index.html
-      currentPanel.webview.html = indexHtml;
+      // this closure does the hard work
+      const getWebviewContent = (): void => {
+        vscode.workspace.findFiles(filePattern, '**/node_modules/**')
+          .then((uris: vscode.Uri[]) => {
+
+            // read all the ESLint files
+            const eslintFiles: Record<string, string> = uris.reduce((acc, uri) => {
+              const fileName = uri.fsPath.substring(projectPath.length + 1);
+              const source = fs.readFileSync(uri.fsPath, { encoding: 'utf8' });
+              if (!fileName.endsWith('package.json') || source.includes('"eslintConfig":'))
+                acc[fileName] = source;
+              return acc;
+            }, { });
+
+            // have any of them changed from when we read them last time?
+            // NOTE: this simple test works because they're strings
+            const delta = (Object.keys(priorFiles).length !== Object.keys(eslintFiles).length) || !Object.keys(priorFiles).every(fileName => {
+              return eslintFiles[fileName] === priorFiles[fileName];
+            });
+
+            if (delta) {
+              priorFiles = eslintFiles;
+
+              // convert the files into a script that Lintel can process
+              const eslintScript = Object.keys(eslintFiles)
+                .map(fileName => `"${fileName}": \`${eslintFiles[fileName]}\``)
+                .join(',');
+
+              // munge the Angular app's index.html
+              const appDistPath = path.join(context.extensionPath, 'dist/lintel');
+              const appDistPathUri = vscode.Uri.file(appDistPath);
+              const baseUri = currentPanel.webview.asWebviewUri(appDistPathUri);
+              const indexPath = path.join(appDistPath, 'index.html');
+              // NOTE: strip out all the VSCode emulation code and add in the ESLint rules, schema
+              const indexHtml = fs.readFileSync(indexPath, { encoding: 'utf8' })
+                .replace('<script src="assets/eslint-files.js"></script>', `<script>eslintFiles = { ${eslintScript} };</script>`)
+                // TODO: not yet
+                // .replace('<script src="assets/eslint-rules.js"></script>', '')
+                // .replace('s<script src="assets/eslint-schema.js"></script>', '')
+                .replace('<script src="assets/vscode-scripts.js"></script>', vscodeScripts)
+                .replace('<link href="assets/vscode-styles.css" rel="stylesheet" type="text/css">', '')
+                .replace('<base href="/">', `<base href="${String(baseUri)}/">`)
+                .replace('<body class="vscode-dark">', '<body>');
+
+              // now we can write out the index.html
+              currentPanel.webview.html = indexHtml;
+            }
+          });
+      };
+
+      // fire 'em up!
+      getWebviewContent();
 
     })
 

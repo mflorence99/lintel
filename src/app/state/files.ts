@@ -124,12 +124,11 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
 
     save(fileName: string): void {
-      const command = 'save';
       const indent = this.superThis.indents[fileName];
       const object = this.superThis.objects[fileName];
       const json = CommentJSON.stringify(object, null, indent.indent, indent.quotes, false);
       const source = this.prefix[fileName] + json + this.suffix[fileName];
-      lintelVSCodeAPI.postMessage({ command, fileName, source });
+      lintelVSCodeAPI.postMessage({ command: 'saveFile', fileName, source });
     }
 
   }(this);
@@ -163,11 +162,10 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
 
     save(fileName: string): void {
-      const command = 'save';
       const indent = this.superThis.indents[fileName];
       const object = this.superThis.objects[fileName];
       const source = CommentJSON.stringify(object, null, indent.indent);
-      lintelVSCodeAPI.postMessage({ command, fileName, source });
+      lintelVSCodeAPI.postMessage({ command: 'saveFile', fileName, source });
     }
 
   }(this);
@@ -203,11 +201,10 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
 
     save(fileName: string): void {
-      const command = 'save';
       const indent = this.superThis.indents[fileName];
       const object = this.superThis.objects[fileName];
       const source = JSON.stringify(object, null, indent.indent);
-      lintelVSCodeAPI.postMessage({ command, fileName, source });
+      lintelVSCodeAPI.postMessage({ command: 'saveFile', fileName, source });
     }
 
   }(this);
@@ -243,11 +240,10 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
 
     save(fileName: string): void {
-      const command = 'save';
       const indent = this.superThis.indents[fileName];
       const object = this.superThis.objects[fileName];
       const source = jsyaml.safeDump(object, { indent: indent.amount });
-      lintelVSCodeAPI.postMessage({ command, fileName, source });
+      lintelVSCodeAPI.postMessage({ command: 'saveFile', fileName, source });
     }
 
   }(this);

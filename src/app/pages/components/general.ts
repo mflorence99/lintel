@@ -105,12 +105,12 @@ export class GeneralComponent implements OnInit, OnDestroy {
       return typeof setting === 'string'
           || typeof setting === 'number'
           || typeof setting === 'boolean';
-    })
+    });
   }
 
   /** Edit a file */
   editFile(fileName: string): void {
-    lintelVSCodeAPI.postMessage({ command: 'edit', fileName });
+    lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
   }
 
   /** Has this section been configured? */

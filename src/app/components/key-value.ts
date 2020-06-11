@@ -150,7 +150,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
 
   // private methods
 
-  coerce(value: any): any {
+  private coerce(value: any): any {
     if (this.type === 'checkbox')
       return Boolean(value);
     else if (this.type === 'number')

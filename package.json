@@ -9,9 +9,9 @@
   "contributes": {
     "commands": [
       {
-        "category": "ESLint",
+        "category": "Lintel",
         "command": "lintel.start",
-        "title": "Edit settings with Lintel"
+        "title": "Edit ESLint settings"
       }
     ]
   },
@@ -48,7 +48,7 @@
     "@angular-eslint/template-parser": "0.0.1-alpha.29",
     "@angular/cli": "~9.1.4",
     "@angular/compiler-cli": "~9.1.4",
-    "@angular/language-service": "~9.1.4",
+    "@angular/language-service": "~9.1.4", 
     "@types/escodegen": "0.0.6",
     "@types/eslint": "^6.8.0",
     "@types/esprima": "^4.0.2",
@@ -57,12 +57,12 @@
     "@types/json5": "0.0.30",
     "@types/node": "^12.11.1",
     "@types/vscode": "^1.44.0",
-    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/eslint-plugin": "^2.31.0", 
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.8.0",
     "eslint-plugin-jest": "^23.9.0",
     "eslint-plugin-lodash": "^7.1.0",
-    "eslint-plugin-lodash-fp": "^2.2.0-a1",
+    "eslint-plugin-lodash-fp": "^2.2.0-a1", 
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-vue": "^6.2.2",
@@ -81,15 +81,18 @@
     "vscode": "^1.41.0"
   },
   "license": "MIT",
-  "main": "./dist/ext/lintel.js",
+  "main": "./dist/ext/lintel.js", 
   "name": "lintel",
   "private": true,
   "repository": {
+    
     "type": "git",
     "url": "https://github.com/mflorence99/lintel"
   },
   "scripts": {
     "build": "ng build && tsc -p tsconfig.ext.json",
+    "build:ext": "tsc -p tsconfig.ext.json -w",
+    "build:src": "ng --prod build",
     "clean:caches": "jest --clearCache",
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
     "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",

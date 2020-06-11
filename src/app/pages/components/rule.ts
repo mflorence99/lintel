@@ -107,14 +107,14 @@ export class RuleComponent implements OnInit, OnDestroy {
   }
 
   /** Make a camel case string breakable */
-  breakable(camelCase: string) : string {
-    const matches = camelCase.match(/($[a-z])|[A-Z][^A-Z]+/g);
+  breakable(camelCase: string): string {
+    const matches = camelCase.match(/(^[a-z]|[A-Z0-9])[a-z]*/g);
     return matches ? matches.join('\u200b') : camelCase;
   }
 
   /** Edit a file */
   editFile(fileName: string): void {
-    lintelVSCodeAPI.postMessage({ command: 'edit', fileName });
+    lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
   }
 
   /** Get all the controls from a FormGroup */
@@ -142,7 +142,7 @@ export class RuleComponent implements OnInit, OnDestroy {
 
   /** Open URL */
   openURL(url: string): void {
-    lintelVSCodeAPI.postMessage({ command: 'open', url });
+    lintelVSCodeAPI.postMessage({ command: 'openFile', url });
   }
 
 }

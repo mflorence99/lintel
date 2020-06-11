@@ -22,7 +22,6 @@
     "sourceType": "module"
   },
   "plugins": [
-    "@angular-eslint",
     "@typescript-eslint"
   ],
   "reportUnusedDisableDirectives": true,

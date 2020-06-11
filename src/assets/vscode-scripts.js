@@ -6,12 +6,38 @@
 
 /**  Emulate callbacks into the extension proper */
 const lintelVSCodeAPI = {
+
+  getState: () => {
+    const state = { };
+    let ix = 0;
+    let key;
+    while ((key = localStorage.key(ix++)))
+      state[key] = localStorage.getItem(key);
+    // console.log(`%cgetState()`, 'color: #aa00ff', state);
+    return state;
+  },
+
   postMessage: message => {
-    console.log('%cpostMessage()', 'color: green', { message });
     switch (message.command) {
-      case 'open':
+
+      case 'editFile':
+        console.log(`%ceditFile: ${message.fileName}`, 'color: #3367d6');
+        break;
+
+      case 'openFile':
         window.open(message.url, 'Lintel');
         break;
+
+      case 'saveFile':
+        console.log(`%csaveFile: ${message.fileName}`, 'color: #f09300', { message });
+        break;
+
     }
+  },
+
+  setState: state => {
+    // console.log(`%csetState()`, 'color: #311b92', state);
+    Object.keys(state).forEach(key => localStorage.setItem(key, state[key]));
   }
+
 }

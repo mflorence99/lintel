@@ -83,7 +83,14 @@
         font-family: monospace;
         font-size: 0.8rem;
         line-height: 125%;
+        overflow: hidden;
+        position: relative;
         width: 10rem;
+
+        &::after {
+          content: "........................................................";
+          position: absolute;
+        }
       }
 
     }

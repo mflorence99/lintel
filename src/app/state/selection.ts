@@ -6,6 +6,7 @@ import { Payload } from '@ngxs-labs/data/decorators';
 import { Persistence } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
+import { StorageService } from '../services/storage';
 
 export interface SelectionStateModel {
   category?: string;
@@ -14,7 +15,7 @@ export interface SelectionStateModel {
 }
 
 @Injectable({ providedIn: 'root' })
-@Persistence()
+@Persistence({ useClass: StorageService })
 @StateRepository()
 @State<SelectionStateModel>({
   name: 'selection',
