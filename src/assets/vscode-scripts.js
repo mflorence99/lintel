@@ -20,6 +20,10 @@ const lintelVSCodeAPI = {
   postMessage: message => {
     switch (message.command) {
 
+      case 'bootFail':
+        console.log(`%cbootFail: ${message.text}`, 'color: red');
+        break;
+
       case 'editFile':
         console.log(`%ceditFile: ${message.fileName}`, 'color: #3367d6');
         break;

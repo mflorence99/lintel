@@ -38,6 +38,10 @@ export function activate(context: vscode.ExtensionContext): void {
       // base directory of "current" project
       // TODO: what if  null?
       const projectFolder = vscode.workspace.workspaceFolders[0];
+      if (!projectFolder) {
+        vscode.window.showErrorMessage('Lintel cannot analyze this project');
+        return;
+      }
       const projectPath = projectFolder.uri.fsPath;
 
       // eslint files to process
@@ -57,13 +61,20 @@ export function activate(context: vscode.ExtensionContext): void {
       currentPanel.webview.onDidReceiveMessage(message => {
         let filePath;
         switch (message.command) {
+
+          case 'bootFail':
+            vscode.window.showErrorMessage('Lintel could not start. Please try again.');
+            break;
+
           case 'editFile':
             // TODO: there must be an easier way ... it works, docs suck
             vscode.window.showTextDocument(vscode.Uri.parse(path.join(projectPath, message.fileName)), { viewColumn: vscode.ViewColumn.Beside });
             break;
+
           case 'openFile':
             vscode.env.openExternal(vscode.Uri.parse(message.url));
             break;
+
           case 'saveFile':
             // NOTE: we deliberately isolate the debounce logic right here
             // because for testing we don't want it anywhere in the client app
