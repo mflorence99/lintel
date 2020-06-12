@@ -2,15 +2,14 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { DestroyService } from '../services/destroy';
 import { FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 
 import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
@@ -37,14 +36,15 @@ export type ValueType = string | number | boolean | Record<string, boolean>;
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => KeyValueComponent),
       multi: true
-    }
+    },
+    DestroyService
   ],
   selector: 'lintel-key-value',
   styleUrls: ['key-value.scss'],
   templateUrl: 'key-value.html'
 })
 
-export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestroy { 
+export class KeyValueComponent implements ControlValueAccessor, OnInit { 
 
   @Input() columnWidth = '20rem';
 
@@ -86,12 +86,12 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
     this.cdf.detectChanges();
   }
 
-  private notifier = new Subject<void>();
   private onChange: Function;
   private underConstruction: boolean;
 
   /** ctor  */
   constructor(private cdf: ChangeDetectorRef,
+              private destroy$: DestroyService,
               private formBuilder: FormBuilder) { 
     // initialize the form
     this.keyValueForm = this.formBuilder.group({
@@ -105,18 +105,12 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit, OnDestro
     keyValues.push(new FormArray([new FormControl(null), new FormControl(null)]));
   }
 
-  /** When we're done */
-  ngOnDestroy(): void {
-    this.notifier.next();
-    this.notifier.complete();
-  }
-
   /** When we're ready */
   ngOnInit(): void {
     this.keyValueForm.valueChanges
       .pipe(
         filter(_ => !this.underConstruction),
-        takeUntil(this.notifier)
+        takeUntil(this.destroy$)
       )
       .subscribe(value => {
         this.keyValues = value.keyValues

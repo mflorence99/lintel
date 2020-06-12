@@ -258,7 +258,6 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  // TODO: @Debounce(Params.debounceTimeout)
   changeConfiguration(@Payload('replacements') { fileName, replacement }): void {
     const impl = this.impl(fileName);
     impl.changeConfiguration(fileName, replacement);
@@ -266,7 +265,6 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  // TODO: @Debounce(Params.debounceTimeout)
   changeRule(@Payload('replacements') { fileName, ruleName, replacement }): void {
     const impl = this.impl(fileName);
     impl.changeRule(fileName, ruleName, replacement);

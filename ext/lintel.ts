@@ -8,6 +8,10 @@ export function activate(context: vscode.ExtensionContext): void {
 
   let currentPanel: vscode.WebviewPanel | undefined = undefined;
 
+  const debouncer: Record<string, any> = { };
+
+  const debounceTimeout = 2500;
+
   let priorFiles: Record<string, string> = { };
 
   const vscodeScripts = `
@@ -51,6 +55,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
       // listen for messages from Lintel
       currentPanel.webview.onDidReceiveMessage(message => {
+        let filePath;
         switch (message.command) {
           case 'editFile':
             // TODO: there must be an easier way ... it works, docs suck
@@ -60,6 +65,14 @@ export function activate(context: vscode.ExtensionContext): void {
             vscode.env.openExternal(vscode.Uri.parse(message.url));
             break;
           case 'saveFile':
+            // NOTE: we deliberately isolate the debounce logic right here
+            // because for testing we don't want it anywhere in the client app
+            clearTimeout(debouncer[message.fileName]);
+            debouncer[message.fileName] = setTimeout(() => {
+              priorFiles[message.fileName] = message.source;
+              filePath = path.join(projectPath, message.fileName);
+              fs.writeFileSync(filePath, message.source);
+            }, debounceTimeout);
             break;
         }
       });
@@ -100,7 +113,7 @@ export function activate(context: vscode.ExtensionContext): void {
               // NOTE: strip out all the VSCode emulation code and add in the ESLint rules, schema
               const indexHtml = fs.readFileSync(indexPath, { encoding: 'utf8' })
                 .replace('<script src="assets/eslint-files.js"></script>', `<script>eslintFiles = { ${eslintScript} };</script>`)
-                // TODO: not yet
+                // TODO: maybe one day we'll generate these on-the-fly
                 // .replace('<script src="assets/eslint-rules.js"></script>', '')
                 // .replace('s<script src="assets/eslint-schema.js"></script>', '')
                 .replace('<script src="assets/vscode-scripts.js"></script>', vscodeScripts)

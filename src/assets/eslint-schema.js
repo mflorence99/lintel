@@ -1237,6 +1237,14 @@ eslintSchema = {
           "type": "boolean",
           "description": "enable all ECMAScript 6 features except for modules"
         },
+        "es2017": {
+          "type": "boolean",
+          "description": "Adds all ECMAScript 2017 globals and automatically sets the ecmaVersion parser option to 8."
+        },
+        "es2020": {
+          "type": "boolean",
+          "description": "Adds all ECMAScript 2020 globals and automatically sets the ecmaVersion parser option to 11."
+        },
         "greasemonkey": {
           "type": "boolean",
           "description": "GreaseMonkey globals"

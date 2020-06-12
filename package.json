@@ -90,9 +90,9 @@
     "url": "https://github.com/mflorence99/lintel"
   },
   "scripts": {
-    "build": "ng build && tsc -p tsconfig.ext.json",
+    "build": "ng --prod build && tsc -p tsconfig.ext.json",
     "build:ext": "tsc -p tsconfig.ext.json -w",
-    "build:src": "ng --prod build",
+    "build:src": "ng build",
     "clean:caches": "jest --clearCache",
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
     "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",

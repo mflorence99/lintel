@@ -2,15 +2,14 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { DestroyService } from '../services/destroy';
 import { FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 
 import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
@@ -50,14 +49,15 @@ export type MultiselectorValues = string[] | Record<string, boolean>;
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => MultiselectorComponent),
       multi: true
-    }
+    },
+    DestroyService
   ],
   selector: 'lintel-multiselector',
   templateUrl: 'multiselector.html',
   styleUrls: ['multiselector.scss']
 })
 
-export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class MultiselectorComponent implements ControlValueAccessor, OnInit {
 
   @Input() columnWidth = '10rem';
 
@@ -111,13 +111,13 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
   private _options: string[][] = [];
   private _origOptions: MultiselectorOptions;
 
-  private notifier = new Subject<void>();
   private onChange: Function;
   private underConstruction: boolean;
   private valuesType: 'array' | 'object';
 
   /** ctor  */
   constructor(private cdf: ChangeDetectorRef,
+              private destroy$: DestroyService,
               private formBuilder: FormBuilder) {
     this.multiSelectorForm = this.formBuilder.group({
       checkboxes: new FormArray([])
@@ -139,19 +139,13 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit, OnD
     return this._options[ix][0];
   }
 
-  /** When we're done */
-  ngOnDestroy(): void {
-    this.notifier.next();
-    this.notifier.complete();
-  }
-
   /** When we're ready */
   ngOnInit(): void {
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
     checkboxes.valueChanges
       .pipe(
         filter(_ => !this.underConstruction),
-        takeUntil(this.notifier)
+        takeUntil(this.destroy$)
       )
       .subscribe((settings: boolean[]) => {
         // NOTE: remember options are [encoded, decoded]

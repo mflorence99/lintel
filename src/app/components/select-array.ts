@@ -2,16 +2,15 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { DestroyService } from '../services/destroy';
 import { FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SingleselectorOptions } from './singleselector';
-import { Subject } from 'rxjs';
 import { Utils } from '../services/utils';
 
 import { filter } from 'rxjs/operators';
@@ -37,14 +36,15 @@ export type SelectArrayType = string[];
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SelectArrayComponent),
       multi: true
-    }
+    },
+    DestroyService
   ],
   selector: 'lintel-select-array',
   templateUrl: 'select-array.html',
   styleUrls: ['select-array.scss']
 })
 
-export class SelectArrayComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class SelectArrayComponent implements ControlValueAccessor, OnInit {
 
   @Input() columnWidth = '10rem';
 
@@ -82,12 +82,12 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit, OnDes
     this.cdf.detectChanges();
   }
 
-  private notifier = new Subject<void>();
   private onChange: Function;
   private underConstruction: boolean;
 
   /** ctor */
   constructor(private cdf: ChangeDetectorRef,
+              private destroy$: DestroyService,
               private formBuilder: FormBuilder,
               private utils: Utils) {
     // initialize the form
@@ -102,18 +102,12 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit, OnDes
     selects.push(new FormControl(null));
   }
 
-  /** When we're done */
-  ngOnDestroy(): void {
-    this.notifier.next();
-    this.notifier.complete();
-  }
-
   /** When we're ready */
   ngOnInit(): void {
     this.selectArrayForm.valueChanges
       .pipe(
         filter(_ => !this.underConstruction),
-        takeUntil(this.notifier)
+        takeUntil(this.destroy$)
       )
       .subscribe(value => {
         this.values = value.selects

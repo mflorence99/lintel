@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
+import { DestroyService } from '../../services/destroy';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
-import { Subject } from 'rxjs';
 
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -24,12 +23,13 @@ declare const lintelVSCodeAPI;
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
+  providers: [DestroyService],
   selector: 'lintel-general',
   templateUrl: 'general.html',
   styleUrls: ['general.scss']
 })
 
-export class GeneralComponent implements OnInit, OnDestroy { 
+export class GeneralComponent implements OnInit { 
 
   defaults =  {
     ecmaVersion: this.schema.properties.parserOptions.properties.ecmaVersion.default,
@@ -66,10 +66,9 @@ export class GeneralComponent implements OnInit, OnDestroy {
     ['reportUnusedDisableDirectives', 'configuring-inline-comment-behaviors']
   ];
 
-  private notifier = new Subject<void>();
-
   /** ctor */
   constructor(public configs: ConfigsState,
+              private destroy$: DestroyService,
               private formBuilder: FormBuilder,
               public schema: SchemaState,
               public selection: SelectionState) {
@@ -121,12 +120,6 @@ export class GeneralComponent implements OnInit, OnDestroy {
     else return this.configs.configuration.hasOwnProperty(key);
   }
 
-  /** When we're done */
-  ngOnDestroy(): void {
-    this.notifier.next();
-    this.notifier.complete();
-  }
-
   /** When we're ready */
   ngOnInit(): void {
     // NOTE: subscribe to each individually so we change only minimum config
@@ -156,7 +149,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             return { parserOptions: { ...this.configs.configuration.parserOptions, ...changes } };
           return { [key]: changes };
         }),
-        takeUntil(this.notifier)
+        takeUntil(this.destroy$)
       ).subscribe(changes => this.configs.changeConfiguration(changes));
   }
 

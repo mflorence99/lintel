@@ -4,9 +4,6 @@ import { Utils } from './utils';
 @Injectable({ providedIn: 'root' })
 export class Params {
 
-  // NOTE: we need to use this in a decorator, where we can't access this service
-  static debounceTimeout = 250;
-
   activeCategory = 'Active Rules';
   basePluginName = 'eslint';
   catchAllCategory = 'Other Rules';
@@ -69,14 +66,6 @@ export class Params {
   };
 
   unknownCategory = 'Unknown Rules';
-
-  get debounceTimeout(): number {
-    return Params.debounceTimeout;
-  }
-
-  set debounceTimeout(timeout: number) {
-    Params.debounceTimeout = timeout;
-  }
 
   /** ctor */
   constructor(utils: Utils) { 

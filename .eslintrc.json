@@ -3,7 +3,30 @@
     "browser": true,
     "es2020": true,
     "jest": true,
-    "node": true
+    "node": true,
+    "amd": false,
+    "applescript": false,
+    "atomtest": false,
+    "commonjs": false,
+    "embertest": false,
+    "es2017": false,
+    "es6": false,
+    "greasemonkey": false,
+    "jasmine": false,
+    "jquery": false,
+    "meteor": false,
+    "mocha": false,
+    "mongo": false,
+    "nashorn": false,
+    "phantomjs": false,
+    "prototypejs": false,
+    "protractor": false,
+    "qunit": false,
+    "serviceworker": false,
+    "shared-node-browser": false,
+    "shelljs": false,
+    "webextensions": false,
+    "worker": false
   },
   "extends": [
     "eslint:recommended",
@@ -17,9 +40,42 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "project": "./tsconfig.json",
-    "sourceType": "module"
+    "ecmaVersion": 2019,
+    "project": [
+      "./tsconfig.json"
+    ],
+    "sourceType": "module",
+    "extraFileExtensions": null,
+    "projectFolderIgnoreList": null,
+    "tsconfigRootDir": null,
+    "warnOnUnsupportedTypeScriptVersion": false,
+    "ecmaFeatures": {
+      "arrowFunctions": false,
+      "binaryLiterals": false,
+      "blockBindings": false,
+      "classes": false,
+      "defaultParams": false,
+      "destructuring": false,
+      "experimentalObjectRestSpread": false,
+      "forOf": false,
+      "generators": false,
+      "globalReturn": false,
+      "impliedStrict": false,
+      "jsx": false,
+      "modules": false,
+      "objectLiteralComputedProperties": false,
+      "objectLiteralDuplicateProperties": false,
+      "objectLiteralShorthandMethods": false,
+      "objectLiteralShorthandProperties": false,
+      "octalLiterals": false,
+      "regexUFlag": false,
+      "regexYFlag": false,
+      "restParams": false,
+      "spread": false,
+      "superInFunctions": false,
+      "templateStrings": false,
+      "unicodeCodePointEscapes": false
+    }
   },
   "plugins": [
     "@typescript-eslint"
@@ -164,12 +220,17 @@
     "brace-style": "error",
     "comma-spacing": "off",
     "default-param-last": "off",
-    "eqeqeq": ["error", "smart"],
+    "eqeqeq": [
+      "error",
+      "smart"
+    ],
     "func-call-spacing": "error",
     "indent": [
       "error",
       2,
-      { "SwitchCase": 1 }
+      {
+        "SwitchCase": 1
+      }
     ],
     "keyword-spacing": [
       "error",
@@ -201,5 +262,6 @@
       "error",
       "always"
     ]
-  }
+  },
+  "root": true
 }
