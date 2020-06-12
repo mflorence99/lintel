@@ -207,6 +207,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       }, { });
   }
 
+  @Computed() get isEmpty(): boolean {
+    return this.utils.isEmptyObject(this.snapshot);
+  }
+
   @Computed() get pluginNames(): string[] {
     const raw = Object.keys(this.snapshot)
       .reduce((acc, fileName) => {
@@ -219,7 +223,6 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @Computed() get unknownView(): View {
     // NOTE: settings that have no corresponding rule in the schema
-    // and so cannot be handled by Lintel
     const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
     return Object.keys(settings)
       .filter(ruleName => this.isRuleFiltered(ruleName))
