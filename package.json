@@ -100,6 +100,7 @@
     "start": "ng serve",
     "rules": "node bin/eslint-rules.js",
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
+    "test:watch": "jest --watch",
     "vscode:prepublish": "npm run build"
   },
   "version": "0.0.0"

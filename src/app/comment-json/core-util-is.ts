@@ -64,7 +64,8 @@ export function isRegExp(re): boolean {
 }
 
 export function isObject(arg): boolean {
-  return typeof arg === 'object' && arg !== null;
+  //oh well, this is just a port
+  return typeof arg === 'object' && arg !== null /* && !isArray(arg) ??? */;
 }
 
 export function isDate(d): boolean {
@@ -72,7 +73,8 @@ export function isDate(d): boolean {
 }
 
 export function isError(e): boolean {
-  return (objectToString(e) === '[object Error]' || e instanceof Error);
+  // hey -- didn't we say we wouldn't use instanceof ??
+  return (objectToString(e) === '[object Error]' /* || e instanceof Error */);
 }
 
 export function isFunction(arg): boolean {
