@@ -3,8 +3,14 @@
   [selectedIndex]="tabIndex">
 
   <mat-tab
-    [label]="pluginName"
     *ngFor="let pluginName of configs.pluginNames">
+
+    <ng-template mat-tab-label>
+      <span [ngClass]="{unknown: pluginName === params.unknownPluginName}">
+        {{ pluginName }} 
+      </span>
+    </ng-template>
+
   </mat-tab>
 
 </mat-tab-group>

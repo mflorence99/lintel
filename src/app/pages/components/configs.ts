@@ -60,8 +60,6 @@ export class ConfigsComponent implements AfterViewChecked {
       if (!this.utils.isEmptyObject(this.configs.activeView))
         categories.push(this.params.activeCategory);
       categories.push(...this.configs.categories);
-      if (!this.utils.isEmptyObject(this.configs.unknownView))
-        categories.push(this.params.unknownCategory);
       // categories is now all the available categories in order
       // if the selected category is no longer available, pick the first that is
       if ((categories.length > 0) 

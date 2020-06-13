@@ -1,3 +1,5 @@
+import '../../assets/vscode-startup.js';
+
 import { BarrelModule } from '../barrel';
 import { ComponentsModule } from './module';
 import { Params } from '../services/params';

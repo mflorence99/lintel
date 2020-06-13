@@ -65,7 +65,7 @@ export class Params {
     freshStart: false
   };
 
-  unknownCategory = 'Unknown Rules';
+  unknownPluginName= 'unknown';
 
   /** ctor */
   constructor(utils: Utils) { 

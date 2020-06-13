@@ -138,16 +138,20 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   // accessors
 
   @Computed() get activeView(): View {
-    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
-    const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
-    return Object.keys(rules)
-      .filter(ruleName => this.isRuleFiltered(ruleName))
-      .filter(ruleName => settings[ruleName])
-      .sort()
-      .reduce((acc, ruleName) => {
-        acc[ruleName] = [rules[ruleName], settings[ruleName]];
-        return acc;
-      }, this.filter.snapshot.showInheritedRules ? this.inheritedView : { });
+    if (this.selection.pluginName === this.params.unknownPluginName)
+      return this.unknownView;
+    else {
+      const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
+      const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
+      return Object.keys(rules)
+        .filter(ruleName => this.isRuleFiltered(ruleName))
+        .filter(ruleName => settings[ruleName])
+        .sort()
+        .reduce((acc, ruleName) => {
+          acc[ruleName] = [rules[ruleName], settings[ruleName]];
+          return acc;
+        }, this.filter.snapshot.showInheritedRules ? this.inheritedView : { });
+    }
   }
 
   @Computed() get categories(): string[] {
@@ -218,7 +222,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         return acc;
       }, [])
       .filter(pluginName => this.rules.snapshot[pluginName]);
-    return [this.params.basePluginName, ...this.utils.deduplicateArray(raw)];
+    const pluginNames =  [this.params.basePluginName, ...this.utils.deduplicateArray(raw)];
+    if (!this.utils.isEmptyObject(this.unknownView))
+      pluginNames.push(this.params.unknownPluginName);
+    return pluginNames;
   }
 
   @Computed() get unknownView(): View {
@@ -320,7 +327,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     let normalized = category;
     if (!normalized || (normalized.length === 0))
       normalized = this.params.catchAllCategory;
-    return normalized.toLowerCase()
+    // TODO: toLowerCase() turns out to be too heavy-handed as it reduces
+    // ECMAScript to Ecmascript -- eliminate for now but revisit if we can't
+    // properly correct enough categories
+    return normalized/* .toLowerCase() */
       .split(' ')
       .map(word => `${word[0].toUpperCase()}${word.slice(1)}`)
       .join(' ');

@@ -13,7 +13,7 @@ describe('FilesState', () => {
   });
 
   test('package.json is properly parsed', () => {
-    const config = bundle.files.parse('package.json');
+    const config = bundle.files.load('package.json');
     expect(config.parser).toEqual('@typescript-eslint/parser');
   });
 

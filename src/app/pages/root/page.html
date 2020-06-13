@@ -47,11 +47,6 @@
             </lintel-rules>
 
             <lintel-rules 
-              [view]="configs.unknownView"
-              *ngSwitchCase="params.unknownCategory">
-            </lintel-rules>
-
-            <lintel-rules 
               [view]="configs.categoryView[selection.category]"
               *ngSwitchDefault>
             </lintel-rules>

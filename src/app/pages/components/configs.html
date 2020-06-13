@@ -43,14 +43,6 @@
         <div>&bull;</div> <div>{{ category }}</div>
       </div>
 
-      <div
-        (click)="selectCategory($event, params.unknownCategory)"
-        [ngClass]="{selected: selection.category === params.unknownCategory}"
-        *ngIf="!utils.isEmptyObject(configs.unknownView)"
-        class="category">
-        <div>&bull;</div> <div>{{ params.unknownCategory }}</div>
-      </div>
-
     </ng-container>
 
   </div>
