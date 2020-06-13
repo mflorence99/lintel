@@ -4,8 +4,9 @@
   NOTE:  deleted from index.html when running as extension
 */
 
-/**  Emulate callbacks into the extension proper */
-const lintelVSCodeAPI = {
+lintelSearchParams = location.search;
+
+lintelVSCodeAPI = {
 
   getState: () => {
     const state = { };

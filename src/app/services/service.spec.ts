@@ -1,3 +1,6 @@
+import '../../assets/vscode-scripts.js';
+import '../../assets/vscode-startup.js';
+
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
@@ -13,8 +16,6 @@ export function prepare(services: any[]): any[] {
       NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
     ]
   });
-
-  window['lintelSearchParams'] = '?freshStart=true';
 
   return services.map(service => TestBed.inject(service));
 

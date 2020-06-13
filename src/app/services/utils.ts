@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+declare const lintelSearchParams;
+
 export type DeepSearchCallback = (container: any, value: any) => void;
 
 @Injectable({ providedIn: 'root' })
@@ -44,10 +46,8 @@ export class Utils {
 
   /** Extract search params from launch URL */
   parseInitialSearchParams(): any {
-    // NOTE: we can and do fake search params in the real VSCode extension
-    const searchParams = window['lintelSearchParams'] || location.search;
-    if (searchParams.length > 1) {
-      const raw = searchParams.substring(1).split('&');
+    if (lintelSearchParams.length > 1) {
+      const raw = lintelSearchParams.substring(1).split('&');
       return raw.reduce((params, pair) => {
         const [k, v] = pair.split('=');
         // NOTE: a bit cheesy

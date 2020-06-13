@@ -16,9 +16,9 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const vscodeScripts = `
     <script>
-      window["lintelIsReady"] = Promise.resolve();
-      window["lintelSearchParams"] = "?freshStart=false";
-      window["lintelVSCodeAPI"] = acquireVsCodeApi();
+      lintelIsReady = Promise.resolve();
+      lintelSearchParams = "?freshStart=false";
+      lintelVSCodeAPI = acquireVsCodeApi();
     </script>
   `;
 

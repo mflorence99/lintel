@@ -1,6 +1,8 @@
 import '../../../assets/eslint-files/unit-tests.js';
 import '../../../assets/eslint-rules.js';
 import '../../../assets/eslint-schema.js';
+import '../../../assets/vscode-scripts.js';
+import '../../../assets/vscode-startup.js';
 
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from '../components/module';
@@ -29,9 +31,6 @@ describe('RootPageComponent', () => {
         NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
       ]
     }).compileComponents();
-
-    window['lintelIsReady'] = Promise.resolve();
-    window['lintelSearchParams'] = '?freshStart=true';
   }));
 
   test('App is created', () => {

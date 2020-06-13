@@ -1,6 +1,8 @@
 import '../../assets/eslint-files/unit-tests.js';
 import '../../assets/eslint-rules.js';
 import '../../assets/eslint-schema.js';
+import '../../assets/vscode-scripts.js';
+import '../../assets/vscode-startup.js';
 
 import { ConfigsState } from '../state/configs';
 import { FilesState } from '../state/files';
@@ -39,8 +41,6 @@ export function prepare(): Bundle {
     ]
   });
 
-  window['lintelSearchParams'] = '?freshStart=true';
-
   bundle.configs = TestBed.inject(ConfigsState);
   bundle.files = TestBed.inject(FilesState);
   bundle.filter = TestBed.inject(FilterState);
@@ -55,9 +55,6 @@ export function prepare(): Bundle {
   bundle.configs.initialize();
   bundle.rules.initialize();
   bundle.schema.initialize();
-
-  // NOTE: minimize any debounce timeout
-  Params.debounceTimeout = 0;
 
   return bundle;
 

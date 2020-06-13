@@ -11,6 +11,7 @@ import { FormGroup } from '@angular/forms';
 import { HydratedDirective } from '../../directives/hydrated';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { Optional } from '@angular/core';
 import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
 import { SchemaDigest } from '../../state/rules';
@@ -95,7 +96,7 @@ export class RuleComponent implements OnInit {
               public configs: ConfigsState,
               private destroy$: DestroyService,
               private formBuilder: FormBuilder,
-              public hydrated: HydratedDirective,
+              @Optional() public hydrated: HydratedDirective,
               public rules: RulesState,
               public selection: SelectionState) { 
     this.ruleForm = this.formBuilder.group({
