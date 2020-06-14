@@ -48,4 +48,21 @@ describe('Utils', () => {
     });
   });
 
+  test('parseInitialSearchParams analyzes normal query string', () => {
+    window['lintelSearchParams'] = '?w=hello&x=false&y=true&z=42';
+    const utils: Utils = services[0];
+    const searchParams = utils.parseInitialSearchParams();
+    expect(searchParams.w).toBe('hello');
+    expect(searchParams.x).toBe(false);
+    expect(searchParams.y).toBe(true);
+    expect(searchParams.z).toBe(42);
+  });
+
+  test('parseInitialSearchParams analyzes empty query string', () => {
+    window['lintelSearchParams'] = undefined;
+    const utils: Utils = services[0];
+    const searchParams = utils.parseInitialSearchParams();
+    expect(utils.isEmptyObject(searchParams)).toBeTruthy();
+  });
+
 });

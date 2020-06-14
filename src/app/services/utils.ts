@@ -46,7 +46,7 @@ export class Utils {
 
   /** Extract search params from launch URL */
   parseInitialSearchParams(): any {
-    if (lintelSearchParams.length > 1) {
+    if (lintelSearchParams && (lintelSearchParams.length > 1)) {
       const raw = lintelSearchParams.substring(1).split('&');
       return raw.reduce((params, pair) => {
         const [k, v] = pair.split('=');
@@ -55,6 +55,8 @@ export class Utils {
           params[k] = false;
         else if (v === 'true')
           params[k] = true;
+        else if (/^[0-9]*$/.test(v))
+          params[k] = Number(v);
         else params[k] = v;
         return params;
       }, { });
