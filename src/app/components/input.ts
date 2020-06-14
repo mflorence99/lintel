@@ -3,7 +3,6 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { ElementRef } from '@angular/core';
-import { HostBinding } from '@angular/core';
 import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ViewChild } from '@angular/core';
@@ -35,8 +34,6 @@ import { forwardRef } from '@angular/core';
 })
 
 export class InputComponent implements ControlValueAccessor {
-
-  @HostBinding('class.focus') focus = false;
 
   @ViewChild('input', { static: true }) input: ElementRef;
 

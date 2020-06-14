@@ -1,9 +1,7 @@
 <ng-content select="[prefix]"></ng-content>
 
 <select
-  (blur)="focus = false"
   (change)="selectByIndex($event.target.selectedIndex)"
-  (focus)="focus = true"
   #select
   tabIndex=0
   autocomplete="off">

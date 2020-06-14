@@ -1,8 +1,6 @@
 <ng-content select="[prefix]"></ng-content>
 
 <input
-  (blur)="focus = false"
-  (focus)="focus = true"
   (input)="value = $event.target.value"
   [max]="max"
   [min]="min"
