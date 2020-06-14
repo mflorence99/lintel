@@ -290,7 +290,7 @@ export class CommentArray extends Array {
   }
 }
 
-export function assign(target, source = UNDEFINED, keys = UNDEFINED) {
+export function assign(target = UNDEFINED, source = UNDEFINED, keys = UNDEFINED) {
   if (!isObject(target)) {
     throw new TypeError('Cannot convert undefined or null to object')
   }

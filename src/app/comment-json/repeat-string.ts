@@ -30,7 +30,8 @@ let cache;
  * @api public
  */
 
-export function repeat(str, num): string {
+export function repeat(str, num?): string {
+  num = Number(num ?? 0);
   if (typeof str !== 'string') {
     throw new TypeError('expected a string');
   }
