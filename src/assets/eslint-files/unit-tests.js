@@ -297,7 +297,7 @@ eslintFiles = {
       "type": "git",
       "url": "https://github.com/mflorence99/lintel"
     },
-    "scripts": {
+    "scripts": {pw
       "build": "ng build && tsc -p tsconfig.ext.json",
       "clean:caches": "jest --clearCache",
       "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
@@ -331,7 +331,7 @@ eslintFiles = {
   "src/app/.eslintrc.yaml": `
 parserOptions:
   ecmaFeatures:
-    globalReturn: false # turn it off
+    globalReturn: true # turn it on
 env:
   browser: true
 rules:
