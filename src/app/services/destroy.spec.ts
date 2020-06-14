@@ -7,6 +7,8 @@ describe('DestroyService', () => {
 
   let destroy$: DestroyService;
 
+  // NOTE: we don't use prepare() because DestroyService is unique
+  // to each component that uses it and not providedIn: roor
   beforeEach(() => destroy$ = new DestroyService);
 
   test('destroy$ will complete a stream', done => {
