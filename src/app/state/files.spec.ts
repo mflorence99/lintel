@@ -31,6 +31,7 @@ describe('FilesState', () => {
     const config = bundle.files.load('src/app/.eslintrc.yaml');
     expect(config.parserOptions.ecmaFeatures.globalReturn).toBe(true);
     expect(config.rules['accessor-pairs']).toBe('warn');
+    expect(config.env.browser).toBe(true);
   }); 
 
 });

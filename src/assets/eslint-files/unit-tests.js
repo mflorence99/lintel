@@ -297,7 +297,7 @@ eslintFiles = {
       "type": "git",
       "url": "https://github.com/mflorence99/lintel"
     },
-    "scripts": {pw
+    "scripts": {
       "build": "ng build && tsc -p tsconfig.ext.json",
       "clean:caches": "jest --clearCache",
       "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
