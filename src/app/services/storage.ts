@@ -18,8 +18,9 @@ export class StorageService implements Storage {
     return state[key];
   }
 
-  key(_: number): any {
-    return null;
+  key(n: number): string {
+    const state = lintelVSCodeAPI.getState() ?? { };
+    return Object.keys(state)[n];
   }
 
   removeItem(key: string): void {
