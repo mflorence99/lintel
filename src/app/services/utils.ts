@@ -20,16 +20,17 @@ export class Utils {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  /** Deep search an object for a key */
-  deepSearch(obj: any, search: string, cb: DeepSearchCallback): void {
+  /** Deep search an object for a key and optional value */
+  deepSearch(obj: any, expr: string, cb: DeepSearchCallback): void {
     if (Array.isArray(obj)) 
-      obj.forEach(item => this.deepSearch(item, search, cb));
+      obj.forEach(item => this.deepSearch(item, expr, cb));
     else if (obj && typeof obj === 'object') {
+      const [k, v] = expr.split('=');
       Object.entries(obj)
         .forEach(([key, value]) => {
-          if (key === search)
+          if ((key === k) && (!v || value === v))
             cb(obj, value);
-          this.deepSearch(value, search, cb);
+          this.deepSearch(value, expr, cb);
         });
     }
   }

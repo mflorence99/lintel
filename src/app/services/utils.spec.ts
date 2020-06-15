@@ -26,11 +26,17 @@ describe('Utils', () => {
     expect(obj1.b.c).toEqual(obj2.b.c);
   });
 
-  test('Object can be deep searched', done => {
+  test('Object can be deep searched', () => {
     const utils: Utils = services[0];
-    utils.deepSearch(eslintRules, '$ref', (container, _) => {
-      expect(container['$ref']).toBeTruthy();
-      done();
+    utils.deepSearch(eslintRules, '$ref', (obj, _) => {
+      expect(obj['$ref']).toBeTruthy();
+    });
+  });
+
+  test('Object can be deep searched', () => {
+    const utils: Utils = services[0];
+    utils.deepSearch(eslintRules, 'name=allowSingleLine', (_, obj) => {
+      expect(obj.type).toEqual('boolean');
     });
   });
 

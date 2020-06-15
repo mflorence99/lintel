@@ -18,7 +18,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('no-mixed-operators', rule);
     expect(digest.canGUI).toBe(false);
-    expect(digest.elements.length).toBe(0);
+    expect(digest.elements).toEqual([]);
   });
 
   test('react/jsx-no-script-url cannot be processed', () => {
@@ -26,7 +26,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('react/jsx-no-script-url', rule);
     expect(digest.canGUI).toBe(false);
-    expect(digest.elements.length).toBe(0);
+    expect(digest.elements).toEqual([]);
   });
 
   test('Rules with "oneOf" cannot be processed', () => {
@@ -34,7 +34,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('array-bracket-newline', rule);
     expect(digest.canGUI).toBe(false);
-    expect(digest.elements.length).toBe(0);
+    expect(digest.elements).toEqual([]);
   });
 
   test('Rules with "anyOf" cannot be processed', () => {
@@ -42,7 +42,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('arrow-body-style', rule);
     expect(digest.canGUI).toBe(false);
-    expect(digest.elements.length).toBe(0);
+    expect(digest.elements).toEqual([]);
   });
 
   test('Rules with "allOf" cannot be processed', () => {
@@ -50,7 +50,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('react/jsx-curly-spacing', rule);
     expect(digest.canGUI).toBe(false);
-    expect(digest.elements.length).toBe(0);
+    expect(digest.elements).toEqual([]);
   });
 
   test('Make rules with an object schema into an array schema', () => {
@@ -58,7 +58,6 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('vue/attributes-order', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
   });
 
   test('Make rules with an object schema into an array schema', () => {
@@ -66,7 +65,6 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('vue/html-self-closing', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
   });
 
   test('Rules with type: boolean produce a checkbox', () => {
@@ -74,9 +72,9 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('brace-style', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(2);
-    expect(digest.elements[1].type).toEqual('object');
-    expect(digest.elements[1].elements[0].type).toEqual('checkbox');
+    bundle.utils.deepSearch(digest.elements, 'name=allowSingleLine', obj => {
+      expect(obj.type).toEqual('checkbox');
+    });
   });
 
   test('Rules with additional boolean properties produce a key-value/checkbox', () => {
