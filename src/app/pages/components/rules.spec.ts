@@ -14,4 +14,10 @@ describe('RulesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  test('trackByRule', () => {
+    const fixture = TestBed.createComponent(RulesComponent);
+    const component = fixture.componentInstance;
+    expect(component.trackByRule(null, { key: 'brace-style' })).toEqual('brace-style');
+  });
+
 });
