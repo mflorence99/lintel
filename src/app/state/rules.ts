@@ -8,7 +8,7 @@ import { Utils } from '../services/utils';
 // NOTE: rules content is provided statically in index.html
 declare const eslintRules: RulesStateModel;
 
-const blackList = [
+const noGo = [
   'no-mixed-operators', 
   'react/jsx-no-script-url'
 ];
@@ -165,7 +165,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
   // TODO: temporary
 
   notYet(ruleName: string, rule: Rule): boolean {
-    if (blackList.includes(ruleName))
+    if (noGo.includes(ruleName))
       return true;
     else {
       const json = JSON.stringify(rule?.meta.schema);

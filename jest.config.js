@@ -5,7 +5,9 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/ext/**/*.ts',
-    '<rootDir>/src/app/**/*.ts'
+    '<rootDir>/src/app/**/*.ts',
+    '!<rootDir>/src/app/**/barrel.ts',
+    '!<rootDir>/src/app/**/module.ts'
   ],
   coverageReporters: ['json-summary', 'text', 'html'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || { }, {
