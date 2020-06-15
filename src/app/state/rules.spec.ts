@@ -73,7 +73,11 @@ describe('RulesState', () => {
     const digest = bundle.rules.makeSchemaDigest('brace-style', rule);
     expect(digest.canGUI).toBe(true);
     bundle.utils.deepSearch(digest.elements, 'name=allowSingleLine', obj => {
-      expect(obj.type).toEqual('checkbox');
+      expect(obj).toEqual({
+        default: false,
+        name: 'allowSingleLine',
+        type: 'checkbox'
+      });
     });
   });
 
@@ -82,9 +86,12 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('react/forbid-prop-types', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].subType).toEqual('checkbox');
-    expect(digest.elements[0].type).toEqual('key-value');
+    expect(digest.elements).toEqual([{
+      default: undefined,
+      name: null,
+      subType: 'checkbox',
+      type: 'key-value'
+    }]);
   });
 
   test('Rules with additional string properties produce a key-value/text', () => {
@@ -92,10 +99,14 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('valid-jsdoc', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('object');
-    expect(digest.elements[0].elements[0].subType).toEqual('text');
-    expect(digest.elements[0].elements[0].type).toEqual('key-value');
+    bundle.utils.deepSearch(digest.elements, 'name=prefer', obj => {
+      expect(obj).toEqual({
+        default: undefined,
+        name: 'prefer',
+        subType: 'text',
+        type: 'key-value'
+      });
+    });
   });
 
   test('Rules with an object that itself consists of all-boolean object produce a key-value/multicheckbox', () => {
@@ -103,11 +114,18 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('keyword-spacing', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('object');
-    expect(digest.elements[0].elements[2].options).toEqual(['before', 'after']);
-    expect(digest.elements[0].elements[2].subType).toEqual('multicheckbox');
-    expect(digest.elements[0].elements[2].type).toEqual('key-value');
+    bundle.utils.deepSearch(digest.elements, 'name=overrides', obj => {
+      expect(obj).toEqual(
+        expect.objectContaining({
+          default: undefined,
+          // keys: [ ...very long list... ]
+          name: 'overrides',
+          options: ['before', 'after'],
+          subType: 'multicheckbox',
+          type: 'key-value'
+        })
+      );
+    });
   });
 
   test('Rules with an all-boolean object produce a multiselect', () => {
@@ -115,8 +133,12 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('accessor-pairs', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('multiselect');
+    expect(digest.elements).toEqual([{
+      default: undefined,
+      name: null,
+      options: ['getWithoutSet', 'setWithoutGet', 'enforceForClassMembers'],
+      type: 'multiselect'
+    }]);
   });
 
   test('Rules with an empty object as the schema are a noop', () => {
@@ -124,8 +146,11 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('react/require-render-return', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('noop');
+    expect(digest.elements).toEqual([{
+      default: undefined,
+      name: null,
+      type: 'noop'
+    }]);
   });
 
   test('Rules with type: array of numbers produce a number-array', () => {
@@ -133,9 +158,14 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('no-magic-numbers', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('object');
-    expect(digest.elements[0].elements[2].type).toEqual('number-array');
+    bundle.utils.deepSearch(digest.elements, 'name=ignore', obj => {
+      expect(obj).toEqual({
+        default: undefined,
+        name: 'ignore',
+        type: 'number-array',
+        uniqueItems: true
+      });
+    });
   });
 
   test('Rules with type: integer produce a number-input', () => {
@@ -143,9 +173,12 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('max-classes-per-file', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].min).toBe(1);
-    expect(digest.elements[0].type).toEqual('number-input');
+    expect(digest.elements).toEqual([{
+      default: undefined,
+      min: 1,
+      name: null,
+      type: 'number-input'
+    }]);
   });
 
   test('Rules with type: array of enums produce a select-array', () => {
@@ -153,11 +186,15 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('prefer-reflect', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('object');
-    expect(digest.elements[0].elements[0].options[0]).toEqual('apply');
-    expect(digest.elements[0].elements[0].type).toEqual('select-array');
-    expect(digest.elements[0].elements[0].uniqueItems).toBe(true);
+    bundle.utils.deepSearch(digest.elements, 'name=exceptions', obj => {
+      expect(obj).toEqual({
+        default: undefined,
+        name: 'exceptions',
+        options: ['apply', 'call', 'delete', 'defineProperty', 'getOwnPropertyDescriptor', 'getPrototypeOf', 'setPrototypeOf', 'isExtensible', 'getOwnPropertyNames', 'preventExtensions'],
+        type: 'select-array',
+        uniqueItems: true
+      });
+    });
   });
 
   test('Rules with enum produce a singleselect', () => {
@@ -165,8 +202,12 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('block-spacing', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('singleselect');
+    expect(digest.elements).toEqual([{
+      default: undefined,
+      name: null,
+      options: ['always', 'never'],
+      type: 'singleselect'
+    }]);
   });
 
   test('Rules with type: array of strings produce a string-array', () => {
@@ -174,9 +215,14 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('no-native-reassign', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('object');
-    expect(digest.elements[0].elements[0].type).toEqual('string-array');
+    bundle.utils.deepSearch(digest.elements, 'name=exceptions', obj => {
+      expect(obj).toEqual({
+        default: undefined,
+        name: 'exceptions',
+        type: 'string-array',
+        uniqueItems: true
+      });
+    });
   });
 
   test('Rules with type: string produce a string-input', () => {
@@ -184,9 +230,13 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('default-case', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements.length).toBe(1);
-    expect(digest.elements[0].type).toEqual('object');
-    expect(digest.elements[0].elements[0].type).toEqual('string-input');
+    bundle.utils.deepSearch(digest.elements, 'name=commentPattern', obj => {
+      expect(obj).toEqual({
+        default: undefined,
+        name: 'commentPattern',
+        type: 'string-input'
+      });
+    });
   });
 
 });
