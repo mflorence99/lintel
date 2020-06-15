@@ -101,6 +101,7 @@
     "rules": "node bin/eslint-rules.js",
     "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
     "test:watch": "jest --watch",
+    "test:watch:coverage": "jest --watchAll --coverage",
     "vscode:prepublish": "npm run build"
   },
   "version": "0.0.0"

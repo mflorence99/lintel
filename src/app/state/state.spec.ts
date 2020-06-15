@@ -19,6 +19,9 @@ import { Utils } from '../services/utils';
 
 import { states } from './app';
 
+declare let lintelSearchParams;
+declare let lintelVSCodeAPI;
+
 export interface Bundle {
   configs?: ConfigsState;
   files?: FilesState;
@@ -40,6 +43,15 @@ export function prepare(): Bundle {
       NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
     ]
   });
+
+  // mock the API
+  lintelSearchParams = '?freshStart=true';
+
+  lintelVSCodeAPI = {
+    getState: jest.fn(() => ({ })),
+    postMessage: jest.fn(message => message),
+    setState: jest.fn(state => state),
+  };
 
   bundle.configs = TestBed.inject(ConfigsState);
   bundle.files = TestBed.inject(FilesState);

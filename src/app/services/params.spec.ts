@@ -2,8 +2,6 @@ import { Params } from './params';
 
 import { prepare } from './service.spec';
 
-window['lintelSearchParams'] = '?x=y';
-
 describe('Params', () => {
 
   let services;
@@ -17,7 +15,7 @@ describe('Params', () => {
 
   test('searchParams are initialized correctly', () => {
     const params: Params = services[0];
-    expect(params.searchParams['x']).toEqual('y');
+    expect(params.searchParams['freshStart']).toBe(true);
   });
 
 });
