@@ -38,6 +38,14 @@ describe('ConfigsState', () => {
     expect(view['space-infix-ops']).toBeTruthy();
   });
 
+  test('activeView is really unknownView if unknownPluginName is selected', () => {
+    bundle.selection.select({ fileName: 'package.json', pluginName: bundle.params.unknownPluginName });
+    const view = bundle.configs.activeView;
+    expect(view['space-infix-ops']).toBeFalsy();
+    expect(view['jest/no-existential-angst']).toBeTruthy();
+    expect(view['prefer-shaken-not-stirred']).toBeTruthy();
+  });
+
   test('categoryView is properly constructed', () => {
     bundle.selection.select({ fileName: 'package.json', pluginName: bundle.params.basePluginName });
     const view = bundle.configs.categoryView;
@@ -58,9 +66,28 @@ describe('ConfigsState', () => {
     const rule = bundle.rules.snapshot[bundle.params.basePluginName][ruleName];
     const settings = bundle.configs.snapshot['package.json']?.rules?.[ruleName];
     const digest = bundle.configs.makeRuleDigest(ruleName, rule, settings);
-    expect(digest.description).toEqual('Enforce consistent brace style for blocks.');
-    expect(digest.level).toEqual('error');
-    expect(digest.ruleName).toEqual('brace-style');
+    expect(digest).toEqual(
+      expect.objectContaining({
+        description: 'Enforce consistent brace style for blocks.',
+        level: 'error',
+        ruleName: 'brace-style'
+      })
+    );
+  });
+  
+  test('changeConfiguration', () => {
+    bundle.selection.select({ fileName: 'package.json' });
+    const changes = { browser: false };
+    bundle.configs.changeConfiguration({ env: changes });
+    expect(bundle.configs.configuration.env).toEqual(changes);
+  });
+
+  test('changeRule', () => {
+    bundle.selection.select({ fileName: 'package.json' });
+    const changes = ['warn', { after: false, before: false }];
+    const ruleName = 'brace-style';
+    bundle.configs.changeRule({ changes, ruleName });
+    expect(bundle.configs.configuration.rules[ruleName]).toEqual(changes);
   });
 
 });
