@@ -3,7 +3,11 @@ const { compilerOptions } = require('./tsconfig');
 
 module.exports = {
   collectCoverage: true,
-  coverageReporters: ['json-summary', 'text'],
+  collectCoverageFrom: [
+    '<rootDir>/ext/**/*.ts',
+    '<rootDir>/src/app/**/*.ts'
+  ],
+  coverageReporters: ['json-summary', 'text', 'html'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || { }, {
     prefix: '<rootDir>/'
   }),
