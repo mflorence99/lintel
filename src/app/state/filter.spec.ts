@@ -32,4 +32,13 @@ describe('FilterState', () => {
     expect(bundle.utils.isEmptyObject(bundle.configs.categoryView)).toBeTruthy();
   });
 
+  test('Inherited rules can be shown or hidden', () => {
+    bundle.filter.showInheritedRules();
+    expect(bundle.filter.snapshot.showInheritedRules).toBe(true);
+    bundle.filter.hideInheritedRules();
+    expect(bundle.filter.snapshot.showInheritedRules).toBe(false);
+    bundle.filter.toggleInheritedRules();
+    expect(bundle.filter.snapshot.showInheritedRules).toBe(true);
+  });
+
 });
