@@ -14,4 +14,30 @@ describe('FilterComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  test('clearRuleNameFilter', () => {
+    const fixture = TestBed.createComponent(FilterComponent);
+    const component = fixture.componentInstance;
+    component.filter.filterRuleName('xxx');
+    expect(component.filter.snapshot.ruleNameFilter).toBe('xxx');
+    component.clearRuleNameFilter();
+    expect(component.filter.snapshot.ruleNameFilter).toBeNull();
+  });
+
+  test('ngOnInit', () => {
+    const fixture = TestBed.createComponent(FilterComponent);
+    const component = fixture.componentInstance;
+    component.ngOnInit();
+    component.filterForm.setValue({ filter: 'yyy' });
+    expect(component.filter.snapshot.ruleNameFilter).toBe('yyy');
+  });
+
+  test('toggleInheritedRules', () => {
+    const fixture = TestBed.createComponent(FilterComponent);
+    const component = fixture.componentInstance;
+    component.filter.showInheritedRules();
+    expect(component.filter.snapshot.showInheritedRules).toBe(true);
+    component.toggleInheritedRules();
+    expect(component.filter.snapshot.showInheritedRules).toBe(false);
+  });
+
 });
