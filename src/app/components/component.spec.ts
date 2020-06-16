@@ -1,8 +1,5 @@
-import '../../assets/vscode-startup.js';
-
 import { BarrelModule } from '../barrel';
 import { ComponentsModule } from './module';
-import { Params } from '../services/params';
 import { TestBed } from '@angular/core/testing';
 
 export function prepare(): void {
@@ -13,8 +10,6 @@ export function prepare(): void {
       ComponentsModule
     ]
   }).compileComponents();
-
-  TestBed.inject(Params);
 
 }
 
