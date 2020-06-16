@@ -7,6 +7,7 @@ module.exports = {
     '<rootDir>/ext/**/*.ts',
     '<rootDir>/src/app/**/*.ts',
     '!<rootDir>/src/app/**/barrel.ts',
+    '!<rootDir>/src/app/**/icons.ts',
     '!<rootDir>/src/app/**/module.ts'
   ],
   coverageReporters: ['json-summary', 'text', 'html'],

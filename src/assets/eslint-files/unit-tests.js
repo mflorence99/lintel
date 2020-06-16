@@ -313,6 +313,12 @@ eslintFiles = {
     plugins: [
       "does-not-exist" // silly rule
     ],
+    settings: {
+      // cannot be edited
+      complex: {
+        setting: ['hello', 'world']
+      }
+    },
     rules: {
       // no braces
       "@typescript-eslint/brace-style": "off", // yep, really off

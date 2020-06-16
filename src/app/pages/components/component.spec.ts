@@ -19,6 +19,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { states } from '../../state/app';
 
+declare let lintelVSCodeAPI;
+
 export function prepare(): void {
 
   TestBed.configureTestingModule({
@@ -31,6 +33,14 @@ export function prepare(): void {
       NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
     ]
   }).compileComponents();
+
+  let state: any;
+
+  lintelVSCodeAPI = {
+    getState: jest.fn(() => state),
+    postMessage: jest.fn(message => message),
+    setState: jest.fn(st => state = st),
+  };
 
   // TODO: must do files first
   TestBed.inject(FilesState).initialize();
