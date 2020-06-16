@@ -46,7 +46,7 @@ export class RootPageComponent {
   /** Scroll to top */
   scrollToTop(): void {
     const theScroller = this.host.nativeElement.querySelector('#theScroller');
-    theScroller.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    theScroller?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }
 
 }
