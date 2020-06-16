@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { EventEmitter } from '@angular/core';
+import { FilterState } from '../../state/filter';
 import { Output } from '@angular/core';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
@@ -25,6 +26,7 @@ export class ConfigsComponent implements AfterViewChecked {
 
   /** ctor */
   constructor(public configs: ConfigsState,
+              public filter: FilterState,
               public params: Params,
               public selection: SelectionState,
               public utils: Utils) { }
