@@ -14,4 +14,17 @@ describe('CheckboxComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  test('registerOnChange', () => {
+    const fixture = TestBed.createComponent(CheckboxComponent);
+    const component = fixture.componentInstance;
+    component.registerOnChange(jest.fn());
+    expect(component['onChange']).toBeTruthy();
+  });
+
+  test('registerOnTouched', () =>{
+    const fixture = TestBed.createComponent(CheckboxComponent);
+    const component = fixture.componentInstance;
+    expect(component.registerOnTouched(null)).toBeFalsy();
+  });
+
 });

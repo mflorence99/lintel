@@ -48,9 +48,9 @@ export function prepare(): Bundle {
   lintelSearchParams = '?freshStart=true';
 
   lintelVSCodeAPI = {
-    getState: jest.fn(() => ({ })),
-    postMessage: jest.fn(message => message),
-    setState: jest.fn(state => state),
+    getState: jest.fn(),
+    postMessage: jest.fn(),
+    setState: jest.fn(),
   };
 
   bundle.configs = TestBed.inject(ConfigsState);

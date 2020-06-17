@@ -34,12 +34,10 @@ export function prepare(): void {
     ]
   }).compileComponents();
 
-  let state: any;
-
   lintelVSCodeAPI = {
-    getState: jest.fn(() => state),
-    postMessage: jest.fn(message => message),
-    setState: jest.fn(st => state = st),
+    getState: jest.fn(),
+    postMessage: jest.fn(),
+    setState: jest.fn(),
   };
 
   // TODO: must do files first
