@@ -9,6 +9,8 @@ import { ViewChild } from '@angular/core';
 
 import { forwardRef } from '@angular/core';
 
+export type InputValueType = number | string;
+
 /**
  * Simple input form control
  *
@@ -47,10 +49,11 @@ export class InputComponent implements ControlValueAccessor {
   @Input() type: 'number' | 'text' = 'text';
 
   @Input()
-  get value(): string {
-    return this.input?.nativeElement.value;
+  get value(): InputValueType {
+    return this._value;
   }
-  set value(value: string) {
+  set value(value: InputValueType) {
+    this._value = value;
     if (this.input?.nativeElement)
       this.input.nativeElement.value = value;
     this.onChange?.((this.type === 'number') ? Number(value) : value);
@@ -58,6 +61,7 @@ export class InputComponent implements ControlValueAccessor {
     this.cdf.detectChanges();
   }
 
+  private _value: InputValueType;
   private onChange: Function;
 
   /** ctor */
