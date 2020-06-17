@@ -24,7 +24,7 @@ import { takeUntil } from 'rxjs/operators';
 //               [nameOfDescription]: description
 //             } values
 
-export type MultiselectorOptions = string[] | string[][];
+export type MultiselectorOptions = string[] | string[][] | any[];
 
 // NOTE: values can be one of the following:
 // -- array of encoded values 

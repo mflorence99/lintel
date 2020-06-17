@@ -78,7 +78,7 @@ describe('InputArrayComponent', () => {
     });
     component.ngOnInit();
     // NOTE: trips valueChanges
-    component.addInput();
+    component.inputArrayForm.updateValueAndValidity({ emitEvent: true });
   });
 
 });
