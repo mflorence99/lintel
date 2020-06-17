@@ -17,7 +17,7 @@ import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
-export type SelectArrayType = string[];
+export type SelectArrayType = (number | string)[];
 
 /**
  * Select array form control

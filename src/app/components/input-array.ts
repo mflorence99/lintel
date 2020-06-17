@@ -111,7 +111,6 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe(value => {
-        console.log(value.inputs);
         this.values = value.inputs
           .filter(val => !!val)
           .map(val => (this.type === 'number') ? Number(val) : val);
