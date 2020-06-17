@@ -36,7 +36,6 @@ export function activate(context: vscode.ExtensionContext): void {
       else currentPanel = vscode.window.createWebviewPanel('lintel', 'Lintel', columnToShowIn as any, { enableScripts: true });
 
       // base directory of "current" project
-      // TODO: what if  null?
       const projectFolder = vscode.workspace.workspaceFolders[0];
       if (!projectFolder) {
         vscode.window.showErrorMessage('Lintel cannot analyze this project');
@@ -50,6 +49,8 @@ export function activate(context: vscode.ExtensionContext): void {
       // watch for changes on ESLint files
       const watcher = vscode.workspace.createFileSystemWatcher(filePattern);
       watcher.onDidChange(_ => getWebviewContent());
+      watcher.onDidCreate(_ => getWebviewContent());
+      watcher.onDidDelete(_ => getWebviewContent());
 
       // clean up when we're done
       currentPanel.onDidDispose(() => {
