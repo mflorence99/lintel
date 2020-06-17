@@ -27,4 +27,29 @@ describe('CheckboxComponent', () => {
     expect(component.registerOnTouched(null)).toBeFalsy();
   });
 
+  test('toggleChecked', () => {
+    const fixture = TestBed.createComponent(CheckboxComponent);
+    const component = fixture.componentInstance;
+    expect(component.value).toBeFalsy();
+    component.toggleChecked();
+    expect(component.value).toBe(true);
+  });
+
+  test('writeValue', () => {
+    const fixture = TestBed.createComponent(CheckboxComponent);
+    const component = fixture.componentInstance;
+    expect(component.value).toBeFalsy();
+    component.writeValue(true);
+    expect(component.value).toBe(true);
+  });
+
+  test('set value', () => {
+    const fixture = TestBed.createComponent(CheckboxComponent);
+    const component = fixture.componentInstance;
+    expect(component.value).toBeFalsy();
+    component.registerOnChange(value => expect(value).toBe(true));
+    component.value = true;
+    expect(component.value).toBe(true);
+  });
+
 });
