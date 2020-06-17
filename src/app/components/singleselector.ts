@@ -18,7 +18,7 @@ export type SingleselectorOptions = (SingleselectorValue)[] | (SingleselectorVal
 // NOTE: values can be one of the following:
 // -- encoded value <-- PREFERRED
 
-export type SingleselectorValue = string | number | boolean;
+export type SingleselectorValue = number | string;
 
 /**
  * Singleselect values via select/options

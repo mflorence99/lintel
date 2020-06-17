@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 
 export type KeyValueType = Record<string, ValueType>;
 
-export type ValueType = string | number | boolean | Record<string, boolean>;
+export type ValueType = boolean | number | string | Record<string, boolean>;
 
 /**
  * <key-value> component
