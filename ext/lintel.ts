@@ -10,8 +10,6 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const debouncer: Record<string, any> = { };
 
-  const debounceTimeout = 2500;
-
   let priorFiles: Record<string, string> = { };
 
   const vscodeScripts = `
@@ -60,7 +58,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
       // listen for messages from Lintel
       currentPanel.webview.onDidReceiveMessage(message => {
-        let filePath;
+        let debounceTimeout, filePath, fileSaver;
         switch (message.command) {
 
           case 'bootFail':
@@ -79,12 +77,16 @@ export function activate(context: vscode.ExtensionContext): void {
           case 'saveFile':
             // NOTE: we deliberately isolate the debounce logic right here
             // because for testing we don't want it anywhere in the client app
-            clearTimeout(debouncer[message.fileName]);
-            debouncer[message.fileName] = setTimeout(() => {
+            fileSaver = (): void => {
               priorFiles[message.fileName] = message.source;
               filePath = path.join(projectPath, message.fileName);
               fs.writeFileSync(filePath, message.source);
-            }, debounceTimeout);
+            };
+            debounceTimeout = vscode.workspace.getConfiguration('lintel')?.get('updateDebounceTime');
+            clearTimeout(debouncer[message.fileName]);
+            if (debounceTimeout) 
+              debouncer[message.fileName] = setTimeout(fileSaver, debounceTimeout);
+            else fileSaver();
             break;
         }
       });

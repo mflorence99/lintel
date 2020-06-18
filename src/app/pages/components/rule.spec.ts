@@ -27,8 +27,10 @@ describe('RuleComponent', () => {
     const fixture = TestBed.createComponent(RuleComponent);
     const component = fixture.componentInstance;
     component.editFile('package.json');
-    expect(lintelVSCodeAPI.postMessage.mock.calls.length).toBe(1);
-    expect(lintelVSCodeAPI.postMessage.mock.calls[0][0]).toEqual({
+    const calls = lintelVSCodeAPI.postMessage.mock.calls;
+    expect(calls.length).toBe(1);
+    const message = calls[0][0];
+    expect(message).toEqual({
       command: 'editFile',
       fileName: 'package.json'
     });
@@ -57,8 +59,10 @@ describe('RuleComponent', () => {
     const fixture = TestBed.createComponent(RuleComponent);
     const component = fixture.componentInstance;
     component.openURL('www.google.com');
-    expect(lintelVSCodeAPI.postMessage.mock.calls.length).toBe(1);
-    expect(lintelVSCodeAPI.postMessage.mock.calls[0][0]).toEqual({
+    const calls = lintelVSCodeAPI.postMessage.mock.calls;
+    expect(calls.length).toBe(1);
+    const message = calls[0][0];
+    expect(message).toEqual({
       command: 'openFile',
       url: 'www.google.com'
     });

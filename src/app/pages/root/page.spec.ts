@@ -53,8 +53,10 @@ describe('RootPageComponent', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
     const app = fixture.componentInstance;
     app.editFile('package.json');
-    expect(lintelVSCodeAPI.postMessage.mock.calls.length).toBe(1);
-    expect(lintelVSCodeAPI.postMessage.mock.calls[0][0]).toEqual({
+    const calls = lintelVSCodeAPI.postMessage.mock.calls;
+    expect(calls.length).toBe(1);
+    const message = calls[0][0];
+    expect(message).toEqual({
       command: 'editFile',
       fileName: 'package.json'
     });
@@ -68,8 +70,10 @@ describe('RootPageComponent', () => {
     document.body.querySelector('#theScroller').scrollTo = scrollTo;
     app['host'] = { nativeElement: document.body };
     app.scrollToTop();
-    expect(scrollTo.mock.calls.length).toBe(1);
-    expect(scrollTo.mock.calls[0][0]).toEqual({
+    const calls = scrollTo.mock.calls;
+    expect(calls.length).toBe(1);
+    const options = calls[0][0];
+    expect(options).toEqual({
       top: 0, 
       left: 0, 
       behavior: 'auto'

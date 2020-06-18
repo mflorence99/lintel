@@ -13,7 +13,18 @@
         "command": "lintel.start",
         "title": "Edit ESLint settings"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Lintel",
+      "properties": {
+        "lintel.updateDebounceTime": {
+          "type": "number",
+          "default": 2500,
+          "description": "Debounce time as ESLint configuration files are updated.",
+          "minimum": 1
+        }
+      }
+    }
   },
   "dependencies": {
     "@angular/animations": "~9.1.4",

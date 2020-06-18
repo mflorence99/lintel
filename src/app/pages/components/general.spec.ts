@@ -29,8 +29,10 @@ describe('GeneralComponent', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
     component.editFile('package.json');
-    expect(lintelVSCodeAPI.postMessage.mock.calls.length).toBe(1);
-    expect(lintelVSCodeAPI.postMessage.mock.calls[0][0]).toEqual({
+    const calls = lintelVSCodeAPI.postMessage.mock.calls;
+    expect(calls.length).toBe(1);
+    const message = calls[0][0];
+    expect(message).toEqual({
       command: 'editFile',
       fileName: 'package.json'
     });

@@ -2,19 +2,27 @@
 
 const path = require('path');
 
-let html;
+let webviewContentResolver;
+const webviewContent = new Promise((resolve, reject) => { 
+  webviewContentResolver = resolve;
+});
 
 const commands = {
   registerCommand: jest.fn()
 };
 
+const env = {
+  openExternal: jest.fn()
+};
+
 const panel = {
   onDidDispose: jest.fn(),
+  reveal: jest.fn(),
   webview: {
     asWebviewUri: jest.fn(path => path),
     onDidReceiveMessage: jest.fn(),
-    get html() { return html },
-    set html(html) { console.log(html) }
+    get html() { return webviewContent },
+    set html(html) { webviewContentResolver(html) }
   }
 };
 
@@ -29,10 +37,16 @@ const projectFolder = {
 const RelativePattern = jest.fn();
 
 const Uri = {
-  file: jest.fn(path => path)
+  file: jest.fn(path => path),
+  parse: jest.fn()
 }
 
+const ViewColumn = {
+  Beside: undefined
+};
+
 const watcher = {
+  dispose: jest.fn(),
   onDidChange: jest.fn(),
   onDidCreate: jest.fn(),
   onDidDelete: jest.fn()
@@ -41,7 +55,8 @@ const watcher = {
 const window = {
   activeTextEditor: undefined,
   createWebviewPanel: jest.fn(() => panel),
-  showErrorMessage: jest.fn(projectFolder)
+  showErrorMessage: jest.fn(),
+  showTextDocument: jest.fn()
 };
 
 const workspace = {
@@ -49,15 +64,20 @@ const workspace = {
   findFiles: jest.fn(() => new Promise((resolve, reject) => {
     resolve([{ fsPath: path.join(projectPath, '.eslintrc.json') }]);
   })),
+  getConfiguration: jest.fn(() => ({
+    get: jest.fn(() => 0)
+  })),
   workspaceFolders: [projectFolder]
 };
 
 const vscode = {
   commands,
+  env,
   RelativePattern,
+  Uri,
+  ViewColumn,
   window,
-  workspace,
-  Uri
+  workspace
 };
 
 module.exports = vscode;
