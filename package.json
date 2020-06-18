@@ -91,6 +91,7 @@
   "engines": {
     "vscode": "^1.41.0"
   },
+  "icon": "lintel.png",
   "license": "MIT",
   "main": "./dist/ext/lintel.js", 
   "name": "lintel",
