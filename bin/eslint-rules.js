@@ -3,14 +3,15 @@ const fs = require('fs');
 const CLIEngine = require('eslint').CLIEngine;
 
 const plugins = [
-  ['@typescript-eslint', 'plugin:@typescript-eslint/all'],
-  ['eslint', 'eslint:all'],
-  ['jest', 'plugin:jest/all'],
-  ['lodash', 'plugin:lodash/recommended'],
-  ['lodash-fp', 'plugin:lodash-fp/recommended'],
-  ['node', 'plugin:node/recommended'],
-  ['react', 'plugin:react/all'],
-  ['vue', 'plugin:vue/recommended'],
+  '@typescript-eslint',
+  'eslint',
+  'jest',
+  'lodash',
+  'lodash-fp',
+  'node',
+  'react',
+  'unicorn',
+  'vue'
 ]
 
 const schema = { };
@@ -19,8 +20,8 @@ plugins.forEach(plugin => {
 
   const cli = new CLIEngine({
     baseConfig: {
-      plugins: [plugin[0]],
-      extends: [plugin[1]]
+      plugins: [plugin],
+      // extends: [plugin[1]]
     },
     useEslintrc: false
   });
@@ -30,11 +31,11 @@ plugins.forEach(plugin => {
   const obj = { };
   rules.forEach((value, key) => {
     // TODO: we always get eslint:all -- why??
-    if (plugin[1].startsWith('eslint:') || key.includes('/'))
+    if (plugin.startsWith('eslint') || key.includes('/'))
       obj[key] = value;
   });
 
-  schema[plugin[0]] = obj;
+  schema[plugin] = obj;
 
 });
 

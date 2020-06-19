@@ -92,6 +92,7 @@ eslintFiles = {
         "plugin:lodash-fp/recommended",
         "plugin:node/recommended",
         "plugin:react/recommended",
+        "plugin:unicorn/recommended",
         "plugin:vue/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
@@ -119,6 +120,7 @@ eslintFiles = {
         "lodash-fp",
         "node",
         "react",
+        "unicorn",
         "vue",
         "@typescript-eslint"
       ],

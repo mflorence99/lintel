@@ -22372,6 +22372,872 @@ eslintRules = {
       }
     }
   },
+  "unicorn": {
+    "unicorn/better-regex": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/better-regex.md"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "sortCharacterClasses": {
+                "type": "boolean",
+                "default": true
+              }
+            }
+          }
+        ]
+      }
+    },
+    "unicorn/catch-error-name": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/catch-error-name.md"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "ignore": {
+                "type": "array",
+                "uniqueItems": true
+              }
+            }
+          }
+        ],
+        "messages": {
+          "error": "The catch parameter `{{originalName}}` should be named `{{fixedName}}`."
+        }
+      }
+    },
+    "unicorn/consistent-function-scoping": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/consistent-function-scoping.md"
+        },
+        "messages": {
+          "named": "Move {{functionType}} `{{functionName}}` to the outer scope.",
+          "anonymous": "Move {{functionType}} to the outer scope."
+        }
+      }
+    },
+    "unicorn/custom-error-definition": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/custom-error-definition.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "invalidExport": "Exported error name should match error class"
+        }
+      }
+    },
+    "unicorn/error-message": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/error-message.md"
+        }
+      }
+    },
+    "unicorn/escape-case": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/escape-case.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/expiring-todo-comments": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/expiring-todo-comments.md"
+        },
+        "messages": {
+          "unicorn/avoidMultipleDates": "Avoid using multiple expiration dates in TODO: {{expirationDates}}. {{message}}",
+          "unicorn/expiredTodo": "There is a TODO that is past due date: {{expirationDate}}. {{message}}",
+          "unicorn/reachedPackageVersion": "There is a TODO that is past due package version: {{comparison}}. {{message}}",
+          "unicorn/avoidMultiplePackageVersions": "Avoid using multiple package versions in TODO: {{versions}}. {{message}}",
+          "unicorn/havePackage": "There is a TODO that is deprecated since you installed: {{package}}. {{message}}",
+          "unicorn/dontHavePackage": "There is a TODO that is deprecated since you uninstalled: {{package}}. {{message}}",
+          "unicorn/versionMatches": "There is a TODO match for package version: {{comparison}}. {{message}}",
+          "unicorn/engineMatches": "There is a TODO match for Node.js version: {{comparison}}. {{message}}",
+          "unicorn/removeWhitespaces": "Avoid using whitespaces on TODO argument. On '{{original}}' use '{{fix}}'. {{message}}",
+          "unicorn/missingAtSymbol": "Missing '@' on TODO argument. On '{{original}}' use '{{fix}}'. {{message}}"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "terms": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ignore": {
+                "type": "array",
+                "uniqueItems": true
+              },
+              "ignoreDatesOnPullRequests": {
+                "type": "boolean",
+                "default": true
+              },
+              "allowWarningComments": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "unicorn/explicit-length-check": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/explicit-length-check.md"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "non-zero": {
+                "enum": [
+                  "not-equal",
+                  "greater-than",
+                  "greater-than-or-equal"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "unicorn/filename-case": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/filename-case.md"
+        },
+        "schema": [
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "case": {
+                    "enum": [
+                      "camelCase",
+                      "snakeCase",
+                      "kebabCase",
+                      "pascalCase"
+                    ]
+                  },
+                  "ignore": {
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "properties": {
+                  "cases": {
+                    "properties": {
+                      "camelCase": {
+                        "type": "boolean"
+                      },
+                      "snakeCase": {
+                        "type": "boolean"
+                      },
+                      "kebabCase": {
+                        "type": "boolean"
+                      },
+                      "pascalCase": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "ignore": {
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        ],
+        "messages": {
+          "renameToCase": "Filename is not in {{chosenCases}}. Rename it to {{renamedFilenames}}.",
+          "renameToCases": "Filename is not in {{chosenCases}}. Rename it to {{renamedFilenames}}."
+        }
+      }
+    },
+    "unicorn/import-index": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/import-index.md"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreImports": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "fixable": "code"
+      }
+    },
+    "unicorn/new-for-builtins": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/new-for-builtins.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "enforce": "Use `new {{name}}()` instead of `{{name}}()`.",
+          "disallow": "Use `{{name}}()` instead of `new {{name}}()`."
+        }
+      }
+    },
+    "unicorn/no-abusive-eslint-disable": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-abusive-eslint-disable.md"
+        }
+      }
+    },
+    "unicorn/no-array-instanceof": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-array-instanceof.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/no-console-spaces": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-console-spaces.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/no-fn-reference-in-iterator": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-fn-reference-in-iterator.md"
+        },
+        "messages": {
+          "error-with-name": "Do not pass function `{{name}}` directly to `.{{method}}(…)`.",
+          "error-without-name": "Do not pass function directly to `.{{method}}(…)`.",
+          "replace-with-name": "Replace function `{{name}}` with `… => {{name}}({{parameters}})`.",
+          "replace-without-name": "Replace function with `… => …({{parameters}})`."
+        }
+      }
+    },
+    "unicorn/no-for-loop": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-for-loop.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/no-hex-escape": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-hex-escape.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/no-keyword-prefix": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-keyword-prefix.md"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "blacklist": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "string"
+                  }
+                ],
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "checkProperties": {
+                "type": "boolean"
+              },
+              "onlyCamelCase": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "noKeywordPrefix": "Do not prefix identifiers with keyword `{{keyword}}`."
+        }
+      }
+    },
+    "unicorn/no-nested-ternary": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-nested-ternary.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/no-new-buffer": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-new-buffer.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/no-null": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-null.md"
+        },
+        "messages": {
+          "error": "Use `undefined` instead of `null`.",
+          "replace": "Replace `null` with `undefined`.",
+          "remove": "Remove `null`."
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "checkStrictEquality": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "fixable": "code"
+      }
+    },
+    "unicorn/no-process-exit": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-process-exit.md"
+        }
+      }
+    },
+    "unicorn/no-reduce": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-reduce.md"
+        },
+        "messages": {
+          "reduce": "`Array#reduce()` is not allowed",
+          "reduceRight": "`Array#reduceRight()` is not allowed"
+        }
+      }
+    },
+    "unicorn/no-unreadable-array-destructuring": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-unreadable-array-destructuring.md"
+        }
+      }
+    },
+    "unicorn/no-unsafe-regex": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-unsafe-regex.md"
+        }
+      }
+    },
+    "unicorn/no-unused-properties": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-unused-properties.md"
+        }
+      }
+    },
+    "unicorn/no-useless-undefined": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-useless-undefined.md"
+        },
+        "messages": {
+          "no-useless-undefined": "Do not use useless `undefined`."
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/no-zero-fractions": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/no-zero-fractions.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/number-literal-case": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/number-literal-case.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-add-event-listener": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-add-event-listener.md"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "excludedPackages": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "unicorn/prefer-dataset": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-dataset.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-event-key": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-event-key.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-exponentiation-operator": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-exponentiation-operator.md"
+        },
+        "fixable": "code",
+        "deprecated": true,
+        "replacedBy": [
+          "prefer-exponentiation-operator"
+        ]
+      }
+    },
+    "unicorn/prefer-flat-map": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-flat-map.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "flat-map": "Prefer `.flatMap(…)` over `.map(…).flat()`.",
+          "spread": "Prefer `.flatMap(…)` over `[].concat(...foo.map(…))`."
+        }
+      }
+    },
+    "unicorn/prefer-includes": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-includes.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-modern-dom-apis": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-modern-dom-apis.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "replaceChildOrInsertBefore": "Prefer `{{oldChildNode}}.{{preferredMethod}}({{newChildNode}})` over `{{parentNode}}.{{method}}({{newChildNode}}, {{oldChildNode}})`.",
+          "insertAdjacentTextOrInsertAdjacentElement": "Prefer `{{reference}}.{{preferredMethod}}({{content}})` over `{{reference}}.{{method}}({{position}}, {{content}})`."
+        }
+      }
+    },
+    "unicorn/prefer-negative-index": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-negative-index.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-node-append": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-node-append.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-node-remove": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-node-remove.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "error": "Prefer `childNode.remove()` over `parentNode.removeChild(childNode)`.",
+          "suggestion": "Replace `parentNode.removeChild(childNode)` with `childNode.remove()`."
+        }
+      }
+    },
+    "unicorn/prefer-number-properties": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-number-properties.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "method-error": "Prefer `Number.{{name}}()` over `{{name}}()`.",
+          "method-suggestion": "Replace `{{name}}()` with `Number.{{name}}()`.",
+          "property-error": "Prefer `Number.{{name}}` over `{{name}}`."
+        }
+      }
+    },
+    "unicorn/prefer-optional-catch-binding": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-optional-catch-binding.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "error": "Remove unused catch binding `{{name}}`."
+        }
+      }
+    },
+    "unicorn/prefer-query-selector": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-query-selector.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-reflect-apply": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-reflect-apply.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-replace-all": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-replace-all.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-set-has": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-set-has.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "preferSetHas": "`{{name}}` should be a `Set`, and use `{{name}}.has()` to check existence or non-existence."
+        }
+      }
+    },
+    "unicorn/prefer-spread": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-spread.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-starts-ends-with": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-starts-ends-with.md"
+        },
+        "messages": {
+          "prefer-starts-with": "Prefer `String#startsWith()` over a regex with `^`.",
+          "prefer-ends-with": "Prefer `String#endsWith()` over a regex with `$`."
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-string-slice": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-string-slice.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-text-content": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-text-content.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prefer-trim-start-end": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-trim-start-end.md"
+        },
+        "fixable": "code",
+        "messages": {
+          "trimLeft": "Prefer `String#trimLeft()` over `String#trimStart()`.",
+          "trimRight": "Prefer `String#trimRight()` over `String#trimEnd()`."
+        }
+      }
+    },
+    "unicorn/prefer-type-error": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prefer-type-error.md"
+        },
+        "fixable": "code"
+      }
+    },
+    "unicorn/prevent-abbreviations": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/prevent-abbreviations.md"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "checkProperties": {
+                "type": "boolean"
+              },
+              "checkVariables": {
+                "type": "boolean"
+              },
+              "checkDefaultAndNamespaceImports": {
+                "type": [
+                  "boolean",
+                  "string"
+                ],
+                "pattern": "internal"
+              },
+              "checkShorthandImports": {
+                "type": [
+                  "boolean",
+                  "string"
+                ],
+                "pattern": "internal"
+              },
+              "checkShorthandProperties": {
+                "type": "boolean"
+              },
+              "checkFilenames": {
+                "type": "boolean"
+              },
+              "extendDefaultReplacements": {
+                "type": "boolean"
+              },
+              "replacements": {
+                "$ref": "#/items/0/definitions/abbreviations"
+              },
+              "extendDefaultWhitelist": {
+                "type": "boolean"
+              },
+              "whitelist": {
+                "$ref": "#/items/0/definitions/booleanObject"
+              }
+            },
+            "additionalProperties": false,
+            "definitions": {
+              "abbreviations": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/items/0/definitions/replacements"
+                }
+              },
+              "replacements": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "$ref": "#/items/0/definitions/booleanObject"
+                  }
+                ]
+              },
+              "booleanObject": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "unicorn/regex-shorthand": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/regex-shorthand.md"
+        },
+        "fixable": "code",
+        "deprecated": true,
+        "replacedBy": [
+          "unicorn/better-regex"
+        ]
+      }
+    },
+    "unicorn/string-content": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/string-content.md"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "patterns": {
+                "type": "object",
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "suggest"
+                      ],
+                      "properties": {
+                        "suggest": {
+                          "type": "string"
+                        },
+                        "fix": {
+                          "type": "boolean"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "replace": "Replace `{{match}}` with `{{suggest}}`."
+        }
+      }
+    },
+    "unicorn/throw-new-error": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v20.1.0/docs/rules/throw-new-error.md"
+        },
+        "messages": {
+          "throw-new-error": "Use `new` when throwing an error."
+        },
+        "fixable": "code"
+      }
+    }
+  },
   "vue": {
     "vue/array-bracket-spacing": {
       "meta": {

@@ -54,9 +54,14 @@ export class Params {
         'recommended': 'truthy'
       }
     },
+    'unicorn': {
+      'plugin:unicorn/recommended': {
+        'url': 'truthy'
+      }
+    },
     'vue': {
       'plugin:vue/recommended': {
-        'url': 'truthy'
+        'recommended': 'undefined'
       }
     },
   };

@@ -285,7 +285,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
           .every(flag => {
             const state = rules[ruleName]?.meta?.docs?.[flag];
             const test = inherits[extension][flag];
-            return (test === 'truthy') ? !!state : !state;
+            if (test === 'truthy')
+              return !!state;
+            else if (test === 'falsy')
+              return !state;
+            else if (test === 'undefined')
+              return state === undefined;
+            else state;
           });
       });
   }
