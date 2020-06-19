@@ -180,7 +180,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       }, this.filter.snapshot.showInheritedRules ? this.inheritedCategoryView : { });
   }
 
-  @Computed() get fileNames(): string [] {
+  @Computed() get fileNames(): string[] {
     return Object.keys(this.snapshot);
   }
 
@@ -228,6 +228,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return pluginNames;
   }
 
+  @Computed() get shortFileNames(): string[] {
+    const prefix = this.utils.longestCommonPrefix(this.fileNames);
+    return this.fileNames.map(fileName => fileName.substring(prefix.length));
+  }
+
   @Computed() get unknownView(): View {
     // NOTE: settings that have no corresponding rule in the schema
     const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
@@ -262,6 +267,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       settings: settings,
       url: rule?.meta?.docs?.url
     };
+  }
+
+  shortFileName(fileName: string): string {
+    const ix = this.fileNames.findIndex(nm => nm === fileName);
+    return (ix === -1) ? fileName : this.shortFileNames[ix];
   }
 
   // private methods

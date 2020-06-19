@@ -14,6 +14,22 @@ describe('ConfigsState', () => {
     expect(bundle.configs.fileNames[0]).toEqual('/home/mflorence99/lintel/package.json');
   });
 
+  test('fileNames are properly constructed', () => {
+    expect(bundle.configs.fileNames.length).toEqual(7);
+    expect(bundle.configs.fileNames[0]).toEqual('/home/mflorence99/lintel/package.json');
+    expect(bundle.configs.fileNames[1]).toEqual('/home/mflorence99/el-3270/.eslintrc.js');
+  });
+
+  test('shortFileNames are properly constructed', () => {
+    expect(bundle.configs.shortFileNames.length).toEqual(7);
+    expect(bundle.configs.shortFileNames[0]).toEqual('lintel/package.json');
+    expect(bundle.configs.shortFileNames[1]).toEqual('el-3270/.eslintrc.js');
+  });
+
+  test('shortFileName', () => {
+    expect(bundle.configs.shortFileName('/home/mflorence99/el-3270/.eslintrc.js')).toEqual('el-3270/.eslintrc.js');
+  });
+
   test('pluginNames are properly constructed', () => {
     expect(bundle.configs.pluginNames.length).toEqual(8);
     expect(bundle.configs.pluginNames[0]).toEqual(bundle.params.basePluginName);
