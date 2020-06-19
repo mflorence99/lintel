@@ -51,6 +51,8 @@ describe('VSCode extension', () => {
       expect(vscode.window.showTextDocument).toHaveBeenCalled();
       post({ command: 'openFile', url: 'xxx' });
       expect(vscode.env.openExternal).toHaveBeenCalled();
+      post({ command: 'parseFail', fileName: 'xxx' });
+      expect(vscode.window.showErrorMessage).toHaveBeenCalled();
       post({ command: 'saveFile', fileName: '.eslintrc.xxx', source: '{ }' });
       const contents = fs.readFileSync(path.join(mockContext.extensionPath, '.eslintrc.xxx'), { encoding: 'utf8' });
       expect(contents).toBe('{ }');

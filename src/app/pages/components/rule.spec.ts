@@ -28,8 +28,8 @@ describe('RuleComponent', () => {
     const component = fixture.componentInstance;
     component.editFile('/home/mflorence99/lintel/package.json');
     const calls = lintelVSCodeAPI.postMessage.mock.calls;
-    expect(calls.length).toBe(1);
-    const message = calls[0][0];
+    expect(calls.length).toBeGreaterThanOrEqual(1);
+    const message = calls[calls.length - 1][0];
     expect(message).toEqual({
       command: 'editFile',
       fileName: '/home/mflorence99/lintel/package.json'
@@ -60,8 +60,8 @@ describe('RuleComponent', () => {
     const component = fixture.componentInstance;
     component.openURL('www.google.com');
     const calls = lintelVSCodeAPI.postMessage.mock.calls;
-    expect(calls.length).toBe(1);
-    const message = calls[0][0];
+    expect(calls.length).toBeGreaterThanOrEqual(1);
+    const message = calls[calls.length - 1][0];
     expect(message).toEqual({
       command: 'openFile',
       url: 'www.google.com'

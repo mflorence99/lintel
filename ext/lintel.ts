@@ -66,6 +66,10 @@ export function activate(context: vscode.ExtensionContext): void {
             vscode.env.openExternal(vscode.Uri.parse(message.url));
             break;
 
+          case 'parseFail':
+            vscode.window.showErrorMessage(`Lintel could not parse ${message.fileName}`);
+            break;
+
           case 'saveFile':
             // NOTE: we deliberately isolate the debounce logic right here
             // because for testing we don't want it anywhere in the client app

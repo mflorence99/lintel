@@ -187,7 +187,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
 
     load(fileName: string): any {
-      return this.superThis.objects[fileName]['eslintConfig'];
+      return this.superThis.objects[fileName]?.['eslintConfig'];
     }
 
     normalize(object: any): any {
@@ -285,7 +285,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
           // if the source can't be parsed ...
           acc[fileName] = impl.normalize(impl.parse(fileName, eslintFiles[fileName]));
         } catch (exception) {
-          // ... a nullobject is an upstream signal
+          lintelVSCodeAPI.postMessage({ command: 'parseFail', fileName });
+          // ... a null object is an upstream signal
           acc[fileName] = null;
         }
         return acc;
