@@ -6,6 +6,7 @@ import { FilterState } from '../../state/filter';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { OnInit } from '@angular/core';
+import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 
 import { takeUntil } from 'rxjs/operators';
@@ -31,6 +32,7 @@ export class FilterComponent implements OnInit {
               private destroy$: DestroyService,
               public filter: FilterState,
               private formBuilder: FormBuilder,
+              public params: Params,
               public selection: SelectionState) { 
     // create the filter form
     this.filterForm = this.formBuilder.group({
