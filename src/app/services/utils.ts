@@ -40,6 +40,21 @@ export class Utils {
     return (obj === null) || (obj === undefined) || (Object.getOwnPropertyNames(obj).length === 0);
   }
 
+  /** Find the longest common prefix from a list */
+  longestCommonPrefix(strings: string[]): string {
+    const first = strings[0] || '';
+    let commonLength = first.length;
+    for (let i = 1; i < strings.length; ++i) {
+      for (let j = 0; j < commonLength; ++j) {
+        if (strings[i].charAt(j) !== first.charAt(j)) {
+          commonLength = j;
+          break;
+        }
+      }
+    }
+    return first.slice(0, commonLength);    
+  }
+
   /** Run func tion on next tick */
   nextTick(fn: Function): void {
     setTimeout(fn, 0);

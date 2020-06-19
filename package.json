@@ -3,6 +3,18 @@
     "onCommand:lintel.start"
   ],
   "author": "Mark Florence",
+  "badges": [
+    {
+      "description": "Jest Coverage",
+      "href": "",
+      "url": "https://img.shields.io/badge/coverage-98.91%25-green"
+    },
+    {
+      "description": "License: MIT",
+      "href": "https://opensource.org/licenses/MIT",
+      "url": "https://img.shields.io/badge/License-MIT-yellow.svg"
+    }
+  ],
   "categories": [
     "Linters"
   ],
@@ -11,28 +23,44 @@
       {
         "category": "Lintel",
         "command": "lintel.start",
-        "title": "Edit ESLint settings"
+        "title": "ESLint Configuration GUI"
       }
     ],
     "configuration": {
-      "title": "Lintel",
       "properties": {
+        "lintel.ignoredDirectories": {
+          "default": ["node_modules", "build", "dist", "out"],
+          "description": "List of directories not searched for eslintrc files.",
+          "type": "array"
+        },
         "lintel.updateDebounceTime": {
-          "type": "number",
           "default": 2500,
           "description": "Debounce time as ESLint configuration files are updated.",
-          "minimum": 1
+          "minimum": 1,
+          "type": "number"
         }
-      }
+      },
+      "title": "Lintel"
     }
   },
-  "dependencies": {
+  "dependencies": { 
+    "@types/vscode": "^1.44.0"
+  },
+  "description": "VSCode extension to provide a GUI for building and testing ESLint configurations",
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.901.4",
+    "@angular-eslint/builder": "0.0.1-alpha.29",
+    "@angular-eslint/schematics": "0.0.1-alpha.29",
+    "@angular-eslint/template-parser": "0.0.1-alpha.29",
     "@angular/animations": "~9.1.4",
     "@angular/cdk": "^9.2.3",
+    "@angular/cli": "~9.1.4",
     "@angular/common": "~9.1.4",
     "@angular/compiler": "~9.1.4",
+    "@angular/compiler-cli": "~9.1.4",
     "@angular/core": "~9.1.4",
     "@angular/forms": "~9.1.4",
+    "@angular/language-service": "~9.1.4",
     "@angular/material": "^9.2.3",
     "@angular/platform-browser": "~9.1.4",
     "@angular/platform-browser-dynamic": "~9.1.4",
@@ -45,21 +73,6 @@
     "@ngxs-labs/data": "^3.0.4",
     "@ngxs/logger-plugin": "^3.6.2",
     "@ngxs/store": "^3.6.2",
-    "angular2-uuid": "^1.1.1",
-    "js-yaml": "^3.14.0",
-    "rxjs": "~6.5.4",
-    "tslib": "^1.10.0",
-    "zone.js": "~0.10.2"
-  },
-  "description": "VSCode extension to provide a GUI for building and testing ESLint configurations",
-  "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.4",
-    "@angular-eslint/builder": "0.0.1-alpha.29",
-    "@angular-eslint/schematics": "0.0.1-alpha.29",
-    "@angular-eslint/template-parser": "0.0.1-alpha.29",
-    "@angular/cli": "~9.1.4",
-    "@angular/compiler-cli": "~9.1.4",
-    "@angular/language-service": "~9.1.4", 
     "@types/escodegen": "0.0.6",
     "@types/eslint": "^6.8.0",
     "@types/esprima": "^4.0.2",
@@ -67,37 +80,49 @@
     "@types/js-yaml": "^3.12.4",
     "@types/json5": "0.0.30",
     "@types/node": "^12.11.1",
-    "@types/vscode": "^1.44.0",
-    "@typescript-eslint/eslint-plugin": "^2.31.0", 
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
+    "angular2-uuid": "^1.1.1",
     "eslint": "^6.8.0",
     "eslint-plugin-jest": "^23.9.0",
     "eslint-plugin-lodash": "^7.1.0",
-    "eslint-plugin-lodash-fp": "^2.2.0-a1", 
+    "eslint-plugin-lodash-fp": "^2.2.0-a1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^25.2.1",
     "jest-preset-angular": "^8.1.3",
-    "make-coverage-badge": "^1.2.0",
+    "js-yaml": "^3.14.0",
+    "rxjs": "~6.5.4",
     "stylelint": "^13.3.3",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-order": "^4.0.0",
     "stylelint-scss": "^3.17.1",
     "ts-node": "~8.3.0",
+    "tslib": "^1.10.0",
     "typescript": "~3.8.3",
-    "vscode-test": "^1.3.0"
+    "zone.js": "~0.10.2"
   },
+  "displayName": "Lintel: ESLint Configuration GUI",
   "engines": {
-    "vscode": "^1.41.0"
+    "vscode": "^1.44.0"
   },
+  "galleryBanner": {
+    "color": "#424242",
+    "theme": "dark"
+  },
+  "homepage": "https://github.com/mflorence99/lintel/blob/master/README.md",
   "icon": "lintel.png",
+  "bugs": {
+    "url": "https://github.com/mflorence99/lintel/issues",
+    "email": "mflo999@gmail.com"
+  },
+  "keywords": ["eslint"],
   "license": "MIT",
-  "main": "./dist/ext/lintel.js", 
+  "main": "./dist/ext/lintel.js",
   "name": "lintel",
-  "private": true,
+  "publisher": "mflo999",
   "repository": {
-    
     "type": "git",
     "url": "https://github.com/mflorence99/lintel"
   },
@@ -109,12 +134,12 @@
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
     "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",
     "ng": "ng",
-    "start": "ng serve",
+    "package": "npm run build && vsce package",
     "rules": "node bin/eslint-rules.js",
-    "test": "jest --coverage && make-coverage-badge && mv ./coverage/badge.svg ./coverage.svg",
+    "start": "ng serve",
+    "test": "jest --coverage && node bin/coverage-icon.js",
     "test:watch": "jest --watch",
-    "test:watch:coverage": "jest --watchAll --coverage",
-    "vscode:prepublish": "npm run build"
+    "test:watch:coverage": "jest --watchAll --coverage"
   },
   "version": "0.0.0"
 }

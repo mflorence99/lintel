@@ -302,6 +302,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
               normalized[0] = ['off', 'warn', 'error'][normalized[0]];
             model[fileName].rules[ruleName] = normalized;
           });
+        // also very convenient to normalize extends to a string[]
+        if (typeof configuration.extends === 'string')
+          model[fileName].extends = [configuration.extends];
         // also very convenient to normalize parserOptions.project to a string[]
         const project = configuration.parserOptions?.project;
         if (typeof project === 'string')

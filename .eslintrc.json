@@ -217,7 +217,13 @@
         "ignoreStatic": true
       }
     ],
-    "brace-style": "error",
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
     "comma-spacing": "off",
     "default-param-last": "off",
     "eqeqeq": [

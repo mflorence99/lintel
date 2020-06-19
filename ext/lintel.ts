@@ -33,16 +33,8 @@ export function activate(context: vscode.ExtensionContext): void {
         currentPanel.reveal(columnToShowIn);
       else currentPanel = vscode.window.createWebviewPanel('lintel', 'Lintel', columnToShowIn as any, { enableScripts: true });
 
-      // base directory of "current" project
-      const projectFolder = vscode.workspace.workspaceFolders[0];
-      if (!projectFolder) {
-        vscode.window.showErrorMessage('Lintel cannot analyze this project');
-        return;
-      }
-      const projectPath = projectFolder.uri.fsPath;
-
       // eslint files to process
-      const filePattern = new vscode.RelativePattern(projectFolder, '**/{package.json,.eslintrc,.eslintrc.cjs,.eslintrc.js,.eslintrc.json,.eslintrc.yaml}');
+      const filePattern = '**/{package.json,.eslintrc,.eslintrc.cjs,.eslintrc.js,.eslintrc.json,.eslintrc.yaml}';
 
       // watch for changes on ESLint files
       const watcher = vscode.workspace.createFileSystemWatcher(filePattern);
@@ -53,12 +45,13 @@ export function activate(context: vscode.ExtensionContext): void {
       // clean up when we're done
       currentPanel.onDidDispose(() => {
         currentPanel = undefined;
+        priorFiles = { };
         watcher.dispose();
       }, null, context.subscriptions);
 
       // listen for messages from Lintel
       currentPanel.webview.onDidReceiveMessage(message => {
-        let debounceTimeout, filePath, fileSaver;
+        let debounceTimeout, fileSaver;
         switch (message.command) {
 
           case 'bootFail':
@@ -66,8 +59,7 @@ export function activate(context: vscode.ExtensionContext): void {
             break;
 
           case 'editFile':
-            // TODO: there must be an easier way ... it works, docs suck
-            vscode.window.showTextDocument(vscode.Uri.parse(path.join(projectPath, message.fileName)), { viewColumn: vscode.ViewColumn.Beside });
+            vscode.window.showTextDocument(vscode.Uri.parse(message.fileName), { viewColumn: vscode.ViewColumn.Beside });
             break;
 
           case 'openFile':
@@ -79,10 +71,9 @@ export function activate(context: vscode.ExtensionContext): void {
             // because for testing we don't want it anywhere in the client app
             fileSaver = (): void => {
               priorFiles[message.fileName] = message.source;
-              filePath = path.join(projectPath, message.fileName);
-              fs.writeFileSync(filePath, message.source);
+              fs.writeFileSync(message.fileName, message.source);
             };
-            debounceTimeout = vscode.workspace.getConfiguration('lintel')?.get('updateDebounceTime');
+            debounceTimeout = vscode.workspace.getConfiguration('lintel')?.get('updateDebounceTime', 2500);
             clearTimeout(debouncer[message.fileName]);
             if (debounceTimeout) 
               debouncer[message.fileName] = setTimeout(fileSaver, debounceTimeout);
@@ -93,15 +84,15 @@ export function activate(context: vscode.ExtensionContext): void {
 
       // this closure does the hard work
       const getWebviewContent = (): void => {
-        vscode.workspace.findFiles(filePattern, '**/node_modules/**')
+        const ignoredDirectories = vscode.workspace.getConfiguration('lintel')?.get('ignoredDirectories', ['node_modules', 'build', 'dist', 'out']);
+        vscode.workspace.findFiles(filePattern, `**/{${ignoredDirectories.join(',')}}/**`)
           .then((uris: vscode.Uri[]) => {
 
             // read all the ESLint files
             const eslintFiles: Record<string, string> = uris.reduce((acc, uri) => {
-              const fileName = uri.fsPath.substring(projectPath.length + 1);
               const source = fs.readFileSync(uri.fsPath, { encoding: 'utf8' });
-              if (!fileName.endsWith('package.json') || source.includes('"eslintConfig":'))
-                acc[fileName] = source;
+              if (!uri.fsPath.endsWith('package.json') || source.includes('"eslintConfig":'))
+                acc[uri.fsPath] = source;
               return acc;
             }, { });
 

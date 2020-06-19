@@ -326,6 +326,7 @@ eslintFiles = {
     }
   };`,
   "src/.eslintrc.json": `{
+    "extends": "eslint:recommended",
     "plugins": [
       "does-not-exist"
     ]

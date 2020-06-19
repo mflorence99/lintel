@@ -46,6 +46,26 @@ describe('Utils', () => {
     expect(utils.isEmptyObject({ x: 1 })).toBeFalsy();
   });
 
+  test('longestCommonPrefix', () => {
+    const strings = [
+      '/home/mflorence99/el-3270/.eslintrc.json',
+      '/home/mflorence99/lintel/package.json',
+      '/home/mflorence99/lintel/src/.eslintrc.js'
+    ];
+    const utils: Utils = services[0];
+    expect(utils.longestCommonPrefix(strings)).toBe('/home/mflorence99/');
+  });
+
+  test('longestCommonPrefix', () => {
+    const strings = [
+      '/home/experiments/el-3270/.eslintrc.json',
+      '/home/mflorence99/lintel/package.json',
+      '/home/mflorence99/lintel/src/.eslintrc.js'
+    ];
+    const utils: Utils = services[0];
+    expect(utils.longestCommonPrefix(strings)).toBe('/home/');
+  });
+
   test('nextTick works asynchronously', done => {
     const num = 42;
     const utils: Utils = services[0];

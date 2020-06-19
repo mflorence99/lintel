@@ -29,6 +29,7 @@ describe('VSCode extension', () => {
   test('Correct HTML is produced at launch', done => {
     const panel = vscode.window.createWebviewPanel('lintel', 'Lintel', undefined);
     (panel.webview.html as any).then((html: string) => {
+      console.log(html);
       expect(html.includes('<script>eslintFiles = { ".eslintrc.json": `{')).toBe(true);
       expect(html.includes('lintelVSCodeAPI = acquireVsCodeApi()')).toBe(true);
       done();

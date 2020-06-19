@@ -65,7 +65,14 @@ const workspace = {
     resolve([{ fsPath: path.join(projectPath, '.eslintrc.json') }]);
   })),
   getConfiguration: jest.fn(() => ({
-    get: jest.fn(() => 0)
+    get: jest.fn((nm, dflt) => {
+      switch (nm) {
+        case 'debounceTimeout':
+          return 0;
+        case 'ignoredDirectories':
+          return dflt;
+      }
+    })
   })),
   workspaceFolders: [projectFolder]
 };

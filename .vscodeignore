@@ -1,0 +1,10 @@
+**/*.*
+**/*
+!CHANGELOG.md
+!dist/**/*.*
+!docs/**/*.*
+!lintel.png
+!node_modules/**/*.*
+!package-lock.json
+!package.json
+!README.md
