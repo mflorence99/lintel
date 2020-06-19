@@ -26,13 +26,13 @@ describe('RuleComponent', () => {
   test('editFile', () => {
     const fixture = TestBed.createComponent(RuleComponent);
     const component = fixture.componentInstance;
-    component.editFile('package.json');
+    component.editFile('/home/mflorence99/lintel/package.json');
     const calls = lintelVSCodeAPI.postMessage.mock.calls;
     expect(calls.length).toBe(1);
     const message = calls[0][0];
     expect(message).toEqual({
       command: 'editFile',
-      fileName: 'package.json'
+      fileName: '/home/mflorence99/lintel/package.json'
     });
   });
 
@@ -46,12 +46,12 @@ describe('RuleComponent', () => {
     const fixture = TestBed.createComponent(RuleComponent);
     const component = fixture.componentInstance;
     const rule = component.rules.snapshot['eslint']['brace-style'];
-    let settings = component.configs.snapshot['package.json'].rules['brace-style'];
+    let settings = component.configs.snapshot['/home/mflorence99/lintel/package.json'].rules['brace-style'];
     component.ruleDigest = component.configs.makeRuleDigest('brace-style', rule, settings);
     component.schemaDigest = component.rules.makeSchemaDigest('brace-style', rule);
     component.ngOnInit();
     component.ruleForm.patchValue({ level: 'warn', root: { elements: ['stroustrup', { allowSingleLine: true }] } });
-    settings = component.configs.snapshot['package.json'].rules['brace-style'];
+    settings = component.configs.snapshot['/home/mflorence99/lintel/package.json'].rules['brace-style'];
     expect(settings).toEqual(['warn', 'stroustrup', { allowSingleLine: true }]);
   });
 

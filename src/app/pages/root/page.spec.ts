@@ -52,13 +52,13 @@ describe('RootPageComponent', () => {
   test('editFile', () => {
     const fixture = TestBed.createComponent(RootPageComponent);
     const app = fixture.componentInstance;
-    app.editFile('package.json');
+    app.editFile('/home/mflorence99/lintel/package.json');
     const calls = lintelVSCodeAPI.postMessage.mock.calls;
     expect(calls.length).toBe(1);
     const message = calls[0][0];
     expect(message).toEqual({
       command: 'editFile',
-      fileName: 'package.json'
+      fileName: '/home/mflorence99/lintel/package.json'
     });
   });
 

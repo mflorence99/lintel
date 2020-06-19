@@ -7,14 +7,19 @@
     [ngClass]="{selected: selection.fileName === fileName}"
     class="filename">
 
-    <fa-icon 
-      [fixedWidth]="true"
-      [icon]="iconForFile(fileName)"
-      [ngStyle]="{color: colorForFile(fileName)}"
-      size="lg">
-    </fa-icon>
+    <div
+      class="withIcon">
 
-    {{ fileName }}
+      <fa-icon 
+        [fixedWidth]="true"
+        [icon]="iconForFile(fileName)"
+        [ngStyle]="{color: colorForFile(fileName)}"
+        size="lg">
+      </fa-icon>
+
+      <div>{{ shortenFileName(fileName) }}</div>
+
+    </div>
 
     <ng-container
       *ngIf="configs.configuration && (selection.fileName === fileName)">

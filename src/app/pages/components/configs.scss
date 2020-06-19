@@ -43,4 +43,15 @@
 
   }
 
+  .withIcon {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+
+    > div {
+      line-height: 150%;
+    }
+
+  }
+
 }

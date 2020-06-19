@@ -6,7 +6,7 @@
 
 eslintFiles = {
 
-  'package.json': `{
+  '/home/mflorence99/lintel/package.json': `{
     "activationEvents": [
       "onCommand:lintel.start"
     ],
@@ -309,7 +309,7 @@ eslintFiles = {
     },
     "version": "0.0.0"
   }`,
-  "ext/.eslintrc.js": `module.exports = {
+  "/home/mflorence99/el-3270/.eslintrc.js": `module.exports = {
     plugins: [
       "does-not-exist" // silly rule
     ],
@@ -325,17 +325,17 @@ eslintFiles = {
       curly: 0 + 1
     }
   };`,
-  "src/.eslintrc.json": `{
+  "/home/mflorence99/el-file/.eslintrc.json": `{
     "extends": "eslint:recommended",
     "plugins": [
       "does-not-exist"
     ]
     // the first rule is that there are no rules!
   }`,
-  "empty.json": `{ /* empty */ }`,
-  "invalid.json": `blah blah`,
-  "not-supported.cjs": `blah blah`,
-  "src/app/.eslintrc.yaml": `
+  "/home/mflorence99/lintel/empty.json": `{ /* empty */ }`,
+  "/home/mflorence99/lintel/invalid.json": `blah blah`,
+  "/home/mflorence99/lintel/not-supported.cjs": `blah blah`,
+  "/home/mflorence99/lintel/src/app/.eslintrc.yaml": `
 parserOptions:
   ecmaFeatures:
     globalReturn: true # turn it on

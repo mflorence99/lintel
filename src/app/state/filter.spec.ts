@@ -11,7 +11,7 @@ describe('FilterState', () => {
   test('Rule name filter can be set', () => {
     bundle.selection.select({
       category: 'Best Practices',
-      fileName: 'package.json',
+      fileName: '/home/mflorence99/lintel/package.json',
       pluginName: bundle.params.basePluginName
     });
     bundle.filter.filterRuleName('default');
@@ -23,7 +23,7 @@ describe('FilterState', () => {
   test('Empty data returned for non-matching filter', () => {
     bundle.selection.select({
       category: bundle.params.activeCategory,
-      fileName: 'package.json',
+      fileName: '/home/mflorence99/lintel/package.json',
       pluginName: bundle.params.basePluginName
     });
     bundle.filter.filterRuleName('xxx');

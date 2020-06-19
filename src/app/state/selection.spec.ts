@@ -11,11 +11,11 @@ describe('SelectionState', () => {
   test('Selections can be made', () => {
     bundle.selection.select({ 
       category: bundle.params.activeCategory, 
-      fileName: 'package.json', 
+      fileName: '/home/mflorence99/lintel/package.json', 
       pluginName: bundle.params.basePluginName 
     });
     expect(bundle.selection.category).toEqual(bundle.params.activeCategory);
-    expect(bundle.selection.fileName).toEqual('package.json');
+    expect(bundle.selection.fileName).toEqual('/home/mflorence99/lintel/package.json');
     expect(bundle.selection.pluginName).toEqual(bundle.params.basePluginName);
   });
 

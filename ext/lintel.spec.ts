@@ -27,19 +27,21 @@ describe('VSCode extension', () => {
   }); 
 
   test('Correct HTML is produced at launch', done => {
+    activate(mockContext);
+    const activator = (vscode.commands.registerCommand as any).mock.calls[0][1];
     const panel = vscode.window.createWebviewPanel('lintel', 'Lintel', undefined);
     (panel.webview.html as any).then((html: string) => {
-      console.log(html);
-      expect(html.includes('<script>eslintFiles = { ".eslintrc.json": `{')).toBe(true);
+      const filePath = path.join(mockContext.extensionPath, '.eslintrc.json');
+      expect(html.includes(`<script>eslintFiles = { "${filePath}":`)).toBe(true);
       expect(html.includes('lintelVSCodeAPI = acquireVsCodeApi()')).toBe(true);
       done();
     });
-    activate(mockContext);
-    const cb = (vscode.commands.registerCommand as any).mock.calls[0][1];
-    cb();
+    activator();
   }); 
 
   test('Extension reacts to messages from webview', done => {
+    activate(mockContext);
+    const activator = (vscode.commands.registerCommand as any).mock.calls[0][1];
     const panel = vscode.window.createWebviewPanel('lintel', 'Lintel', undefined);
     (panel.webview.html as any).then((_: string) => {
       const post = (panel.webview.onDidReceiveMessage as any).mock.calls[0][0];
@@ -54,12 +56,11 @@ describe('VSCode extension', () => {
       expect(contents).toBe('{ }');
       done();
     });
-    activate(mockContext);
-    const cb = (vscode.commands.registerCommand as any).mock.calls[0][1];
-    cb();
+    activator();
   }); 
 
   test('Extension can be disposed', done => {
+    activate(mockContext);
     const panel = vscode.window.createWebviewPanel('lintel', 'Lintel', undefined);
     const watcher = vscode.workspace.createFileSystemWatcher(undefined);
     (panel.webview.html as any).then((_: string) => {
@@ -69,9 +70,6 @@ describe('VSCode extension', () => {
       expect(watcher.dispose).toHaveBeenCalled();
       done();
     });
-    activate(mockContext);
-    const cb = (vscode.commands.registerCommand as any).mock.calls[0][1];
-    cb();
   }); 
 
 });

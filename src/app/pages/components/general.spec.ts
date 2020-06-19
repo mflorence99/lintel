@@ -19,40 +19,40 @@ describe('GeneralComponent', () => {
   test('canDoSettings', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
-    component.selection.select({ fileName: 'package.json' });
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
     expect(component.canDoSettings()).toBe(true);
-    component.selection.select({ fileName: 'ext/.eslintrc.js' });
+    component.selection.select({ fileName: '/home/mflorence99/el-3270/.eslintrc.js' });
     expect(component.canDoSettings()).toBe(false);
   });
 
   test('editFile', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
-    component.editFile('package.json');
+    component.editFile('/home/mflorence99/lintel/package.json');
     const calls = lintelVSCodeAPI.postMessage.mock.calls;
     expect(calls.length).toBe(1);
     const message = calls[0][0];
     expect(message).toEqual({
       command: 'editFile',
-      fileName: 'package.json'
+      fileName: '/home/mflorence99/lintel/package.json'
     });
   });
 
   test('isConfigured', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
-    component.selection.select({ fileName: 'package.json' });
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
     expect(component.isConfigured('ecmaFeatures')).toBe(false);
-    component.selection.select({ fileName: 'src/app/.eslintrc.yaml' });
+    component.selection.select({ fileName: '/home/mflorence99/lintel/src/app/.eslintrc.yaml' });
     expect(component.isConfigured('ecmaFeatures')).toBe(true);
-    component.selection.select({ fileName: 'ext/.eslintrc.js' });
+    component.selection.select({ fileName: '/home/mflorence99/el-3270/.eslintrc.js' });
     expect(component.isConfigured('plugins')).toBe(true);
   });
 
   test('ngOnInit', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
-    component.selection.select({ fileName: 'package.json' });
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
     component.ngOnInit();
     let changes: any = { browser: false };
     component.generalForm.patchValue({ env: changes });

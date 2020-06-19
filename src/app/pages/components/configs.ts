@@ -24,6 +24,8 @@ export class ConfigsComponent implements AfterViewChecked {
 
   @Output() categorySelected = new EventEmitter<void>();
 
+  private prefix: string = this.utils.longestCommonPrefix(this.configs.fileNames);
+
   /** ctor */
   constructor(public configs: ConfigsState,
               public filter: FilterState,
@@ -87,6 +89,12 @@ export class ConfigsComponent implements AfterViewChecked {
       this.utils.nextTick(() => this.selection.select({ fileName }));
     }
     event.stopPropagation();
+  }
+
+  /** Shorten a file name */
+  shortenFileName(fileName: string): string {
+    return fileName.substring(this.prefix.length)
+      .replace(/\//g, '/\u200b');
   }
 
 }

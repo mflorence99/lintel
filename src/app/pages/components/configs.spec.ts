@@ -17,7 +17,7 @@ describe('ConfigsComponent', () => {
   test('colorForFile', () => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
-    expect(component.colorForFile('package.json')).toBe('var(--mat-green-a400)');
+    expect(component.colorForFile('/home/mflorence99/lintel/package.json')).toBe('var(--mat-green-a400)');
     expect(component.colorForFile('a/b/c.js')).toBe('var(--mat-blue-a400)');
     expect(component.colorForFile('xxx.cjs')).toBe('var(--mat-red-a400)');
     expect(component.colorForFile('ext/.eslintrc.yml')).toBe('var(--mat-yellow-a400)');
@@ -28,7 +28,7 @@ describe('ConfigsComponent', () => {
   test('iconForFile', () => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
-    expect(component.iconForFile('package.json')).toEqual(['fab', 'node-js']);
+    expect(component.iconForFile('/home/mflorence99/lintel/package.json')).toEqual(['fab', 'node-js']);
     expect(component.iconForFile('a/b/c.js')).toEqual(['fab', 'js']);
     expect(component.iconForFile('xxx.cjs')).toEqual(['far', 'file-code']);
     expect(component.iconForFile('ext/.eslintrc.yml')).toEqual(['far', 'file-code']);
@@ -39,7 +39,7 @@ describe('ConfigsComponent', () => {
   test('ngAfterViewChecked', done => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
-    component.selection.select({ fileName: 'package.json', pluginName: component.params.basePluginName, category: 'Best Practices' });
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: component.params.basePluginName, category: 'Best Practices' });
     component.filter.filterRuleName('no-label-var');
     component.ngAfterViewChecked();
     component.utils.nextTick(() => {
@@ -63,11 +63,17 @@ describe('ConfigsComponent', () => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
     component.selection.select({ fileName: 'xxx' });
-    component.selectFileName(new Event('click'), 'package.json');
+    component.selectFileName(new Event('click'), '/home/mflorence99/lintel/package.json');
     component.utils.nextTick(() => {
-      expect(component.selection.fileName).toEqual('package.json');
+      expect(component.selection.fileName).toEqual('/home/mflorence99/lintel/package.json');
       done();
     });
+  });
+
+  test('shortenFileName', () => {
+    const fixture = TestBed.createComponent(ConfigsComponent);
+    const component = fixture.componentInstance;
+    expect(component.shortenFileName('/home/mflorence99/lintel/package.json')).toEqual('lintel/\u200bpackage.json');
   });
 
 });

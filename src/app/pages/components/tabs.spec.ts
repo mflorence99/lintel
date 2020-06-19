@@ -18,7 +18,7 @@ describe('TabsComponent', () => {
     const fixture = TestBed.createComponent(TabsComponent);
     const component = fixture.componentInstance;
     // NOTE: need to fake setting of file
-    component.selection.select({ fileName: 'package.json' });
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
     component.selectPluginName(new Event('click'), component.params.basePluginName);
     expect(component.selection.pluginName).toEqual(component.params.basePluginName);
     expect(component.tabIndex).toEqual(0);
