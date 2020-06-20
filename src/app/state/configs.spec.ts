@@ -31,7 +31,8 @@ describe('ConfigsState', () => {
   });
 
   test('pluginNames are properly constructed', () => {
-    expect(bundle.configs.pluginNames.length).toEqual(8);
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    expect(bundle.configs.pluginNames.length).toEqual(10);
     expect(bundle.configs.pluginNames[0]).toEqual(bundle.params.basePluginName);
     expect(bundle.configs.pluginNames[1]).toEqual('@typescript-eslint');
   });

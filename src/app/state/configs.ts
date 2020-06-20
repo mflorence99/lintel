@@ -216,7 +216,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get pluginNames(): string[] {
-    const pluginNames = [this.params.basePluginName, ...(this.configuration?.plugins ?? [])];
+    const pluginNames = [this.params.basePluginName, ...(this.configuration?.plugins.slice().sort() ?? [])];
     if (!this.utils.isEmptyObject(this.unknownView))
       pluginNames.push(this.params.unknownPluginName);
     return pluginNames;
