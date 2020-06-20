@@ -26,7 +26,7 @@ export class TabsComponent {
 
   @ViewChild(SingleselectorComponent) 
   set more(m: SingleselectorComponent) {
-    m.registerOnChange(this.selectPluginName.bind(this));
+    m?.registerOnChange(this.selectPluginName.bind(this));
   }
 
   @Output() pluginSelected = new EventEmitter<void>();

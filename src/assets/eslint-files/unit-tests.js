@@ -323,6 +323,7 @@ eslintFiles = {
     },
     rules: {
       // no braces
+      "jest/no-existential-angst": "warn",
       "@typescript-eslint/brace-style": "off", // yep, really off
       curly: 0 + 1
     }
