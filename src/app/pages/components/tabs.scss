@@ -1,8 +1,23 @@
 :host {
-  display: block;
+  align-items: flex-start;
+  display: flex;
   margin-left: var(--rules-gutter);
 }
 
-.unknown {
-  color: var(--vscode-inputValidation-errorBorder);
+.tab {
+  border-bottom: 1px solid var(--vscode-settings-headerForeground);
+  color: var(--vscode-settings-headerForeground);
+  cursor: pointer;
+  opacity: var(--lintel-opacity-icon);
+  padding: 0 0.5rem 0.5rem 0.5rem;
+
+  &.selected {
+    opacity: 1;
+  }
+
+  &.unknown {
+    border-bottom: 1px solid var(--vscode-inputValidation-errorBorder);
+    color: var(--vscode-inputValidation-errorBorder);
+  }
+
 }

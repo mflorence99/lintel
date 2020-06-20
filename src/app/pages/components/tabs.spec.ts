@@ -19,10 +19,8 @@ describe('TabsComponent', () => {
     const component = fixture.componentInstance;
     // NOTE: need to fake setting of file
     component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
-    component.selectPluginName(new Event('click'), component.params.basePluginName);
+    component.selectPluginName(component.params.basePluginName);
     expect(component.selection.pluginName).toEqual(component.params.basePluginName);
-    expect(component.tabIndex).toEqual(0);
-    component.onTabSelect(1);
     expect(component.selection.pluginName).toEqual('@typescript-eslint');
   });
 

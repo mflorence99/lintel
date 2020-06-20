@@ -1,16 +1,9 @@
-<mat-tab-group
-  (selectedIndexChange)="onTabSelect($event)"
-  [selectedIndex]="tabIndex">
+<div
+  (click)="selectPluginName(pluginName)"
+  [ngClass]="{selected: pluginName === selection.pluginName, unknown: pluginName === params.unknownPluginName}"
+  *ngFor="let pluginName of configs.pluginNames"
+  class="tab">
 
-  <mat-tab
-    *ngFor="let pluginName of configs.pluginNames">
+  {{ pluginName }} 
 
-    <ng-template mat-tab-label>
-      <span [ngClass]="{unknown: pluginName === params.unknownPluginName}">
-        {{ pluginName }} 
-      </span>
-    </ng-template>
-
-  </mat-tab>
-
-</mat-tab-group>
+</div>
