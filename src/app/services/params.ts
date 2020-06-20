@@ -11,57 +11,70 @@ export class Params {
 
   // TODO: this belongs SOMEWHERE, we just don't know where yet
   inherits = {
+    '@angular-eslint': {
+      'plugin:@angular-eslint/recommended': {
+        recommended: 'truthy'
+      }
+    },
     '@typescript-eslint': {
       'plugin:@typescript-eslint/eslint-recommended': {
-        'extendsBaseRule': 'truthy'
+        extendsBaseRule: 'truthy'
       },
       'plugin:@typescript-eslint/recommended': {
-        'recommended': 'truthy',
-        'requiresTypeChecking': 'falsy'
+        recommended: 'truthy',
+        requiresTypeChecking: 'falsy'
       },
       'plugin:@typescript-eslint/recommended-requiring-type-checking': {
-        'recommended': 'truthy',
-        'requiresTypeChecking': 'truthy'
+        recommended: 'truthy',
+        requiresTypeChecking: 'truthy'
       }
     },
-    'eslint': {
+    compat: {
+      'plugin:compat/recommended': {
+        recommended: 'truthy'
+      }
+    },
+    eslint: {
       'eslint:recommended': {
-        'recommended': 'truthy'
+        recommended: 'truthy'
       }
     },
-    'jest': {
+    jest: {
       'plugin:jest/recommended': {
-        'recommended': 'truthy'
+        recommended: 'truthy'
       }
     },
-    'lodash': {
+    lodash: {
       'plugin:lodash/recommended': {
-        'url': 'truthy'
+        url: 'truthy'
       }
     },
     'lodash-fp': {
       'plugin:lodash-fp/recommended': {
-        'recommended': 'truthy'
+        recommended: 'truthy'
       }
     },
-    'node': {
+    node: {
       'plugin:node/recommended': {
-        'recommended': 'truthy'
+        recommended: 'truthy'
       }
     },
-    'react': {
+    react: {
       'plugin:react/recommended': {
-        'recommended': 'truthy'
+        recommended: 'truthy'
       }
     },
-    'unicorn': {
+    sonarjs: {
+      'plugin:react/recommended': { }
+    },
+    unicorn: {
       'plugin:unicorn/recommended': {
-        'url': 'truthy'
+        url: 'truthy'
       }
     },
-    'vue': {
+    vue: {
       'plugin:vue/recommended': {
-        'recommended': 'undefined'
+        recommended: 'undefined'
       }
     },
   };

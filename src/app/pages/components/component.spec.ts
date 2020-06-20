@@ -13,6 +13,7 @@ import { FilesState } from '../../state/files';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
+import { PipesModule } from '../../pipes/module';
 import { RulesState } from '../../state/rules';
 import { SchemaState } from '../../state/schema';
 import { TestBed } from '@angular/core/testing';
@@ -31,6 +32,7 @@ export function prepare(): void {
       DirectivesModule,
       NgxsModule.forRoot(states),
       NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
+      PipesModule
     ]
   }).compileComponents();
 

@@ -30,6 +30,7 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:@angular-eslint/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
@@ -78,6 +79,7 @@
     }
   },
   "plugins": [
+    "@angular-eslint",
     "@typescript-eslint"
   ],
   "reportUnusedDisableDirectives": true,
@@ -245,6 +247,7 @@
         "before": true
       }
     ],
+    "max-len": "off",
     "no-empty": "off",
     "no-prototype-builtins": "off",
     "no-unused-vars": "off",

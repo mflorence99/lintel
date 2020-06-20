@@ -7,7 +7,7 @@
     {
       "description": "Jest Coverage",
       "href": "",
-      "url": "https://img.shields.io/badge/coverage-98.72%25-green"
+      "url": "https://img.shields.io/badge/coverage-98.63%25-green"
     },
     {
       "description": "License: MIT",
@@ -55,6 +55,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.4",
     "@angular-eslint/builder": "0.0.1-alpha.29",
+    "@angular-eslint/eslint-plugin": "0.0.1-alpha.32",
     "@angular-eslint/schematics": "0.0.1-alpha.29",
     "@angular-eslint/template-parser": "0.0.1-alpha.29",
     "@angular/cli": "~9.1.4",
@@ -85,11 +86,13 @@
     "@typescript-eslint/parser": "^2.31.0",
     "angular2-uuid": "^1.1.1",
     "eslint": "^6.8.0",
+    "eslint-plugin-compat": "^3.7.0",
     "eslint-plugin-jest": "^23.9.0",
     "eslint-plugin-lodash": "^7.1.0",
     "eslint-plugin-lodash-fp": "^2.2.0-a1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-sonarjs": "^0.5.0",
     "eslint-plugin-unicorn": "^20.1.0",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^25.2.1",

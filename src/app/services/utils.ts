@@ -42,17 +42,22 @@ export class Utils {
 
   /** Find the longest common prefix from a list */
   longestCommonPrefix(strings: string[]): string {
-    const first = strings[0] || '';
-    let commonLength = first.length;
-    for (let i = 1; i < strings.length; ++i) {
-      for (let j = 0; j < commonLength; ++j) {
-        if (strings[i].charAt(j) !== first.charAt(j)) {
-          commonLength = j;
-          break;
+    if (strings.length === 1) {
+      const ix = strings[0].lastIndexOf('/');
+      return strings[0].substring(0, ix + 1);
+    } else {
+      const first = strings[0] || '';
+      let commonLength = first.length;
+      for (let i = 1; i < strings.length; ++i) {
+        for (let j = 0; j < commonLength; ++j) {
+          if (strings[i].charAt(j) !== first.charAt(j)) {
+            commonLength = j;
+            break;
+          }
         }
       }
-    }
-    return first.slice(0, commonLength);    
+      return first.slice(0, commonLength);  
+    }  
   }
 
   /** Run func tion on next tick */

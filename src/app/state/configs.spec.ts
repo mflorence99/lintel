@@ -34,7 +34,7 @@ describe('ConfigsState', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
     expect(bundle.configs.pluginNames.length).toBeGreaterThanOrEqual(5);
     expect(bundle.configs.pluginNames[0]).toEqual(bundle.params.basePluginName);
-    expect(bundle.configs.pluginNames[1]).toEqual('@typescript-eslint');
+    expect(bundle.configs.pluginNames[1]).toEqual('@angular-eslint');
   });
 
   test('categories are properly constructed', () => {

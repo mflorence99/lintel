@@ -87,13 +87,16 @@ eslintFiles = {
       },
       "extends": [
         "eslint:recommended",
+        "plugin:compat/recommended",
         "plugin:jest/recommended",
         "plugin:lodash/recommended",
         "plugin:lodash-fp/recommended",
         "plugin:node/recommended",
         "plugin:react/recommended",
+        "plugin:sonarjs/recommended",
         "plugin:unicorn/recommended",
         "plugin:vue/recommended",
+        "plugin:@angular-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
@@ -115,13 +118,16 @@ eslintFiles = {
         "sourceType": "module"
       },
       "plugins": [
+        "compat",
         "jest",
         "lodash",
         "lodash-fp",
         "node",
         "react",
+        "sonarjs",
         "unicorn",
         "vue",
+        "@angular-eslint",
         "@typescript-eslint"
       ],
       "reportUnusedDisableDirectives": true,

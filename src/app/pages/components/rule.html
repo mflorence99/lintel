@@ -30,7 +30,10 @@
     </span>
   </span>
 
-  {{ ruleDigest.description }}
+  <span
+    [innerHTML]="ruleDigest.description | lintelLinkify">
+  </span>
+
 </div>
 
 <div 

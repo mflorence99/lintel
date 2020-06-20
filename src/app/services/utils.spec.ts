@@ -66,6 +66,14 @@ describe('Utils', () => {
     expect(utils.longestCommonPrefix(strings)).toBe('/home/');
   });
 
+  test('longestCommonPrefix', () => {
+    const strings = [
+      '/home/experiments/el-3270/.eslintrc.json'
+    ];
+    const utils: Utils = services[0];
+    expect(utils.longestCommonPrefix(strings)).toBe('/home/experiments/el-3270/');
+  });
+
   test('nextTick works asynchronously', done => {
     const num = 42;
     const utils: Utils = services[0];

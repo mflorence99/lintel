@@ -5,6 +5,7 @@ import { DirectivesModule } from '../../directives/module';
 import { FilterComponent } from './filter';
 import { GeneralComponent } from './general';
 import { NgModule } from '@angular/core';
+import { PipesModule } from '../../pipes/module';
 import { RuleComponent } from './rule';
 import { RulesComponent } from './rules';
 import { ScrollerComponent } from './scroller';
@@ -37,7 +38,8 @@ const COMPONENTS = [
   imports: [
     BarrelModule,
     CommonComponentsModule,
-    DirectivesModule
+    DirectivesModule,
+    PipesModule
   ]
 
 })

@@ -10,6 +10,7 @@ import { DirectivesModule } from '../../directives/module';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
+import { PipesModule } from '../../pipes/module';
 import { RootPageComponent } from './page';
 import { TestBed } from '@angular/core/testing';
 
@@ -32,6 +33,7 @@ describe('RootPageComponent', () => {
         DirectivesModule,
         NgxsModule.forRoot(states),
         NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
+        PipesModule
       ]
     }).compileComponents();
 

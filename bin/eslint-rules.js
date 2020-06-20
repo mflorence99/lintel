@@ -3,13 +3,16 @@ const fs = require('fs');
 const CLIEngine = require('eslint').CLIEngine;
 
 const plugins = [
+  '@angular-eslint',
   '@typescript-eslint',
+  'compat',
   'eslint',
   'jest',
   'lodash',
   'lodash-fp',
   'node',
   'react',
+  'sonarjs',
   'unicorn',
   'vue'
 ]

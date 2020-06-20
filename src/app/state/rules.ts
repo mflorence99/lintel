@@ -343,6 +343,8 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
         Object.entries(rules)
           // NOTE: take care of obvious data noise case
           .map(([_, rule]: [string, Rule]) => {
+            if (this.utils.isEmptyObject(rule.meta))
+              rule.meta = { } as any;
             if (this.utils.isEmptyObject(rule.meta.schema))
               rule.meta.schema = [];
             return rule;
