@@ -22967,6 +22967,82 @@ eslintRules = {
       }
     }
   },
+  "react-hooks": {
+    "react-hooks/rules-of-hooks": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforces the Rules of Hooks",
+          "category": "Possible Errors",
+          "recommended": true,
+          "url": "https://reactjs.org/docs/hooks-rules.html"
+        }
+      }
+    },
+    "react-hooks/exhaustive-deps": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "verifies the list of dependencies for Hooks like useEffect and similar",
+          "category": "Best Practices",
+          "recommended": true,
+          "url": "https://github.com/facebook/react/issues/14920"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "enableDangerousAutofixThisMayCauseInfiniteLoops": false,
+            "properties": {
+              "additionalHooks": {
+                "type": "string"
+              },
+              "enableDangerousAutofixThisMayCauseInfiniteLoops": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "react-native": {
+    "react-native/no-unused-styles": {},
+    "react-native/no-inline-styles": {},
+    "react-native/no-color-literals": {},
+    "react-native/sort-styles": {},
+    "react-native/split-platform-components": {},
+    "react-native/no-raw-text": {},
+    "react-native/no-single-element-style-arrays": {
+      "meta": {
+        "docs": {
+          "description": "Disallow single element style arrays. These cause unnecessary re-renders as the identity of the array always changes",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": ""
+        },
+        "fixable": "code"
+      }
+    }
+  },
+  "react-redux": {
+    "react-redux/connect-prefer-minimum-two-arguments": {},
+    "react-redux/connect-prefer-named-arguments": {},
+    "react-redux/mapDispatchToProps-prefer-shorthand": {},
+    "react-redux/mapDispatchToProps-returns-object": {},
+    "react-redux/mapDispatchToProps-prefer-parameters-names": {},
+    "react-redux/mapStateToProps-no-store": {},
+    "react-redux/mapStateToProps-prefer-hoisted": {},
+    "react-redux/mapStateToProps-prefer-parameters-names": {},
+    "react-redux/no-unused-prop-types": {
+      "meta": {
+        "messages": {},
+        "fixable": "code"
+      }
+    },
+    "react-redux/prefer-separate-component-file": {}
+  },
   "sonarjs": {
     "sonarjs/cognitive-complexity": {
       "meta": {

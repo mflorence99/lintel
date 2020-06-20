@@ -12,6 +12,9 @@ const plugins = [
   'lodash-fp',
   'node',
   'react',
+  'react-hooks',
+  'react-native',
+  'react-redux',
   'sonarjs',
   'unicorn',
   'vue'

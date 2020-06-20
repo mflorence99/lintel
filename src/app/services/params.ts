@@ -64,6 +64,14 @@ export class Params {
         recommended: 'truthy'
       }
     },
+    'react-hooks': {
+      'plugin:react/recommended': {
+        recommended: 'truthy'
+      }
+    },
+    'react-redux': {
+      'plugin:react/recommended': { }
+    },
     sonarjs: {
       'plugin:react/recommended': { }
     },
