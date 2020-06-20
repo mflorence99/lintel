@@ -1,23 +1,35 @@
 :host {
   align-items: flex-start;
   display: flex;
+  justify-content: space-between;
   margin-left: var(--rules-gutter);
 }
 
-.tab {
-  border-bottom: 1px solid var(--vscode-settings-headerForeground);
-  color: var(--vscode-settings-headerForeground);
-  cursor: pointer;
-  opacity: var(--lintel-opacity-icon);
-  padding: 0 0.5rem 0.5rem 0.5rem;
+.more {
+  margin-left: 1rem;
+}
 
-  &.selected {
-    opacity: 1;
-  }
+.tabs {
+  align-items: flex-start;
+  display: flex;
 
-  &.unknown {
-    border-bottom: 1px solid var(--vscode-inputValidation-errorBorder);
-    color: var(--vscode-inputValidation-errorBorder);
+  .tab {
+    border-bottom: 1px solid var(--vscode-settings-headerForeground);
+    color: var(--vscode-settings-headerForeground);
+    cursor: pointer;
+    opacity: var(--lintel-opacity-icon);
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    white-space: nowrap;
+
+    &.selected {
+      opacity: 1;
+    }
+
+    &.unknown {
+      border-bottom: 1px solid var(--vscode-inputValidation-errorBorder);
+      color: var(--vscode-inputValidation-errorBorder);
+    }
+
   }
 
 }

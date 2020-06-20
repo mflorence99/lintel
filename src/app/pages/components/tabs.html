@@ -1,9 +1,22 @@
-<div
-  (click)="selectPluginName(pluginName)"
-  [ngClass]="{selected: pluginName === selection.pluginName, unknown: pluginName === params.unknownPluginName}"
-  *ngFor="let pluginName of configs.pluginNames"
-  class="tab">
+<div  
+  class="tabs">
 
-  {{ pluginName }} 
+  <div
+    (click)="selectPluginName(pluginName)"
+    [ngClass]="{selected: pluginName === selection.pluginName, unknown: pluginName === params.unknownPluginName}"
+    *ngFor="let pluginName of inTab"
+    class="tab">
+
+    {{ pluginName }} 
+
+  </div>
 
 </div>
+
+<lintel-singleselector
+  [options]="inMore"
+  [value]="selection.pluginName"
+  *ngIf="inMore.length"
+  class="more"
+  placeholder="More...">
+</lintel-singleselector>

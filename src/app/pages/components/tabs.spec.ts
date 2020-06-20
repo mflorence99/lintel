@@ -19,8 +19,7 @@ describe('TabsComponent', () => {
     const component = fixture.componentInstance;
     // NOTE: need to fake setting of file
     component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
-    component.selectPluginName(component.params.basePluginName);
-    expect(component.selection.pluginName).toEqual(component.params.basePluginName);
+    component.selectPluginName('@typescript-eslint');
     expect(component.selection.pluginName).toEqual('@typescript-eslint');
   });
 

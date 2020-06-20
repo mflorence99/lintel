@@ -66,6 +66,8 @@ export class Params {
     },
   };
 
+  maxNumTabs = 8;
+
   searchParams = {
     freshStart: false
   };
