@@ -36,7 +36,7 @@ plugins.forEach(plugin => {
 
   const obj = { };
   rules.forEach((value, key) => {
-    // TODO: we always get eslint:all -- why??
+    // NOTE: we always get eslint:all -- why??
     if (plugin.startsWith('eslint') || key.includes('/'))
       obj[key] = value;
   });

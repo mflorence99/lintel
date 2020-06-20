@@ -17,6 +17,8 @@ import { Utils } from '../services/utils';
 import { patch } from '@ngxs/store/operators';
 import { updateItems } from './operators';
 
+declare const lintelVSCodeAPI;
+
 export type View = Record<string, [Rule, Settings]>;
 
 export type CategoryView = Record<string, View>;
@@ -119,6 +121,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         return acc;
       }, { });
     this.ctx.setState(this.normalize(configs));
+    // get the latest rules
+    Object.entries(this.snapshot)
+      .forEach(([fileName, configuration]) => {
+        const plugins = configuration?.plugins;
+        if (plugins?.length)
+          lintelVSCodeAPI.postMessage({ command: 'getRules', fileName, plugins });
+      });
     // only override saved selection on a fresh start
     if (this.params.searchParams.freshStart 
       || !this.selection.fileName

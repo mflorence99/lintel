@@ -49,7 +49,7 @@
     }
   },
   "dependencies": {
-    "@types/vscode": "^1.44.0"
+    "eslint": "^6.8.0"
   },
   "description": "VSCode extension to provide a GUI for building and testing ESLint configurations",
   "devDependencies": {
@@ -82,10 +82,10 @@
     "@types/js-yaml": "^3.12.4",
     "@types/json5": "0.0.30",
     "@types/node": "^12.11.1",
+    "@types/vscode": "^1.44.0",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "angular2-uuid": "^1.1.1",
-    "eslint": "^6.8.0",
     "eslint-plugin-compat": "^3.7.0",
     "eslint-plugin-jest": "^23.9.0",
     "eslint-plugin-lodash": "^7.1.0",
@@ -139,7 +139,7 @@
   "scripts": {
     "build": "ng --prod build && tsc -p tsconfig.ext.json",
     "build:ext": "tsc -p tsconfig.ext.json -w",
-    "build:src": "ng build",
+    "build:src": "ng --watch build",
     "clean:caches": "jest --clearCache",
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
     "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",

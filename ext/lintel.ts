@@ -1,3 +1,4 @@
+import * as eslint from 'eslint';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
@@ -51,7 +52,8 @@ export function activate(context: vscode.ExtensionContext): void {
 
       // listen for messages from Lintel
       currentPanel.webview.onDidReceiveMessage(message => {
-        let debounceTimeout, fileSaver;
+        let cli, debounceTimeout, fileSaver;
+        const rules = { };
         switch (message.command) {
 
           case 'bootFail':
@@ -60,6 +62,27 @@ export function activate(context: vscode.ExtensionContext): void {
 
           case 'editFile':
             vscode.window.showTextDocument(vscode.Uri.parse(message.fileName), { viewColumn: vscode.ViewColumn.Beside });
+            break;
+
+          case 'getRules':
+            try {
+              cli = new eslint.CLIEngine({
+                baseConfig: { plugins: message.plugins },
+                // NOTE: we're going to use the node_modules of the 
+                // workspace itself, not of the extension!!
+                cwd: path.dirname(message.fileName),
+                useEslintrc: false
+              });
+              // NOTE: we already have all the ESLint rules,
+              // which the CLI as coded above always returns
+              cli.getRules().forEach((value, key) => {
+                if (key.includes('/'))
+                  rules[key] = value;
+              });
+              currentPanel.webview.postMessage({ command: 'rules', rules });
+            } catch (error) {
+              vscode.window.showErrorMessage(error);
+            }
             break;
 
           case 'openFile':
