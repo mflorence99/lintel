@@ -121,9 +121,12 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         return acc;
       }, { });
     this.ctx.setState(this.normalize(configs));
-    // get the latest rules
+    // get the latest extensions & rules
     Object.entries(this.snapshot)
       .forEach(([fileName, configuration]) => {
+        const extensions = configuration?.extends;
+        if (extensions?.length)
+          lintelVSCodeAPI.postMessage({ command: 'getExtensions', fileName, extensions });
         const plugins = configuration?.plugins;
         if (plugins?.length)
           lintelVSCodeAPI.postMessage({ command: 'getRules', fileName, plugins });
