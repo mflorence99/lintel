@@ -142,6 +142,7 @@
     "build:src": "ng --watch build",
     "clean:caches": "jest --clearCache",
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
+    "extensions": "node bin/eslint-extensions.js",
     "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",
     "ng": "ng",
     "package": "npm run build && vsce package",

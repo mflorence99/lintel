@@ -1,3 +1,4 @@
+import '../../assets/eslint-extensions.js';
 import '../../assets/eslint-files/unit-tests.js';
 import '../../assets/eslint-rules.js';
 import '../../assets/eslint-schema.js';
@@ -5,6 +6,7 @@ import '../../assets/vscode-scripts.js';
 import '../../assets/vscode-startup.js';
 
 import { ConfigsState } from '../state/configs';
+import { ExtensionsState } from '../state/extensions';
 import { FilesState } from '../state/files';
 import { FilterState } from '../state/filter';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
@@ -24,6 +26,7 @@ declare let lintelVSCodeAPI;
 
 export interface Bundle {
   configs?: ConfigsState;
+  extensions?: ExtensionsState;
   files?: FilesState;
   filter?: FilterState;
   params?: Params;
@@ -54,6 +57,7 @@ export function prepare(): Bundle {
   };
 
   bundle.configs = TestBed.inject(ConfigsState);
+  bundle.extensions = TestBed.inject(ExtensionsState);
   bundle.files = TestBed.inject(FilesState);
   bundle.filter = TestBed.inject(FilterState);
   bundle.params = TestBed.inject(Params);
@@ -66,6 +70,7 @@ export function prepare(): Bundle {
   bundle.files.initialize();
   bundle.configs.initialize();
   bundle.rules.initialize();
+  bundle.extensions.initialize();
   bundle.schema.initialize();
 
   return bundle;

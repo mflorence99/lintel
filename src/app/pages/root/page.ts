@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { ElementRef } from '@angular/core';
+import { ExtensionsState } from '../../state/extensions';
 import { FilesState } from '../../state/files';
 import { Params } from '../../services/params';
 import { RulesState } from '../../state/rules';
@@ -25,6 +26,7 @@ export class RootPageComponent {
 
   /** ctor */
   constructor(public configs: ConfigsState,
+              public extensions: ExtensionsState,
               public files: FilesState,
               private host: ElementRef,
               public params: Params,
@@ -34,6 +36,7 @@ export class RootPageComponent {
     // NOTE: must do files first
     this.files.initialize();
     this.configs.initialize();
+    this.extensions.initialize();
     this.rules.initialize();
     this.schema.initialize();
   }

@@ -1,5 +1,6 @@
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
+import { ExtensionsState } from './extensions';
 import { FilesState } from './files';
 import { FilterState } from './filter';
 import { Injectable } from '@angular/core';
@@ -27,7 +28,7 @@ export interface Configuration {
   ecmaFeatures?: Record<string, boolean>;
   env?: Record<string, boolean>;
   extends?: string[];
-  globals?: Record<string, boolean | string>;
+  globals?: Record<string, boolean | number | string>;
   ignorePatterns?: string[];
   noInlineConfig?: boolean;
   parser?: string;
@@ -77,7 +78,8 @@ export type Settings = [Level, ...any[]];
 export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   /** ctor */
-  constructor(private files: FilesState,
+  constructor(private extensions: ExtensionsState,
+              private files: FilesState,
               private filter: FilterState,
               private params: Params,
               private rules: RulesState, 
@@ -203,7 +205,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .filter(ruleName => this.isRuleInherited(ruleName))
       .sort()
       .reduce((acc, ruleName) => {
-        acc[ruleName] = [rules[ruleName], this.settingsForInherited(rules[ruleName])];
+        acc[ruleName] = [rules[ruleName], null];
         return acc;
       }, { });
   }
@@ -218,7 +220,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         const category = this.normalizeCategory(rules[ruleName].meta?.docs?.category);
         if (!acc[category])
           acc[category] = { };
-        acc[category][ruleName] = [rules[ruleName], this.settingsForInherited(rules[ruleName])];
+        acc[category][ruleName] = [rules[ruleName], null];
         return acc;
       }, { });
   }
@@ -263,8 +265,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return {
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
-      // @see settingsForInherited below
-      inherited: settings?.['_inherited'],
+      inherited: false,
       level: settings?.[0] || 'off',
       recommended: rule?.meta?.docs?.recommended,
       replacedBy: rule?.meta?.replacedBy ?? [],
@@ -286,26 +287,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return !this.filter.snapshot.ruleNameFilter || ruleName.includes(this.filter.snapshot.ruleNameFilter);
   }
 
-  private isRuleInherited(ruleName: string): boolean {
-    const extensions = this.snapshot[this.selection.fileName]?.extends ?? [];
-    const inherits = this.params.inherits[this.selection.pluginName] ?? { };
-    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
-    return Object.keys(inherits)
-      .filter(extension => extensions.includes(extension))
-      .some(extension => {
-        return Object.keys(inherits[extension])
-          .every(flag => {
-            const state = rules[ruleName]?.meta?.docs?.[flag];
-            const test = inherits[extension][flag];
-            if (test === 'truthy')
-              return !!state;
-            else if (test === 'falsy')
-              return !state;
-            else if (test === 'undefined')
-              return state === undefined;
-            else state;
-          });
-      });
+  private isRuleInherited(_): boolean {
+    // TODO: dummy
+    return false;
   }
 
   private normalize(configs: ConfigsStateModel): ConfigsStateModel {
@@ -332,7 +316,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         if (typeof project === 'string')
           model[fileName].parserOptions.project = [project];
         // also very convenient to normalize global values
-        if (configuration.globals) 
+        if (configuration.globals) {
           model[fileName].globals = Object.keys(configuration.globals)
             .reduce((acc, key) => {
               if ((configuration.globals[key] === true) 
@@ -344,6 +328,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
               else acc[key] = configuration.globals[key];
               return acc;
             }, { });
+        }
       });
     return model;
   }
@@ -359,19 +344,6 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .split(' ')
       .map(word => `${word[0].toUpperCase()}${word.slice(1)}`)
       .join(' ');
-  }
-
-  private settingsForInherited(rule: Rule): Settings {
-    let level;
-    const recommended = rule?.meta?.docs?.recommended;
-    const type = rule?.meta?.type;
-    if (!recommended || recommended === true)
-      level = (type === 'problem') ? 'error' : 'warn';
-    else level = recommended;
-    const settings: Settings = [level];
-    // fake inherited property
-    settings['_inherited'] = true;
-    return settings;
   }
 
 }

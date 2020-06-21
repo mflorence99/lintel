@@ -24,8 +24,8 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
     extensions
       .filter(extensionName => extensionName.startsWith('plugin:'))
       .forEach(extensionName => {
-        let config = extensionCache[extensionName];
-        if (!config) {
+        let extension = extensionCache[extensionName];
+        if (!extension) {
           try {
             const parts = extensionName.substring(7).split('/');
             let moduleName;
@@ -36,15 +36,15 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
             } else moduleName = `eslint-plugin-${parts[0]}`;
             const configName = parts[parts.length - 1];
             const modulePath = moduleLoader.createRequire(fileName).resolve(moduleName);
-            config = require(modulePath)?.configs[configName];
-            extensionCache[extensionName] = config;
+            extension = require(modulePath)?.configs[configName];
+            extensionCache[extensionName] = extension;
           } catch (error) { 
             // TODO: telemetry on error
             console.log(error);
           } 
         }
-        if (config && Object.keys(config).length)
-          currentPanel.webview.postMessage({ command: 'extensions', extensionName, config });
+        if (extension && Object.keys(extension).length)
+          currentPanel.webview.postMessage({ command: 'extension', extension: { [extensionName]: extension } });
       });
   };
 
@@ -75,7 +75,7 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
         }
       }
       if (rules && Object.keys(rules).length)
-        currentPanel.webview.postMessage({ command: 'rules', pluginName, rules });
+        currentPanel.webview.postMessage({ command: 'rules', rules: { [pluginName]: rules } });
     });
   };
 

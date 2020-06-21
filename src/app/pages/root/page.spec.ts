@@ -1,3 +1,4 @@
+import '../../../assets/eslint-extensions.js';
 import '../../../assets/eslint-files/unit-tests.js';
 import '../../../assets/eslint-rules.js';
 import '../../../assets/eslint-schema.js';
