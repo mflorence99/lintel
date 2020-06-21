@@ -1,5 +1,6 @@
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
+import { Extension } from './extensions';
 import { ExtensionsState } from './extensions';
 import { FilesState } from './files';
 import { FilterState } from './filter';
@@ -194,6 +195,33 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       }, this.filter.snapshot.showInheritedRules ? this.inheritedCategoryView : { });
   }
 
+  @Computed() get extension(): Extension {
+    const extensionNames = this.configuration.extends ?? [];
+    return extensionNames
+      .map(extensionName => this.extensions.snapshot[extensionName])
+      .filter(extension => !!extension)
+      .reduce((acc, extension) => {
+        acc.env = Object.assign(acc.env ?? { }, extension.env ?? { });
+        acc.globals = Object.assign(acc.globals ?? { }, extension.globals ?? { });
+        acc.plugins = Array.from(new Set([...acc.plugins ?? [], ...extension.plugins ?? []]));
+        acc.rules = Object.assign(acc.rules ?? { }, extension.rules ?? { });
+        return acc;
+      }, {});
+  }
+
+  @Computed() get extensionRules(): Record<string, Settings> {
+    const filtered = Object.entries(this.extension?.rules ?? { })
+      .filter(([ruleName, _]) => {
+        if (this.selection.pluginName === this.params.basePluginName)
+          return !ruleName.includes('/');
+        else if (ruleName.includes('/')) {
+          const [pluginName] = ruleName.split('/');
+          return pluginName === this.selection.pluginName;
+        }
+      });
+    return Object.fromEntries(filtered);
+  }
+
   @Computed() get fileNames(): string[] {
     return Object.keys(this.snapshot);
   }
@@ -202,10 +230,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
-      .filter(ruleName => this.isRuleInherited(ruleName))
+      .filter(ruleName => !!this.extensionRules[ruleName])
       .sort()
       .reduce((acc, ruleName) => {
-        acc[ruleName] = [rules[ruleName], null];
+        acc[ruleName] = [rules[ruleName], this.extensionRules[ruleName]];
         return acc;
       }, { });
   }
@@ -214,13 +242,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
-      .filter(ruleName => this.isRuleInherited(ruleName))
+      .filter(ruleName => !!this.extensionRules[ruleName])
       .sort()
       .reduce((acc, ruleName) => {
         const category = this.normalizeCategory(rules[ruleName].meta?.docs?.category);
         if (!acc[category])
           acc[category] = { };
-        acc[category][ruleName] = [rules[ruleName], null];
+        acc[category][ruleName] = [rules[ruleName], this.extensionRules[ruleName]];
         return acc;
       }, { });
   }
@@ -265,7 +293,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return {
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
-      inherited: false,
+      inherited: this.extensionRules[ruleName] && !this.configuration.rules[ruleName],
       level: settings?.[0] || 'off',
       recommended: rule?.meta?.docs?.recommended,
       replacedBy: rule?.meta?.replacedBy ?? [],

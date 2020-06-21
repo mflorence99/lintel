@@ -13,7 +13,7 @@
   }
 
   &.inherited {
-    opacity: var(--lintel-opacity-icon);
+    border-right: 2px solid var(--vscode-minimapGutter-addedBackground);
   }
 
   &.unknown {

@@ -2,7 +2,7 @@ import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Payload } from '@ngxs-labs/data/decorators';
-import { Rule } from './rules';
+import { Settings } from './configs';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
@@ -16,7 +16,7 @@ export interface Extension {
   env?: Record<string, boolean>;
   globals?: Record<string, boolean | number | string>;
   plugins?: string[];
-  rules?: Record<string, Rule>;
+  rules?: Record<string, Settings>;
 }
 
 export type ExtensionsStateModel = Record<string, Extension>;
