@@ -91,6 +91,14 @@ describe('ConfigsState', () => {
       })
     );
   });
+
+  test('isPluginFiltered', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
+    bundle.filter.filterRuleName('class');
+    expect(bundle.configs.isPluginFiltered('eslint')).toBe(true);
+    expect(bundle.configs.isPluginFiltered('@angular-eslint')).toBe(true);
+    expect(bundle.configs.isPluginFiltered('jest')).toBe(false);
+  });
   
   test('changeConfiguration', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });

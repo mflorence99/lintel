@@ -1,22 +1,27 @@
-<div  
-  class="tabs">
+<ng-container
+  *ngIf="whichPlugins() as which">
 
-  <div
-    (click)="selectPluginName(pluginName)"
-    [ngClass]="{selected: pluginName === selection.pluginName, unknown: pluginName === params.unknownPluginName}"
-    *ngFor="let pluginName of inTab"
-    class="tab">
+  <div  
+    class="tabs">
 
-    {{ pluginName }} 
+    <div
+      (click)="selectPluginName(pluginName)"
+      [ngClass]="{selected: pluginName === selection.pluginName, unknown: pluginName === params.unknownPluginName}"
+      *ngFor="let pluginName of which.inTab"
+      class="tab">
+
+      {{ pluginName }} 
+
+    </div>
 
   </div>
 
-</div>
+  <lintel-singleselector
+    [options]="which.inMore"
+    [value]="selection.pluginName"
+    *ngIf="which.inMore.length"
+    class="more"
+    placeholder="More...">
+  </lintel-singleselector>
 
-<lintel-singleselector
-  [options]="inMore"
-  [value]="selection.pluginName"
-  *ngIf="inMore.length"
-  class="more"
-  placeholder="More...">
-</lintel-singleselector>
+</ng-container>

@@ -205,7 +205,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         acc.plugins = Array.from(new Set([...acc.plugins ?? [], ...extension.plugins ?? []]));
         acc.rules = Object.assign(acc.rules ?? { }, extension.rules ?? { });
         return acc;
-      }, {});
+      }, { });
   }
 
   @Computed() get extensionSettings(): Record<string, Settings> {
@@ -245,7 +245,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .sort()
       .reduce((acc, ruleName) => {
         const category = this.normalizeCategory(rules[ruleName].meta?.docs?.category);
-        acc[category] = acc[category] ?? {};
+        acc[category] = acc[category] ?? { };
         acc[category][ruleName] = [rules[ruleName], this.extensionSettings[ruleName]];
         return acc;
       }, { });
@@ -256,7 +256,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get pluginNames(): string[] {
-    const pluginNames = [this.params.basePluginName, ...(this.configuration?.plugins?.slice().sort() ?? [])];
+    const uniqueNames = new Set([...this.configuration?.plugins ?? [], ...this.extension?.plugins ?? []]); 
+    const pluginNames = [this.params.basePluginName, ...Array.from(uniqueNames).sort()];
     if (!this.utils.isEmptyObject(this.unknownView))
       pluginNames.push(this.params.unknownPluginName);
     return pluginNames;
@@ -287,6 +288,26 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   // public methods
 
+  isPluginFiltered(pluginName: string): boolean {
+    const filter = this.filter.snapshot.ruleNameFilter;
+    const ruleMatcher = (ruleName): boolean => {
+      const [head, tail] = ruleName.split('/');
+      return (head === pluginName) && tail.includes(filter);
+    };
+    if (!filter || (pluginName === this.params.basePluginName))
+      return true;
+    else if (Object.keys(this.configuration.rules).some(ruleMatcher))
+      return true;
+    else if (Object.keys(this.extension.rules).some(ruleMatcher))
+      return true;
+    else return false;
+  }
+
+  isRuleFiltered(ruleName: string): boolean {
+    const filter = this.filter.snapshot.ruleNameFilter;
+    return !filter || ruleName.includes(filter);
+  }
+
   makeRuleDigest(ruleName: string, rule: Rule, settings: Settings): RuleDigest {
     return {
       deprecated: !!rule?.meta?.deprecated,
@@ -308,15 +329,6 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   // private methods
-
-  private isRuleFiltered(ruleName: string): boolean {
-    return !this.filter.snapshot.ruleNameFilter || ruleName.includes(this.filter.snapshot.ruleNameFilter);
-  }
-
-  private isRuleInherited(_): boolean {
-    // TODO: dummy
-    return false;
-  }
 
   private normalize(configs: ConfigsStateModel): ConfigsStateModel {
     const model = this.utils.deepCopy(configs);

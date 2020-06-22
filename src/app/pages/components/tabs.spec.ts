@@ -23,4 +23,13 @@ describe('TabsComponent', () => {
     expect(component.selection.pluginName).toEqual('@typescript-eslint');
   });
 
+  test('Plugins are partitioned into tabs and overflow dropdown', () => {
+    const fixture = TestBed.createComponent(TabsComponent);
+    const component = fixture.componentInstance;
+    component.filter.filterRuleName('class');
+    const which = component.whichPlugins();
+    expect(which.inTab).toEqual([component.params.basePluginName, '@angular-eslint', '@typescript-eslint']);
+    expect(which.inMore).toEqual([]);
+  });
+
 });

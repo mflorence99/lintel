@@ -64,7 +64,7 @@ export class ExtensionsState extends NgxsDataRepository<ExtensionsStateModel> {
       .filter(([_, extension]) => !!extension)
       .forEach(([extensionName, extension]) => {
         // NOTE: is is very convenient to normalize configs before use
-        extension.rules = extension.rules ?? {};
+        extension.rules = extension.rules ?? { };
         Object.entries(extension.rules)
           .forEach(([ruleName, rule]) => {
             let normalized: any = rule;
