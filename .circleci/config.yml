@@ -7,14 +7,12 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-            - store_test_results:
-                path: ./reports/junit/
-            - store_artifacts:
-                path: ./reports/junit
+      - run: npm install
+      - run: npm test
+      - store_test_results:
+          path: ./reports/junit/
+      - store_artifacts:
+          path: ./reports/junit
 workflows:
     build-and-test:
       jobs:
