@@ -5,6 +5,7 @@
 
 # compiled output
 /coverage
+/reports
 /dist
 /tmp
 /out-tsc

@@ -15,8 +15,10 @@ module.exports = {
     prefix: '<rootDir>/'
   }),
   preset: 'jest-preset-angular',
+  reporters: ["default", ["jest-junit", { outputDirectory: './reports/junit' } ]],
   roots: ['<rootDir>/ext/', '<rootDir>/src/'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
+  testResultsProcessor: 'jest-junit',
   transformIgnorePatterns: ['^.+\\.js$'],
   setupFilesAfterEnv: ['<rootDir>/src/test.ts']
 };

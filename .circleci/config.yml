@@ -11,6 +11,10 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
+            - store_test_results:
+              path: ./reports/junit/
+            - store_artifacts:
+               path: ./reports/junit
 workflows:
     build-and-test:
       jobs:
