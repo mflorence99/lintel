@@ -1,6 +1,6 @@
 # Lintel
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-96.98%25-green)]()
+[![Jest Coverage](https://img.shields.io/badge/coverage-98.51%25-green)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 VSCode extension to provide a GUI for building and testing ESLint configurations.

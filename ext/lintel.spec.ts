@@ -46,6 +46,8 @@ describe('VSCode extension', () => {
     const activator = (vscode.commands.registerCommand as any).mock.calls[0][1];
     const panel = vscode.window.createWebviewPanel('lintel', 'Lintel', undefined);
     (panel.webview.html as any).then((_: string) => {
+
+      let calls, message;
       const post = (panel.webview.onDidReceiveMessage as any).mock.calls[0][0];
 
       post({ command: 'bootFail' });
@@ -55,8 +57,24 @@ describe('VSCode extension', () => {
       expect(vscode.window.showTextDocument).toHaveBeenCalled();
 
       // NOTE: must be a real file in this case
-      post({ command: 'getExtensions', fileName: path.join(mockContext.extensionPath, '.eslintrc.json'), extensions: ['plugin:jest/recommended'] });
+      post({ command: 'getExtensions', fileName: path.join(mockContext.extensionPath, '.eslintrc.json'), extensions: ['plugin:jest/recommended', 'plugin:@angular-eslint/recommended'] });
+      calls = (panel.webview.postMessage as any).mock.calls;
+      // NOTE: will be called twice
+      expect(calls.length).toBeGreaterThanOrEqual(2);
+      message = calls[calls.length - 2][0];
+      expect(message.command).toEqual('extensions');
+      expect(message.extensions['plugin:jest/recommended']).toBeTruthy();
+      message = calls[calls.length - 1][0];
+      expect(message.extensions['plugin:@angular-eslint/recommended']).toBeTruthy();
+
+      // NOTE: must be a real file in this case
+      post({ command: 'getRules', fileName: path.join(mockContext.extensionPath, '.eslintrc.json'), plugins: ['jest'] });
       expect(panel.webview.postMessage).toHaveBeenCalled();
+      calls = (panel.webview.postMessage as any).mock.calls;
+      expect(calls.length).toBeGreaterThanOrEqual(1);
+      message = calls[calls.length - 1][0];
+      expect(message.command).toEqual('rules');
+      expect(message.rules['jest']).toBeTruthy();
 
       post({ command: 'openFile', url: 'xxx' });
       expect(vscode.env.openExternal).toHaveBeenCalled();
