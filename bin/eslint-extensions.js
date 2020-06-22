@@ -2,10 +2,21 @@ const fs = require('fs');
 
 const extensions = [
   'eslint:recommended',
-  "plugin:jest/recommended",
-  "plugin:@typescript-eslint/eslint-recommended",
-  "plugin:@typescript-eslint/recommended",
-  "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  'plugin:compat/recommended',
+  'plugin:jest/recommended',
+  'plugin:lodash/recommended',
+  'plugin:lodash-fp/recommended',
+  'plugin:node/recommended',
+  'plugin:react/recommended',
+  'plugin:react-hooks/recommended',
+  'plugin:react-redux/recommended',
+  'plugin:sonarjs/recommended',
+  'plugin:unicorn/recommended',
+  'plugin:vue/recommended',
+  'plugin:@angular-eslint/recommended',
+  'plugin:@typescript-eslint/eslint-recommended',
+  'plugin:@typescript-eslint/recommended',
+  'plugin:@typescript-eslint/recommended-requiring-type-checking'
 ];
 
 const schema = { };

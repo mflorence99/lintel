@@ -13,6 +13,15 @@ describe('RulesState', () => {
     expect(bundle.rules.snapshot['@typescript-eslint']).toBeTruthy();
   });
 
+  test('Rules can be changed via events', () => {
+    const newRules = bundle.utils.deepCopy(bundle.rules.snapshot['jest']);
+    const message: any = new Event('message');
+    message.data = { command: 'rules', rules: { xxx: newRules } };
+    window.dispatchEvent(message);
+    expect(bundle.rules.snapshot['xxx']['jest/consistent-test-it']).toBeTruthy();
+  });
+
+
   test('no-mixed-operators cannot be processed', () => {
     const rule = bundle.rules.snapshot['eslint']['no-mixed-operators'];
     expect(rule).toBeTruthy();
@@ -153,20 +162,21 @@ describe('RulesState', () => {
     }]);
   });
 
-  test('Rules with type: array of numbers produce a number-array', () => {
-    const rule = bundle.rules.snapshot['eslint']['no-magic-numbers'];
-    expect(rule).toBeTruthy();
-    const digest = bundle.rules.makeSchemaDigest('no-magic-numbers', rule);
-    expect(digest.canGUI).toBe(true);
-    bundle.utils.deepSearch(digest.elements, 'name=ignore', obj => {
-      expect(obj).toEqual({
-        default: undefined,
-        name: 'ignore',
-        type: 'number-array',
-        uniqueItems: true
-      });
-    });
-  });
+  // TODO: no-magic numbers now has anyOf and can't find another instance
+  // test('Rules with type: array of numbers produce a number-array', () => {
+  //   const rule = bundle.rules.snapshot['eslint']['no-magic-numbers'];
+  //   expect(rule).toBeTruthy();
+  //   const digest = bundle.rules.makeSchemaDigest('no-magic-numbers', rule);
+  //   expect(digest.canGUI).toBe(true);
+  //   bundle.utils.deepSearch(digest.elements, 'name=ignore', obj => {
+  //     expect(obj).toEqual({
+  //       default: undefined,
+  //       name: 'ignore',
+  //       type: 'number-array',
+  //       uniqueItems: true
+  //     });
+  //   });
+  // });
 
   test('Rules with type: integer produce a number-input', () => {
     const rule = bundle.rules.snapshot['eslint']['max-classes-per-file'];

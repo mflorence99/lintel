@@ -49,8 +49,8 @@ export class ExtensionsState extends NgxsDataRepository<ExtensionsStateModel> {
     window.addEventListener('message', event => {
       const message = event.data;
       switch (message.command) {
-        case 'extension':
-          this.changeExtensions(this.normalize(message.extension));
+        case 'extensions':
+          this.changeExtensions(this.normalize(message.extensions));
           break;
       }
     });

@@ -21,6 +21,7 @@ const panel = {
   webview: {
     asWebviewUri: jest.fn(path => path),
     onDidReceiveMessage: jest.fn(),
+    postMessage: jest.fn(),
     get html() { return webviewContent },
     set html(html) { webviewContentResolver(html) }
   }

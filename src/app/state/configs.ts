@@ -187,8 +187,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .sort()
       .reduce((acc, ruleName) => {
         const category = this.normalizeCategory(rules[ruleName].meta?.docs?.category);
-        if (!acc[category])
-          acc[category] = { };
+        acc[category] = acc[category] ?? { };
         if (!acc[category][ruleName] || settings[ruleName])
           acc[category][ruleName] = [rules[ruleName], settings[ruleName]];
         return acc;
@@ -209,7 +208,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       }, {});
   }
 
-  @Computed() get extensionRules(): Record<string, Settings> {
+  @Computed() get extensionSettings(): Record<string, Settings> {
     const filtered = Object.entries(this.extension?.rules ?? { })
       .filter(([ruleName, _]) => {
         if (this.selection.pluginName === this.params.basePluginName)
@@ -230,10 +229,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
-      .filter(ruleName => !!this.extensionRules[ruleName])
+      .filter(ruleName => !!this.extensionSettings[ruleName])
       .sort()
       .reduce((acc, ruleName) => {
-        acc[ruleName] = [rules[ruleName], this.extensionRules[ruleName]];
+        acc[ruleName] = [rules[ruleName], this.extensionSettings[ruleName]];
         return acc;
       }, { });
   }
@@ -242,13 +241,12 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
-      .filter(ruleName => !!this.extensionRules[ruleName])
+      .filter(ruleName => !!this.extensionSettings[ruleName])
       .sort()
       .reduce((acc, ruleName) => {
         const category = this.normalizeCategory(rules[ruleName].meta?.docs?.category);
-        if (!acc[category])
-          acc[category] = { };
-        acc[category][ruleName] = [rules[ruleName], this.extensionRules[ruleName]];
+        acc[category] = acc[category] ?? {};
+        acc[category][ruleName] = [rules[ruleName], this.extensionSettings[ruleName]];
         return acc;
       }, { });
   }
@@ -293,7 +291,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return {
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
-      inherited: this.extensionRules[ruleName] && !this.configuration.rules[ruleName],
+      inherited: this.extensionSettings[ruleName] && !this.configuration.rules[ruleName],
       level: settings?.[0] || 'off',
       recommended: rule?.meta?.docs?.recommended,
       replacedBy: rule?.meta?.replacedBy ?? [],

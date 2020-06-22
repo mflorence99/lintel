@@ -1,17 +1,31 @@
 {
-    "configurations": [
-        {
-            "args": [
-                "--extensionDevelopmentPath=${workspaceRoot}"
-            ],
-            "name": "Run Extension",
-            "outFiles": [
-                "${workspaceFolder}/dist/ext/**/*.js"
-            ],
-            "request": "launch",
-            "runtimeExecutable": "${execPath}",
-            "type": "extensionHost"
-        }
-    ],
-    "version": "0.2.0"
+  "configurations": [
+    {
+      "args": [
+        "--extensionDevelopmentPath=${workspaceRoot}"
+      ],
+      "name": "Debug Lintel Extension",
+      "outFiles": [
+        "${workspaceFolder}/dist/ext/**/*.js"
+      ],
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "type": "extensionHost"
+    },
+    {
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "name": "Debug Lintel Tests",
+      "port": 9229,
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/.bin/jest",
+        "--runInBand",
+        "-o"
+      ],
+      "type": "node"
+    }
+  ],
+  "version": "0.2.0"
 }

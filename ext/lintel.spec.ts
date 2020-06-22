@@ -6,6 +6,8 @@ import { activate } from './lintel';
 
 // @see __mocks__/vscode.js 
 
+/* eslint-disable @typescript-eslint/unbound-method */
+
 describe('VSCode extension', () => {
 
   let mockContext;
@@ -45,17 +47,27 @@ describe('VSCode extension', () => {
     const panel = vscode.window.createWebviewPanel('lintel', 'Lintel', undefined);
     (panel.webview.html as any).then((_: string) => {
       const post = (panel.webview.onDidReceiveMessage as any).mock.calls[0][0];
+
       post({ command: 'bootFail' });
       expect(vscode.window.showErrorMessage).toHaveBeenCalled();
+
       post({ command: 'editFile', fileName: 'xxx' });
       expect(vscode.window.showTextDocument).toHaveBeenCalled();
+
+      // NOTE: must be a real file in this case
+      post({ command: 'getExtensions', fileName: path.join(mockContext.extensionPath, '.eslintrc.json'), extensions: ['plugin:jest/recommended'] });
+      expect(panel.webview.postMessage).toHaveBeenCalled();
+
       post({ command: 'openFile', url: 'xxx' });
       expect(vscode.env.openExternal).toHaveBeenCalled();
+
       post({ command: 'parseFail', fileName: 'xxx' });
       expect(vscode.window.showErrorMessage).toHaveBeenCalled();
+
       post({ command: 'saveFile', fileName: '.eslintrc.xxx', source: '{ }' });
       const contents = fs.readFileSync(path.join(mockContext.extensionPath, '.eslintrc.xxx'), { encoding: 'utf8' });
       expect(contents).toBe('{ }');
+
       done();
     });
     activator();
@@ -68,7 +80,6 @@ describe('VSCode extension', () => {
     (panel.webview.html as any).then((_: string) => {
       const dispose = (panel.onDidDispose as any).mock.calls[0][0];
       dispose();
-      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(watcher.dispose).toHaveBeenCalled();
       done();
     });

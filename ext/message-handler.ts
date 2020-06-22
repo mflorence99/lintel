@@ -24,6 +24,7 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
     extensions
       .filter(extensionName => extensionName.startsWith('plugin:'))
       .forEach(extensionName => {
+        // TODO: we need to consider extensions versioning
         let extension = extensionCache[extensionName];
         if (!extension) {
           try {
@@ -44,7 +45,7 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
           } 
         }
         if (extension && Object.keys(extension).length)
-          currentPanel.webview.postMessage({ command: 'extension', extension: { [extensionName]: extension } });
+          currentPanel.webview.postMessage({ command: 'extensions', extensions: { [extensionName]: extension } });
       });
   };
 
