@@ -8,8 +8,11 @@
   line-height: 175%;
   margin-bottom: 1rem;
 
-  .category {
+  .item {
+    align-items: center;
+    color: var(--vscode-editorWidget-foreground);
     display: grid;
+    font-weight: normal;
     grid-template-columns: 1.5rem 1fr;
 
     > div {
@@ -19,13 +22,6 @@
     > div:first-of-type {
       justify-self: center;
     }
-
-  }
-
-  .category,
-  .filename {
-    color: var(--vscode-editorWidget-foreground);
-    font-weight: normal;
 
     fa-icon {
       opacity: var(--lintel-opacity-icon);
@@ -41,15 +37,8 @@
 
     }
 
-  }
-
-  .withIcon {
-    align-items: center;
-    display: grid;
-    grid-template-columns: 1.5rem 1fr;
-
-    > div {
-      line-height: 150%;
+    &.selected.unknown {
+      color: var(--vscode-inputValidation-errorBorder);
     }
 
   }

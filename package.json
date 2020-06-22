@@ -7,7 +7,7 @@
     {
       "description": "Jest Coverage",
       "href": "",
-      "url": "https://img.shields.io/badge/coverage-98.57%25-green"
+      "url": "https://img.shields.io/badge/coverage-98.52%25-green"
     },
     {
       "description": "License: MIT",
@@ -23,7 +23,7 @@
       {
         "category": "Lintel",
         "command": "lintel.start",
-        "title": "ESLint Configuration GUI"
+        "title": "ESLint Configuration File Visualizer"
       }
     ],
     "configuration": {
@@ -51,7 +51,7 @@
   "dependencies": {
     "eslint": "^6"
   },
-  "description": "VSCode extension to provide a GUI for building and testing ESLint configurations",
+  "description": "VSCode extension to visualize ESLint configurations",
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.4",
     "@angular-eslint/builder": "0.0.1-alpha.29",

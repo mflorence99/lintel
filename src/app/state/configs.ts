@@ -195,7 +195,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get extension(): Extension {
-    const extensionNames = this.configuration.extends ?? [];
+    const extensionNames = this.configuration?.extends ?? [];
     return extensionNames
       .map(extensionName => this.extensions.snapshot[extensionName])
       .filter(extension => !!extension)

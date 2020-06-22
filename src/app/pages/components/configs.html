@@ -2,54 +2,97 @@
   *ngFor="let fileName of configs.fileNames"
   class="config">
 
-  <div 
+  <div
     (click)="selectFileName($event, fileName)"
     [ngClass]="{selected: selection.fileName === fileName}"
-    class="filename">
+    class="item">
 
-    <div
-      class="withIcon">
-
+    <div>
       <fa-icon 
         [fixedWidth]="true"
         [icon]="iconForFile(fileName)"
         [ngStyle]="{color: colorForFile(fileName)}"
         size="lg">
       </fa-icon>
+    </div>
 
-      <div>{{ shortenFileName(fileName) }}</div>
+    <div>{{ shortenFileName(fileName) }}</div>
+
+  </div>
+
+  <ng-container
+    *ngIf="configs.configuration && (selection.fileName === fileName)">
+
+    <!-- NOTE: general settings and active rules are ALWAYS available -->
+
+    <div
+      (click)="selectCategory($event, params.generalSettings)"
+      [ngClass]="{selected: selection.category === params.generalSettings}"
+      class="item">
+
+      <div>
+        <fa-icon 
+          [fixedWidth]="true"
+          [icon]="[selection.category === params.generalSettings? 'fas' : 'far', 'circle']"
+          size="xs">
+        </fa-icon>
+      </div>
+      
+      <div>{{ params.generalSettings }}</div>
 
     </div>
 
-    <ng-container
-      *ngIf="configs.configuration && (selection.fileName === fileName)">
+    <div  
+      (click)="selectCategory($event, params.activeCategory)"
+      [ngClass]="{selected: selection.category !== params.generalSettings, unknown: selection.pluginName === params.unknownPluginName}"
+      class="item">
 
-      <!-- NOTE: general settings and active rules are ALWAYS available -->
-
-      <div
-        (click)="selectCategory($event, params.generalSettings)"
-        [ngClass]="{selected: selection.category === params.generalSettings}"
-        class="category">
-        <div>&bull;</div> <div>{{ params.generalSettings }}</div>
+      <div>
+        <fa-icon 
+          [fixedWidth]="true"
+          [icon]="['fas', 'plug']">
+        </fa-icon>
       </div>
 
-      <div
-        (click)="selectCategory($event, params.activeCategory)"
-        [ngClass]="{selected: selection.category === params.activeCategory}"
-        class="category">
-        <div>&bull;</div> <div>{{ params.activeCategory }}</div>
+      <div>{{ selection.pluginName }}</div>
+
+    </div>
+
+    <div
+      (click)="selectCategory($event, params.activeCategory)"
+      [ngClass]="{selected: selection.category === params.activeCategory}"
+      class="item">
+
+      <div>
+        <fa-icon 
+          [fixedWidth]="true"
+          [icon]="[selection.category === params.activeCategory? 'fas' : 'far', 'circle']"
+          size="xs">
+        </fa-icon>
       </div>
+      
+      <div>{{ params.activeCategory }}</div>
 
-      <div
-        (click)="selectCategory($event, category)"
-        [ngClass]="{selected: selection.category === category}"
-        *ngFor="let category of configs.categories"
-        class="category">
-        <div>&bull;</div> <div>{{ category }}</div>
+    </div>
+
+    <div
+      (click)="selectCategory($event, category)"
+      [ngClass]="{selected: selection.category === category}"
+      *ngFor="let category of configs.categories"
+      class="item">
+
+      <div>
+        <fa-icon 
+          [fixedWidth]="true"
+          [icon]="[selection.category === category? 'fas' : 'far', 'circle']"
+          size="xs">
+        </fa-icon>
       </div>
+      
+      <div>{{ category }}</div>
 
-    </ng-container>
+    </div>
 
-  </div>
+  </ng-container>
 
 </div>

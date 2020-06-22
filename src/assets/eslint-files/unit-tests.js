@@ -44,7 +44,7 @@ eslintFiles = {
       "tslib": "^1.10.0",
       "zone.js": "~0.10.2"
     },
-    "description": "VSCode extension to provide a GUI for building and testing ESLint configurations",
+    "description": "VSCode extension tovisualize ESLint configurations",
     "devDependencies": {
       "@angular-devkit/build-angular": "~0.901.4",
       "@angular-eslint/builder": "0.0.1-alpha.29",
@@ -121,9 +121,6 @@ eslintFiles = {
       },
       "plugins": [
         "compat",
-        "jest",
-        "lodash",
-        "lodash-fp",
         "node",
         "react",
         "react-hooks",
