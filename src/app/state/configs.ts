@@ -200,12 +200,17 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .map(extensionName => this.extensions.snapshot[extensionName])
       .filter(extension => !!extension)
       .reduce((acc, extension) => {
-        acc.env = Object.assign(acc.env ?? { }, extension.env ?? { });
-        acc.globals = Object.assign(acc.globals ?? { }, extension.globals ?? { });
-        acc.plugins = Array.from(new Set([...acc.plugins ?? [], ...extension.plugins ?? []]));
-        acc.rules = Object.assign(acc.rules ?? { }, extension.rules ?? { });
+        Object.assign(acc.env, extension.env ?? { });
+        Object.assign(acc.globals, extension.globals ?? { });
+        acc.plugins = Array.from(new Set([...acc.plugins, ...extension.plugins ?? []]));
+        Object.assign(acc.rules, extension.rules ?? { });
         return acc;
-      }, { });
+      }, { 
+        env: { },
+        globals: { },
+        plugins: [],
+        rules: { }
+      });
   }
 
   @Computed() get extensionSettings(): Record<string, Settings> {
@@ -290,15 +295,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   isPluginFiltered(pluginName: string): boolean {
     const filter = this.filter.snapshot.ruleNameFilter;
-    const ruleMatcher = (ruleName): boolean => {
-      const [head, tail] = ruleName.split('/');
-      return (head === pluginName) && tail.includes(filter);
-    };
     if (!filter || (pluginName === this.params.basePluginName))
       return true;
-    else if (Object.keys(this.configuration.rules).some(ruleMatcher))
-      return true;
-    else if (Object.keys(this.extension.rules).some(ruleMatcher))
+    else if (Object.keys(this.rules.snapshot[pluginName] ?? { })
+      .some(this.isRuleFiltered.bind(this)))
       return true;
     else return false;
   }

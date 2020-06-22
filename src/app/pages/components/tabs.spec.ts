@@ -28,7 +28,7 @@ describe('TabsComponent', () => {
     const component = fixture.componentInstance;
     component.filter.filterRuleName('class');
     const which = component.whichPlugins();
-    expect(which.inTab).toEqual([component.params.basePluginName, '@angular-eslint', '@typescript-eslint']);
+    expect(which.inTab).toEqual([component.params.basePluginName, '@angular-eslint', '@typescript-eslint', 'react', 'vue']);
     expect(which.inMore).toEqual([]);
   });
 

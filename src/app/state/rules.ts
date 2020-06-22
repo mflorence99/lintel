@@ -69,6 +69,7 @@ export type RulesStateModel = Record<string, Record<string, Rule>>;
 // - { items: { anyOf: scheme[] } }
 // - { items: { oneOf: scheme[] } }
 // - { definitions: { ... }, items: scheme[] }     <--- eg: func-names
+// - { 0: scheme, 1: scheme, ... }     <--- eg: @typescript/lines-between-class-members
 
 export type Schema = Scheme[] | SchemaWithDiscriminants | SchemaWith$refs | Scheme;
 
@@ -143,6 +144,9 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       if (!Array.isArray(schemes)) {
         if (schema.definitions && schema.items)
           schemes = Array.isArray(schema.items) ? schema.items : [schema.items];
+        else if ((typeof schema === 'object') 
+          && Object.keys(schema).every(key => /[0-9]+/.test(String(key)))) 
+          schemes = Object.values(schema);
         // NOTE: worried as this is the hardest to tell
         // @see id-blacklist, consistent-this
         else schemes = [schemes];
