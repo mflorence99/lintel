@@ -1,9 +1,10 @@
 version: 2.1
+orbs:
+  node: circleci/node@12.18.1
 jobs:
   build-and-test:
-  executor:
-    docker:
-      - image: circleci/node:12.14.1
+    executor:
+      name: node/default
     steps:
       - checkout
       - node/with-cache:
