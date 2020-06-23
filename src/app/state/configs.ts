@@ -17,6 +17,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
 import { patch } from '@ngxs/store/operators';
+import { scratch } from './operators';
 import { updateItems } from './operators';
 
 declare const lintelVSCodeAPI;
@@ -114,6 +115,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     const state = this.ctx.getState();
     const replacement = state[fileName].rules[ruleName];
     this.files.changeRule({ fileName, ruleName, replacement });
+  }
+
+  @DataAction({ insideZone: true })
+  deleteRule(@Payload('ruleName') { ruleName }): void {
+    const fileName = this.selection.fileName;
+    this.ctx.setState(patch({ [fileName]: patch({ rules: scratch(ruleName) }) }));
+    this.files.deleteRule({ fileName, ruleName });
   }
 
   @DataAction({ insideZone: true }) 

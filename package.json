@@ -7,7 +7,7 @@
     {
       "description": "Jest Coverage",
       "href": "https://github.com/mflorence99/lintel/issues",
-      "url": "https://img.shields.io/badge/coverage-97.98%25-green"
+      "url": "https://img.shields.io/badge/coverage-97.63%25-green"
     },
     {
       "description": "License: MIT",
@@ -132,7 +132,7 @@
     "theme": "dark"
   },
   "homepage": "https://github.com/mflorence99/lintel/blob/master/README.md",
-  "icon": "lintel.png",
+  "icon": "./dist/lintel/assets/lintel.png",
   "keywords": [
     "eslint"
   ],

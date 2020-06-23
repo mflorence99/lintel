@@ -115,4 +115,12 @@ describe('ConfigsState', () => {
     expect(bundle.configs.configuration.rules[ruleName]).toEqual(changes);
   });
 
+  test('deleteRule', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    const ruleName = 'spaced-comment';
+    expect(bundle.configs.configuration.rules[ruleName]).toBeTruthy();
+    bundle.configs.deleteRule({ ruleName });
+    expect(bundle.configs.configuration.rules[ruleName]).toBeFalsy();
+  });
+
 });

@@ -51,6 +51,7 @@ export class RulesComponent {
     switch (command) {
 
       case 'delete':
+        this.configs.deleteRule({ ruleName });
         break;
 
       case 'export':

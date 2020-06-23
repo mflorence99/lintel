@@ -22,23 +22,23 @@ lintelVSCodeAPI = {
     switch (message.command) {
 
       case 'bootFail':
-        console.log(`%cbootFail: ${message.text}`, 'color: red');
+        console.log('%cbootFail:', 'color: red', message.text);
         break;
 
       case 'editFile':
-        console.log(`%ceditFile: ${message.fileName}`, 'color: #3367d6');
+        console.log('%ceditFile:', 'color: #3367d6', message.fileName);
         break;
 
       case 'clipboardCopy':
-        console.log(`%cclipboardCopy: ${message.text}`, 'color: #311b92');
+        console.log('%cclipboardCopy:', 'color: #1b5e20', message.text);
         break;
 
       case 'getExtensions':
-        console.log(`%cgetExtensions: ${message.fileName} [${message.extensions.join(',')}]`, 'color: #4a148c');
+        console.log('%cgetExtensions:', 'color: #4a148c', message.fileName, `[${message.extensions.join(',')}]`);
         break;
 
       case 'getRules':
-        console.log(`%cgetRules: ${message.fileName} [${message.plugins.join(',')}]`, 'color: #3e2723');
+        console.log('%cgetRules:', 'color: #3e2723', message.fileName, `[${message.plugins.join(',')}]`);
         break;
 
       case 'openFile':
@@ -46,7 +46,7 @@ lintelVSCodeAPI = {
         break;
 
       case 'saveFile':
-        console.log(`%csaveFile: ${message.fileName}`, 'color: #f09300', { message });
+        console.log('%csaveFile:', 'color: #f09300', message.fileName, { message });
         break;
 
     }

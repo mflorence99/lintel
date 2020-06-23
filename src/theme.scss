@@ -86,7 +86,7 @@ input[type=text] {
       }
 
       a {
-        color: var(--vscode-input-foreground);
+        color: var(--vscode-settings-headerForeground);
         display: flex;
         flex-direction: row;
         justify-content: space-between;

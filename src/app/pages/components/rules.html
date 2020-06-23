@@ -14,14 +14,15 @@
         class="gutter">
 
         <div
-          (click)="showContextMenu($event, ruleDigest)"
-          [contextMenu]="contextMenu"
-          [contextMenuSubject]="ruleDigest"
           #tools
           class="tools">
 
           <fa-icon
-            [icon]="['fas', 'cog']">
+            (click)="showContextMenu($event, ruleDigest)"
+            [contextMenu]="contextMenu"
+            [contextMenuSubject]="ruleDigest"
+            [icon]="['fas', 'cog']"
+            *ngIf="isRuleDefined(ruleDigest) || canExportRule(ruleDigest)">
           </fa-icon>
 
         </div>
@@ -60,13 +61,14 @@
   <ng-template
     contextMenuItem
     (execute)="execute($event.item, 'delete')"
-    [enabled]="isRuleDefined">
+    [enabled]="isRuleDefined.bind(this)">
     <div>Remove this rule</div>
   </ng-template>
 
   <ng-template
     contextMenuItem
-    (execute)="execute($event.item, 'export')">
+    (execute)="execute($event.item, 'export')"
+    [enabled]="canExportRule.bind(this)">
     <div>Copy rule as JSON</div>
   </ng-template>
 

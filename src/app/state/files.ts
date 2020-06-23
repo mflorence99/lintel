@@ -20,6 +20,7 @@ declare const lintelVSCodeAPI;
 interface ESLintFile {
   changeConfiguration(fileName: string, replacement: any): void;
   changeRule(fileName: string, ruleName: string, replacement: any): void;
+  deleteRule(fileName: string, ruleName: string): void;
   load(fileName: string): any;
   normalize(object: any): any;
   parse(fileName: string, source: string): any;
@@ -63,6 +64,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     changeRule(_fileName: string, _ruleName: string, _replacement: any): void { }
 
+    deleteRule(_fileName: string, _ruleName: string): void { }
+
     load(_fileName: string): any {
       return null;
     }
@@ -92,6 +95,11 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     changeRule(fileName: string, ruleName: string, replacement: any): void {
       const object = this.superThis.objects[fileName].rules;
       assign(object, { [ruleName]: replacement });
+    }
+
+    deleteRule(fileName: string, ruleName: string): void {
+      const object = this.superThis.objects[fileName].rules;
+      delete object[ruleName];
     }
 
     load(fileName: string): any {
@@ -147,6 +155,11 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
       assign(object, { [ruleName]: replacement });
     }
 
+    deleteRule(fileName: string, ruleName: string): void {
+      const object = this.superThis.objects[fileName].rules;
+      delete object[ruleName];
+    }
+
     load(fileName: string): any {
       return this.superThis.objects[fileName];
     }
@@ -186,6 +199,11 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
       object[ruleName] = replacement;
     }
 
+    deleteRule(fileName: string, ruleName: string): void {
+      const object = this.superThis.objects[fileName]['eslintConfig'].rules;
+      delete object[ruleName];
+    }
+
     load(fileName: string): any {
       return this.superThis.objects[fileName]?.['eslintConfig'];
     }
@@ -223,6 +241,11 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     changeRule(fileName: string, ruleName: string, replacement: any): void {
       const object = this.superThis.objects[fileName].rules;
       object[ruleName] = replacement;
+    }
+
+    deleteRule(fileName: string, ruleName: string): void {
+      const object = this.superThis.objects[fileName].rules;
+      delete object[ruleName];
     }
 
     load(fileName: string): any {
@@ -268,6 +291,13 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   changeRule(@Payload('replacements') { fileName, ruleName, replacement }): void {
     const impl = this.impl(fileName);
     impl.changeRule(fileName, ruleName, replacement);
+    impl.save(fileName);
+  }
+
+  @DataAction({ insideZone: true })
+  deleteRule(@Payload('ruleName') { fileName, ruleName }): void {
+    const impl = this.impl(fileName);
+    impl.deleteRule(fileName, ruleName);
     impl.save(fileName);
   }
 

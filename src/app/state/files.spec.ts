@@ -141,4 +141,15 @@ describe('FilesState', () => {
     expect(config.rules['brace-style']).toEqual(['off']);
   });
 
+  test('rule can be deleted in /home/mflorence99/lintel/package.json', () => {
+    let config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.rules['spaced-comment']).toBeTruthy();
+    bundle.files.deleteRule({
+      fileName: '/home/mflorence99/lintel/package.json',
+      ruleName: 'spaced-comment'
+    });
+    config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.rules['spaced-comment']).toBeFalsy();
+  });
+
 });
