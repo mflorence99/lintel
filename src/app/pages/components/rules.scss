@@ -13,7 +13,7 @@
   }
 
   &.inherited {
-    border-right: 2px solid var(--vscode-minimapGutter-addedBackground);
+    border-right: 2px dotted var(--vscode-editorGutter-modifiedBackground);
   }
 
   &.unknown {

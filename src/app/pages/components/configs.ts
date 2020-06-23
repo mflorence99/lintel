@@ -58,15 +58,15 @@ export class ConfigsComponent implements AfterViewChecked {
     // NOTE: general settings and active rules are always available
     if ((this.selection.category !== this.params.generalSettings)
       && (this.selection.category !== this.params.activeCategory)) {
+      // categories will be all the available categories in order
       const categories = [];
       if (!this.utils.isEmptyObject(this.configs.activeView))
         categories.push(this.params.activeCategory);
       categories.push(...this.configs.categories);
-      // categories is now all the available categories in order
-      // if the selected category is no longer available, pick the first that is
+      // if the selected category is no longer available, pick one that is
       if ((categories.length > 0) 
         && !categories.includes(this.selection.category)) 
-        this.utils.nextTick(() => this.selection.select({ category: categories[0] }));
+        this.utils.nextTick(() => this.selection.select({ category: categories[categories.length - 1] }));
     }
   }
 

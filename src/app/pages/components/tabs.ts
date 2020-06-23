@@ -1,3 +1,4 @@
+import { AfterViewChecked } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
@@ -7,6 +8,7 @@ import { Output } from '@angular/core';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { SingleselectorComponent } from '../../components/singleselector';
+import { Utils } from '../../services/utils';
 import { ViewChild } from '@angular/core';
 
 /**
@@ -20,7 +22,7 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['tabs.scss']
 })
 
-export class TabsComponent {
+export class TabsComponent implements AfterViewChecked {
 
   @ViewChild(SingleselectorComponent) 
   set more(m: SingleselectorComponent) {
@@ -33,7 +35,20 @@ export class TabsComponent {
   constructor(public configs: ConfigsState,
               public filter: FilterState,
               public params: Params,
-              public selection: SelectionState) { }
+              public selection: SelectionState,
+              public utils: Utils) { }
+
+  /** On every change detection */
+  ngAfterViewChecked(): void {
+    // NOTE: the base plugin is always available
+    if (this.selection.pluginName !== this.params.basePluginName) {
+      const pluginNames = this.configs.pluginNames
+        .filter(pluginName => this.configs.isPluginFiltered(pluginName));
+      // if the selected plugin is no longer available, pick one that is
+      if (!pluginNames.includes(this.selection.pluginName))
+        this.utils.nextTick(() => this.selection.select({ pluginName: pluginNames[pluginNames.length - 1]}));
+    }
+  }
 
   /** Select a plugin */
   selectPluginName(pluginName: string): void {

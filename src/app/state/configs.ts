@@ -312,7 +312,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return {
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
-      inherited: this.extensionSettings[ruleName] && !this.configuration.rules[ruleName],
+      inherited: this.filter.snapshot.showInheritedRules && this.extensionSettings[ruleName] && !this.configuration.rules[ruleName],
       level: settings?.[0] || 'off',
       recommended: rule?.meta?.docs?.recommended,
       replacedBy: rule?.meta?.replacedBy ?? [],
