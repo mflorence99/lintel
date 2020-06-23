@@ -1,4 +1,5 @@
 import { BarrelModule } from './barrel';
+import { ContextMenuModule } from 'ngx-contextmenu';
 import { NgModule } from '@angular/core';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
@@ -31,6 +32,9 @@ const MODULES = [
 
   imports: [
     ...MODULES,
+    ContextMenuModule.forRoot({
+      autoFocus: true
+    }),
     NgxsModule.forRoot(states, {
       developmentMode: !environment.production
     }),

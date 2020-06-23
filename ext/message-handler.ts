@@ -91,6 +91,10 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
         vscode.window.showErrorMessage('Lintel could not start. Please try again.');
         break;
 
+      case 'clipboardCopy':
+        vscode.env.clipboard.writeText(message.text);
+        break;
+
       case 'editFile':
         vscode.window.showTextDocument(vscode.Uri.parse(message.fileName), { viewColumn: vscode.ViewColumn.Beside });
         break;

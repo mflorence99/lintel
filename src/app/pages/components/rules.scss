@@ -3,21 +3,32 @@
   display: grid;
   grid-column-gap: 0.5rem;
   grid-row-gap: 3rem;
-  grid-template-columns: 1rem 1fr 1rem;
+  grid-template-columns: 1.5rem 1fr 1rem;
 }
 
 .gutter {
+  border-right: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  padding: 2px;
 
   &.active {
-    border-right: 2px solid var(--vscode-editorGutter-modifiedBackground);
+    border-right-color: var(--vscode-editorGutter-modifiedBackground);
   }
 
   &.inherited {
-    border-right: 2px dotted var(--vscode-editorGutter-modifiedBackground);
+    border-right-color: var(--vscode-editorGutter-modifiedBackground);
+    border-right-style: dotted;
   }
 
   &.unknown {
-    border-right: 2px solid var(--vscode-inputValidation-errorBorder);
+    border-right-color: var(--vscode-inputValidation-errorBorder);
+  }
+
+  .tools {
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
   }
 
 }

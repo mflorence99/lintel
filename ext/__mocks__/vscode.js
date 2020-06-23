@@ -12,7 +12,11 @@ const commands = {
 };
 
 const env = {
-  openExternal: jest.fn()
+  openExternal: jest.fn(),
+  clipboard: {
+    readText: jest.fn(),
+    writeText: jest.fn()
+  }
 };
 
 const panel = {

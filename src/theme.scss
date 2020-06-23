@@ -59,3 +59,48 @@ input[type=text] {
   border: none;
   color: var(--vscode-input-foreground);
 }
+
+.ngx-contextmenu.dropdown {
+
+  ul {
+    background: var(--vscode-settings-dropdownBackground);
+    border: 1px solid var(--vscode-focusBorder);
+    list-style-type: none;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+
+    li {
+
+      &.disabled {
+
+        a {
+          opacity: var(--lintel-opacity-disabled);
+
+          &:hover {
+            background: inherit;
+          }
+
+        }
+
+      }
+
+      a {
+        color: var(--vscode-input-foreground);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+
+        &:hover {
+          background: var(--vscode-settings-modifiedItemIndicator);
+        }
+
+      }
+
+    }
+
+  }
+
+}

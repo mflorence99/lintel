@@ -53,6 +53,9 @@ describe('VSCode extension', () => {
       post({ command: 'bootFail' });
       expect(vscode.window.showErrorMessage).toHaveBeenCalled();
 
+      post({ command: 'clipboardCopy', text: 'xxx' });
+      expect(vscode.env.clipboard.writeText).toHaveBeenCalled();
+
       post({ command: 'editFile', fileName: 'xxx' });
       expect(vscode.window.showTextDocument).toHaveBeenCalled();
 

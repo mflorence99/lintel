@@ -8,11 +8,29 @@
       *ngIf="configs.makeRuleDigest(item.key, item.value[0], item.value[1]) as ruleDigest">
 
       <div
+        (mouseout)="tools.style.opacity = 0"
+        (mouseover)="tools.style.opacity = 1"
         [ngClass]="{active: !!ruleDigest.settings, inherited: ruleDigest.inherited, unknown: !ruleDigest.rule}"
         class="gutter">
+
+        <div
+          (click)="showContextMenu($event, ruleDigest)"
+          [contextMenu]="contextMenu"
+          [contextMenuSubject]="ruleDigest"
+          #tools
+          class="tools">
+
+          <fa-icon
+            [icon]="['fas', 'cog']">
+          </fa-icon>
+
+        </div>
+
       </div>
 
       <lintel-rule
+        (mouseout)="tools.style.opacity = 0"
+        (mouseover)="tools.style.opacity = 1"
         [isHydrated]="false"
         [lintelHydrated]="ruleDigest.ruleName"
         [ruleDigest]="ruleDigest"
@@ -36,3 +54,20 @@
   <div></div>
 
 </ng-container>
+
+<context-menu>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event.item, 'delete')"
+    [enabled]="isRuleDefined">
+    <div>Remove this rule</div>
+  </ng-template>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event.item, 'export')">
+    <div>Copy rule as JSON</div>
+  </ng-template>
+
+</context-menu>

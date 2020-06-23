@@ -29,6 +29,18 @@ lintelVSCodeAPI = {
         console.log(`%ceditFile: ${message.fileName}`, 'color: #3367d6');
         break;
 
+      case 'clipboardCopy':
+        console.log(`%cclipboardCopy: ${message.text}`, 'color: #311b92');
+        break;
+
+      case 'getExtensions':
+        console.log(`%cgetExtensions: ${message.fileName} [${message.extensions.join(',')}]`, 'color: #4a148c');
+        break;
+
+      case 'getRules':
+        console.log(`%cgetRules: ${message.fileName} [${message.plugins.join(',')}]`, 'color: #3e2723');
+        break;
+
       case 'openFile':
         window.open(message.url, 'Lintel');
         break;

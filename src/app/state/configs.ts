@@ -55,6 +55,7 @@ export interface ParserOptions {
 }
 
 export interface RuleDigest {
+  defined: boolean;
   deprecated: boolean;
   description: string;
   inherited: boolean;
@@ -310,6 +311,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   makeRuleDigest(ruleName: string, rule: Rule, settings: Settings): RuleDigest {
     return {
+      defined: !!this.configuration.rules[ruleName],
       deprecated: !!rule?.meta?.deprecated,
       description: rule?.meta?.docs?.description,
       inherited: this.filter.snapshot.showInheritedRules && this.extensionSettings[ruleName] && !this.configuration.rules[ruleName],
