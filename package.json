@@ -132,7 +132,7 @@
     "theme": "dark"
   },
   "homepage": "https://github.com/mflorence99/lintel/blob/master/README.md",
-  "icon": "./dist/lintel/assets/lintel.png",
+  "icon": "dist/lintel/assets/lintel.png",
   "keywords": [
     "eslint"
   ],

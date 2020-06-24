@@ -250,7 +250,6 @@
     "max-len": "off",
     "no-empty": "off",
     "no-prototype-builtins": "off",
-    "no-unused-vars": "off",
     "quotes": "off",
     "semi": "off",
     "space-before-blocks": [
@@ -270,6 +269,9 @@
     "spaced-comment": [
       "error",
       "always"
+    ],
+    "no-unused-vars": [
+      "off"
     ]
   },
   "root": true
