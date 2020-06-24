@@ -19,10 +19,10 @@ The Lintel VSCode extension provides a rich UI to visualize, edit and mange your
 * All configurations in `.eslintrc.*` files, together with those stored in an `eslintConfig` key of a project's `package.json` are loaded.
 * As changes are made, Lintel will keep in sync with any configurations you edit manually (eg: in a VSCode text editor) and vice versa.
 * Lintel will preserve any comments you have placed in JSON, YAML or JavaScript configuration files.
-  > Comments aren't allowed in `package.json` files and not currently supported in YAML files.
+  > Comments aren't allowed in `package.json` files and are not currently supported in YAML files.
 * Configurations are broken down by rule category (eg: Best Practices) and plugin (eg: `@typescript/eslint`).
-* `Active Rules` shows just the rules that you've actually set, plus (optionally) those inherited via plugin `extends`.
-* The rule you're looking for can be quickly found by partial match to a name you type in the filter bar.
+* "Active Rules" shows just the rules that you've actually set, plus (optionally) those inherited via plugin `extends`.
+* The rule you're looking for can be quickly found by a partial match to a name you type in the filter bar.
 * A 'cog' tool (like the settings editor in VSCode) supports additional operations, like removing a rule from your configuration.
 * The documentation for any rule is immediately accessible by clicking on the rule name.
 * Lintel is backed by almost 500 Jest unit tests.
@@ -42,7 +42,7 @@ Lintel runs ESLint but using your project's `node_modules` to load plugins and e
 
 So that startup is as fast as possible, Lintel comes prepackaged with the rules schema and settings for many popular plugins, including React, Vue, Jest and Node. These are updated asynchronously with the plugins actually installed in your project.
 
-Lintel is not a "wizard." It can't setup an ESLint installation from scratch nor install plugins itself - although all this is on the roadmap. At least a minimal `.eslintrc` configuration is required and all needed plugins must be installed.
+Lintel is not a "wizard." It can't setup an ESLint installation from scratch nor install plugins itself - although all this is on the roadmap. At least a minimal `.eslintrc` configuration is required and all needed plugins must be pre-installed.
 
 ## Active Rules
 
@@ -58,11 +58,11 @@ Active Rules shows all the rules that are currently defined in your configuratio
 
 ## Rules Lintel Can't Handle
 
-Some rules would require a UI that would be significantly harder to understand than the underlying JSON.
+Some rules would require a UI that would be significantly harder to understand than the underlying JSON itself.
 
 ![Rules Lintel Can't Handle](docs/not-handled.png)
 
-Lintel still allows you to set the rule level to `off`, `warn` or `error` and any other settings are undisturbed. The "edit" link opens up the configuration (if possible, in a VSCode column beside Lintel's) so that the remaining settings can be edited manually. Lintel stays synchronized with manual changes, as does you open configuration with Lintel's.
+Lintel still allows you to set the rule level to `off`, `warn` or `error` and any other settings are undisturbed. The "edit" link opens up the configuration (if possible, in a VSCode column beside Lintel's) so that the remaining settings can be edited manually. Lintel stays synchronized with manual changes, as does your open configuration with Lintel's.
 
 ## Roadmap
 

@@ -154,11 +154,12 @@
     "lint": "eslint 'ext/**/*.ts' 'src/**/*.ts' --fix && stylelint 'src/**/*.css' 'src/**/*.scss' --fix",
     "ng": "ng",
     "package": "npm run build && vsce package",
+    "publish": "npm run build && vsce publish patch",
     "rules": "node bin/eslint-rules.js",
     "start": "ng serve",
     "test": "jest --runInBand --coverage && node bin/coverage-icon.js",
     "test:watch": "jest --watch",
     "test:watch:coverage": "jest --watchAll --coverage"
   },
-  "version": "0.0.1"
+  "version": "0.0.0"
 }
