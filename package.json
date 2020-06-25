@@ -154,6 +154,7 @@
     "lint": "eslint 'bin/**/*.js' 'ext/**/*.ts' 'src/**/*.ts' 'src/assets/**/*.js'  && stylelint 'src/**/*.css' 'src/**/*.scss'",
     "ng": "ng",
     "package": "npm run build && vsce package",
+    "postinstall": 'ngcc",'
     "publish": "npm run build && vsce publish patch",
     "rules": "node bin/eslint-rules.js",
     "start": "ng serve",
