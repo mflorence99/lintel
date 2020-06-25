@@ -213,7 +213,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
           .filter(key => key !== 'extends')
           .forEach(key => {
             if (Array.isArray(extension[key]))
-              acc[key] = Array.from(new Set([...extension[key], ...acc[key] || []]));
+              acc[key] = Array.from(new Set([...acc[key] || [], ...extension[key]]));
             else if (typeof extension[key] === 'object')
               acc[key] = Object.assign(acc[key] || { }, extension[key]);
             else acc[key] = extension[key];

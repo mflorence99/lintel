@@ -80,8 +80,12 @@ describe('ConfigsState', () => {
   test('Extensions are properly merged', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
     const extension = bundle.configs.extension;
-    console.log(JSON.stringify(extension, null, 2));
-    expect(extension).toBeTruthy();
+    expect(extension.plugins).toContain('compat');
+    expect(extension.plugins).toContain('jest');
+    expect(extension.plugins).toContain('lodash');
+    expect(extension.plugins).toContain('lodash-fp');
+    expect(extension.plugins).toContain('node');
+
   });
 
   test('Rule digest is properly constructed', () => {

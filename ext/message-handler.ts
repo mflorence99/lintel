@@ -58,7 +58,7 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
             .filter(key => key !== 'extends')
             .forEach(key => {
               if (Array.isArray(extension[key]))
-                config[key] = Array.from(new Set([...extension[key], ...config[key] || []]));
+                config[key] = Array.from(new Set([...config[key] || [], ...extension[key]]));
               else if (typeof extension[key] === 'object')
                 config[key] = Object.assign(config[key] || { }, extension[key]);
               else config[key] = extension[key];
