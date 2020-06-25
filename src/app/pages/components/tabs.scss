@@ -17,6 +17,7 @@
     border-bottom: 1px solid var(--vscode-settings-headerForeground);
     color: var(--vscode-settings-headerForeground);
     cursor: pointer;
+    display: block;
     opacity: var(--lintel-opacity-icon);
     padding: 0 0.5rem 0.5rem 0.5rem;
     white-space: nowrap;

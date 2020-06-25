@@ -1,7 +1,7 @@
 <ng-container
   [formGroup]="multiSelectorForm">
 
-  <div 
+  <p 
     [ngStyle]="{'grid-template-columns': 'repeat(auto-fit, ' + columnWidth + ')'}"
     class="checkboxes">
 
@@ -12,6 +12,6 @@
       *ngFor="let control of controls; let ix = index">
     </lintel-checkbox>
 
-  </div>
+  </p>
 
 </ng-container>

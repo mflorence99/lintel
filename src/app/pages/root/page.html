@@ -62,14 +62,14 @@
     <ng-template
       #invalidConfig>
 
-      <div
+      <main
         (click)="editFile(selection.fileName)"
         class="exception settings">
         <div>
           <div>This configuration file cannot be analyzed</div>
           <a>Edit in {{ configs.shortFileName(selection.fileName) }}</a>
         </div>
-      </div>
+      </main>
 
     </ng-template>
 
@@ -80,12 +80,12 @@
 <ng-template
   #noConfigs>
 
-  <div
+  <main
     class="exception settings">
     <div>
       <div>There are no ESLint configurations</div>
       <div>in this project</div>
     </div>
-  </div>
+  </main>
 
 </ng-template>

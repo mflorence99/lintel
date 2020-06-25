@@ -9,7 +9,7 @@
       class="gutter">
     </div>
 
-    <div 
+    <section 
       [ngClass]="property[0]"
       class="property">
 
@@ -22,7 +22,7 @@
         {{ property[0] }}
       </a>
 
-      <div
+      <article
         class="description">
 
         <!-- NOTE: special version of description for properties that are just a checkbox -->
@@ -72,9 +72,9 @@
 
         </ng-container>
 
-      </div>
+      </article>
 
-      <div
+      <article
         [ngSwitch]="property[0]"
         class="settings">
 
@@ -151,9 +151,9 @@
 
         </ng-container>
 
-      </div>
+      </article>
 
-    </div>
+    </section>
 
   </ng-container>
 
@@ -165,7 +165,7 @@
     <ng-container
       formGroupName="parserOptions">
 
-      <div
+      <article
         class="parserOptions">
 
         <div
@@ -250,7 +250,7 @@
 
         </ng-container>
         
-      </div>
+      </article>
 
     </ng-container>
 

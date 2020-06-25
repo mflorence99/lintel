@@ -1,13 +1,13 @@
-<div
+<header
   class="logo">
   <img src="assets/lintel.png">
-</div>
+</header>
 
-<div 
+<menu 
   *ngFor="let fileName of configs.fileNames"
   class="config">
 
-  <div
+  <li
     (click)="selectFileName($event, fileName)"
     [ngClass]="{selected: selection.fileName === fileName}"
     class="item">
@@ -23,14 +23,14 @@
 
     <div>{{ shortenFileName(fileName) }}</div>
 
-  </div>
+  </li>
 
   <ng-container
     *ngIf="configs.configuration && (selection.fileName === fileName)">
 
     <!-- NOTE: general settings and active rules are ALWAYS available -->
 
-    <div
+    <li
       (click)="selectCategory($event, params.generalSettings)"
       [ngClass]="{selected: selection.category === params.generalSettings}"
       class="item">
@@ -45,9 +45,9 @@
       
       <div>{{ params.generalSettings }}</div>
 
-    </div>
+    </li>
 
-    <div  
+    <li  
       (click)="selectCategory($event, params.activeCategory)"
       [ngClass]="{selected: selection.category !== params.generalSettings, unknown: selection.pluginName === params.unknownPluginName}"
       class="item">
@@ -61,9 +61,9 @@
 
       <div>{{ selection.pluginName }}&hellip;</div>
 
-    </div>
+    </li>
 
-    <div
+    <li
       (click)="selectCategory($event, params.activeCategory)"
       [ngClass]="{selected: selection.category === params.activeCategory}"
       class="item">
@@ -78,9 +78,9 @@
       
       <div>{{ params.activeCategory }}</div>
 
-    </div>
+    </li>
 
-    <div
+    <li
       (click)="selectCategory($event, category)"
       [ngClass]="{selected: selection.category === category}"
       *ngFor="let category of configs.categories"
@@ -96,8 +96,8 @@
       
       <div>{{ category }}</div>
 
-    </div>
+    </li>
 
   </ng-container>
 
-</div>
+</menu>

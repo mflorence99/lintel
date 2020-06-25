@@ -9,15 +9,15 @@
 
 <ng-template
   #unknownRule>
-  <div
+  <article
     [ngClass]="{inherited: ruleDigest.inherited}"
     *ngIf="!ruleDigest.url"
     class="ruleName {{ ruleDigest.level }} unknown">
     {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
-  </div>
+  </article>
 </ng-template>
 
-<div
+<article
   *ngIf="ruleDigest.description">
 
   <span
@@ -34,9 +34,9 @@
     [innerHTML]="ruleDigest.description | lintelLinkify">
   </span>
 
-</div>
+</article>
 
-<div 
+<article 
   [formGroup]="ruleForm"
   class="settings">
 
@@ -73,7 +73,7 @@
 
   </ng-container>
 
-</div>
+</article>
 
 <!-- NOTE: elements built recursively -->
 

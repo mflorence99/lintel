@@ -1,4 +1,4 @@
-<div
+<button
   (click)="toggleChecked()"
   #checkbox
   class="checkbox"
@@ -7,10 +7,10 @@
     [icon]="['fas', 'check']"
     [ngClass]="{checked: value}">
   </fa-icon>
-</div>
+</button>
 
-<div
+<label
   (click)="toggleChecked()"
   class="label">
   {{ label }}
-</div>
+</label>

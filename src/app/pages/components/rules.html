@@ -7,7 +7,7 @@
     <ng-container
       *ngIf="configs.makeRuleDigest(item.key, item.value[0], item.value[1]) as ruleDigest">
 
-      <div
+      <aside
         (mouseout)="tools.style.opacity = 0"
         (mouseover)="tools.style.opacity = 1"
         [ngClass]="{active: !!ruleDigest.settings, inherited: ruleDigest.inherited, unknown: !ruleDigest.rule}"
@@ -27,7 +27,7 @@
 
         </div>
 
-      </div>
+      </aside>
 
       <lintel-rule
         (mouseout)="tools.style.opacity = 0"

@@ -8,6 +8,7 @@
   align-items: center;
   background-color: var(--vscode-settings-checkboxBackground);
   border: 1px solid var(--vscode-settings-checkboxBorder);
+  color: var(--vscode-settings-textInputForeground);
   display: grid;
   flex-shrink: 0;
   height: 18px;
@@ -31,5 +32,6 @@
 }
 
 .label {
+  cursor: pointer;
   white-space: wrap;
 }

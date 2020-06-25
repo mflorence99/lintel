@@ -1,10 +1,10 @@
 <ng-container
   *ngIf="whichPlugins() as which">
 
-  <div  
+  <menu  
     class="tabs">
 
-    <div
+    <li
       (click)="selectPluginName(pluginName)"
       [ngClass]="{selected: pluginName === selection.pluginName, unknown: pluginName === params.unknownPluginName}"
       *ngFor="let pluginName of which.inTab"
@@ -12,9 +12,9 @@
 
       {{ pluginName }} 
 
-    </div>
+    </li>
 
-  </div>
+  </menu>
 
   <lintel-singleselector
     [options]="which.inMore"
