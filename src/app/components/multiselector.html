@@ -6,6 +6,7 @@
     class="checkboxes">
 
     <lintel-checkbox
+      [default]="getDefault(ix)"
       [formControl]="control"
       [label]="getOptionDecoded(ix)"
       [title]="getOptionDescription(ix) || ''"

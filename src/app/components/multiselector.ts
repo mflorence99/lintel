@@ -15,6 +15,12 @@ import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
+// NOTE: defaults can be one of the following:
+// -- array of booleans 
+// -- Record<string, boolean> <-- PREFERRED
+
+export type MultiselectorDefaults = boolean[] | Record<string, boolean>;
+
 // NOTE: options can be one of the following:
 // -- array of encoded values
 // -- array of [encoded, decoded, description] values <-- PREFERRED
@@ -63,6 +69,8 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
 
   controls: FormControl[] = [];
 
+  @Input() defaults: MultiselectorDefaults;
+
   multiSelectorForm: FormGroup;
 
   @Input() nameOfDecoded = 'value';
@@ -95,6 +103,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     return this.toMultiselectorValues();
   }
   set value(values: MultiselectorValues) {
+    this._origValues = values;
     this.values = this.fromMultiselectorValues(values);
     // patch the form to reflect the values
     this.underConstruction = true;
@@ -110,6 +119,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
   // these shadow visible properties
   private _options: string[][] = [];
   private _origOptions: MultiselectorOptions;
+  private _origValues: MultiselectorValues;
 
   private onChange: Function;
   private underConstruction: boolean;
@@ -122,6 +132,17 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     this.multiSelectorForm = this.formBuilder.group({
       checkboxes: new FormArray([])
     });
+  }
+
+  /** Get a default by its index */
+  getDefault(ix: number): boolean {
+    if (!this.defaults)
+      return false;
+    else if (Array.isArray(this.defaults))
+      return this.defaults[ix];
+    else if (typeof this.defaults === 'object')
+      return this.defaults[this._options[ix][0]];
+    else return false;
   }
 
   /** Get an indexed decoded option value */
@@ -192,7 +213,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
       return new Set(values);
     } else if (values && typeof values === 'object') {
       this.valuesType = 'object';
-      return new Set(Object.keys(values).filter(val => values[val]));
+      return new Set(Object.keys(values).filter(key => values[key]));
     } else {
       this.valuesType = 'object';
       return new Set();
@@ -201,10 +222,13 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
 
   private toMultiselectorValues(): MultiselectorValues {
     if (this.valuesType === 'object') {
-      const obj = this._options.reduce((acc, option) => {
-        acc[option[0]] = false;
-        return acc;
-      }, { });
+      const obj = this._options
+        // NOTE: we're only going to emit what was passed in
+        .filter(option => this._origValues?.[option[0]] !== undefined)
+        .reduce((acc, option) => {
+          acc[option[0]] = false;
+          return acc;
+        }, { });
       this.values.forEach(value => obj[value] = true);
       return obj;
     } else return Array.from(this.values) as MultiselectorValues;

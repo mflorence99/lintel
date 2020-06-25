@@ -28,6 +28,10 @@
       opacity: var(--lintel-opacity-icon);
     }
 
+    &.default:not(.checked) {
+      opacity: var(--lintel-opacity-disabled);
+    }
+
   }
 }
 

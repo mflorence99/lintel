@@ -116,8 +116,11 @@ eslintFiles = {
       ],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
+        "ecmaFeatures": {
+          "arrowFunctions": true,
+          "classes": false
+        },
         "ecmaVersion": 2018,
-        "project": "./tsconfig.json",
         "sourceType": "module"
       },
       "plugins": [

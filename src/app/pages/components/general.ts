@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { DestroyService } from '../../services/destroy';
+import { ExtensionsState } from '../../state/extensions';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -53,9 +54,9 @@ export class GeneralComponent implements OnInit {
 
   properties = [
     ['extends', 'extending-configuration-files'],
+    ['parser', 'specifying-parser'], 
     ['parserOptions', 'specifying-parser-options'], 
     ['ecmaFeatures', 'specifying-parser-options'],
-    ['parser', 'specifying-parser'], 
     ['env', 'specifying-environments'], 
     ['globals', 'specifying-globals'],
     ['plugins', 'configuring-plugins'],
@@ -69,6 +70,7 @@ export class GeneralComponent implements OnInit {
   /** ctor */
   constructor(public configs: ConfigsState,
               private destroy$: DestroyService,
+              public extensions: ExtensionsState,
               private formBuilder: FormBuilder,
               public schema: SchemaState,
               public selection: SelectionState) {
@@ -83,12 +85,7 @@ export class GeneralComponent implements OnInit {
       parser: [this.configs.configuration.parser],
       parserOptions: this.formBuilder.group({ 
         ecmaVersion: [this.configs.configuration.parserOptions?.ecmaVersion],
-        extraFileExtensions: [this.configs.configuration.parserOptions?.extraFileExtensions],
-        project: [this.configs.configuration.parserOptions?.project],
-        projectFolderIgnoreList: [this.configs.configuration.parserOptions?.projectFolderIgnoreList],
-        sourceType: [this.configs.configuration.parserOptions?.sourceType],
-        tsconfigRootDir: [this.configs.configuration.parserOptions?.tsconfigRootDir],
-        warnOnUnsupportedTypeScriptVersion: [this.configs.configuration.parserOptions?.warnOnUnsupportedTypeScriptVersion]
+        sourceType: [this.configs.configuration.parserOptions?.sourceType]
       }),
       plugins: [this.configs.configuration.plugins],
       reportUnusedDisableDirectives: [this.configs.configuration.reportUnusedDisableDirectives],

@@ -1,6 +1,7 @@
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { ParserOptions } from './configs';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { Settings } from './configs';
 import { State } from '@ngxs/store';
@@ -13,8 +14,11 @@ import { patch } from '@ngxs/store/operators';
 declare const eslintExtensions: ExtensionsStateModel;
 
 export interface Extension {
+  ecmaFeatures?: Record<string, boolean>;
   env?: Record<string, boolean>;
   globals?: Record<string, boolean | number | string>;
+  parser?: string;
+  parserOptions?: ParserOptions;
   plugins?: string[];
   rules?: Record<string, Settings>;
 }

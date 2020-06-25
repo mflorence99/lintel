@@ -47,12 +47,7 @@ export type ConfigsStateModel = Record<string, Configuration>;
 export interface ParserOptions {
   ecmaFeatures?: Record<string, boolean>;
   ecmaVersion?: number;
-  extraFileExtensions?: string[];
-  project?: string | string[];
-  projectFolderIgnoreList?: (string | RegExp)[];
   sourceType?: string;
-  tsconfigRootDir?: string;
-  warnOnUnsupportedTypeScriptVersion?: boolean;  
 }
 
 export interface RuleDigest {
@@ -359,10 +354,6 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         // also very convenient to normalize extends to a string[]
         if (typeof configuration.extends === 'string')
           model[fileName].extends = [configuration.extends];
-        // also very convenient to normalize parserOptions.project to a string[]
-        const project = configuration.parserOptions?.project;
-        if (typeof project === 'string')
-          model[fileName].parserOptions.project = [project];
         // also very convenient to normalize global values
         if (configuration.globals) {
           model[fileName].globals = Object.keys(configuration.globals)

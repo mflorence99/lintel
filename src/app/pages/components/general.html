@@ -79,21 +79,26 @@
         class="settings">
 
         <lintel-multiselector
+          [defaults]="configs.extension?.parserOptions?.ecmaFeatures"
           [options]="options.ecmaFeatures"
           *ngSwitchCase="'ecmaFeatures'"
+          class="ecmaFeatures"
           columnWidth="20.5rem"
           formControlName="ecmaFeatures">
         </lintel-multiselector>
 
         <lintel-multiselector
+          [defaults]="configs.extension?.env"
           [options]="options.env"
           *ngSwitchCase="'env'"
+          class="env"
           columnWidth="10rem"
           formControlName="env">
         </lintel-multiselector>
 
         <lintel-input-array
           *ngSwitchCase="'extends'"
+          class="extends"
           columnWidth="20.5rem"
           formControlName="extends">
         </lintel-input-array>
@@ -101,32 +106,61 @@
         <lintel-key-value
           [valueConstraints]="options.globals"
           *ngSwitchCase="'globals'"
+          class="globals"
           columnWidth="20.5rem"
           formControlName="globals">
         </lintel-key-value>
 
         <lintel-input-array
           *ngSwitchCase="'ignorePatterns'"
+          class="ignorePatterns"
           columnWidth="10rem"
           formControlName="ignorePatterns">
         </lintel-input-array>
 
         <lintel-input
+          [placeholder]="configs.extension.parser || ''"
           *ngSwitchCase="'parser'"
+          class="parser"
           formControlName="parser">
         </lintel-input>
 
         <ng-container
           *ngSwitchCase="'parserOptions'">
 
-          <ng-container 
-            *ngTemplateOutlet="parserOptionsTemplate">
-          </ng-container>
+          <div
+            class="parserOptions"
+            formGroupName="parserOptions">
+
+            <div
+              *ngFor="let option of ['ecmaVersion', 'sourceType']"
+              class="option">
+
+              <div
+                class="tag">
+                .{{ option }}
+              </div>
+
+              <lintel-singleselector
+                [formControlName]="option"
+                [options]="options[option]"
+                placeholder="-- Default value of '{{ defaults[option] }}' --">
+              </lintel-singleselector>
+
+              <div
+                class="desc">
+                {{ descriptions[option] }}
+              </div>
+
+            </div>
+            
+          </div>
 
         </ng-container>
 
         <lintel-input-array
           *ngSwitchCase="'plugins'"
+          class="plugins"
           columnWidth="10rem"
           formControlName="plugins">
         </lintel-input-array>
@@ -136,6 +170,7 @@
 
           <lintel-key-value
             *ngIf="canDoSettings(); else cantDoSettings"
+            class="settings"
             columnWidth="20.5rem"
             formControlName="settings">
           </lintel-key-value>
@@ -156,104 +191,5 @@
     </section>
 
   </ng-container>
-
-  <!-- NOTE: parserOptions isolated for readability -->
-
-  <ng-template 
-    #parserOptionsTemplate>
-
-    <ng-container
-      formGroupName="parserOptions">
-
-      <article
-        class="parserOptions">
-
-        <div
-          *ngFor="let option of ['ecmaVersion', 'sourceType']"
-          class="option">
-
-          <div
-            class="tag">
-            .{{ option }}
-          </div>
-
-          <lintel-singleselector
-            [formControlName]="option"
-            [options]="options[option]"
-            placeholder="-- Default value of '{{ defaults[option] }}' --">
-          </lintel-singleselector>
-
-          <div
-            class="desc">
-            {{ descriptions[option] }}
-          </div>
-
-        </div>
-
-        <ng-container
-          *ngIf="configs.configuration.parser === '@typescript-eslint/parser'">
-
-
-          <div
-            *ngFor="let option of ['project', 'projectFolderIgnoreList', 'extraFileExtensions']"
-            class="option">
-
-            <div
-              class="tag">
-              .{{ option }}
-            </div>
-
-            <lintel-input-array
-              [formControlName]="option"
-              columnWidth="1fr">
-            </lintel-input-array>
-
-          </div>
-
-          <div  
-             class="option">
-
-            <div
-              class="tag">
-              .tsconfigRootDir
-            </div>
-
-            <lintel-input
-              formControlName="tsconfigRootDir">
-            </lintel-input>
-
-          </div>
-
-          <div  
-             class="option">
-
-            <div
-              class="tag">
-              .warnOnUnsupportedTypeScriptVersion
-            </div>
-
-            <div
-              class="checkbox">
-
-              <lintel-checkbox
-                formControlName="warnOnUnsupportedTypeScriptVersion">
-              </lintel-checkbox>
-
-              <div
-                class="desc">
-                Toggle parser warning for a version of TypeScript not explicitly supported
-              </div>
-
-            </div>
-
-          </div>
-
-        </ng-container>
-        
-      </article>
-
-    </ng-container>
-
-  </ng-template>
 
 </ng-container>

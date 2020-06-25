@@ -68,14 +68,10 @@
       "unicodeCodePointEscapes": false
     },
     "ecmaVersion": 2019,
-    "extraFileExtensions": null,
     "project": [
       "./tsconfig.json"
     ],
-    "projectFolderIgnoreList": null,
-    "sourceType": "module",
-    "tsconfigRootDir": null,
-    "warnOnUnsupportedTypeScriptVersion": false
+    "sourceType": "module"
   },
   "plugins": [
     "@angular-eslint",
