@@ -30,6 +30,7 @@ describe('core-util-is', () => {
 
   test('isNumber', () => {
     expect(isa.isNumber(42)).toBeTruthy();
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     expect(isa.isNumber(42 + '1')).toBeFalsy();
     expect(isa.isNumber('42')).toBeFalsy();
     expect(isa.isNumber([42])).toBeFalsy();
@@ -38,6 +39,7 @@ describe('core-util-is', () => {
 
   test('isString', () => {
     expect(isa.isString('42')).toBeTruthy();
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     expect(isa.isString(42 + '1')).toBeTruthy();
     expect(isa.isString(42)).toBeFalsy();
   });

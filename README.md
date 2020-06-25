@@ -1,6 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-97.63%25-green)](https://github.com/mflorence99/lintel/issues)
+[![Jest Coverage](https://img.shields.io/badge/coverage-97.68%25-green)](https://github.com/mflorence99/lintel/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 
@@ -38,7 +38,7 @@ Lintel contributes the following variables to the [settings](https://code.visual
 
 Lintel is driven purely by the JSON schemas of ESLint configuration files and of the rules that individual plugins publish. The `.eslintrc` schema is published by [SchemaStore](https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/eslintrc.json).
 
-Lintel runs ESLint but using your project's `node_modules` to load plugins and extract their rules schema. At the same time, it grabs the settings of rules that your configuration extends, for example via `plugin::@typescript-eslint/recommended`.
+Lintel runs ESLint but using your project's `node_modules` to load plugins and extract their rules schema. At the same time, it grabs the settings of rules that your configuration extends, for example via `plugin:@typescript-eslint/recommended`.
 
 So that startup is as fast as possible, Lintel comes prepackaged with the rules schema and settings for many popular plugins, including React, Vue, Jest and Node. These are updated asynchronously with the plugins actually installed in your project.
 
@@ -51,7 +51,7 @@ Active Rules shows all the rules that are currently defined in your configuratio
 ![Active Rules](docs/active-rules.png)
 
 * The analysis of inherited rules can be toggled via the 'eye' button in the filter bar.
-* Rules actually present in your configuration are highlight by a solid bar and those inherited via a dotted bar.
+* Rules actually present in your configuration are highlighted by a solid bar and those inherited via a dotted bar.
 
 > Hover over a rule and a `cog' tool like the settings editor in VSCode itself appears. One operation allows a rule to be removed from your configuration. If that rule is also exposed by a plugin, then the UI reverts to the plugin's settings.
 
@@ -70,6 +70,8 @@ Lintel does not currently model ESLint `overrides` in its UI. Any settings here 
 
 Lintel should support plugin installation and creation of an ESLint configuration from scratch.
 
+Lintel should support `extends` of locally installed configuration files.
+
 Comments in YAML files need to be supported.
 
 `eslintrc.js` configuration files are only supported in so far as they represent an object map and don't actually dynamically execute any code.
@@ -78,9 +80,7 @@ Comments in YAML files need to be supported.
 
 A very big thank you to ...
 
-The Lintel UI is built with [Angular](https://angular.io/), IMHO still the best.
-
-Also still the best state management store is [ngxs](https://www.ngxs.io/) and its very clever simplification [ngxs-labs/data](https://github.com/ngxs-labs/data/blob/HEAD/docs/README.md).
+The Lintel UI is built with [Angular](https://angular.io/), IMHO still the best. Also still the best state management store is [ngxs](https://www.ngxs.io/) and its very clever simplification [ngxs-labs/data](https://github.com/ngxs-labs/data/blob/HEAD/docs/README.md).
 
 Dustin Specker has published [awesome-eslint](https://github.com/dustinspecker/awesome-eslint), a fabulous curated list of ESLint plugins.
 

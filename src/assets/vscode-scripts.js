@@ -4,8 +4,10 @@
   NOTE:  deleted from index.html when running as extension
 */
 
+// eslint-disable-next-line no-undef
 lintelSearchParams = location.search;
 
+// eslint-disable-next-line no-undef
 lintelVSCodeAPI = {
 
   getState: () => {
@@ -57,4 +59,4 @@ lintelVSCodeAPI = {
     Object.keys(state).forEach(key => localStorage.setItem(key, state[key]));
   }
 
-}
+};

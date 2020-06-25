@@ -2,6 +2,7 @@
   @see https://github.com/i-ron-y/eslintrc-starter-files/blob/master/.eslintrc.json
 */
 
+// eslint-disable-next-line no-undef
 eslintFiles = {
 
   '.eslintrc.json': `

@@ -1,4 +1,5 @@
 // @see https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/eslintrc.json
+/* eslint-disable */
 
 eslintSchema = {
   "title": "JSON schema for ESLint configuration files",

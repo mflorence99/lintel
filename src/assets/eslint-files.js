@@ -5,7 +5,8 @@
  * We want to do it dynamically, so we can test load a variety of configurations.
  */
 
-const lintelIsReady = (function() {
+// eslint-disable-next-line no-undef
+lintelIsReady = (function() {
 
   // grab the search params
   let params = { };
@@ -25,7 +26,7 @@ const lintelIsReady = (function() {
 
     // dynamically load the script
     let script = document.createElement('script');
-    script.onload = function () {
+    script.onload = function() {
       console.log(`%cLoaded test files from ${whichFiles}`, 'color: red');
       resolve();
     };

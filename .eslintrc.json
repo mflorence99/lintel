@@ -1,23 +1,23 @@
 {
   "env": {
-    "browser": true,
-    "es2020": true,
-    "jest": true,
-    "node": true,
     "amd": false,
     "applescript": false,
     "atomtest": false,
+    "browser": true,
     "commonjs": false,
     "embertest": false,
     "es2017": false,
+    "es2020": true,
     "es6": false,
     "greasemonkey": false,
     "jasmine": false,
+    "jest": true,
     "jquery": false,
     "meteor": false,
     "mocha": false,
     "mongo": false,
     "nashorn": false,
+    "node": true,
     "phantomjs": false,
     "prototypejs": false,
     "protractor": false,
@@ -36,20 +36,10 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "ignorePatterns": [
-    "*.js",
     "node_modules/"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2019,
-    "project": [
-      "./tsconfig.json"
-    ],
-    "sourceType": "module",
-    "extraFileExtensions": null,
-    "projectFolderIgnoreList": null,
-    "tsconfigRootDir": null,
-    "warnOnUnsupportedTypeScriptVersion": false,
     "ecmaFeatures": {
       "arrowFunctions": false,
       "binaryLiterals": false,
@@ -76,14 +66,25 @@
       "superInFunctions": false,
       "templateStrings": false,
       "unicodeCodePointEscapes": false
-    }
+    },
+    "ecmaVersion": 2019,
+    "extraFileExtensions": null,
+    "project": [
+      "./tsconfig.json"
+    ],
+    "projectFolderIgnoreList": null,
+    "sourceType": "module",
+    "tsconfigRootDir": null,
+    "warnOnUnsupportedTypeScriptVersion": false
   },
   "plugins": [
     "@angular-eslint",
     "@typescript-eslint"
   ],
   "reportUnusedDisableDirectives": true,
+  "root": true,
   "rules": {
+    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/brace-style": "error",
     "@typescript-eslint/class-literal-property-style": [
       "error",
@@ -99,6 +100,7 @@
     "@typescript-eslint/default-param-last": [
       "error"
     ],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/member-ordering": [
       "error",
       {
@@ -186,13 +188,17 @@
         "selector": "typeLike"
       }
     ],
+    "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-extra-non-null-assertion": [
       "error"
     ],
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-implied-eval": "off",
     "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
+    "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-return": "off",
@@ -209,6 +215,7 @@
       "error",
       "single"
     ],
+    "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/semi": [
       "error",
       "always"
@@ -250,6 +257,9 @@
     "max-len": "off",
     "no-empty": "off",
     "no-prototype-builtins": "off",
+    "no-unused-vars": [
+      "off"
+    ],
     "quotes": "off",
     "semi": "off",
     "space-before-blocks": [
@@ -269,10 +279,6 @@
     "spaced-comment": [
       "error",
       "always"
-    ],
-    "no-unused-vars": [
-      "off"
     ]
-  },
-  "root": true
+  }
 }

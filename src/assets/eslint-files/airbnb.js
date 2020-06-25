@@ -2,6 +2,7 @@
   @see https://github.com/commercetools/eslint-config/blob/master/index.js
 */
 
+// eslint-disable-next-line no-undef
 eslintFiles = {
 
   '.eslintrc.js': `

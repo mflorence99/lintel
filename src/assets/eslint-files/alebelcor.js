@@ -2,6 +2,7 @@
   @see https://github.com/alebelcor/eslintrc/blob/master/.eslintrc
 */
 
+// eslint-disable-next-line no-undef
 eslintFiles = {
 
   '.eslintrc': `
