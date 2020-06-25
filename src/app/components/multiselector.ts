@@ -189,7 +189,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
   private fromMultiselectorValues(values: MultiselectorValues): Set<string> {
     if (Array.isArray(values)) {
       this.valuesType = 'array';
-      return new Set(values as string[]);
+      return new Set(values);
     } else if (values && typeof values === 'object') {
       this.valuesType = 'object';
       return new Set(Object.keys(values).filter(val => values[val]));

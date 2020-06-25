@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "e1797a63-90dc-4047-b3ed-706096956513"
+  },
   "defaultProject": "lintel",
   "newProjectRoot": "projects",
   "projects": {
@@ -38,6 +41,9 @@
             }
           },
           "options": {
+            "allowedCommonJsDependencies": [
+              "js-yaml"
+            ],
             "aot": true,
             "assets": [
               "src/favicon.ico",
@@ -86,8 +92,5 @@
       "sourceRoot": "src"
     }
   },
-  "version": 1,
-  "cli": {
-    "analytics": "e1797a63-90dc-4047-b3ed-706096956513"
-  }
+  "version": 1
 }
