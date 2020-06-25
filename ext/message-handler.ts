@@ -24,21 +24,49 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
       .filter(extensionName => extensionName.startsWith('plugin:'))
       .forEach(extensionName => {
         // TODO: we need to consider extensions versioning
-        let extension = extensionCache[extensionName];
-        if (!extension) {
+        let config = extensionCache[extensionName];
+        if (!config) {
           try {
             const { configName, moduleName } = normalizeExtensionName(extensionName);
             const modulePath = moduleLoader.createRequire(fileName).resolve(moduleName);
-            extension = require(modulePath)?.configs[configName];
-            extensionCache[extensionName] = extension;
+            config = require(modulePath)?.configs[configName];
+            extensionResolverFactory(config, modulePath)(config);
+            extensionCache[extensionName] = config;
           } catch (error) { 
             // TODO: telemetry on error
             console.log(error);
           } 
         }
-        if (extension && Object.keys(extension).length)
-          currentPanel.webview.postMessage({ command: 'extensions', extensions: { [extensionName]: extension } });
+        if (config && Object.keys(config).length)
+          currentPanel.webview.postMessage({ command: 'extensions', extensions: { [extensionName]: config } });
       });
+  };
+
+  const extensionResolverFactory = (config: any, modulePath: string): Function => {
+    const extensionResolver = (base: any): void => {
+      if (base.extends) {
+        if (!Array.isArray(base.extends))
+          base.extends = [base.extends];
+        base.extends.forEach(extensionName => {
+          let extension;
+          if (extensionName.startsWith('/'))
+            extension = require(extensionName);
+          else extension = require(path.join(path.dirname(modulePath), extensionName));
+          if (extension.extends)
+            extensionResolver(extension);
+          Object.keys(extension)
+            .filter(key => key !== 'extends')
+            .forEach(key => {
+              if (Array.isArray(extension[key]))
+                config[key] = Array.from(new Set([...extension[key], ...config[key] || []]));
+              else if (typeof extension[key] === 'object')
+                config[key] = Object.assign(config[key] || { }, extension[key]);
+              else config[key] = extension[key];
+            });
+        });
+      }
+    };
+    return extensionResolver;
   };
 
   const rulesGenerator = (fileName: string, plugins: string[]): void => {

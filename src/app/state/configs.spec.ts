@@ -77,6 +77,13 @@ describe('ConfigsState', () => {
     expect(view['prefer-shaken-not-stirred']).toBeTruthy();
   });
 
+  test('Extensions are properly merged', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    const extension = bundle.configs.extension;
+    console.log(JSON.stringify(extension, null, 2));
+    expect(extension).toBeTruthy();
+  });
+
   test('Rule digest is properly constructed', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
     const ruleName = 'brace-style';

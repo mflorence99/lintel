@@ -209,17 +209,17 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .map(extensionName => this.extensions.snapshot[extensionName])
       .filter(extension => !!extension)
       .reduce((acc, extension) => {
-        Object.assign(acc.env, extension.env ?? { });
-        Object.assign(acc.globals, extension.globals ?? { });
-        acc.plugins = Array.from(new Set([...acc.plugins, ...extension.plugins ?? []]));
-        Object.assign(acc.rules, extension.rules ?? { });
+        Object.keys(extension)
+          .filter(key => key !== 'extends')
+          .forEach(key => {
+            if (Array.isArray(extension[key]))
+              acc[key] = Array.from(new Set([...extension[key], ...acc[key] || []]));
+            else if (typeof extension[key] === 'object')
+              acc[key] = Object.assign(acc[key] || { }, extension[key]);
+            else acc[key] = extension[key];
+          });
         return acc;
-      }, { 
-        env: { },
-        globals: { },
-        plugins: [],
-        rules: { }
-      });
+      }, { });
   }
 
   @Computed() get extensionSettings(): Record<string, Settings> {

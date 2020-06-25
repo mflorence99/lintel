@@ -61,13 +61,15 @@ describe('VSCode extension', () => {
       expect(vscode.window.showTextDocument).toHaveBeenCalled();
 
       // NOTE: must be a real file in this case
-      post({ command: 'getExtensions', fileName: path.join(mockContext.extensionPath, '.eslintrc.json'), extensions: ['plugin:jest/recommended', 'plugin:@angular-eslint/recommended'] });
+      post({ command: 'getExtensions', fileName: path.join(mockContext.extensionPath, '.eslintrc.json'), extensions: ['plugin:jest/recommended', 'plugin:vue/recommended',  'plugin:@angular-eslint/recommended'] });
       calls = (panel.webview.postMessage as any).mock.calls;
       // NOTE: will be called twice
       expect(calls.length).toBeGreaterThanOrEqual(2);
-      message = calls[calls.length - 2][0];
+      message = calls[calls.length - 3][0];
       expect(message.command).toEqual('extensions');
       expect(message.extensions['plugin:jest/recommended']).toBeTruthy();
+      message = calls[calls.length - 2][0];
+      expect(message.extensions['plugin:vue/recommended']).toBeTruthy();
       message = calls[calls.length - 1][0];
       expect(message.extensions['plugin:@angular-eslint/recommended']).toBeTruthy();
 
