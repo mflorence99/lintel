@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
+import { Utils } from '../../services/utils';
 
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -45,11 +46,11 @@ export class GeneralComponent implements OnInit {
   generalForm: FormGroup;
 
   options = {
-    ecmaFeatures: this.makeOptionsFromProperties('properties.ecmaFeatures.properties'),
-    ecmaVersion: this.makeOptionsFromEnum('properties.parserOptions.properties.ecmaVersion.enum'),
-    env: this.makeOptionsFromProperties('properties.env.properties'),
-    globals: this.makeOptionsFromEnum('properties.globals.additionalProperties.oneOf[0].enum'),
-    sourceType: this.makeOptionsFromEnum('properties.parserOptions.properties.sourceType.enum')
+    ecmaFeatures: this.makeOptionsForMultiselector('ecmaFeatures', 'parserOptions.ecmaFeatures'),
+    ecmaVersion: this.makeOptionsForSingleselector('parserOptions.properties.ecmaVersion'),
+    env: this.makeOptionsForMultiselector('env', 'env'),
+    globals: this.makeOptionsForSingleselector('globals.additionalProperties.oneOf[0]'),
+    sourceType: this.makeOptionsForSingleselector('parserOptions.properties.sourceType')
   }; 
 
   properties = [
@@ -73,7 +74,8 @@ export class GeneralComponent implements OnInit {
               public extensions: ExtensionsState,
               private formBuilder: FormBuilder,
               public schema: SchemaState,
-              public selection: SelectionState) {
+              public selection: SelectionState,
+              public utils: Utils) {
     this.generalForm = this.formBuilder.group({
       // NOTE: ecmaFeatures moved from the top level into parseOptions
       ecmaFeatures: [this.configs.configuration.parserOptions?.ecmaFeatures ?? { }],
@@ -113,8 +115,16 @@ export class GeneralComponent implements OnInit {
   isConfigured(key: string): boolean {
     // NOTE: ecmaFeatures moved from the top level into parseOptions
     if (key === 'ecmaFeatures')
-      return this.configs.configuration.parserOptions?.hasOwnProperty(key);
-    else return this.configs.configuration.hasOwnProperty(key);
+      return this.utils.exists(this.configs.configuration.parserOptions?.ecmaFeatures);
+    else return this.utils.exists(this.configs.configuration[key]);
+  }
+
+  /** Has this section been inherited? */
+  isInherited(key: string): boolean {
+    // NOTE: ecmaFeatures moved from the top level into parseOptions
+    if (key === 'ecmaFeatures')
+      return this.utils.exists(this.configs.extension.parserOptions?.ecmaFeatures);
+    else return this.utils.exists(this.configs.extension[key]);
   }
 
   /** When we're ready */
@@ -152,16 +162,22 @@ export class GeneralComponent implements OnInit {
 
   // private methods
 
-  private makeOptionsFromEnum(path: string): string[][] {
-    const options = eval(`this.schema.${path}`);
-    return options.map(option => [option, option]);
+  private makeOptionsForMultiselector(nm: string, ext: string): string[][] {
+    const properties = eval(`this.schema.properties.${nm}.properties`);
+    let inherited;
+    try {
+      inherited = Object.keys(eval(`this.configs.extension.${ext}`) ?? { });
+    } catch {
+      inherited = [];
+    }
+    return Array.from(new Set([...Object.keys(properties), ...inherited]))
+      .sort()
+      .map(property => [property, property, properties[property]?.description]);
   }
 
-  private makeOptionsFromProperties(path: string): string[][] {
-    const properties = eval(`this.schema.${path}`);
-    return Object.keys(properties)
-      .sort()
-      .map(property => [property, property, properties[property].description]);
+  private makeOptionsForSingleselector(nm: string): string[][] {
+    const options = eval(`this.schema.properties.${nm}.enum`);
+    return options.map(option => [option, option]);
   }
 
   private makeValueChanges(key: string): Observable<[any, string]> {

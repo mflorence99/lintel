@@ -80,12 +80,6 @@ eslintFiles = {
       "vscode": "^1.41.0"
     },
     "eslintConfig": {
-      "env": {
-        "browser": true,
-        "es2020": true,
-        "jest": true,
-        "node": true
-      },
       "extends": [
         "eslint:recommended",
         "plugin:compat/recommended",

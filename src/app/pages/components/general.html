@@ -5,7 +5,7 @@
     *ngFor="let property of properties">
 
     <div
-      [ngClass]="{active: isConfigured(property[0])}"
+      [ngClass]="{active: isConfigured(property[0]), inherited: isInherited(property[0])}"
       class="gutter">
     </div>
 

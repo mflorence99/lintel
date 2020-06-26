@@ -42,7 +42,8 @@ describe('GeneralComponent', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
     component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
-    expect(component.isConfigured('ecmaFeatures')).toBe(false);
+    expect(component.isConfigured('ecmaFeatures')).toBe(true);
+    expect(component.isConfigured('env')).toBe(false);
     component.selection.select({ fileName: '/home/mflorence99/lintel/src/app/.eslintrc.yaml' });
     expect(component.isConfigured('ecmaFeatures')).toBe(true);
     component.selection.select({ fileName: '/home/mflorence99/el-3270/.eslintrc.js' });

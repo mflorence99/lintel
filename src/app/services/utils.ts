@@ -9,10 +9,7 @@ export class Utils {
 
   /** Deduplicate array contents */
   deduplicateArray(array: any[]): any[] {
-    return array
-      .slice()
-      .sort()
-      .filter((item, idx, array) => (idx === 0) || (array[idx - 1] !== item));
+    return Array.from(new Set(array));
   }
 
   /** Slow but surw */
@@ -35,8 +32,21 @@ export class Utils {
     }
   }
 
+  /** Does this thing exist? */
+  exists(obj: any): boolean {
+    if (obj == null)
+      return false;
+    else if (Array.isArray(obj))
+      return !!obj.length;
+    else if (typeof obj === 'string')
+      return !!obj.length;
+    else if (typeof obj === 'object')
+      return !this.isEmptyObject(obj);
+    else return true;
+  }
+
   /** Is supplied object empty? */
-  isEmptyObject(obj: Record<string, any>): boolean {
+  isEmptyObject(obj: any): boolean {
     return (obj === null) || (obj === undefined) || (Object.getOwnPropertyNames(obj).length === 0);
   }
 
@@ -83,4 +93,5 @@ export class Utils {
       }, { });
     } else return { };
   }
+
 }

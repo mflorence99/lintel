@@ -80,16 +80,12 @@ describe('MultiselectorComponent', () => {
     expect(component.getOptionDescription(2)).toBeFalsy();
   });
 
-  test('a null value is interpreted as all values false', () => {
+  test('a null value is interpreted as all values missing', () => {
     const fixture = TestBed.createComponent(MultiselectorComponent);
     const component = fixture.componentInstance;
     component.options = ['london', 'paris', 'rome'];
     component.value = null;
-    expect(component.value).toEqual({
-      london: false,
-      paris: false,
-      rome: false
-    });
+    expect(component.value).toEqual({ });
   });
 
   test('ngOnInit', done => {

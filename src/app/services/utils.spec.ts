@@ -40,10 +40,24 @@ describe('Utils', () => {
     });
   });
 
+  test('Object exists', () => {
+    const utils: Utils = services[0];
+    expect(utils.exists({ })).toBe(false);
+    expect(utils.exists({ x: 1 })).toBe(true);
+    expect(utils.exists(null)).toBe(false);
+    expect(utils.exists(undefined)).toBe(false);
+    expect(utils.exists('')).toBe(false);
+    expect(utils.exists('x')).toBe(true);
+    expect(utils.exists([])).toBe(false);
+    expect(utils.exists([0])).toBe(true);
+    expect(utils.exists(0)).toBe(true);
+    expect(utils.exists(false)).toBe(true);
+  });
+
   test('Object is empty', () => {
     const utils: Utils = services[0];
-    expect(utils.isEmptyObject({ })).toBeTruthy();
-    expect(utils.isEmptyObject({ x: 1 })).toBeFalsy();
+    expect(utils.isEmptyObject({ })).toBe(true);
+    expect(utils.isEmptyObject({ x: 1 })).toBe(false);
   });
 
   test('longestCommonPrefix', () => {

@@ -11,9 +11,19 @@
 }
 
 .gutter {
+  border-right: 2px solid transparent;
 
   &.active {
-    border-right: 2px solid var(--vscode-editorGutter-modifiedBackground);
+    border-right-color: var(--vscode-editorGutter-modifiedBackground);
+  }
+
+  &.inherited {
+    border-right-color: var(--vscode-editorGutter-modifiedBackground);
+    border-right-style: dotted;
+  }
+
+  &.active.inherited {
+    border-right-style: dashed;
   }
 
 }
