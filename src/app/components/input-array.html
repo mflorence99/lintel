@@ -6,6 +6,12 @@
     class="inputs">
 
     <lintel-input
+      [enabled]="false"
+      [value]="default"
+      *ngFor="let default of (defaults || []).sort()">
+    </lintel-input>
+
+    <lintel-input
       [formControl]="input"
       [max]="max"
       [min]="min"

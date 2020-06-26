@@ -37,6 +37,8 @@ export type InputValueType = number | string;
 
 export class InputComponent implements ControlValueAccessor {
 
+  @Input() enabled = true;
+
   @ViewChild('input', { static: true }) input: ElementRef;
 
   @Input() max: number;

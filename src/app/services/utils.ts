@@ -7,11 +7,6 @@ export type DeepSearchCallback = (container: any, value: any) => void;
 @Injectable({ providedIn: 'root' })
 export class Utils {
 
-  /** Deduplicate array contents */
-  deduplicateArray(array: any[]): any[] {
-    return Array.from(new Set(array));
-  }
-
   /** Slow but surw */
   deepCopy(obj: any): any {
     return JSON.parse(JSON.stringify(obj));

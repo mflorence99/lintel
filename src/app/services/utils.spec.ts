@@ -14,11 +14,6 @@ describe('Utils', () => {
 
   beforeEach(() => services = prepare([Utils]));
 
-  test('Array can be deduplicated', () => {
-    const utils: Utils = services[0];
-    expect(utils.deduplicateArray(['a', 'c', 'e', 'c', 'a'])).toEqual(['a', 'c', 'e']);
-  });
-
   test('Object can be deep copied', () => {
     const utils: Utils = services[0];
     const obj1 = { a: 1, b: { c: 2 } };

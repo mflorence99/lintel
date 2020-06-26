@@ -45,19 +45,16 @@ select {
 
 }
 
-// fa-icon {
-//   color: var(--vscode-editorWidget-foreground);
-// }
-
-input::placeholder {
-  color: var(--vscode-input-placeholderForeground);
-}
-
 input[type=number],
 input[type=text] {
   background: transparent;
   border: none;
   color: var(--vscode-input-foreground);
+}
+
+input[disabled],
+input::placeholder {
+  color: var(--vscode-input-placeholderForeground);
 }
 
 .ngx-contextmenu.dropdown {

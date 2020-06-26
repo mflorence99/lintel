@@ -10,13 +10,12 @@ import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnInit } from '@angular/core';
-import { Utils } from '../services/utils';
 
 import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
-export type InputArrayType = number[] | string[];
+export type InputArrayType =(number | string)[];
 
 /**
  * Input array form control
@@ -46,6 +45,8 @@ export type InputArrayType = number[] | string[];
 export class InputArrayComponent implements ControlValueAccessor, OnInit {
 
   @Input() columnWidth = '10rem';
+
+  @Input() defaults: InputArrayType = [];
 
   inputArrayForm: FormGroup;
 
@@ -89,8 +90,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
   /** ctor */
   constructor(private cdf: ChangeDetectorRef,
               private destroy$: DestroyService,
-              private formBuilder: FormBuilder,
-              private utils: Utils) { 
+              private formBuilder: FormBuilder) { 
     // initialize the form
     this.inputArrayForm = this.formBuilder.group({
       inputs: new FormArray([])
@@ -115,7 +115,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
           .filter(val => !!val)
           .map(val => (this.type === 'number') ? Number(val) : val);
         if (this.uniqueItems)
-          this.values = this.utils.deduplicateArray(this.values);
+          this.values = Array.from(new Set(this.values));
         this.onChange?.(this.value);
       });
   }

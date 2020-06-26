@@ -55,3 +55,8 @@
   font-family: monospace;
   font-size: 0.8rem;
 }
+
+::ng-deep lintel-key-value lintel-input.key input[disabled],
+::ng-deep lintel-key-value lintel-singleselector.key select[disabled] {
+  color: var(--vscode-input-placeholderForeground);
+}

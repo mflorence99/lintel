@@ -2,6 +2,7 @@
 
 <input
   (input)="value = $event.target.value"
+  [attr.disabled]="!enabled? true : null"
   [max]="max"
   [min]="min"
   [placeholder]="placeholder"

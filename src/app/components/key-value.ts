@@ -48,6 +48,8 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
 
   @Input() columnWidth = '20rem';
 
+  @Input() defaults: KeyValueType = { };
+
   @Input() keyConstraints: string[];
 
   keyValueForm: FormGroup;
@@ -64,10 +66,11 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
 
   @Input() 
   get value(): KeyValueType {
-    return this.keyValues; 
+    return this.toKeyValue(); 
   }
   set value(value: KeyValueType) {
-    this.keyValues = value ?? { };
+    this.origValue = value ?? { };
+    this.keyValues = this.fromKeyValue(value);
     this.underConstruction = true;
     const keyValues = this.keyValueForm.controls.keyValues as FormArray;
     // NOTE: there's always one more array for a new key-value
@@ -87,6 +90,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   }
 
   private onChange: Function;
+  private origValue: KeyValueType;
   private underConstruction: boolean;
 
   /** ctor  */
@@ -105,6 +109,12 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
     keyValues.push(new FormArray([new FormControl(null), new FormControl(null)]));
   }
 
+  /** Is this control a default? */
+  isDefault(ix: number): boolean {
+    const key = Object.keys(this.keyValues)[ix];
+    return (this.defaults?.[key] !== undefined) && (this.origValue?.[key] === undefined);
+  }
+
   /** When we're ready */
   ngOnInit(): void {
     this.keyValueForm.valueChanges
@@ -113,12 +123,15 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe(value => {
-        this.keyValues = value.keyValues
-          .filter(entry => !!entry[0])
+        const keyValues = value.keyValues
+          // NOTE: keep originals and changed defaults
+          .filter((entry, ix) => entry[0] && (!this.isDefault(ix) || this.keyValues[entry[0]] !== entry[1]))
           .reduce((acc, cur) => {
             acc[cur[0]] = this.coerce(cur[1]);
             return acc;
           }, { });
+        this.origValue = keyValues;
+        this.keyValues = this.fromKeyValue(keyValues);
         this.onChange?.(this.value);
       });
   }
@@ -156,6 +169,27 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
         return Boolean(value === 'true');
     }
     return value;
+  }
+
+  private fromKeyValue(value: KeyValueType): KeyValueType {
+    const keyValues = { };
+    // NOTE: we want the keys in alpha order
+    Object.keys(this.defaults ?? { })
+      .sort()
+      .forEach(key => keyValues[key] = this.defaults[key]);
+    Object.keys(value ?? {})
+      .sort()
+      .forEach(key => keyValues[key] = value[key]);
+    return keyValues;
+  }
+
+  private toKeyValue(): KeyValueType {
+    return Object.keys(this.keyValues)
+      .filter(key => this.origValue?.[key] !== undefined)
+      .reduce((acc, key) => {
+        acc[key] = this.keyValues[key];
+        return acc;
+      }, { });
   }
 
 }

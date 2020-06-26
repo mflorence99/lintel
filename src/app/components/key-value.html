@@ -12,6 +12,7 @@
       <!-- key w/o key constraints -->
 
       <lintel-input
+        [enabled]="!isDefault(ix)"
         [formControl]="keyValue['controls'][0]"
         *ngIf="!keyConstraints"
         class="key"

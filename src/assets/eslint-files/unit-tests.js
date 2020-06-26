@@ -342,7 +342,7 @@ eslintFiles = {
   }`,
   '/home/mflorence99/lintel/empty.json': '{ /* empty */ }',
   '/home/mflorence99/lintel/invalid.json': 'blah blah',
-  '/home/mflorence99/lintel/not-supported.cjs': 'blah blah',
+  '/home/mflorence99/lintel/common-js.cjs': 'module.exports = { };',
   '/home/mflorence99/lintel/src/app/.eslintrc.yaml': `
 parserOptions:
   ecmaFeatures:

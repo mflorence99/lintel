@@ -11,7 +11,6 @@ import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { SingleselectorOptions } from './singleselector';
-import { Utils } from '../services/utils';
 
 import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
@@ -88,8 +87,7 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
   /** ctor */
   constructor(private cdf: ChangeDetectorRef,
               private destroy$: DestroyService,
-              private formBuilder: FormBuilder,
-              private utils: Utils) {
+              private formBuilder: FormBuilder) {
     // initialize the form
     this.selectArrayForm = this.formBuilder.group({
       selects: new FormArray([])
@@ -113,7 +111,7 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
         this.values = value.selects
           .filter(val => !!val);
         if (this.uniqueItems)
-          this.values = this.utils.deduplicateArray(this.values);
+          this.values = Array.from(new Set(this.values));
         this.onChange?.(this.value);
       });
   }
