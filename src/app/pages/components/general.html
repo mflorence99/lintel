@@ -173,6 +173,22 @@
               </div>
 
             </div>
+
+            <div
+              *ngFor="let item of inheritedParserOptions() | keyvalue"
+              class="option">
+
+              <div
+                class="tag">
+                .{{ item.key }}
+              </div>
+
+              <lintel-input
+                [formControlName]="item.key"
+                [placeholder]="item.value || ' '">
+              </lintel-input>
+
+            </div>
             
           </div>
 

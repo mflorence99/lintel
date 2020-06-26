@@ -67,10 +67,7 @@ export class GeneralComponent implements OnInit {
       ignorePatterns: [this.configs.configuration.ignorePatterns],
       noInlineConfig: [this.configs.configuration.noInlineConfig],
       parser: [this.configs.configuration.parser],
-      parserOptions: this.formBuilder.group({ 
-        ecmaVersion: [this.configs.configuration.parserOptions?.ecmaVersion],
-        sourceType: [this.configs.configuration.parserOptions?.sourceType]
-      }),
+      parserOptions: this.formBuilder.group(this.makeParserOptionsControls()),
       plugins: [this.configs.configuration.plugins],
       reportUnusedDisableDirectives: [this.configs.configuration.reportUnusedDisableDirectives],
       root: [this.configs.configuration.root],
@@ -91,6 +88,13 @@ export class GeneralComponent implements OnInit {
   /** Edit a file */
   editFile(fileName: string): void {
     lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
+  }
+
+  /** Extract inherited parser options */
+  inheritedParserOptions(): any {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { ecmaFeatures, ecmaVersion, sourceType, ...inherited } = this.configs.extension.parserOptions ?? { };
+    return inherited;
   }
 
   /** Has this section been configured? */
@@ -137,6 +141,18 @@ export class GeneralComponent implements OnInit {
   makeOptionsForSingleselector(nm: string): string[][] {
     const options = eval(`this.schema.properties.${nm}.enum`);
     return options.map(option => [option, option]);
+  }
+
+  /** Make the parserOptions controls */
+  makeParserOptionsControls(): Record<string, any[]> {
+    return Object.entries(this.inheritedParserOptions())
+      .reduce((acc, [key, _]) => {
+        acc[key] = [null];
+        return acc;
+      }, {
+        ecmaVersion: [this.configs.configuration.parserOptions?.ecmaVersion],
+        sourceType: [this.configs.configuration.parserOptions?.sourceType]
+      });
   }
 
   /** When we're ready */

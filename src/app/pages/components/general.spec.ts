@@ -38,6 +38,15 @@ describe('GeneralComponent', () => {
     });
   });
 
+  test('inheritedParserOptions', () => {
+    const fixture = TestBed.createComponent(GeneralComponent);
+    const component = fixture.componentInstance;
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    expect(component.inheritedParserOptions()).toEqual({
+      project: './tsconfig.json'
+    });
+  });
+
   test('isConfigured', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
@@ -74,8 +83,25 @@ describe('GeneralComponent', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
     component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
-    const options = component.makeOptionsForSingleselector('parserOptions.properties.ecmaVersion');
-    expect(options.find(option => String(option[0]) === '2020')).toBeTruthy();
+    const options = component.makeOptionsForSingleselector('globals.additionalProperties.oneOf[0]');
+    expect(options.find(option => option[0] === 'readonly')).toBeTruthy();
+  });
+
+  test('makeParserOptionsControls', () => {
+    const fixture = TestBed.createComponent(GeneralComponent);
+    const component = fixture.componentInstance;
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    const controls = component.makeParserOptionsControls();
+    expect(controls.project).toEqual([null]);
+  });
+
+  test('inheritedParserOptions', () => {
+    const fixture = TestBed.createComponent(GeneralComponent);
+    const component = fixture.componentInstance;
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    expect(component.inheritedParserOptions()).toEqual({
+      project: './tsconfig.json'
+    });
   });
 
   test('ngOnInit', () => {
