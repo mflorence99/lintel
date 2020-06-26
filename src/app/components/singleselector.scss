@@ -21,6 +21,11 @@ select {
   font-weight: var(--vscode-font-weight);
   height: 100%;
   width: 100%;
+
+  &.placeholder {
+    color: var(--vscode-input-placeholderForeground);
+  }
+
 }
 
 ::ng-deep lintel-singleselector > fa-icon {

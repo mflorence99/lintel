@@ -14,7 +14,7 @@ describe('FilesState', () => {
 
   test('package.json is properly parsed', () => {
     const config = bundle.files.load('/home/mflorence99/lintel/package.json');
-    expect(config.parser).toEqual('@typescript-eslint/parser');
+    expect(config.extends[0]).toEqual('eslint:recommended');
   });
 
   test('ext/.eslintrc.js is properly parsed', () => { 

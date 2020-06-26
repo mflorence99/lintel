@@ -108,7 +108,6 @@ eslintFiles = {
         "*.js",
         "node_modules/"
       ],
-      "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "ecmaFeatures": {
           "arrowFunctions": true,

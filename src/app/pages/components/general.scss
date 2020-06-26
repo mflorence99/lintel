@@ -23,7 +23,8 @@
   }
 
   &.active.inherited {
-    border-right-style: dashed;
+    // border-right-style: dashed;
+    border-right-style: solid;
   }
 
 }

@@ -47,7 +47,10 @@ export class Utils {
 
   /** Is supplied object empty? */
   isEmptyObject(obj: any): boolean {
-    return (obj === null) || (obj === undefined) || (Object.getOwnPropertyNames(obj).length === 0);
+    return (obj === null) 
+      || (obj === undefined) 
+      || (Object.getOwnPropertyNames(obj).length === 0)
+      || Object.getOwnPropertyNames(obj).every(nm => obj[nm] == null);
   }
 
   /** Find the longest common prefix from a list */

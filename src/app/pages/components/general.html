@@ -80,7 +80,7 @@
 
         <lintel-multiselector
           [defaults]="configs.extension?.parserOptions?.ecmaFeatures"
-          [options]="options.ecmaFeatures"
+          [options]="makeOptionsForMultiselector('ecmaFeatures', 'parserOptions.ecmaFeatures')"
           *ngSwitchCase="'ecmaFeatures'"
           class="ecmaFeatures"
           columnWidth="20.5rem"
@@ -89,7 +89,7 @@
 
         <lintel-multiselector
           [defaults]="configs.extension?.env"
-          [options]="options.env"
+          [options]="makeOptionsForMultiselector('env', 'env')"
           *ngSwitchCase="'env'"
           class="env"
           columnWidth="10rem"
@@ -104,7 +104,7 @@
         </lintel-input-array>
 
         <lintel-key-value
-          [valueConstraints]="options.globals"
+          [valueConstraints]="makeOptionsForSingleselector('globals.additionalProperties.oneOf[0]')"
           *ngSwitchCase="'globals'"
           class="globals"
           columnWidth="20.5rem"
@@ -133,23 +133,43 @@
             formGroupName="parserOptions">
 
             <div
-              *ngFor="let option of ['ecmaVersion', 'sourceType']"
               class="option">
 
               <div
                 class="tag">
-                .{{ option }}
+                .ecmaVersion
               </div>
 
               <lintel-singleselector
-                [formControlName]="option"
-                [options]="options[option]"
-                placeholder="-- Default value of '{{ defaults[option] }}' --">
+                [options]="makeOptionsForSingleselector('parserOptions.properties.ecmaVersion')"
+                [placeholder]="configs.extension.parserOptions?.ecmaVersion || ' '"
+                formControlName="ecmaVersion">
               </lintel-singleselector>
 
               <div
                 class="desc">
-                {{ descriptions[option] }}
+                {{ schema.properties.parserOptions.properties.ecmaVersion.description }}
+              </div>
+
+            </div>
+
+            <div
+              class="option">
+
+              <div
+                class="tag">
+                .sourceType
+              </div>
+
+              <lintel-singleselector
+                [options]="makeOptionsForSingleselector('parserOptions.properties.sourceType')"
+                [placeholder]="configs.extension.parserOptions?.sourceType || ' '"
+                formControlName="sourceType">
+              </lintel-singleselector>
+
+              <div
+                class="desc">
+                {{ schema.properties.parserOptions.properties.sourceType.description }}
               </div>
 
             </div>

@@ -2,6 +2,7 @@
 
 <select
   (change)="selectByIndex($event.target.selectedIndex)"
+  [ngClass]="{placeholder: placeholder && (select.selectedIndex === 0)}"
   #select
   tabIndex=0
   autocomplete="off">

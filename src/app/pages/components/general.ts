@@ -33,25 +33,7 @@ declare const lintelVSCodeAPI;
 
 export class GeneralComponent implements OnInit { 
 
-  defaults =  {
-    ecmaVersion: this.schema.properties.parserOptions.properties.ecmaVersion.default,
-    sourceType: this.schema.properties.parserOptions.properties.sourceType.default
-  };
-
-  descriptions = {
-    ecmaVersion: this.schema.properties.parserOptions.properties.ecmaVersion.description,
-    sourceType: this.schema.properties.parserOptions.properties.sourceType.description
-  };
-
   generalForm: FormGroup;
-
-  options = {
-    ecmaFeatures: this.makeOptionsForMultiselector('ecmaFeatures', 'parserOptions.ecmaFeatures'),
-    ecmaVersion: this.makeOptionsForSingleselector('parserOptions.properties.ecmaVersion'),
-    env: this.makeOptionsForMultiselector('env', 'env'),
-    globals: this.makeOptionsForSingleselector('globals.additionalProperties.oneOf[0]'),
-    sourceType: this.makeOptionsForSingleselector('parserOptions.properties.sourceType')
-  }; 
 
   properties = [
     ['extends', 'extending-configuration-files'],
@@ -116,7 +98,12 @@ export class GeneralComponent implements OnInit {
     // NOTE: ecmaFeatures moved from the top level into parseOptions
     if (key === 'ecmaFeatures')
       return this.utils.exists(this.configs.configuration.parserOptions?.ecmaFeatures);
-    else return this.utils.exists(this.configs.configuration[key]);
+    // ... but still consider parserOptions separately
+    else if (key === 'parserOptions') {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { ecmaFeatures, ...rest } = this.configs.configuration.parserOptions ?? { };
+      return this.utils.exists(rest);
+    } else return this.utils.exists(this.configs.configuration[key]);
   }
 
   /** Has this section been inherited? */
@@ -124,7 +111,32 @@ export class GeneralComponent implements OnInit {
     // NOTE: ecmaFeatures moved from the top level into parseOptions
     if (key === 'ecmaFeatures')
       return this.utils.exists(this.configs.extension.parserOptions?.ecmaFeatures);
-    else return this.utils.exists(this.configs.extension[key]);
+    // ... but still consider parserOptions separately
+    else if (key === 'parserOptions') {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { ecmaFeatures, ...rest } = this.configs.extension.parserOptions ?? { };
+      return this.utils.exists(rest);
+    } else return this.utils.exists(this.configs.extension[key]);
+  }
+
+  /** Merge extension into options */
+  makeOptionsForMultiselector(nm: string, ext: string): string[][] {
+    const properties = eval(`this.schema.properties.${nm}.properties`);
+    let inherited;
+    try {
+      inherited = Object.keys(eval(`this.configs.extension.${ext}`) ?? {});
+    } catch {
+      inherited = [];
+    }
+    return Array.from(new Set([...Object.keys(properties), ...inherited]))
+      .sort()
+      .map(property => [property, property, properties[property]?.description]);
+  }
+
+  /** Options from enum */
+  makeOptionsForSingleselector(nm: string): string[][] {
+    const options = eval(`this.schema.properties.${nm}.enum`);
+    return options.map(option => [option, option]);
   }
 
   /** When we're ready */
@@ -161,24 +173,6 @@ export class GeneralComponent implements OnInit {
   }
 
   // private methods
-
-  private makeOptionsForMultiselector(nm: string, ext: string): string[][] {
-    const properties = eval(`this.schema.properties.${nm}.properties`);
-    let inherited;
-    try {
-      inherited = Object.keys(eval(`this.configs.extension.${ext}`) ?? { });
-    } catch {
-      inherited = [];
-    }
-    return Array.from(new Set([...Object.keys(properties), ...inherited]))
-      .sort()
-      .map(property => [property, property, properties[property]?.description]);
-  }
-
-  private makeOptionsForSingleselector(nm: string): string[][] {
-    const options = eval(`this.schema.properties.${nm}.enum`);
-    return options.map(option => [option, option]);
-  }
 
   private makeValueChanges(key: string): Observable<[any, string]> {
     return combineLatest([this.generalForm.controls[key].valueChanges, of(key)]);
