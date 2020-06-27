@@ -75,6 +75,8 @@ export type Settings = [Level, ...any[]];
 
 export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
+  private debouncer = { };
+
   /** ctor */
   constructor(private extensions: ExtensionsState,
               private files: FilesState,
@@ -91,7 +93,17 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @DataAction({ insideZone: true })
   changeConfiguration(@Payload('changes') changes: any): void {
     const fileName = this.selection.fileName;
+    const before = this.ctx.getState()[fileName];
     this.ctx.setState(patch({ [fileName]: patch(changes) }));
+    const after = this.ctx.getState()[fileName];
+    // load any extensions that are new
+    const extensions = this.utils.diff(after.extends ?? [], before.extends ?? []);
+    if (extensions.length)
+      this.debouncedPostMessage({ command: 'getExtensions', fileName, extensions });
+    // load any plugins that are new
+    const plugins = this.utils.diff(after.plugins ?? [], before.plugins ?? []);
+    if (plugins.length)
+      this.debouncedPostMessage({ command: 'getRules', fileName, plugins });
     // now patch source file by resolving changes to a full replacement
     const state = this.ctx.getState();
     const replacement = Object.keys(changes)
@@ -334,6 +346,12 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   // private methods
+
+  private debouncedPostMessage(message: any): void {
+    const key = `${message.fileName}-${message.command}`;
+    clearTimeout(this.debouncer[key]);
+    this.debouncer[key] = setTimeout(() => lintelVSCodeAPI.postMessage(message), this.params.debounceTimeout);
+  }
 
   private normalize(configs: ConfigsStateModel): ConfigsStateModel {
     const model = this.utils.deepCopy(configs);

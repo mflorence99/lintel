@@ -84,7 +84,6 @@ eslintFiles = {
         "eslint:recommended",
         "plugin:compat/recommended",
         "plugin:jest/recommended",
-        "plugin:lodash/recommended",
         "plugin:lodash-fp/recommended",
         "plugin:node/recommended",
         "plugin:react/recommended",

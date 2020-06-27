@@ -27,6 +27,13 @@ export class Utils {
     }
   }
 
+  /** Diff two arrays */
+  diff(p: any[], q: any[]): any[] {
+    const s = new Set(p);
+    const t = new Set(q);
+    return [...s].filter(x => !t.has(x));
+  }
+
   /** Does this thing exist? */
   exists(obj: any): boolean {
     if (obj == null)

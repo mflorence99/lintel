@@ -82,7 +82,6 @@ describe('ConfigsState', () => {
     const extension = bundle.configs.extension;
     expect(extension.plugins).toContain('compat');
     expect(extension.plugins).toContain('jest');
-    expect(extension.plugins).toContain('lodash');
     expect(extension.plugins).toContain('lodash-fp');
     expect(extension.plugins).toContain('node');
 

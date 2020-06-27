@@ -7,6 +7,7 @@ export class Params {
   activeCategory = 'Active Rules';
   basePluginName = 'eslint';
   catchAllCategory = 'Other Rules';
+  debounceTimeout = 2500;
   generalSettings = 'ESLint Config';
   maxNumTabs = 8;
   searchParams = {

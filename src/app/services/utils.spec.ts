@@ -35,6 +35,13 @@ describe('Utils', () => {
     });
   });
 
+  test('two arrays can be diffed', () => {
+    const a = [1, 2, 3];
+    const b = [4, 3, 2, 0];
+    const utils: Utils = services[0];
+    expect(utils.diff(a, b)).toEqual([1]);
+  });
+
   test('Object exists', () => {
     const utils: Utils = services[0];
     expect(utils.exists({ })).toBe(false);

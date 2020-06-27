@@ -34,7 +34,8 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
             extensionCache[extensionName] = config;
           } catch (error) { 
             // TODO: telemetry on error
-            console.log(error);
+            // BUT ... we may just be loading a partially typed name
+            console.log(error.message);
           } 
         }
         if (config && Object.keys(config).length)
@@ -92,7 +93,8 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
           ruleCache[pluginName] = rules;
         } catch (error) {
           // TODO: telemetry on error
-          console.log(error);
+          // BUT ... we may just be loading a partially typed name
+          console.log(error.message);
         }
       }
       if (rules && Object.keys(rules).length)
