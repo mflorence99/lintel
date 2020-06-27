@@ -8,7 +8,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 
 import { forwardRef } from '@angular/core';
-
 /**
  * Simple checkbox form control
  *

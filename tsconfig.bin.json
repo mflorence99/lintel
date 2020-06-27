@@ -2,14 +2,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "outDir": "dist/ext",
+    "outDir": "dist/bin",
     "sourceMap": true,
-    "rootDir": "ext"
+    "rootDir": "bin"
   },
-  "exclude": [
-    "ext/**/*.spec.ts"
-  ],
   "include": [
-    "ext/**/*.ts"
+    "bin/**/*.ts"
   ]
 }
