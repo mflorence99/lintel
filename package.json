@@ -85,6 +85,7 @@
     "@ngxs-labs/data": "^3.0.6",
     "@ngxs/logger-plugin": "^3.6.2",
     "@ngxs/store": "^3.6.2",
+    "@ts-stack/markdown": "^1.0.0",
     "@types/escodegen": "0.0.6",
     "@types/eslint": "^7.2.0",
     "@types/esprima": "^4.0.2",

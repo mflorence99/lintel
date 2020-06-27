@@ -1,5 +1,6 @@
 import { BarrelModule } from '../barrel';
 import { LinkifyPipe } from './linkify';
+import { MarkedPipe } from './marked';
 import { NgModule } from '@angular/core';
 
 /**
@@ -7,7 +8,8 @@ import { NgModule } from '@angular/core';
  */
 
 const PIPES = [
-  LinkifyPipe
+  LinkifyPipe,
+  MarkedPipe
 ];
 
 @NgModule({

@@ -18,6 +18,10 @@ export class LinkifyPipe implements PipeTransform {
     if (s == null)
       return dflt;
 
+    // quick exit if already transformed
+    if (s.includes('<a ') && s.includes('</a>'))
+      return s;
+
     // URLs starting with http://, https://, or ftp://
     const p1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gim;
     s = s.replace(p1, '<a href="$1" target="_blank">$1</a>');
