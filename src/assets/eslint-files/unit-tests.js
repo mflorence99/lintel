@@ -98,10 +98,10 @@ eslintFiles = {
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
       ],
       "globals": {
-        "document": false,
+        "document": "readonly",
         "globalThis": "off",
         "navigator": "readable",
-        "window": true
+        "xwindow": "writable"
       },
       "ignorePatterns": [
         "*.js",

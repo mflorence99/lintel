@@ -221,7 +221,17 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
           .forEach(key => {
             if (Array.isArray(extension[key]))
               acc[key] = Array.from(new Set([...acc[key] || [], ...extension[key]]));
-            else if (typeof extension[key] === 'object')
+            // NOTE rules are melded specially
+            else if (key === 'rules') {
+              acc['rules'] = acc.rules ?? { };
+              Object.entries(extension.rules)
+                .map(([ruleName, rule]) => [ruleName, Array.isArray(rule) ? rule : [rule]] as any[])
+                .forEach(([ruleName, rule]) => {
+                  if (!acc.rules[ruleName] || (rule.length > 1))
+                    acc.rules[ruleName] = rule;
+                  else acc.rules[ruleName] = [rule[0], ...acc.rules[ruleName].slice(1)];
+                });
+            } else if (typeof extension[key] === 'object')
               acc[key] = Object.assign(acc[key] || { }, extension[key]);
             else acc[key] = extension[key];
           });

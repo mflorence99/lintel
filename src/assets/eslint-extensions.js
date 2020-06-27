@@ -624,11 +624,9 @@ eslintExtensions = {
       "unicorn/no-new-buffer": "error",
       "unicorn/no-null": "error",
       "unicorn/no-process-exit": "error",
-      "unicorn/no-reduce": "error",
       "unicorn/no-unreadable-array-destructuring": "error",
       "unicorn/no-unsafe-regex": "off",
       "unicorn/no-unused-properties": "off",
-      "unicorn/no-useless-undefined": "error",
       "unicorn/no-zero-fractions": "error",
       "unicorn/number-literal-case": "error",
       "unicorn/prefer-add-event-listener": "error",
@@ -641,7 +639,6 @@ eslintExtensions = {
       "unicorn/prefer-node-append": "error",
       "unicorn/prefer-node-remove": "error",
       "unicorn/prefer-number-properties": "error",
-      "unicorn/prefer-optional-catch-binding": "error",
       "unicorn/prefer-query-selector": "error",
       "unicorn/prefer-reflect-apply": "error",
       "unicorn/prefer-replace-all": "off",
@@ -663,61 +660,171 @@ eslintExtensions = {
       "vue/no-v-html": "warn",
       "vue/order-in-components": "warn",
       "vue/this-in-template": "warn",
-      "vue/comment-directive": "error",
-      "vue/jsx-uses-vars": "error",
-      "vue/no-async-in-computed-properties": "error",
-      "vue/no-dupe-keys": "error",
-      "vue/no-duplicate-attributes": "error",
-      "vue/no-parsing-error": "error",
-      "vue/no-reserved-keys": "error",
-      "vue/no-shared-component-data": "error",
-      "vue/no-side-effects-in-computed-properties": "error",
-      "vue/no-template-key": "error",
-      "vue/no-textarea-mustache": "error",
-      "vue/no-unused-components": "error",
-      "vue/no-unused-vars": "error",
-      "vue/no-use-v-if-with-v-for": "error",
-      "vue/require-component-is": "error",
-      "vue/require-prop-type-constructor": "error",
-      "vue/require-render-return": "error",
-      "vue/require-v-for-key": "error",
-      "vue/require-valid-default-prop": "error",
-      "vue/return-in-computed-property": "error",
-      "vue/use-v-on-exact": "error",
-      "vue/valid-template-root": "error",
-      "vue/valid-v-bind": "error",
-      "vue/valid-v-cloak": "error",
-      "vue/valid-v-else-if": "error",
-      "vue/valid-v-else": "error",
-      "vue/valid-v-for": "error",
-      "vue/valid-v-html": "error",
-      "vue/valid-v-if": "error",
-      "vue/valid-v-model": "error",
-      "vue/valid-v-on": "error",
-      "vue/valid-v-once": "error",
-      "vue/valid-v-pre": "error",
-      "vue/valid-v-show": "error",
-      "vue/valid-v-text": "error",
-      "vue/attribute-hyphenation": "warn",
-      "vue/html-closing-bracket-newline": "warn",
-      "vue/html-closing-bracket-spacing": "warn",
-      "vue/html-end-tags": "warn",
-      "vue/html-indent": "warn",
-      "vue/html-quotes": "warn",
-      "vue/html-self-closing": "warn",
-      "vue/max-attributes-per-line": "warn",
-      "vue/multiline-html-element-content-newline": "warn",
-      "vue/mustache-interpolation-spacing": "warn",
-      "vue/name-property-casing": "warn",
-      "vue/no-multi-spaces": "warn",
-      "vue/no-spaces-around-equal-signs-in-attribute": "warn",
-      "vue/no-template-shadow": "warn",
-      "vue/prop-name-casing": "warn",
-      "vue/require-default-prop": "warn",
-      "vue/require-prop-types": "warn",
-      "vue/singleline-html-element-content-newline": "warn",
-      "vue/v-bind-style": "warn",
-      "vue/v-on-style": "warn"
+      "vue/comment-directive": [
+        "error"
+      ],
+      "vue/jsx-uses-vars": [
+        "error"
+      ],
+      "vue/no-async-in-computed-properties": [
+        "error"
+      ],
+      "vue/no-dupe-keys": [
+        "error"
+      ],
+      "vue/no-duplicate-attributes": [
+        "error"
+      ],
+      "vue/no-parsing-error": [
+        "error"
+      ],
+      "vue/no-reserved-keys": [
+        "error"
+      ],
+      "vue/no-shared-component-data": [
+        "error"
+      ],
+      "vue/no-side-effects-in-computed-properties": [
+        "error"
+      ],
+      "vue/no-template-key": [
+        "error"
+      ],
+      "vue/no-textarea-mustache": [
+        "error"
+      ],
+      "vue/no-unused-components": [
+        "error"
+      ],
+      "vue/no-unused-vars": [
+        "error"
+      ],
+      "vue/no-use-v-if-with-v-for": [
+        "error"
+      ],
+      "vue/require-component-is": [
+        "error"
+      ],
+      "vue/require-prop-type-constructor": [
+        "error"
+      ],
+      "vue/require-render-return": [
+        "error"
+      ],
+      "vue/require-v-for-key": [
+        "error"
+      ],
+      "vue/require-valid-default-prop": [
+        "error"
+      ],
+      "vue/return-in-computed-property": [
+        "error"
+      ],
+      "vue/use-v-on-exact": [
+        "error"
+      ],
+      "vue/valid-template-root": [
+        "error"
+      ],
+      "vue/valid-v-bind": [
+        "error"
+      ],
+      "vue/valid-v-cloak": [
+        "error"
+      ],
+      "vue/valid-v-else-if": [
+        "error"
+      ],
+      "vue/valid-v-else": [
+        "error"
+      ],
+      "vue/valid-v-for": [
+        "error"
+      ],
+      "vue/valid-v-html": [
+        "error"
+      ],
+      "vue/valid-v-if": [
+        "error"
+      ],
+      "vue/valid-v-model": [
+        "error"
+      ],
+      "vue/valid-v-on": [
+        "error"
+      ],
+      "vue/valid-v-once": [
+        "error"
+      ],
+      "vue/valid-v-pre": [
+        "error"
+      ],
+      "vue/valid-v-show": [
+        "error"
+      ],
+      "vue/valid-v-text": [
+        "error"
+      ],
+      "vue/attribute-hyphenation": [
+        "warn"
+      ],
+      "vue/html-closing-bracket-newline": [
+        "warn"
+      ],
+      "vue/html-closing-bracket-spacing": [
+        "warn"
+      ],
+      "vue/html-end-tags": [
+        "warn"
+      ],
+      "vue/html-indent": [
+        "warn"
+      ],
+      "vue/html-quotes": [
+        "warn"
+      ],
+      "vue/html-self-closing": [
+        "warn"
+      ],
+      "vue/max-attributes-per-line": [
+        "warn"
+      ],
+      "vue/multiline-html-element-content-newline": [
+        "warn"
+      ],
+      "vue/mustache-interpolation-spacing": [
+        "warn"
+      ],
+      "vue/name-property-casing": [
+        "warn"
+      ],
+      "vue/no-multi-spaces": [
+        "warn"
+      ],
+      "vue/no-spaces-around-equal-signs-in-attribute": [
+        "warn"
+      ],
+      "vue/no-template-shadow": [
+        "warn"
+      ],
+      "vue/prop-name-casing": [
+        "warn"
+      ],
+      "vue/require-default-prop": [
+        "warn"
+      ],
+      "vue/require-prop-types": [
+        "warn"
+      ],
+      "vue/singleline-html-element-content-newline": [
+        "warn"
+      ],
+      "vue/v-bind-style": [
+        "warn"
+      ],
+      "vue/v-on-style": [
+        "warn"
+      ]
     },
     "parser": "/home/mflo/mflorence99/lintel/node_modules/vue-eslint-parser/index.js",
     "parserOptions": {
