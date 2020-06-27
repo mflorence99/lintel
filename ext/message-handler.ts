@@ -58,6 +58,11 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
           Object.keys(extension)
             .filter(key => key !== 'extends')
             .forEach(key => {
+              // TODO: this is really ugly but I need it in 3 places:
+              // - bin/eslint-extensions.js - to generate extensions for testing
+              // - ext/message-handler.ts - to generate extension for real
+              // - src/../state/config.ts - to meld extensions together for a config
+              // BUT ... not sure how to refactor
               if (Array.isArray(extension[key]))
                 config[key] = Array.from(new Set([...config[key] || [], ...extension[key]]));
               // NOTE rules are melded specially

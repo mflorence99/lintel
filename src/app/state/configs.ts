@@ -190,11 +190,6 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .sort();
   }
 
-  @Computed() get configuration(): Configuration {
-    // NOTE: a null configuration is an upstream signal
-    return this.snapshot[this.selection.fileName];
-  }
-
   @Computed() get categoryView(): CategoryView {
     const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
     const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
@@ -210,6 +205,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       }, this.filter.snapshot.showInheritedRules ? this.inheritedCategoryView : { });
   }
 
+  @Computed() get configuration(): Configuration {
+    // NOTE: a null configuration is an upstream signal
+    return this.snapshot[this.selection.fileName];
+  }
+
   @Computed() get extension(): Extension {
     const extensionNames = this.configuration?.extends ?? [];
     return extensionNames
@@ -219,6 +219,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         Object.keys(extension)
           .filter(key => key !== 'extends')
           .forEach(key => {
+          // TODO: this is really ugly but I need it in 3 places:
+          // - bin/eslint-extensions.js - to generate extensions for testing
+          // - ext/message-handler.ts - to generate extension for real
+          // - src/../state/config.ts - to meld extensions together for a config
+          // BUT ... not sure how to refactor
             if (Array.isArray(extension[key]))
               acc[key] = Array.from(new Set([...acc[key] || [], ...extension[key]]));
             // NOTE rules are melded specially
@@ -240,7 +245,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get extensionSettings(): Record<string, Settings> {
-    const filtered = Object.entries(this.extension?.rules ?? { })
+    const filtered = Object.entries(this.extension.rules ?? { })
       .filter(([ruleName, _]) => {
         if (this.selection.pluginName === this.params.basePluginName)
           return !ruleName.includes('/');
@@ -287,7 +292,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get pluginNames(): string[] {
-    const uniqueNames = new Set([...this.configuration?.plugins ?? [], ...this.extension?.plugins ?? []]); 
+    const uniqueNames = new Set([...this.configuration?.plugins ?? [], ...this.extension.plugins ?? []]); 
     const pluginNames = [this.params.basePluginName, ...Array.from(uniqueNames).sort()];
     if (!this.utils.isEmptyObject(this.unknownView))
       pluginNames.push(this.params.unknownPluginName);

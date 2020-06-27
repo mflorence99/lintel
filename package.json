@@ -7,7 +7,7 @@
     {
       "description": "Jest Coverage",
       "href": "https://github.com/mflorence99/lintel/issues",
-      "url": "https://img.shields.io/badge/coverage-97.7%25-green"
+      "url": "https://img.shields.io/badge/coverage-97.63%25-green"
     },
     {
       "description": "License: MIT",
@@ -151,15 +151,15 @@
     "build:src": "ng --watch build",
     "clean:caches": "jest --clearCache",
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
-    "extensions": "node bin/eslint-extensions.js",
+    "extensions": "ts-node bin/eslint-extensions.ts",
     "lint": "eslint 'bin/**/*.js' 'ext/**/*.ts' 'src/**/*.ts' 'src/assets/**/*.js'  && stylelint 'src/**/*.css' 'src/**/*.scss'",
     "ng": "ng",
     "package": "npm run build && vsce package",
     "postinstall": "ngcc",
     "publish": "npm run build && vsce publish patch",
-    "rules": "node bin/eslint-rules.js",
+    "rules": "ts-node bin/eslint-rules.ts",
     "start": "ng serve",
-    "test": "jest --runInBand --coverage && node bin/coverage-icon.js",
+    "test": "jest --runInBand --coverage && ts-node bin/coverage-icon.ts",
     "test:watch": "jest --watch",
     "test:watch:coverage": "jest --watchAll --coverage"
   },
