@@ -13,6 +13,8 @@
       [ngClass]="property[0]"
       class="property">
 
+      <!-- TITLE -->
+
       <a
         [href]="'https://eslint.org/docs/user-guide/configuring#' + property[1]"
         [ngClass]="{active: isConfigured(property[0])}"
@@ -22,6 +24,8 @@
         {{ property[0] }}
       </a>
 
+      <!-- DESCRIPTION -->
+
       <article
         class="description">
 
@@ -30,6 +34,8 @@
         <ng-container
           [ngSwitch]="property[0]">
 
+          <!-- NOINLINECONFIG -->
+
           <ng-container
             *ngSwitchCase="'noInlineConfig'">
 
@@ -37,9 +43,11 @@
               formControlName="noInlineConfig">
             </lintel-checkbox>
 
-            <div>{{ schema.properties.noInlineConfig.description }}</div>
+            <p>{{ schema.properties.noInlineConfig.description }}</p>
 
           </ng-container>
+
+          <!-- ROOT -->
 
           <ng-container
             *ngSwitchCase="'root'">
@@ -48,9 +56,11 @@
               formControlName="root">
             </lintel-checkbox>
 
-            <div>{{ schema.properties.root.description }}</div>
+            <p>{{ schema.properties.root.description }}</p>
 
           </ng-container>
+
+          <!-- REPORTUNUSEDDIRECTIVES -->
 
           <ng-container
             *ngSwitchCase="'reportUnusedDisableDirectives'">
@@ -61,14 +71,25 @@
 
             <!-- NOTE: for some reason, this isn't in the schema -->
 
-            <div>To report unused eslint-disable comments, use reportUnusedDisableDirectives setting.</div>
+            <p>To report unused eslint-disable comments, use reportUnusedDisableDirectives setting.</p>
 
           </ng-container>
 
-          <div
+          <p
             *ngSwitchDefault>
             {{ schema.properties[property[0]]?.description }}
-          </div>
+
+            <ng-container
+              *ngIf="isInherited(property[0])">
+              <b>Settings inherited from <code>extends</code> 
+              <ng-container
+                *ngIf="property[0] !== 'plugins'">
+                can be overriden and
+              </ng-container>
+              are shown grayed.</b>
+            </ng-container>
+
+          </p>
 
         </ng-container>
 
@@ -77,6 +98,8 @@
       <article
         [ngSwitch]="property[0]"
         class="settings">
+
+        <!-- ECMAFEATURES -->
 
         <lintel-multiselector
           [defaults]="configs.extension.parserOptions?.ecmaFeatures"
@@ -87,6 +110,8 @@
           formControlName="ecmaFeatures">
         </lintel-multiselector>
 
+        <!-- ENV -->
+
         <lintel-multiselector
           [defaults]="configs.extension.env"
           [options]="makeOptionsForMultiselector('env', 'env')"
@@ -96,12 +121,16 @@
           formControlName="env">
         </lintel-multiselector>
 
+        <!-- EXTENDS -->
+
         <lintel-input-array
           *ngSwitchCase="'extends'"
           class="extends"
           columnWidth="20.5rem"
           formControlName="extends">
         </lintel-input-array>
+
+        <!-- GLOBALS -->
 
         <lintel-key-value
           [defaults]="configs.extension.globals"
@@ -112,6 +141,8 @@
           formControlName="globals">
         </lintel-key-value>
 
+        <!-- IGNOREPATTERNS -->
+
         <lintel-input-array
           *ngSwitchCase="'ignorePatterns'"
           class="ignorePatterns"
@@ -119,12 +150,16 @@
           formControlName="ignorePatterns">
         </lintel-input-array>
 
+        <!-- PARSER -->
+
         <lintel-input
           [placeholder]="configs.extension.parser || ''"
           *ngSwitchCase="'parser'"
           class="parser"
           formControlName="parser">
         </lintel-input>
+
+        <!-- PARSEROPTIONS -->
 
         <ng-container
           *ngSwitchCase="'parserOptions'">
@@ -195,6 +230,8 @@
 
         </ng-container>
 
+        <!-- PLUGINS -->
+
         <lintel-input-array
           [defaults]="configs.extension.plugins"
           [uniqueItems]="true"
@@ -203,6 +240,8 @@
           columnWidth="10rem"
           formControlName="plugins">
         </lintel-input-array>
+
+        <!-- SETTINGS -->
 
         <ng-container
           *ngSwitchCase="'settings'">
@@ -216,11 +255,11 @@
 
           <ng-template
             #cantDoSettings>
-            <div
+            <p
               (click)="editFile(selection.fileName)"
               class="cantDoSettings">
               <a>Edit in {{ configs.shortFileName(selection.fileName) }}</a>
-            </div>
+            </p>
           </ng-template>
 
         </ng-container>

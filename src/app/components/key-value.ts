@@ -48,7 +48,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
 
   @Input() columnWidth = '20rem';
 
-  @Input() defaults: KeyValueType = { };
+  @Input() defaults: KeyValueType;
 
   @Input() keyConstraints: string[];
 
@@ -112,7 +112,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   /** Is this control a default? */
   isDefault(ix: number): boolean {
     const key = Object.keys(this.keyValues)[ix];
-    return (this.defaults?.[key] !== undefined) && (this.origValue?.[key] === undefined);
+    return (this.defaults?.[key] != null) && (this.origValue?.[key] == null);
   }
 
   /** When we're ready */
@@ -185,7 +185,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
 
   private toKeyValue(): KeyValueType {
     return Object.keys(this.keyValues)
-      .filter(key => this.origValue?.[key] !== undefined)
+      .filter(key => this.origValue?.[key] != null)
       .reduce((acc, key) => {
         acc[key] = this.keyValues[key];
         return acc;

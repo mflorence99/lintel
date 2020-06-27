@@ -46,7 +46,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
 
   @Input() columnWidth = '10rem';
 
-  @Input() defaults: InputArrayType = [];
+  @Input() defaults: InputArrayType;
 
   inputArrayForm: FormGroup;
 

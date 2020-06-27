@@ -57,8 +57,8 @@ export class SingleselectorComponent implements ControlValueAccessor {
     return this._options;
   }
   set options(options: SingleselectorOptions) {
-    if (options && !this._origOptions) {
-      this._origOptions = options;
+    if (options && !this.origOptions) {
+      this.origOptions = options;
       this._options = this.fromSingleselectorOptions(options);
     }
   }
@@ -78,10 +78,10 @@ export class SingleselectorComponent implements ControlValueAccessor {
 
   // these shadow visible properties
   private _options: SingleselectorValue[][] = [];
-  private _origOptions: SingleselectorOptions;
   private _value: SingleselectorValue;
 
   private onChange: Function;
+  private origOptions: SingleselectorOptions;
 
   /** ctor  */
   constructor(private cdf: ChangeDetectorRef) { }

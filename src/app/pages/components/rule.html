@@ -18,21 +18,21 @@
 </ng-template>
 
 <article
-  *ngIf="ruleDigest.description">
-
-  <span
-    *ngIf="ruleDigest.deprecated">
-    <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-    Deprecated.
-    <span
-      *ngIf="ruleDigest.replacedBy.length">
-      Please use <span class="replacedBy">{{ ruleDigest.replacedBy.join(', ') }}</span>.
-    </span>
-  </span>
+  *ngIf="ruleDigest.description"
+  class="description">
 
   <span
     [innerHTML]="ruleDigest.description | lintelLinkify">
   </span>
+
+  <b
+    *ngIf="ruleDigest.deprecated">
+    Deprecated.
+    <ng-container
+      *ngIf="ruleDigest.replacedBy.length">
+      Please use <code>{{ ruleDigest.replacedBy.join(', ') }}</code>.
+    </ng-container>
+  </b>
 
 </article>
 

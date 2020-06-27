@@ -51,7 +51,7 @@
   *ngIf="utils.isEmptyObject(view)">
 
   <div></div>
-  <div>No matching rules in {{ selection.category }}</div>
+  <p>No matching rules in {{ selection.category }}</p>
   <div></div>
 
 </ng-container>
@@ -62,14 +62,14 @@
     contextMenuItem
     (execute)="execute($event.item, 'delete')"
     [enabled]="isRuleDefined.bind(this)">
-    <div>Remove this rule</div>
+    <p>Remove this rule</p>
   </ng-template>
 
   <ng-template
     contextMenuItem
     (execute)="execute($event.item, 'export')"
     [enabled]="canExportRule.bind(this)">
-    <div>Copy rule as JSON</div>
+    <p>Copy rule as JSON</p>
   </ng-template>
 
 </context-menu>

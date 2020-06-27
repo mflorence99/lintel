@@ -81,11 +81,11 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
 
   @Input()
   get options(): MultiselectorOptions {
-    return this._origOptions;
+    return this.origOptions;
   }
   set options(options: MultiselectorOptions) {
-    if (options && !this._origOptions) {
-      this._origOptions = options;
+    if (options && !this.origOptions) {
+      this.origOptions = options;
       this._options = this.fromMultiselectorOptions(options);
       this.underConstruction = true;
       // create controls for each option
@@ -103,7 +103,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     return this.toMultiselectorValues();
   }
   set value(values: MultiselectorValues) {
-    this._origValues = values;
+    this.origValue = values;
     this.values = this.fromMultiselectorValues(values);
     // patch the form to reflect the values
     this.underConstruction = true;
@@ -118,10 +118,10 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
 
   // these shadow visible properties
   private _options: string[][] = [];
-  private _origOptions: MultiselectorOptions;
-  private _origValues: MultiselectorValues;
 
   private onChange: Function;
+  private origOptions: MultiselectorOptions;
+  private origValue: MultiselectorValues;
   private underConstruction: boolean;
   private valuesType: 'array' | 'object';
 
@@ -136,7 +136,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
 
   /** Get a default by its index */
   getDefault(ix: number): boolean {
-    if (!this.defaults)
+    if (this.defaults == null)
       return false;
     else if (Array.isArray(this.defaults))
       return this.defaults[ix];
@@ -224,7 +224,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     if (this.valuesType === 'object') {
       const obj = this._options
         // NOTE: we're only going to emit what was passed in
-        .filter(option => this._origValues?.[option[0]] !== undefined)
+        .filter(option => this.origValue?.[option[0]] !== undefined)
         .reduce((acc, option) => {
           acc[option[0]] = false;
           return acc;

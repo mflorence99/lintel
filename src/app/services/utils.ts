@@ -42,8 +42,7 @@ export class Utils {
 
   /** Is supplied object empty? */
   isEmptyObject(obj: any): boolean {
-    return (obj === null) 
-      || (obj === undefined) 
+    return (obj == null) 
       || (Object.getOwnPropertyNames(obj).length === 0)
       || Object.getOwnPropertyNames(obj).every(nm => obj[nm] == null);
   }

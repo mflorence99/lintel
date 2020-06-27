@@ -3,8 +3,9 @@
   line-height: 150%;
 }
 
-.replacedBy {
-  font-family: monospace;
+.description {
+  color: var(--vscode-descriptionForeground);
+  line-height: 150%;
 }
 
 .ruleName {
