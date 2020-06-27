@@ -163,5 +163,5 @@
     "test:watch": "jest --watch",
     "test:watch:coverage": "jest --watchAll --coverage"
   },
-  "version": "0.0.0"
+  "version": "1.0.0"
 }
