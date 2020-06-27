@@ -69,7 +69,9 @@
     },
     "ecmaVersion": 2019,
     "project": [
-      "./tsconfig.json"
+      "./tsconfig.app.json",
+      "./tsconfig.bin.json",
+      "./tsconfig.ext.json"
     ],
     "sourceType": "module"
   },

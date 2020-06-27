@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { foo } from './common/dummy';
-foo();
-
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'fs';
+import * as path from 'path';
 
 const coveragePath = path.join(__dirname, '..', 'coverage', 'coverage-summary.json');
 const coverage = JSON.parse(fs.readFileSync(coveragePath, { encoding: 'utf8' }));

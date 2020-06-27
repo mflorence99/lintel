@@ -16,6 +16,7 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
+import { meldExtends } from '../common/meld-extends';
 import { patch } from '@ngxs/store/operators';
 import { scratch } from './operators';
 import { updateItems } from './operators';
@@ -215,33 +216,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return extensionNames
       .map(extensionName => this.extensions.snapshot[extensionName])
       .filter(extension => !!extension)
-      .reduce((acc, extension) => {
-        Object.keys(extension)
-          .filter(key => key !== 'extends')
-          .forEach(key => {
-          // TODO: this is really ugly but I need it in 3 places:
-          // - bin/eslint-extensions.js - to generate extensions for testing
-          // - ext/message-handler.ts - to generate extension for real
-          // - src/../state/config.ts - to meld extensions together for a config
-          // BUT ... not sure how to refactor
-            if (Array.isArray(extension[key]))
-              acc[key] = Array.from(new Set([...acc[key] || [], ...extension[key]]));
-            // NOTE rules are melded specially
-            else if (key === 'rules') {
-              acc['rules'] = acc.rules ?? { };
-              Object.entries(extension.rules)
-                .map(([ruleName, rule]) => [ruleName, Array.isArray(rule) ? rule : [rule]] as any[])
-                .forEach(([ruleName, rule]) => {
-                  if (!acc.rules[ruleName] || (rule.length > 1))
-                    acc.rules[ruleName] = rule;
-                  else acc.rules[ruleName] = [rule[0], ...acc.rules[ruleName].slice(1)];
-                });
-            } else if (typeof extension[key] === 'object')
-              acc[key] = Object.assign(acc[key] || { }, extension[key]);
-            else acc[key] = extension[key];
-          });
-        return acc;
-      }, { });
+      .reduce((acc, extension) => meldExtends(acc, extension), { });
   }
 
   @Computed() get extensionSettings(): Record<string, Settings> {

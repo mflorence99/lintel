@@ -67,7 +67,7 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
                 config[key] = Array.from(new Set([...config[key] || [], ...extension[key]]));
               // NOTE rules are melded specially
               else if (key === 'rules') {
-                config['rules'] = config.rules || {};
+                config['rules'] = config.rules || { };
                 Object.entries(extension.rules)
                   .map(([ruleName, rule]) => [ruleName, Array.isArray(rule) ? rule : [rule]] as any[])
                   .forEach(([ruleName, rule]) => {

@@ -128,7 +128,7 @@ export class GeneralComponent implements OnInit {
     const properties = eval(`this.schema.properties.${nm}.properties`);
     let inherited;
     try {
-      inherited = Object.keys(eval(`this.configs.extension.${ext}`) ?? {});
+      inherited = Object.keys(eval(`this.configs.extension.${ext}`) ?? { });
     } catch {
       inherited = [];
     }

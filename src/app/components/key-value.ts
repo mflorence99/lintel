@@ -177,7 +177,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
     Object.keys(this.defaults ?? { })
       .sort()
       .forEach(key => keyValues[key] = this.defaults[key]);
-    Object.keys(value ?? {})
+    Object.keys(value ?? { })
       .sort()
       .forEach(key => keyValues[key] = value[key]);
     return keyValues;

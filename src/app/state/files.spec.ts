@@ -41,7 +41,7 @@ describe('FilesState', () => {
 
   test('/home/mflorence99/lintel/common-js.cjs is parsed but the config is empty', () => {
     const config = bundle.files.load('/home/mflorence99/lintel/common-js.cjs');
-    expect(config.rules).toEqual({});
+    expect(config.rules).toEqual({ });
   }); 
 
   test('/home/mflorence99/lintel/invalid.json is parsed but the config is null', () => {

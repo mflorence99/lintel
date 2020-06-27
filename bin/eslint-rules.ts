@@ -1,7 +1,4 @@
-import { foo } from './common/dummy';
-foo();
-
-const fs = require('fs');
+import * as fs from 'fs';
 
 const cliEngine = require('eslint').CLIEngine;
 
