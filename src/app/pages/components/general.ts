@@ -126,12 +126,7 @@ export class GeneralComponent implements OnInit {
   /** Merge extension into options */
   makeOptionsForMultiselector(nm: string, ext: string): string[][] {
     const properties = eval(`this.schema.properties.${nm}.properties`);
-    let inherited;
-    try {
-      inherited = Object.keys(eval(`this.configs.extension.${ext}`) ?? { });
-    } catch {
-      inherited = [];
-    }
+    const inherited = Object.keys(this.utils.safeEval(this, `configs.extension.${ext}`, { }));
     return Array.from(new Set([...Object.keys(properties), ...inherited]))
       .sort()
       .map(property => [property, property, properties[property]?.description]);

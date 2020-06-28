@@ -116,4 +116,11 @@ describe('Utils', () => {
     expect(utils.isEmptyObject(searchParams)).toBeTruthy();
   });
 
+  test('safeEval', () => {
+    const utils: Utils = services[0];
+    expect(utils.safeEval(utils, 'safeEval')).toBeTruthy();
+    expect(utils.safeEval(this, 'xxx', [])).toEqual([]);
+    expect(utils.safeEval(this, 'xxx.yyy', { })).toEqual({ });
+  });
+
 });

@@ -98,4 +98,13 @@ export class Utils {
     } else return { };
   }
 
+  /** Safe eval, returning default on errot */
+  safeEval(obj: any, expr: string, dflt: any = null): any {
+    try {
+      return eval(`obj.${expr}`) ?? dflt;
+    } catch (ignored) {
+      return dflt;
+    }
+  }
+
 }
