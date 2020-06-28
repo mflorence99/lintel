@@ -16,7 +16,7 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
-import { meldExtends } from '../common/meld-extends';
+import { meldExtends } from '../common';
 import { patch } from '@ngxs/store/operators';
 import { scratch } from './operators';
 import { updateItems } from './operators';

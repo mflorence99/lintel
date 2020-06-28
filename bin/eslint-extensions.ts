@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { meldExtends } from './common/meld-extends';
+import { meldExtends } from './common';
 
 const moduleLoader = require('module');
 

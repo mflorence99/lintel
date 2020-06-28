@@ -3,6 +3,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
+import { meldExtends } from './common';
+
 const moduleLoader = require('module');
 
 const debouncer: Record<string, any> = { };
@@ -55,30 +57,7 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
           else extension = require(path.join(path.dirname(modulePath), extensionName));
           if (extension.extends)
             extensionResolver(extension);
-          Object.keys(extension)
-            .filter(key => key !== 'extends')
-            .forEach(key => {
-              // TODO: this is really ugly but I need it in 3 places:
-              // - bin/eslint-extensions.js - to generate extensions for testing
-              // - ext/message-handler.ts - to generate extension for real
-              // - src/../state/config.ts - to meld extensions together for a config
-              // BUT ... not sure how to refactor
-              if (Array.isArray(extension[key]))
-                config[key] = Array.from(new Set([...config[key] || [], ...extension[key]]));
-              // NOTE rules are melded specially
-              else if (key === 'rules') {
-                config['rules'] = config.rules || { };
-                Object.entries(extension.rules)
-                  .map(([ruleName, rule]) => [ruleName, Array.isArray(rule) ? rule : [rule]] as any[])
-                  .forEach(([ruleName, rule]) => {
-                    if (!config.rules[ruleName] || (rule.length > 1))
-                      config.rules[ruleName] = rule;
-                    else config.rules[ruleName] = [rule[0], ...config.rules[ruleName].slice(1)];
-                  });
-              } else if (typeof extension[key] === 'object')
-                config[key] = Object.assign(config[key] || { }, extension[key]);
-              else config[key] = extension[key];
-            });
+          meldExtends(config, extension);
         });
       }
     };
