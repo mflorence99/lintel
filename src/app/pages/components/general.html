@@ -152,83 +152,29 @@
 
         <!-- PARSER -->
 
-        <lintel-input
-          [placeholder]="configs.extension.parser || ''"
+        <div
           *ngSwitchCase="'parser'"
-          class="parser"
-          formControlName="parser">
-        </lintel-input>
+          class="parser">
+
+          <lintel-input
+            [placeholder]="configs.extension.parser || ''"
+            formControlName="parser">
+          </lintel-input>
+
+          <p
+            (click)="editFile(selection.fileName)"
+            *ngIf="configs.configuration.parser || configs.extension.parser"
+            class="editSettings">
+            <a>Edit custom parser options in {{ configs.shortFileName(selection.fileName) }}</a>
+          </p>
+
+        </div>
 
         <!-- PARSEROPTIONS -->
 
-        <ng-container
+        <lintel-parser-options
           *ngSwitchCase="'parserOptions'">
-
-          <div
-            class="parserOptions"
-            formGroupName="parserOptions">
-
-            <div
-              class="option">
-
-              <div
-                class="tag">
-                .ecmaVersion
-              </div>
-
-              <lintel-singleselector
-                [options]="makeOptionsForSingleselector('parserOptions.properties.ecmaVersion')"
-                [placeholder]="configs.extension.parserOptions?.ecmaVersion || ' '"
-                formControlName="ecmaVersion">
-              </lintel-singleselector>
-
-              <div
-                class="desc">
-                {{ schema.properties.parserOptions.properties.ecmaVersion.description }}
-              </div>
-
-            </div>
-
-            <div
-              class="option">
-
-              <div
-                class="tag">
-                .sourceType
-              </div>
-
-              <lintel-singleselector
-                [options]="makeOptionsForSingleselector('parserOptions.properties.sourceType')"
-                [placeholder]="configs.extension.parserOptions?.sourceType || ' '"
-                formControlName="sourceType">
-              </lintel-singleselector>
-
-              <div
-                class="desc">
-                {{ schema.properties.parserOptions.properties.sourceType.description }}
-              </div>
-
-            </div>
-
-            <div
-              *ngFor="let item of inheritedParserOptions() | keyvalue"
-              class="option">
-
-              <div
-                class="tag">
-                .{{ item.key }}
-              </div>
-
-              <lintel-input
-                [formControlName]="item.key"
-                [placeholder]="item.value || ' '">
-              </lintel-input>
-
-            </div>
-            
-          </div>
-
-        </ng-container>
+        </lintel-parser-options>
 
         <!-- PLUGINS -->
 
@@ -257,8 +203,8 @@
             #cantDoSettings>
             <p
               (click)="editFile(selection.fileName)"
-              class="cantDoSettings">
-              <a>Edit in {{ configs.shortFileName(selection.fileName) }}</a>
+              class="editSettings">
+              <a>Edit settings in {{ configs.shortFileName(selection.fileName) }}</a>
             </p>
           </ng-template>
 

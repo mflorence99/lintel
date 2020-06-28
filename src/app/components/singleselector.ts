@@ -13,7 +13,7 @@ import { forwardRef } from '@angular/core';
 // -- array of encoded values
 // -- array of [encoded, decoded] values <-- PREFERRED
 
-export type SingleselectorOptions = (SingleselectorValue)[] | (SingleselectorValue)[][];
+export type SingleselectorOptions = (SingleselectorValue)[] | (SingleselectorValue)[][] | any[];
 
 // NOTE: values can be one of the following:
 // -- encoded value <-- PREFERRED

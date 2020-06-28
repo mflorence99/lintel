@@ -38,15 +38,6 @@ describe('GeneralComponent', () => {
     });
   });
 
-  test('inheritedParserOptions', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
-    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
-    expect(component.inheritedParserOptions()).toEqual({
-      project: './tsconfig.json'
-    });
-  });
-
   test('isConfigured', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
@@ -87,23 +78,6 @@ describe('GeneralComponent', () => {
     expect(options.find(option => option[0] === 'readonly')).toBeTruthy();
   });
 
-  test('makeParserOptionsControls', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
-    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
-    const controls = component.makeParserOptionsControls();
-    expect(controls.project).toEqual([null]);
-  });
-
-  test('inheritedParserOptions', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
-    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
-    expect(component.inheritedParserOptions()).toEqual({
-      project: './tsconfig.json'
-    });
-  });
-
   test('ngOnInit', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;
@@ -115,9 +89,6 @@ describe('GeneralComponent', () => {
     changes = { globalReturn: true };
     component.generalForm.patchValue({ ecmaFeatures: changes });
     expect(component.configs.configuration.parserOptions.ecmaFeatures).toEqual(changes);
-    changes = { ecmaVersion: 6 };
-    component.generalForm.patchValue({ parserOptions: changes });
-    expect(component.configs.configuration.parserOptions).toEqual(expect.objectContaining(changes));
     changes = ['node', 'react'];
     component.generalForm.patchValue({ plugins: changes });
     expect(component.configs.configuration.plugins).toEqual(changes);

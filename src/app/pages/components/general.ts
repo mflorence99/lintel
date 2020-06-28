@@ -5,10 +5,12 @@ import { DestroyService } from '../../services/destroy';
 import { ExtensionsState } from '../../state/extensions';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
+import { MultiselectorOptions } from '../../components/multiselector';
 import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
+import { SingleselectorOptions } from '../../components/singleselector';
 import { Utils } from '../../services/utils';
 
 import { combineLatest } from 'rxjs';
@@ -67,7 +69,6 @@ export class GeneralComponent implements OnInit {
       ignorePatterns: [this.configs.configuration.ignorePatterns],
       noInlineConfig: [this.configs.configuration.noInlineConfig],
       parser: [this.configs.configuration.parser],
-      parserOptions: this.formBuilder.group(this.makeParserOptionsControls()),
       plugins: [this.configs.configuration.plugins],
       reportUnusedDisableDirectives: [this.configs.configuration.reportUnusedDisableDirectives],
       root: [this.configs.configuration.root],
@@ -88,13 +89,6 @@ export class GeneralComponent implements OnInit {
   /** Edit a file */
   editFile(fileName: string): void {
     lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
-  }
-
-  /** Extract inherited parser options */
-  inheritedParserOptions(): any {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { ecmaFeatures, ecmaVersion, sourceType, ...inherited } = this.configs.extension.parserOptions ?? { };
-    return inherited;
   }
 
   /** Has this section been configured? */
@@ -124,7 +118,7 @@ export class GeneralComponent implements OnInit {
   }
 
   /** Merge extension into options */
-  makeOptionsForMultiselector(nm: string, ext: string): string[][] {
+  makeOptionsForMultiselector(nm: string, ext: string): MultiselectorOptions {
     const properties = eval(`this.schema.properties.${nm}.properties`);
     const inherited = Object.keys(this.utils.safeEval(this, `configs.extension.${ext}`, { }));
     return Array.from(new Set([...Object.keys(properties), ...inherited]))
@@ -133,21 +127,9 @@ export class GeneralComponent implements OnInit {
   }
 
   /** Options from enum */
-  makeOptionsForSingleselector(nm: string): string[][] {
+  makeOptionsForSingleselector(nm: string): SingleselectorOptions {
     const options = eval(`this.schema.properties.${nm}.enum`);
     return options.map(option => [option, option]);
-  }
-
-  /** Make the parserOptions controls */
-  makeParserOptionsControls(): Record<string, any[]> {
-    return Object.entries(this.inheritedParserOptions())
-      .reduce((acc, [key, _]) => {
-        acc[key] = [null];
-        return acc;
-      }, {
-        ecmaVersion: [this.configs.configuration.parserOptions?.ecmaVersion],
-        sourceType: [this.configs.configuration.parserOptions?.sourceType]
-      });
   }
 
   /** When we're ready */
@@ -161,7 +143,6 @@ export class GeneralComponent implements OnInit {
       this.makeValueChanges('ignorePatterns'),
       this.makeValueChanges('noInlineConfig'),
       this.makeValueChanges('parser'),
-      this.makeValueChanges('parserOptions'),
       this.makeValueChanges('plugins'),
       this.makeValueChanges('reportUnusedDisableDirectives'),
       this.makeValueChanges('root'),
@@ -173,10 +154,6 @@ export class GeneralComponent implements OnInit {
           // NOTE: ecmaFeatures moved from the top level into parseOptions
           if (key === 'ecmaFeatures')
             return { parserOptions: { ...this.configs.configuration.parserOptions, ecmaFeatures: changes }};
-          // NOTE: we can't know that parserOptions is complete, because each parser
-          // defines its own superset
-          else if (key === 'parserOptions')
-            return { parserOptions: { ...this.configs.configuration.parserOptions, ...changes } };
           return { [key]: changes };
         }),
         takeUntil(this.destroy$)

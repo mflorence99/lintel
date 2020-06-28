@@ -113,6 +113,12 @@ eslintFiles = {
           "classes": false
         },
         "ecmaVersion": 2018,
+        "project": [
+          "./tsconfig.app.json",
+          "./tsconfig.bin.json",
+          "./tsconfig.ext.json",
+          "./tsconfig.spec.json"
+        ],
         "sourceType": "module"
       },
       "plugins": [

@@ -16,7 +16,7 @@ lintelVSCodeAPI = {
     let key;
     while ((key = localStorage.key(ix++)))
       state[key] = localStorage.getItem(key);
-    // console.log(`%cgetState()`, 'color: #aa00ff', state);
+    // console.log(`%cgetState()`, 'lintelVSCodeAPI._style('#aa00ff'), state);
     return state;
   },
 
@@ -24,23 +24,23 @@ lintelVSCodeAPI = {
     switch (message.command) {
 
       case 'bootFail':
-        console.log('%cbootFail:', 'color: red', message.text);
+        console.log('%cbootFail:', lintelVSCodeAPI._style('red'), message.text);
         break;
 
       case 'editFile':
-        console.log('%ceditFile:', 'color: #3367d6', message.fileName);
+        console.log('%ceditFile:', lintelVSCodeAPI._style('#3367d6'), message.fileName);
         break;
 
       case 'clipboardCopy':
-        console.log('%cclipboardCopy:', 'color: #1b5e20', message.text);
+        console.log('%cclipboardCopy:', lintelVSCodeAPI._style('#1b5e20'), message.text);
         break;
 
       case 'getExtensions':
-        console.log('%cgetExtensions:', 'color: #4a148c', message.fileName, `[${message.extensions.join(',')}]`);
+        console.log('%cgetExtensions:', lintelVSCodeAPI._style('#4a148c'), message.fileName, `[${message.extensions.join(',')}]`);
         break;
 
       case 'getRules':
-        console.log('%cgetRules:', 'color: #3e2723', message.fileName, `[${message.plugins.join(',')}]`);
+        console.log('%cgetRules:', lintelVSCodeAPI._style('#795548'), message.fileName, `[${message.plugins.join(',')}]`);
         break;
 
       case 'openFile':
@@ -48,15 +48,19 @@ lintelVSCodeAPI = {
         break;
 
       case 'saveFile':
-        console.log('%csaveFile:', 'color: #f09300', message.fileName, { message });
+        console.log('%csaveFile:', lintelVSCodeAPI._style(' #f09300'), message.fileName, { message });
         break;
 
     }
   },
 
   setState: state => {
-    // console.log(`%csetState()`, 'color: #311b92', state);
+    // console.log(`%csetState()`, lintelVSCodeAPI._style('#311b92'), state);
     Object.keys(state).forEach(key => localStorage.setItem(key, state[key]));
+  },
+
+  _style: color => {
+    return `background-color: ${color}; color: white; font-weight: bold; padding: 4px`;
   }
 
 };

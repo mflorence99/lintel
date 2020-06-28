@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.parserOptions {
+  display: grid;
+  grid-column-gap: 0.5rem;
+  grid-row-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, 20.5rem);
+
+  .option {
+    align-content: start;
+    display: grid;
+    grid-gap: 0.25rem;
+    grid-template-columns: 1fr;
+
+    .desc {
+      color: var(--vscode-descriptionForeground);
+      line-height: 125%;
+    }
+
+    .tag {
+      color: var(--vscode-textPreformat-foreground);
+      font-family: monospace;
+    }
+
+  }
+
+}

@@ -1,0 +1,47 @@
+<div
+  [formGroup]="parserOptionsForm"
+  class="parserOptions">
+
+  <div
+    class="option">
+
+    <div
+      class="tag">
+      .ecmaVersion
+    </div>
+
+    <lintel-singleselector
+      [options]="makeOptionsForSingleselector('parserOptions.properties.ecmaVersion')"
+      [placeholder]="configs.extension.parserOptions?.ecmaVersion || ' '"
+      formControlName="ecmaVersion">
+    </lintel-singleselector>
+
+    <div
+      class="desc">
+      {{ schema.properties.parserOptions.properties.ecmaVersion.description }}
+    </div>
+
+  </div>
+
+  <div
+    class="option">
+
+    <div
+      class="tag">
+      .sourceType
+    </div>
+
+    <lintel-singleselector
+      [options]="makeOptionsForSingleselector('parserOptions.properties.sourceType')"
+      [placeholder]="configs.extension.parserOptions?.sourceType || ' '"
+      formControlName="sourceType">
+    </lintel-singleselector>
+
+    <div
+      class="desc">
+      {{ schema.properties.parserOptions.properties.sourceType.description }}
+    </div>
+
+  </div>
+  
+</div>
