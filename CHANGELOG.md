@@ -13,3 +13,9 @@ Switching out of pre-release status. Most changes are visible in an improved UI 
 * Yes, of course we can support .cjs files #5
 * Change of plugin doesn't trigger recalc of extension #6
 * Handle markdown rule descriptions, as in lodash #7
+
+## 1.0.1
+
+We gave up on trying to build a UI for custom parser options. There's no schema for them so we can't do it reliably. A button is now shown to edit them manually. All planned refactoring is complete.
+
+This patch release closes issue #10.
