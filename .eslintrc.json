@@ -36,6 +36,7 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "ignorePatterns": [
+    "*.js",
     "node_modules/"
   ],
   "parser": "@typescript-eslint/parser",
