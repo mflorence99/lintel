@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { meldConfigurations } from './common';
+import { normalizeExtensionName } from './common';
 
 const moduleLoader = require('module');
 
@@ -36,14 +37,7 @@ extensions.forEach(extensionName => {
   else {
 
     // load extension configuration
-    const parts = extensionName.substring(7).split('/');
-    let moduleName;
-    if (parts[0].startsWith('@')) {
-      moduleName = `${parts[0]}/eslint-plugin`;
-      if (parts.length > 2)
-        moduleName += `-${parts.slice(1, parts.length - 1).join('-')}`;
-    } else moduleName = `eslint-plugin-${parts[0]}`;
-    const configName = parts[parts.length - 1];
+    const { configName, moduleName } = normalizeExtensionName(extensionName);
     const modulePath = moduleLoader.createRequire(__filename).resolve(moduleName);
     config = require(modulePath).configs[configName];
 

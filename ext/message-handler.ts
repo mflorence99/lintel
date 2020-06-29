@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 
 import { meldConfigurations } from './common';
+import { normalizeExtensionName } from './common';
 
 const moduleLoader = require('module');
 
@@ -144,20 +145,4 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
 
   };
   
-}
-
-// NOTE: isolate normalization for better unit tests
-
-export type NormalizedExtensionName = { configName: string, moduleName: string };
-
-export function normalizeExtensionName(extensionName: string): NormalizedExtensionName {
-  const parts = extensionName.substring(7).split('/');
-  let moduleName;
-  if (parts[0].startsWith('@')) {
-    moduleName = `${parts[0]}/eslint-plugin`;
-    if (parts.length > 2)
-      moduleName += `-${parts.slice(1, parts.length - 1).join('-')}`;
-  } else moduleName = `eslint-plugin-${parts[0]}`;
-  const configName = parts[parts.length - 1];
-  return { configName, moduleName };
 }
