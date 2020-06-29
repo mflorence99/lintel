@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { meldExtends } from './common';
+import { meldConfigurations } from './common';
 
 const moduleLoader = require('module');
 
@@ -59,7 +59,7 @@ extensions.forEach(extensionName => {
           else extension = require(path.join(path.dirname(modulePath), extensionName));
           if (extension.extends)
             resolveExtends(extension);
-          meldExtends(config, extension);
+          meldConfigurations(config, extension);
         });
       }
     };

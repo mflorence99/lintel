@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
-import { meldExtends } from './common';
+import { meldConfigurations } from './common';
 
 const moduleLoader = require('module');
 
@@ -57,7 +57,7 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
           else extension = require(path.join(path.dirname(modulePath), extensionName));
           if (extension.extends)
             extensionResolver(extension);
-          meldExtends(config, extension);
+          meldConfigurations(config, extension);
         });
       }
     };

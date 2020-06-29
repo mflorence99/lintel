@@ -1,1 +1,1 @@
-export * from './meld-extends';
+export * from './meld-configurations';

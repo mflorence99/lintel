@@ -16,7 +16,7 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
-import { meldExtends } from '../common';
+import { meldConfigurations } from '../common';
 import { patch } from '@ngxs/store/operators';
 import { scratch } from './operators';
 import { updateItems } from './operators';
@@ -216,7 +216,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return extensionNames
       .map(extensionName => this.extensions.snapshot[extensionName])
       .filter(extension => !!extension)
-      .reduce((acc, extension) => meldExtends(acc, extension), { });
+      .reduce((acc, extension) => meldConfigurations(acc, extension), { });
   }
 
   @Computed() get extensionSettings(): Record<string, Settings> {

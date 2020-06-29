@@ -14,8 +14,8 @@ Switching out of pre-release status. Most changes are visible in an improved UI 
 * Change of plugin doesn't trigger recalc of extension #6
 * Handle markdown rule descriptions, as in lodash #7
 
-## 1.0.1
+## 1.0.2
 
 We gave up on trying to build a UI for custom parser options. There's no schema for them so we can't do it reliably. A button is now shown to edit them manually. All planned refactoring is complete.
 
-This patch release closes issue #10.
+This patch release closes issues #9 and #10.

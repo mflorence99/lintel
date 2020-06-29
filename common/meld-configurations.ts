@@ -1,15 +1,17 @@
 /** Meld 'extends' into a base according to ESLint rules */
 
-export function meldExtends(config: any, extension: any): any {
+export function meldConfigurations(config: any, extension: any): any {
   Object.keys(extension)
-    .filter(key => (key !== 'extends') && (key !== 'files'))
+    .filter(key => key !== 'extends')
+    // NOTE: we don't try to meld 'files' as these are the keys to overrides
+    .filter(key => key !== 'files')
     .forEach(key => {
       if (key === 'overrides')
-        meldExtendsOverrides(config, extension);
+        meldConfigurationsOverrides(config, extension);
       else if (key === 'plugins')
-        meldExtendsPlugins(config, extension);
+        meldConfigurationsPlugins(config, extension);
       else if (key === 'rules')
-        meldExtendsRules(config, extension);
+        meldConfigurationsRules(config, extension);
       else if (Array.isArray(extension[key]))
         config[key] = Array.from(new Set([...config[key] || [], ...extension[key]]));
       else if (typeof extension[key] === 'object')
@@ -32,27 +34,27 @@ function deepCopy(obj: any): any {
 }
 
 // TODO: what about overrides of overrides ???
-function meldExtendsOverrides(config: any, extension: any): void {
+export function meldConfigurationsOverrides(config: any, extension: any): void {
   if (!config['overrides'])
     config['overrides'] = [...extension.overrides];
   else {
     extension.overrides.forEach(extOverride => {
       const cfgOverride = config.overrides.find(override => arraysEqual(override.files, extOverride.files));
       if (cfgOverride)
-        meldExtends(cfgOverride, extOverride);
+        meldConfigurations(cfgOverride, extOverride);
       else config.overrides.push(deepCopy(extOverride));
     });
   }
 }
 
 // NOTE: plugins need to be deduplicated
-function meldExtendsPlugins(config: any, extension: any): void {
+export function meldConfigurationsPlugins(config: any, extension: any): void {
   config['plugins'] = Array.from(new Set([...config.plugins || [], ...extension.plugins]));
 }
 
 // NOTE: rules can override onky the level, leaving other settings intact
 // @see https://eslint.org/docs/user-guide/configuring
-function meldExtendsRules(config: any, extension: any): void {
+export function meldConfigurationsRules(config: any, extension: any): void {
   config['rules'] = config.rules || { };
   Object.entries(extension.rules)
     .map(([ruleName, rule]) => [ruleName, Array.isArray(rule) ? rule : [rule]] as any[])
