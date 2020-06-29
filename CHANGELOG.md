@@ -19,3 +19,9 @@ Switching out of pre-release status. Most changes are visible in an improved UI 
 We gave up on trying to build a UI for custom parser options. There's no schema for them so we can't do it reliably. A button is now shown to edit them manually. All planned refactoring is complete.
 
 This patch release closes issues #9 and #10.
+
+## 1.0.3
+
+Lintel now supports [Shared Configurations](https://eslint.org/docs/developer-guide/shareable-configs).
+
+This patch release closes out issue #11.

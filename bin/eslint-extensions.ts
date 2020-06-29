@@ -1,13 +1,11 @@
 import * as fs from 'fs';
-import * as path from 'path';
 
-import { meldConfigurations } from './common';
-import { normalizeExtensionName } from './common';
-
-const moduleLoader = require('module');
+import { resolveExtension } from './common/resolve-extends';
 
 const extensions = [
   'eslint:recommended',
+  'eslint-config-eslint',
+  'eslint-config-google',
   'plugin:compat/recommended',
   'plugin:jest/recommended',
   'plugin:lodash/recommended',
@@ -25,46 +23,10 @@ const extensions = [
   'plugin:@typescript-eslint/recommended-requiring-type-checking'
 ];
 
-const schema = { };
-
-extensions.forEach(extensionName => {
-
-  let config;
-  if (extensionName === 'eslint:all')
-    config = require('eslint/conf/eslint-all');
-  else if (extensionName === 'eslint:recommended')
-    config = require('eslint/conf/eslint-recommended');
-  else {
-
-    // load extension configuration
-    const { configName, moduleName } = normalizeExtensionName(extensionName);
-    const modulePath = moduleLoader.createRequire(__filename).resolve(moduleName);
-    config = require(modulePath).configs[configName];
-
-    // resolve extensions
-    const resolveExtends = base => {
-      if (base.extends) {
-        if (!Array.isArray(base.extends))
-          base.extends = [base.extends];
-        base.extends.forEach(extensionName => {
-          let extension;
-          if (extensionName.startsWith('/'))
-            extension = require(extensionName);
-          else extension = require(path.join(path.dirname(modulePath), extensionName));
-          if (extension.extends)
-            resolveExtends(extension);
-          meldConfigurations(config, extension);
-        });
-      }
-    };
-
-    resolveExtends(config);
-    delete config.extends;
-  }
-
-  schema[extensionName] = config;
-
-});
+const schema = extensions.reduce((acc, extensionName) => {
+  acc[extensionName] = resolveExtension(extensionName, __filename);
+  return acc;
+}, { });
 
 const normalized = JSON.stringify(schema, null, 2);
 

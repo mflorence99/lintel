@@ -9,6 +9,7 @@
     "src/polyfills.ts"
   ],
   "exclude": [
+    "**/resolve-extends.ts",
     "common/**/*.spec.ts"
   ],
   "include": [

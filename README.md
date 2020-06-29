@@ -1,6 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-97.66%25-green)](https://github.com/mflorence99/lintel/issues)
+[![Jest Coverage](https://img.shields.io/badge/coverage-97.67%25-green)](https://github.com/mflorence99/lintel/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 
@@ -70,11 +70,7 @@ Lintel does not currently model ESLint `overrides` in its UI. Any settings here 
 
 Lintel should support plugin installation and creation of an ESLint configuration from scratch.
 
-Lintel should support `extends` of locally installed configuration files.
-
 Comments in YAML files need to be supported.
-
-`eslintrc.js` configuration files are only supported in so far as they represent an object map and don't actually dynamically execute any code.
 
 ## Credits
 

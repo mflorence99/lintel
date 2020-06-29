@@ -3,10 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
-import { meldConfigurations } from './common';
-import { normalizeExtensionName } from './common';
-
-const moduleLoader = require('module');
+import { resolveExtension } from './common/resolve-extends';
 
 const debouncer: Record<string, any> = { };
 const extensionCache: Record<string, any> = { };
@@ -24,16 +21,12 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
 
   const extensionsGenerator = (fileName, extensions: string[]): void => {
     extensions
-      .filter(extensionName => extensionName.startsWith('plugin:'))
       .forEach(extensionName => {
         // TODO: we need to consider extensions versioning
         let config = extensionCache[extensionName];
         if (!config) {
           try {
-            const { configName, moduleName } = normalizeExtensionName(extensionName);
-            const modulePath = moduleLoader.createRequire(fileName).resolve(moduleName);
-            config = require(modulePath)?.configs[configName];
-            extensionResolverFactory(config, modulePath)(config);
+            config = resolveExtension(extensionName, fileName);
             extensionCache[extensionName] = config;
           } catch (error) { 
             // TODO: telemetry on error
@@ -44,25 +37,6 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
         if (config && Object.keys(config).length)
           currentPanel.webview.postMessage({ command: 'extensions', extensions: { [extensionName]: config } });
       });
-  };
-
-  const extensionResolverFactory = (config: any, modulePath: string): Function => {
-    const extensionResolver = (base: any): void => {
-      if (base.extends) {
-        if (!Array.isArray(base.extends))
-          base.extends = [base.extends];
-        base.extends.forEach(extensionName => {
-          let extension;
-          if (extensionName.startsWith('/'))
-            extension = require(extensionName);
-          else extension = require(path.join(path.dirname(modulePath), extensionName));
-          if (extension.extends)
-            extensionResolver(extension);
-          meldConfigurations(config, extension);
-        });
-      }
-    };
-    return extensionResolver;
   };
 
   const rulesGenerator = (fileName: string, plugins: string[]): void => {

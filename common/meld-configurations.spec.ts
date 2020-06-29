@@ -1,6 +1,6 @@
-import { meldConfigurations } from './';
+import { meldConfigurations } from './meld-configurations';
 
-describe('extends mind meld', () => {
+describe('meld-configurations', () => {
 
   let config, extension;
 
