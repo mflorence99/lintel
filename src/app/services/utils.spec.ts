@@ -63,6 +63,29 @@ describe('Utils', () => {
   });
 
   test('longestCommonPrefix', () => {
+    const strings = [];
+    const utils: Utils = services[0];
+    expect(utils.longestCommonPrefix(strings)).toBe('');
+  });
+
+  test('longestCommonPrefix', () => {
+    const strings = [
+      'c:/users/project/.eslintrc.json'
+    ];
+    const utils: Utils = services[0];
+    expect(utils.longestCommonPrefix(strings)).toBe('c:/users/project/');
+  });
+
+  test('longestCommonPrefix', () => {
+    const strings = [
+      'c:/users/project/.eslintrc.json',
+      'c:/users/project/.eslintrc.yaml'
+    ];
+    const utils: Utils = services[0];
+    expect(utils.longestCommonPrefix(strings)).toBe('c:/users/project/');
+  });
+
+  test('longestCommonPrefix', () => {
     const strings = [
       '/home/mflorence99/el-3270/.eslintrc.json',
       '/home/mflorence99/lintel/package.json',

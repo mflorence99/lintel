@@ -25,3 +25,9 @@ This patch release closes issues #9 and #10.
 Lintel now supports [Shared Configurations](https://eslint.org/docs/developer-guide/shareable-configs).
 
 This patch release closes out issue #11.
+
+## 1.0.4
+
+[Alex Rafter](https://github.com/Alex-Rafter) very helpfully pointed out that Lintel does not properly handle Windows paths in the UI. It expects to break and shorten file names by a `/` and not also a `\`.
+
+This patch closes out issue #14.

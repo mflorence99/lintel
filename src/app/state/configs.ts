@@ -275,8 +275,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get shortFileNames(): string[] {
-    const prefix = this.utils.longestCommonPrefix(this.fileNames);
-    return this.fileNames.map(fileName => fileName.substring(prefix.length));
+    const fileNames = this.fileNames.map(fileName => fileName.replace(/\\/g, '/'));
+    const prefix = this.utils.longestCommonPrefix(fileNames);
+    return fileNames.map(fileName => fileName.substring(prefix.length));
   }
 
   @Computed() get unknownView(): View {

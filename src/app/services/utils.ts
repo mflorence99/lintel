@@ -56,15 +56,21 @@ export class Utils {
 
   /** Find the longest common prefix from a list */
   longestCommonPrefix(strings: string[]): string {
-    if (strings.length === 1) {
+    // NOTE: we have cheated and made sure Windows paths appear using /
+    if (strings.length === 0)
+      return '';
+    else if (strings.length === 1) {
       const ix = strings[0].lastIndexOf('/');
       return strings[0].substring(0, ix + 1);
     } else {
-      const first = strings[0] || '';
+      const ix = strings[0].lastIndexOf('/');
+      const first = strings[0].substring(0, ix + 1);
       let commonLength = first.length;
       for (let i = 1; i < strings.length; ++i) {
+        const iy = strings[i].lastIndexOf('/');
+        const next = strings[i].substring(0, iy + 1);
         for (let j = 0; j < commonLength; ++j) {
-          if (strings[i].charAt(j) !== first.charAt(j)) {
+          if (next.charAt(j) !== first.charAt(j)) {
             commonLength = j;
             break;
           }
