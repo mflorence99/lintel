@@ -16,7 +16,8 @@ export function meldConfigurations(config: any, extension: any): any {
         config[key] = Array.from(new Set([...config[key] || [], ...extension[key]]));
       else if (typeof extension[key] === 'object')
         config[key] = Object.assign(config[key] || { }, extension[key]);
-      else config[key] = extension[key];
+      else if (extension[key] != null)
+        config[key] = extension[key];
     });
 
   return config;
