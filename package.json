@@ -58,7 +58,7 @@
     }
   },
   "dependencies": {
-    "eslint": "^7",
+    "eslint": "^6",
     "js-yaml": "^3.14.0"
   },
   "description": "VSCode extension to visualize ESLint configurations",
@@ -110,7 +110,7 @@
     "eslint-plugin-react-native": "^3.8.1",
     "eslint-plugin-react-redux": "^3.0.3",
     "eslint-plugin-sonarjs": "^0.5.0",
-    "eslint-plugin-unicorn": "^20",
+    "eslint-plugin-unicorn": "^19",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^26.1.0",
     "jest-junit": "^11.0.1",
