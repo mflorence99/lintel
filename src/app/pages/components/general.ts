@@ -38,18 +38,19 @@ export class GeneralComponent implements OnInit {
   generalForm: FormGroup;
 
   properties = [
-    ['extends', 'extending-configuration-files'],
-    ['parser', 'specifying-parser'], 
-    ['parserOptions', 'specifying-parser-options'], 
     ['ecmaFeatures', 'specifying-parser-options'],
     ['env', 'specifying-environments'], 
+    ['extends', 'extending-configuration-files'],
     ['globals', 'specifying-globals'],
-    ['plugins', 'configuring-plugins'],
-    ['root', 'configuration-cascading-and-hierarchy'], 
-    ['noInlineConfig', 'disabling-rules-with-inline-comments'], 
     ['ignorePatterns', 'ignoring-files-and-directories'],
-    ['settings', 'adding-shared-settings'],
-    ['reportUnusedDisableDirectives', 'configuring-inline-comment-behaviors']
+    ['noInlineConfig', 'disabling-rules-with-inline-comments'],
+    ['overrides', 'configuration-based-on-glob-patterns'],
+    ['parser', 'specifying-parser'], 
+    ['parserOptions', 'specifying-parser-options'], 
+    ['plugins', 'configuring-plugins'],
+    ['reportUnusedDisableDirectives', 'configuring-inline-comment-behaviors'],
+    ['root', 'configuration-cascading-and-hierarchy'], 
+    ['settings', 'adding-shared-settings']
   ];
 
   /** ctor */
@@ -109,6 +110,8 @@ export class GeneralComponent implements OnInit {
     // NOTE: ecmaFeatures moved from the top level into parseOptions
     if (key === 'ecmaFeatures')
       return this.utils.exists(this.configs.extension.parserOptions?.ecmaFeatures);
+    else if (key === 'overrides')
+      return false;
     // ... but still consider parserOptions separately
     else if (key === 'parserOptions') {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

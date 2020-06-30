@@ -1,0 +1,15 @@
+<div
+  [formGroup]="overridesForm"
+  class="overrides">
+
+  <lintel-input-array
+    [formControl]="control"
+    *ngFor="let control of controls; let ix = index">
+
+    <div prefix>
+      {{ ix + 1 }}&nbsp;
+    </div>
+
+  </lintel-input-array>
+
+</div>

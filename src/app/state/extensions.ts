@@ -16,7 +16,9 @@ declare const eslintExtensions: ExtensionsStateModel;
 export interface Extension {
   ecmaFeatures?: Record<string, boolean>;
   env?: Record<string, boolean>;
+  files?: string[];
   globals?: Record<string, boolean | number | string>;
+  overrides?: Extension[];
   parser?: string;
   parserOptions?: ParserOptions;
   plugins?: string[];

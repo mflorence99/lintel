@@ -19,6 +19,7 @@ import { Utils } from '../services/utils';
 import { meldConfigurations } from '../common/meld-configurations';
 import { patch } from '@ngxs/store/operators';
 import { scratch } from './operators';
+import { updateItem } from '@ngxs/store/operators';
 import { updateItems } from './operators';
 
 declare const lintelVSCodeAPI;
@@ -31,9 +32,11 @@ export interface Configuration {
   ecmaFeatures?: Record<string, boolean>;
   env?: Record<string, boolean>;
   extends?: string[];
+  files?: string[];
   globals?: Record<string, boolean | number | string>;
   ignorePatterns?: string[];
   noInlineConfig?: boolean;
+  overrides?: Configuration[];
   parser?: string;
   parserOptions?: ParserOptions;
   plugins?: string[];
@@ -98,11 +101,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     this.ctx.setState(patch({ [fileName]: patch(changes) }));
     const after = this.ctx.getState()[fileName];
     // load any extensions that are new
-    const extensions = this.utils.diff(after.extends ?? [], before.extends ?? []);
+    const extensions = this.utils.diffArrays(after.extends ?? [], before.extends ?? []);
     if (extensions.length)
       this.debouncedPostMessage({ command: 'getExtensions', fileName, extensions });
     // load any plugins that are new
-    const plugins = this.utils.diff(after.plugins ?? [], before.plugins ?? []);
+    const plugins = this.utils.diffArrays(after.plugins ?? [], before.plugins ?? []);
     if (plugins.length)
       this.debouncedPostMessage({ command: 'getRules', fileName, plugins });
     // now patch source file by resolving changes to a full replacement
@@ -112,6 +115,25 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         acc[key] = state[fileName][key];
         return acc;
       }, { });
+    this.files.changeConfiguration({ fileName, replacement });
+  }
+
+  @DataAction({ insideZone: true })
+  changeOverrides(@Payload('changes') { files }): void {
+    const fileName = this.selection.fileName;
+    // sanity check: we can only change the "files" in overrides
+    // that actually already exist
+    if (!this.ctx.getState()[fileName]?.overrides)
+      throw new Error(`changeOverrides()${files.toString()}: no overrides to change`);
+    if (this.ctx.getState()[fileName].overrides.length !== files.length)
+      throw new Error(`changeOverrides()${files.toString()}: files mismatch`);
+    // now change the "files" in each overrides
+    files.forEach((extensions, ix) => {
+      this.ctx.setState(patch({ [fileName]: patch({ overrides: updateItem(ix, patch({ files: extensions }))}) }));
+    });
+    // now patch source file by resolving changes to a full replacement
+    const overrides = this.ctx.getState()[fileName].overrides;
+    const replacement = this.utils.deepCopy(overrides);
     this.files.changeConfiguration({ fileName, replacement });
   }
 
@@ -186,6 +208,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     }
   }
 
+  @Computed() get baseConfiguration(): Configuration {
+    // NOTE: a null configuration is an upstream signal
+    return this.snapshot[this.selection.fileName];
+  }
+
   @Computed() get categories(): string[] {
     return Object.keys(this.categoryView)
       .sort();
@@ -208,11 +235,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @Computed() get configuration(): Configuration {
     // NOTE: a null configuration is an upstream signal
-    return this.snapshot[this.selection.fileName];
+    if (this.selection.override != null)
+      return this.snapshot[this.selection.fileName]?.overrides?.[this.selection.override];
+    else return this.snapshot[this.selection.fileName];
   }
 
   @Computed() get extension(): Extension {
-    const extensionNames = this.configuration?.extends ?? [];
+    const extensionNames = this.baseConfiguration.extends ?? [];
     return extensionNames
       .map(extensionName => this.extensions.snapshot[extensionName])
       .filter(extension => !!extension)
@@ -264,6 +293,21 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @Computed() get isEmpty(): boolean {
     return this.utils.isEmptyObject(this.snapshot);
+  }
+
+  @Computed() get overrides(): Configuration[] {
+    let overrides = [];
+    if (this.baseConfiguration.overrides) {
+      const fromConfiguration = this.baseConfiguration.overrides.map(override => override);
+      overrides = overrides.concat(fromConfiguration);
+    }
+    if (this.extension.overrides) {
+      const fromExtension = this.extension.overrides
+        .filter(override => !overrides.find(existing => this.utils.arraysEqual(existing.files, override.files)))
+        .map(override => override);
+      overrides = overrides.concat(fromExtension);
+    }
+    return overrides;
   }
 
   @Computed() get pluginNames(): string[] {

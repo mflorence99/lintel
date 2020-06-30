@@ -14,6 +14,16 @@ describe('Utils', () => {
 
   beforeEach(() => services = prepare([Utils]));
 
+  test('two arrays can be compared for equality', () => {
+    const utils: Utils = services[0];
+    const a = [1, 2, 3];
+    const b = [3, 2, 1];
+    expect(utils.arraysEqual(a, b)).toBe(true);
+    const p = [1, 2, 3];
+    const q = [3, 'two', 1];
+    expect(utils.arraysEqual(p, q)).toBe(false);
+  });
+
   test('Object can be deep copied', () => {
     const utils: Utils = services[0];
     const obj1 = { a: 1, b: { c: 2 } };
@@ -39,7 +49,7 @@ describe('Utils', () => {
     const a = [1, 2, 3];
     const b = [4, 3, 2, 0];
     const utils: Utils = services[0];
-    expect(utils.diff(a, b)).toEqual([1]);
+    expect(utils.diffArrays(a, b)).toEqual([1]);
   });
 
   test('Object exists', () => {

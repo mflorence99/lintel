@@ -80,6 +80,20 @@ eslintFiles = {
       "vscode": "^1.41.0"
     },
     "eslintConfig": {
+      "overrides": [
+        {
+          "files": ["*.md"],
+          "ignorePatterns": ["*.mdx"]
+        },
+        {
+          "files": ["*.html"],
+          "globals": { "Event": "off" }
+        },
+        {
+          "files": ["*.ts", "*.tsx"],
+          "parser": "esprima"
+        }
+      ],
       "extends": [
         "eslint:recommended",
         "plugin:compat/recommended",

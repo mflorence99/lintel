@@ -12,10 +12,12 @@ describe('SelectionState', () => {
     bundle.selection.select({ 
       category: bundle.params.activeCategory, 
       fileName: '/home/mflorence99/lintel/package.json', 
+      override: 6,
       pluginName: bundle.params.basePluginName 
     });
     expect(bundle.selection.category).toEqual(bundle.params.activeCategory);
     expect(bundle.selection.fileName).toEqual('/home/mflorence99/lintel/package.json');
+    expect(bundle.selection.override).toEqual(6);
     expect(bundle.selection.pluginName).toEqual(bundle.params.basePluginName);
   });
 

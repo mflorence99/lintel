@@ -25,7 +25,8 @@ input {
 }
 
 ::ng-deep lintel-input [prefix] {
-  margin-right: 0.5rem;
+  // TODO: a temporary hack to make prefix in input-array work
+  margin-right: 0;
 }
 
 ::ng-deep lintel-input [suffix] {

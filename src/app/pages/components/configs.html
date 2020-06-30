@@ -28,10 +28,10 @@
   <ng-container
     *ngIf="configs.configuration && (selection.fileName === fileName)">
 
-    <!-- NOTE: general settings and active rules are ALWAYS available -->
+    <!-- NOTE: general settings are ALWAYS available -->
 
     <li
-      (click)="selectCategory($event, params.generalSettings)"
+      (click)="selectCategory($event, params.generalSettings) || selectOverride($event, null)"
       [ngClass]="{selected: selection.category === params.generalSettings}"
       class="item">
 
@@ -46,6 +46,28 @@
       <div>{{ params.generalSettings }}</div>
 
     </li>
+
+    <!-- One entry now for each override -->
+
+    <li
+      (click)="selectOverride($event, ix)"
+      [ngClass]="{selected: selection.override === ix}"
+      *ngFor="let override of configs.overrides; let ix = index"
+      class="item">
+
+      <div>
+        <fa-icon 
+          [fixedWidth]="true"
+          [icon]="[selection.override === ix? 'fas' : 'far', 'circle']"
+          size="xs">
+        </fa-icon>
+      </div>
+      
+      <div>{{ override.files.toString() }}</div>
+
+    </li>
+
+    <!-- Show the current plugin -->
 
     <li  
       (click)="selectCategory($event, params.activeCategory)"
@@ -63,6 +85,8 @@
 
     </li>
 
+    <!-- NOTE: active rules are ALWAYS available -->
+
     <li
       (click)="selectCategory($event, params.activeCategory)"
       [ngClass]="{selected: selection.category === params.activeCategory}"
@@ -79,6 +103,8 @@
       <div>{{ params.activeCategory }}</div>
 
     </li>
+
+    <!-- Each category, but only if populated -->
 
     <li
       (click)="selectCategory($event, category)"

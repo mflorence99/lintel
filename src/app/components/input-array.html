@@ -19,6 +19,12 @@
       [type]="type"
       *ngFor="let input of inputArrayForm.controls.inputs['controls']; let ix = index">
 
+      <div
+        *ngIf="ix === 0"
+        prefix>
+        <ng-content select="[prefix]"></ng-content>
+      </div>
+
       <fa-icon 
         (click)="removeInput(ix)"
         [icon]="['fas', 'times']"

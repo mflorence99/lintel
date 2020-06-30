@@ -8,9 +8,12 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { StorageService } from '../services/storage';
 
+import { patch } from '@ngxs/store/operators';
+
 export interface SelectionStateModel {
   category?: string;
   fileName?: string;
+  override?: number;
   pluginName?: string;
 }
 
@@ -28,7 +31,7 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
 
   @DataAction({ insideZone: true }) 
   select(@Payload('selection') selection: SelectionStateModel): void {
-    this.ctx.patchState(selection);
+    this.ctx.setState(patch(selection));
   }
 
   // accessors
@@ -39,6 +42,10 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
 
   @Computed() get fileName(): string {
     return this.snapshot.fileName;
+  }
+
+  @Computed() get override(): number {
+    return this.snapshot.override;
   }
 
   @Computed() get pluginName(): string {

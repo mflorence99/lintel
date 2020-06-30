@@ -5,6 +5,7 @@ import { DirectivesModule } from '../../directives/module';
 import { FilterComponent } from './filter';
 import { GeneralComponent } from './general';
 import { NgModule } from '@angular/core';
+import { OverridesComponent } from './overrides';
 import { ParserOptionsComponent } from './parser-options';
 import { PipesModule } from '../../pipes/module';
 import { RuleComponent } from './rule';
@@ -20,6 +21,7 @@ const COMPONENTS = [
   ConfigsComponent,
   FilterComponent,
   GeneralComponent,
+  OverridesComponent,
   ParserOptionsComponent,
   RuleComponent,
   RulesComponent,

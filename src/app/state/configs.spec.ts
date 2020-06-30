@@ -84,7 +84,13 @@ describe('ConfigsState', () => {
     expect(extension.plugins).toContain('jest');
     expect(extension.plugins).toContain('lodash-fp');
     expect(extension.plugins).toContain('node');
+  });
 
+  test('Overrides are properly merged', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    const overrides = bundle.configs.overrides;
+    expect(overrides[0].files).toEqual(bundle.configs.configuration.overrides[0].files);
+    expect(overrides.length).toBeGreaterThan(bundle.configs.configuration.overrides.length);
   });
 
   test('Rule digest is properly constructed', () => {

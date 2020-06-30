@@ -7,6 +7,12 @@ export type DeepSearchCallback = (container: any, value: any) => void;
 @Injectable({ providedIn: 'root' })
 export class Utils {
 
+  /** Compare two arrays for equality */
+  arraysEqual(p: any[], q: any[]): boolean {
+    // TODO: works for overrides.files, but not generally
+    return p.slice(0).sort().toString() === q.slice(0).sort().toString();
+  }
+
   /** Slow but surw */
   deepCopy(obj: any): any {
     return JSON.parse(JSON.stringify(obj));
@@ -28,7 +34,7 @@ export class Utils {
   }
 
   /** Diff two arrays */
-  diff(p: any[], q: any[]): any[] {
+  diffArrays(p: any[], q: any[]): any[] {
     const s = new Set(p);
     const t = new Set(q);
     return [...s].filter(x => !t.has(x));
