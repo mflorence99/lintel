@@ -65,22 +65,4 @@ describe('RootPageComponent', () => {
     });
   });
 
-  test('scrollToTop', () => {
-    const fixture = TestBed.createComponent(RootPageComponent);
-    const app = fixture.componentInstance;
-    document.body.innerHTML = '<div id="theScroller"></div>';
-    const scrollTo: any = jest.fn(opts => opts);
-    document.body.querySelector('#theScroller').scrollTo = scrollTo;
-    app['host'] = { nativeElement: document.body };
-    app.scrollToTop();
-    const calls = scrollTo.mock.calls;
-    expect(calls.length).toBeGreaterThanOrEqual(1);
-    const options = calls[0][0];
-    expect(options).toEqual({
-      top: 0, 
-      left: 0, 
-      behavior: 'auto'
-    });
-  });
-
 });

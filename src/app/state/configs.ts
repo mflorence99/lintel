@@ -237,7 +237,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @Computed() get configuration(): Configuration {
     if (this.selection.override != null)
-      return this.baseConfiguration.overrides?.[this.selection.override] ?? this.emptyConfiguration;
+      return this.overrides[this.selection.override];
     else return this.baseConfiguration;
   }
 

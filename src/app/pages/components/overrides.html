@@ -4,7 +4,7 @@
 
   <lintel-input-array
     [formControl]="control"
-    *ngFor="let control of controls; let ix = index">
+    *ngFor="let control of overridesForm.controls.files['controls']; let ix = index">
 
     <div prefix>
       {{ ix + 1 }}&nbsp;

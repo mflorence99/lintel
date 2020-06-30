@@ -11,6 +11,7 @@ import { ComponentsModule as CommonComponents } from '../../components/module';
 import { ConfigsState } from '../../state/configs';
 import { ContextMenuService } from 'ngx-contextmenu';
 import { DirectivesModule } from '../../directives/module';
+import { ElementRef } from '@angular/core';
 import { ExtensionsState } from '../../state/extensions';
 import { FilesState } from '../../state/files';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
@@ -25,6 +26,13 @@ import { states } from '../../state/app';
 
 declare let lintelVSCodeAPI;
 
+// @see https://stackoverflow.com/questions/38623065
+export class MockElementRef extends ElementRef {
+  constructor() { 
+    super(null); 
+  }
+}
+
 export function prepare(): void {
 
   TestBed.configureTestingModule({
@@ -38,7 +46,8 @@ export function prepare(): void {
       PipesModule
     ],
     providers: [
-      ContextMenuService
+      ContextMenuService,
+      { provide: ElementRef, useValue: new MockElementRef() }
     ]
   }).compileComponents();
 

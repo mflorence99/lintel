@@ -2,9 +2,7 @@ import { AfterViewChecked } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
-import { EventEmitter } from '@angular/core';
 import { FilterState } from '../../state/filter';
-import { Output } from '@angular/core';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { SingleselectorComponent } from '../../components/singleselector';
@@ -29,8 +27,6 @@ export class TabsComponent implements AfterViewChecked {
     m?.registerOnChange(this.selectPluginName.bind(this));
   }
 
-  @Output() pluginSelected = new EventEmitter<void>();
-
   /** ctor */
   constructor(public configs: ConfigsState,
               public filter: FilterState,
@@ -51,11 +47,11 @@ export class TabsComponent implements AfterViewChecked {
   }
 
   /** Select a plugin */
-  selectPluginName(pluginName: string): void {
+  selectPluginName(pluginName: string): boolean {
     if (pluginName !== this.selection.pluginName) {
       this.selection.select({ pluginName });
-      this.pluginSelected.emit();
-    }
+      return true;
+    } else return false;
   }
 
   /** Which plugins go in the tabs, which in the overflow "more..." dropdown? */

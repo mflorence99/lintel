@@ -11,6 +11,7 @@ import { OnInit } from '@angular/core';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
 
+import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 /**
@@ -27,9 +28,9 @@ import { takeUntil } from 'rxjs/operators';
 
 export class OverridesComponent implements OnInit {
 
-  controls: FormControl[] = [];
-
   overridesForm: FormGroup;
+
+  private underConstruction: boolean;
 
   /** ctor */
   constructor(public configs: ConfigsState,
@@ -38,21 +39,40 @@ export class OverridesComponent implements OnInit {
               private formBuilder: FormBuilder,
               public schema: SchemaState,
               public selection: SelectionState) {
-    // TODO: temporary
-    this.controls = this.configs.configuration.overrides?.map(override => new FormControl([...override.files])) ?? [];
-
     this.overridesForm = this.formBuilder.group({
-      files: new FormArray(this.controls)
+      files: new FormArray([])
     });
+    // rebuild form on selection changes
+    this.handleSelectionState$();
   }
 
   /** When we're ready */
   ngOnInit(): void {
     this.overridesForm.valueChanges
       .pipe(
+        filter(_ => !this.underConstruction),
         takeUntil(this.destroy$)
       ).subscribe(changes => this.configs.changeOverrides(changes));
   }
 
+  // private methods
+
+  private handleSelectionState$(): void {
+    this.selection.state$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(_ => {
+        this.underConstruction = true;
+        // TODO: temporary
+        const values = this.configs.configuration.overrides?.map(override => override.files) ?? [];
+        const files = this.overridesForm.controls.files as FormArray;
+        while (files.length > values.length)
+          files.removeAt(files.length - 1);
+        while (files.length < values.length)
+          files.push(new FormControl(null));
+        // TODO: we don't know why { emitEvent: false } doesn't work
+        files.patchValue([...values], { emitEvent: false });
+        this.underConstruction = false;
+      });
+  }
 
 }

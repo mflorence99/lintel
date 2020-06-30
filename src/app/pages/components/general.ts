@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { DestroyService } from '../../services/destroy';
+import { ElementRef } from '@angular/core';
 import { ExtensionsState } from '../../state/extensions';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
@@ -14,6 +15,7 @@ import { SingleselectorOptions } from '../../components/singleselector';
 import { Utils } from '../../services/utils';
 
 import { combineLatest } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { of } from 'rxjs';
@@ -53,28 +55,32 @@ export class GeneralComponent implements OnInit {
     ['settings', 'adding-shared-settings']
   ];
 
+  private emitEvent = true;
+
   /** ctor */
   constructor(public configs: ConfigsState,
               private destroy$: DestroyService,
               public extensions: ExtensionsState,
               private formBuilder: FormBuilder,
+              private host: ElementRef,
               public schema: SchemaState,
               public selection: SelectionState,
               public utils: Utils) {
     this.generalForm = this.formBuilder.group({
-      // NOTE: ecmaFeatures moved from the top level into parseOptions
-      ecmaFeatures: [this.configs.configuration.parserOptions?.ecmaFeatures ?? { }],
-      env: [this.configs.configuration.env ?? { }],
-      extends: [this.configs.configuration.extends],
-      globals: [this.configs.configuration.globals],
-      ignorePatterns: [this.configs.configuration.ignorePatterns],
-      noInlineConfig: [this.configs.configuration.noInlineConfig],
-      parser: [this.configs.configuration.parser],
-      plugins: [this.configs.configuration.plugins],
-      reportUnusedDisableDirectives: [this.configs.configuration.reportUnusedDisableDirectives],
-      root: [this.configs.configuration.root],
-      settings: [this.configs.configuration.settings]
+      ecmaFeatures: null,
+      env: null,
+      extends: null,
+      globals: null,
+      ignorePatterns: null,
+      noInlineConfig: null,
+      parser: null,
+      plugins: null,
+      reportUnusedDisableDirectives: null,
+      root: null,
+      settings: null
     });
+    // rebuild form on selection changes
+    this.handleSelectionState$();
   }
 
   /** We can only process if all values are string, number or boolean */
@@ -153,6 +159,7 @@ export class GeneralComponent implements OnInit {
     ];
     merge(...changes)
       .pipe(
+        filter(_ => this.emitEvent),
         map(([changes, key]) => {
           // NOTE: ecmaFeatures moved from the top level into parseOptions
           if (key === 'ecmaFeatures')
@@ -164,6 +171,32 @@ export class GeneralComponent implements OnInit {
   }
 
   // private methods
+
+  private handleSelectionState$(): void {
+    this.selection.state$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(_ => {
+        this.emitEvent = false;
+        this.generalForm.patchValue({
+          // NOTE: ecmaFeatures moved from the top level into parseOptions
+          ecmaFeatures: this.configs.configuration.parserOptions?.ecmaFeatures ?? { },
+          env: this.configs.configuration.env ?? { },
+          extends: this.configs.configuration.extends ?? [],
+          globals: this.configs.configuration.globals ?? { },
+          ignorePatterns: this.configs.configuration.ignorePatterns ?? [],
+          noInlineConfig: this.configs.configuration.noInlineConfig ?? false,
+          parser: this.configs.configuration.parser ?? null,
+          plugins: this.configs.configuration.plugins ?? [],
+          reportUnusedDisableDirectives: this.configs.configuration.reportUnusedDisableDirectives ?? false,
+          root: this.configs.configuration.root ?? false,
+          settings: this.configs.configuration.settings ?? { }
+          // TODO: we don't know why { emitEvent: false } doesn't work
+        }, { emitEvent: false });
+        this.emitEvent = true;
+        // make sure we scroll to the top after rebuilding form
+        this.host.nativeElement.scrollTo?.({ top: 0, left: 0, behavior: 'auto' });
+      });
+  }
 
   private makeValueChanges(key: string): Observable<[any, string]> {
     return combineLatest([this.generalForm.controls[key].valueChanges, of(key)]);

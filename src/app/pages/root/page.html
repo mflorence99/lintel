@@ -2,7 +2,6 @@
   *ngIf="!configs.isEmpty; else noConfigs">
 
   <lintel-configs
-    (categorySelected)="scrollToTop()"
     class="configs">
   </lintel-configs>
 
@@ -29,7 +28,6 @@
           </lintel-filter>
 
           <lintel-tabs
-            (pluginSelected)="scrollToTop()"
             class="tabs">
           </lintel-tabs>
 

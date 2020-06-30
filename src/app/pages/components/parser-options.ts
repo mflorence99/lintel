@@ -10,6 +10,7 @@ import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
 import { SingleselectorOptions } from '../../components/singleselector';
 
+import { filter } from 'rxjs/operators';
 import { patch } from '@ngxs/store/operators';
 import { takeUntil } from 'rxjs/operators';
 
@@ -29,6 +30,8 @@ export class ParserOptionsComponent implements OnInit {
 
   parserOptionsForm: FormGroup;
 
+  private emitEvent = true;
+
   /** ctor */
   constructor(public configs: ConfigsState,
               private destroy$: DestroyService,
@@ -37,9 +40,11 @@ export class ParserOptionsComponent implements OnInit {
               public schema: SchemaState,
               public selection: SelectionState) {
     this.parserOptionsForm = this.formBuilder.group({
-      ecmaVersion: [this.configs.configuration.parserOptions?.ecmaVersion],
-      sourceType: [this.configs.configuration.parserOptions?.sourceType]
+      ecmaVersion: null,
+      sourceType: null
     });
+    // rebuild form on selection changes
+    this.handleSelectionState$();
   }
 
   /** Options from enum */
@@ -52,6 +57,7 @@ export class ParserOptionsComponent implements OnInit {
   ngOnInit(): void {
     this.parserOptionsForm.valueChanges
       .pipe(
+        filter(_ => this.emitEvent),
         takeUntil(this.destroy$)
       ).subscribe(changes => 
         // NOTE: we're patching these changes because each parser can define its own
@@ -59,5 +65,20 @@ export class ParserOptionsComponent implements OnInit {
         this.configs.changeConfiguration({ parserOptions: patch(changes) }));
   }
 
+  // private methods
+
+  private handleSelectionState$(): void {
+    this.selection.state$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(_ => {
+        this.emitEvent = false;
+        this.parserOptionsForm.patchValue({
+          ecmaVersion: this.configs.configuration.parserOptions?.ecmaVersion ?? null,
+          sourceType: this.configs.configuration.parserOptions?.sourceType ?? null
+          // TODO: we don't know why { emitEvent: false } doesn't work
+        }, { emitEvent: false });
+        this.emitEvent = true;
+      });
+  }
 
 }

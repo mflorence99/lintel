@@ -2,9 +2,7 @@ import { AfterViewChecked } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
-import { EventEmitter } from '@angular/core';
 import { FilterState } from '../../state/filter';
-import { Output } from '@angular/core';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { Utils } from '../../services/utils';
@@ -21,8 +19,6 @@ import { Utils } from '../../services/utils';
 })
 
 export class ConfigsComponent implements AfterViewChecked {
-
-  @Output() categorySelected = new EventEmitter<void>();
 
   /** ctor */
   constructor(public configs: ConfigsState,
@@ -74,8 +70,9 @@ export class ConfigsComponent implements AfterViewChecked {
   selectCategory(event: Event, category: string): boolean {
     event.stopPropagation();
     if (category !== this.selection.category) {
-      this.selection.select({ category });
-      this.categorySelected.emit();
+      if (category === this.params.generalSettings)
+        this.selection.select({ category, override: null });
+      else this.selection.select({ category });
       return true;
     }  else return false;
   }
@@ -85,8 +82,6 @@ export class ConfigsComponent implements AfterViewChecked {
     event.stopPropagation();
     if (fileName !== this.selection.fileName) {
       this.selection.select({ fileName: fileName, override: null, pluginName: this.params.basePluginName });
-      // TODO: this trick forces us to rebuild when fileName changes
-      // this.utils.nextTick(() => this.selection.select({ fileName }));
       return true;
     } else return false;
   }
@@ -96,8 +91,6 @@ export class ConfigsComponent implements AfterViewChecked {
     event.stopPropagation();
     if (ix !== this.selection.override) {
       this.selection.select({ category: this.params.generalSettings, override: ix });
-      // TODO: this trick forces us to rebuild when override changes
-      // this.utils.nextTick(() => this.selection.select({ override: ix }));
       return true;
     } else return false;
   }
