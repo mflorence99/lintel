@@ -212,7 +212,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get baseConfiguration(): Configuration {
-    return this.snapshot[this.selection.fileName] ?? { loading: true, rules: { } };
+    return this.snapshot[this.selection.fileName] ?? this.emptyConfiguration;
   }
 
   @Computed() get categories(): string[] {
@@ -237,7 +237,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @Computed() get configuration(): Configuration {
     if (this.selection.override != null)
-      return this.baseConfiguration.overrides?.[this.selection.override];
+      return this.baseConfiguration.overrides?.[this.selection.override] ?? this.emptyConfiguration;
     else return this.baseConfiguration;
   }
 
@@ -260,6 +260,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         }
       });
     return Object.fromEntries(filtered);
+  }
+
+  @Computed() get emptyConfiguration(): Configuration {
+    return { loading: true, rules: { } };
   }
 
   @Computed() get fileNames(): string[] {

@@ -19,10 +19,7 @@ describe('OverridesComponent', () => {
     const component = fixture.componentInstance;
     component.ngOnInit();
     component.overridesForm.patchValue({ files: [['*.md', '*.markdown']] });
-    expect(component.configs.configuration.overrides[0]).toEqual({
-      files: ['*.md', '*.markdown'],
-      ignorePatterns: ['*.mdx']
-    });
+    expect(component.configs.configuration.overrides[0].files).toEqual(['*.md', '*.markdown']);
   });
 
 });

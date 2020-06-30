@@ -84,9 +84,9 @@ export class ConfigsComponent implements AfterViewChecked {
   selectFileName(event: Event, fileName: string): boolean {
     event.stopPropagation();
     if (fileName !== this.selection.fileName) {
-      this.selection.select({ fileName: null, override: null, pluginName: this.params.basePluginName });
+      this.selection.select({ fileName: fileName, override: null, pluginName: this.params.basePluginName });
       // TODO: this trick forces us to rebuild when fileName changes
-      this.utils.nextTick(() => this.selection.select({ fileName }));
+      // this.utils.nextTick(() => this.selection.select({ fileName }));
       return true;
     } else return false;
   }
@@ -95,10 +95,9 @@ export class ConfigsComponent implements AfterViewChecked {
   selectOverride(event: Event, ix: number): boolean {
     event.stopPropagation();
     if (ix !== this.selection.override) {
-      const fileName = this.selection.fileName;
-      this.selection.select({ fileName: null, override: ix });
+      this.selection.select({ category: this.params.generalSettings, override: ix });
       // TODO: this trick forces us to rebuild when override changes
-      this.utils.nextTick(() => this.selection.select({ category: this.params.generalSettings, fileName }));
+      // this.utils.nextTick(() => this.selection.select({ override: ix }));
       return true;
     } else return false;
   }

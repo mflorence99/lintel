@@ -10,7 +10,7 @@
     *ngIf="selection.fileName">
 
     <ng-container
-      *ngIf="configs.configuration; else invalidConfig">
+      *ngIf="!configs.configuration.loading; else invalidConfig">
 
       <ng-container
         [ngSwitch]="selection.category">
