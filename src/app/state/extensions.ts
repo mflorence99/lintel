@@ -8,6 +8,7 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
+import { normalizeConfiguration } from '../common/meld-configurations';
 import { patch } from '@ngxs/store/operators';
 
 // NOTE: extensions content is provided statically in index.html
@@ -66,35 +67,9 @@ export class ExtensionsState extends NgxsDataRepository<ExtensionsStateModel> {
 
   private normalize(extensions: ExtensionsStateModel): ExtensionsStateModel {
     const model = this.utils.deepCopy(extensions);
-    Object.entries(extensions)
-      .filter(([_, extension]) => !!extension)
-      .forEach(([extensionName, extension]) => {
-        // NOTE: is is very convenient to normalize configs before use
-        extension.rules = extension.rules ?? { };
-        Object.entries(extension.rules)
-          .forEach(([ruleName, rule]) => {
-            let normalized: any = rule;
-            if (typeof rule === 'string' || Number.isInteger(rule as any))
-              normalized = [rule];
-            if (Number.isInteger(normalized[0]))
-              normalized[0] = ['off', 'warn', 'error'][normalized[0]];
-            model[extensionName].rules[ruleName] = normalized;
-          });
-        // also very convenient to normalize global values
-        if (extension.globals) {
-          model[extensionName].globals = Object.keys(extension.globals)
-            .reduce((acc, key) => {
-              if ((extension.globals[key] === true)
-                || (extension.globals[key] === 'writeable'))
-                acc[key] = 'writable';
-              else if ((extension.globals[key] === false)
-                || (extension.globals[key] === 'readable'))
-                acc[key] = 'readonly';
-              else acc[key] = extension.globals[key];
-              return acc;
-            }, { });
-        }
-      });
+    Object.values(model)
+      .filter(extension => !!extension)
+      .forEach(extension => normalizeConfiguration(extension));
     return model;
   }
 

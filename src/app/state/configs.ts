@@ -17,6 +17,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
 import { meldConfigurations } from '../common/meld-configurations';
+import { normalizeConfiguration } from '../common/meld-configurations';
 import { patch } from '@ngxs/store/operators';
 import { scratch } from './operators';
 import { updateItem } from '@ngxs/store/operators';
@@ -35,6 +36,7 @@ export interface Configuration {
   files?: string[];
   globals?: Record<string, boolean | number | string>;
   ignorePatterns?: string[];
+  loading?: boolean;
   noInlineConfig?: boolean;
   overrides?: Configuration[];
   parser?: string;
@@ -165,11 +167,12 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     this.ctx.setState(this.normalize(configs));
     // get the latest extensions & rules
     Object.entries(this.snapshot)
+      .filter(([_, configuration]) => !!configuration)
       .forEach(([fileName, configuration]) => {
-        const extensions = configuration?.extends;
+        const extensions = configuration.extends;
         if (extensions?.length)
           lintelVSCodeAPI.postMessage({ command: 'getExtensions', fileName, extensions });
-        const plugins = configuration?.plugins;
+        const plugins = configuration.plugins;
         if (plugins?.length)
           lintelVSCodeAPI.postMessage({ command: 'getRules', fileName, plugins });
       });
@@ -195,8 +198,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     if (this.selection.pluginName === this.params.unknownPluginName)
       return this.unknownView;
     else {
-      const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
-      const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
+      const rules = this.rules.rules;
+      const settings = this.configuration.rules;
       return Object.keys(rules)
         .filter(ruleName => this.isRuleFiltered(ruleName))
         .filter(ruleName => settings[ruleName])
@@ -209,8 +212,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get baseConfiguration(): Configuration {
-    // NOTE: a null configuration is an upstream signal
-    return this.snapshot[this.selection.fileName];
+    return this.snapshot[this.selection.fileName] ?? { loading: true, rules: { } };
   }
 
   @Computed() get categories(): string[] {
@@ -219,8 +221,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get categoryView(): CategoryView {
-    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
-    const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
+    const rules = this.rules.rules;
+    const settings = this.configuration.rules;
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .sort()
@@ -234,10 +236,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get configuration(): Configuration {
-    // NOTE: a null configuration is an upstream signal
     if (this.selection.override != null)
-      return this.snapshot[this.selection.fileName]?.overrides?.[this.selection.override];
-    else return this.snapshot[this.selection.fileName];
+      return this.baseConfiguration.overrides?.[this.selection.override];
+    else return this.baseConfiguration;
   }
 
   @Computed() get extension(): Extension {
@@ -266,7 +267,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get inheritedView(): View {
-    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
+    const rules = this.rules.rules;
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .filter(ruleName => !!this.extensionSettings[ruleName])
@@ -278,7 +279,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get inheritedCategoryView(): CategoryView {
-    const rules = this.rules.snapshot[this.selection.pluginName] ?? { };
+    const rules = this.rules.rules;
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .filter(ruleName => !!this.extensionSettings[ruleName])
@@ -311,7 +312,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get pluginNames(): string[] {
-    const uniqueNames = new Set([...this.configuration?.plugins ?? [], ...this.extension.plugins ?? []]); 
+    const uniqueNames = new Set([...this.configuration.plugins ?? [], ...this.extension.plugins ?? []]); 
     const pluginNames = [this.params.basePluginName, ...Array.from(uniqueNames).sort()];
     if (!this.utils.isEmptyObject(this.unknownView))
       pluginNames.push(this.params.unknownPluginName);
@@ -326,7 +327,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   @Computed() get unknownView(): View {
     // NOTE: settings that have no corresponding rule in the schema
-    const settings = this.snapshot[this.selection.fileName]?.rules ?? { };
+    const settings = this.configuration.rules;
     return Object.keys(settings)
       .filter(ruleName => this.isRuleFiltered(ruleName))
       .sort()
@@ -389,39 +390,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   private normalize(configs: ConfigsStateModel): ConfigsStateModel {
-    const model = this.utils.deepCopy(configs);
-    Object.entries(configs)
-      .filter(([_, configuration]) => !!configuration)
-      .forEach(([fileName, configuration]) => {
-        // NOTE: is is very convenient to normalize configs before use
-        configuration.rules = configuration.rules ?? { };
-        Object.entries(configuration.rules)
-          .forEach(([ruleName, rule]) => {
-            let normalized: any = rule;
-            if (typeof rule === 'string' || Number.isInteger(rule as any))
-              normalized = [rule];
-            if (Number.isInteger(normalized[0]))
-              normalized[0] = ['off', 'warn', 'error'][normalized[0]];
-            model[fileName].rules[ruleName] = normalized;
-          });
-        // also very convenient to normalize extends to a string[]
-        if (typeof configuration.extends === 'string')
-          model[fileName].extends = [configuration.extends];
-        // also very convenient to normalize global values
-        if (configuration.globals) {
-          model[fileName].globals = Object.keys(configuration.globals)
-            .reduce((acc, key) => {
-              if ((configuration.globals[key] === true) 
-              || (configuration.globals[key] === 'writeable'))
-                acc[key] = 'writable';
-              else if ((configuration.globals[key] === false) 
-              || (configuration.globals[key] === 'readable'))
-                acc[key] = 'readonly';
-              else acc[key] = configuration.globals[key];
-              return acc;
-            }, { });
-        }
-      });
+    const model: ConfigsStateModel = this.utils.deepCopy(configs);
+    Object.values(model)
+      .filter(configuration => !!configuration)
+      .forEach(configuration => normalizeConfiguration(configuration));
     return model;
   }
 

@@ -73,3 +73,42 @@ export function meldConfigurationsRules(config: any, extension: any): void {
       }
     });
 }
+
+export function normalizeConfiguration(config: any): any {
+  // very convenient to ensure that rules exist in std format
+  config.rules = Object.entries(config.rules ?? {})
+    .reduce((acc, [ruleName, rule]) => {
+      let normalized: any = rule;
+      if (typeof rule === 'string' || Number.isInteger(rule as any))
+        normalized = [rule];
+      if (Number.isInteger(normalized[0]))
+        normalized[0] = ['off', 'warn', 'error'][normalized[0]];
+      acc[ruleName] = normalized;
+      return acc;
+    }, { });
+  // also very convenient to normalize array properties 
+  if (typeof config.extends === 'string')
+    config.extends = [config.extends];
+  if (typeof config.ignorePatterns === 'string')
+    config.ignorePatterns = [config.ignorePatterns];
+  if (typeof config.plugins === 'string')
+    config.plugins = [config.plugins];
+  // also very convenient to normalize global values
+  if (config.globals) {
+    config.globals = Object.keys(config.globals)
+      .reduce((acc, key) => {
+        if ((config.globals[key] === true)
+          || (config.globals[key] === 'writeable'))
+          acc[key] = 'writable';
+        else if ((config.globals[key] === false)
+          || (config.globals[key] === 'readable'))
+          acc[key] = 'readonly';
+        else acc[key] = config.globals[key];
+        return acc;
+      }, { });
+  }
+  // now recursively normalize overrides
+  if (config.overrides) 
+    config.overrides = config.overrides.map(override => normalizeConfiguration(override));
+  return config;
+}

@@ -4,6 +4,7 @@ import { ConfigsState } from '../../state/configs';
 import { ElementRef } from '@angular/core';
 import { ExtensionsState } from '../../state/extensions';
 import { FilesState } from '../../state/files';
+import { FilterState } from '../../state/filter';
 import { Params } from '../../services/params';
 import { RulesState } from '../../state/rules';
 import { SchemaState } from '../../state/schema';
@@ -28,6 +29,7 @@ export class RootPageComponent {
   constructor(public configs: ConfigsState,
               public extensions: ExtensionsState,
               public files: FilesState,
+              public filter: FilterState,
               private host: ElementRef,
               public params: Params,
               public rules: RulesState,
