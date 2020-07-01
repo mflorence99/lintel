@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { HydratedDirective } from '../../directives/hydrated';
 import { Input } from '@angular/core';
+import { LintelState } from '../../state/lintel';
 import { OnInit } from '@angular/core';
 import { Optional } from '@angular/core';
 import { RuleDigest } from '../../state/configs';
@@ -97,6 +98,7 @@ export class RuleComponent implements OnInit {
               private destroy$: DestroyService,
               private formBuilder: FormBuilder,
               @Optional() public hydrated: HydratedDirective,
+              public lintel: LintelState,
               public rules: RulesState,
               public selection: SelectionState) { 
     this.ruleForm = this.formBuilder.group({

@@ -11,6 +11,7 @@
     </div>
 
     <lintel-singleselector
+      [enabled]="lintel.isEnabled"
       [options]="makeOptionsForSingleselector('parserOptions.properties.ecmaVersion')"
       [placeholder]="configs.extension.parserOptions?.ecmaVersion || ' '"
       formControlName="ecmaVersion">
@@ -32,6 +33,7 @@
     </div>
 
     <lintel-singleselector
+      [enabled]="lintel.isEnabled"
       [options]="makeOptionsForSingleselector('parserOptions.properties.sourceType')"
       [placeholder]="configs.extension.parserOptions?.sourceType || ' '"
       formControlName="sourceType">

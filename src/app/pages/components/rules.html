@@ -82,7 +82,7 @@
   <ng-template
     contextMenuItem
     (execute)="execute($event.item, 'delete')"
-    [enabled]="isRuleDefined.bind(this)">
+    [enabled]="isRuleDefined.bind(this) && lintel.isEnabled">
     <p>Remove this rule</p>
   </ng-template>
 

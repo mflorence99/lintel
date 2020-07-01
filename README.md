@@ -1,6 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-97.01%25-green)](https://github.com/mflorence99/lintel/issues)
+[![Jest Coverage](https://img.shields.io/badge/coverage-97.04%25-green)](https://github.com/mflorence99/lintel/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 

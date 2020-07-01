@@ -46,6 +46,7 @@ export type SingleselectorValue = number | string;
 
 export class SingleselectorComponent implements ControlValueAccessor {
 
+  @Input() enabled = true;
   @Input() nameOfDecoded = 'value';
   @Input() nameOfEncoded = 'id';
   @Input() placeholder = '';

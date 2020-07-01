@@ -49,6 +49,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   @Input() columnWidth = '20rem';
 
   @Input() defaults: KeyValueType;
+  @Input() enabled = true;
 
   @Input() keyConstraints: string[];
 

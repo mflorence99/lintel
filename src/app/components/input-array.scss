@@ -8,4 +8,10 @@
   grid-gap: 0.5rem;
   // NOTE: actual with set by style from control input
   // grid-template-columns: repeat(auto-fit, ...);
+
+  .disabled {
+    cursor: not-allowed;
+    opacity: var(--lintel-opacity-disabled);
+  }
+
 }

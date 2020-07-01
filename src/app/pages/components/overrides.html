@@ -3,6 +3,7 @@
   class="overrides">
 
   <lintel-input-array
+    [enabled]="lintel.isEnabled"
     [formControl]="control"
     *ngFor="let control of overridesForm.controls.files['controls']; let ix = index">
 

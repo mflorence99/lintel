@@ -6,6 +6,7 @@
     class="selects">
 
     <lintel-singleselector
+      [enabled]="enabled"
       [formControl]="select"
       [options]="options"
       *ngFor="let select of selectArrayForm.controls.selects['controls']; let ix = index"
@@ -14,6 +15,7 @@
       <fa-icon 
         (click)="removeSelector(ix)"
         [icon]="['fas', 'times']"
+        [ngClass]="{disabled: !enabled}"
         *ngIf="selectArrayForm.controls.selects['controls'].length > 1"
         suffix
         title="Remove this item">
@@ -21,6 +23,7 @@
 
       <a
         (click)="addSelector()"
+        [ngClass]="{disabled: !enabled}"
         *ngIf="ix === (selectArrayForm.controls.selects['controls'].length - 1) && ix < (maxItems - 1)"
         suffix>
         More

@@ -55,6 +55,7 @@
             *ngSwitchCase="'noInlineConfig'">
 
             <lintel-checkbox
+              [enabled]="lintel.isEnabled"
               formControlName="noInlineConfig">
             </lintel-checkbox>
 
@@ -68,6 +69,7 @@
             *ngSwitchCase="'root'">
 
             <lintel-checkbox
+              [enabled]="lintel.isEnabled"
               formControlName="root">
             </lintel-checkbox>
 
@@ -81,6 +83,7 @@
             *ngSwitchCase="'reportUnusedDisableDirectives'">
 
             <lintel-checkbox
+              [enabled]="lintel.isEnabled"
               formControlName="reportUnusedDisableDirectives">
             </lintel-checkbox>
 
@@ -118,6 +121,7 @@
 
         <lintel-multiselector
           [defaults]="configs.extension.parserOptions?.ecmaFeatures"
+          [enabled]="lintel.isEnabled"
           [options]="makeOptionsForMultiselector('ecmaFeatures', 'parserOptions.ecmaFeatures')"
           *ngSwitchCase="'ecmaFeatures'"
           class="ecmaFeatures"
@@ -129,6 +133,7 @@
 
         <lintel-multiselector
           [defaults]="configs.extension.env"
+          [enabled]="lintel.isEnabled"
           [options]="makeOptionsForMultiselector('env', 'env')"
           *ngSwitchCase="'env'"
           class="env"
@@ -139,6 +144,7 @@
         <!-- EXTENDS -->
 
         <lintel-input-array
+          [enabled]="lintel.isEnabled"
           *ngSwitchCase="'extends'"
           class="extends"
           columnWidth="20.5rem"
@@ -149,6 +155,7 @@
 
         <lintel-key-value
           [defaults]="configs.extension.globals"
+          [enabled]="lintel.isEnabled"
           [valueConstraints]="makeOptionsForSingleselector('globals.additionalProperties.oneOf[0]')"
           *ngSwitchCase="'globals'"
           class="globals"
@@ -159,6 +166,7 @@
         <!-- IGNOREPATTERNS -->
 
         <lintel-input-array
+          [enabled]="lintel.isEnabled"
           *ngSwitchCase="'ignorePatterns'"
           class="ignorePatterns"
           columnWidth="10rem"
@@ -172,6 +180,7 @@
           class="parser">
 
           <lintel-input
+            [enabled]="lintel.isEnabled"
             [placeholder]="configs.extension.parser || ''"
             formControlName="parser">
           </lintel-input>
@@ -201,6 +210,7 @@
 
         <lintel-input-array
           [defaults]="configs.extension.plugins"
+          [enabled]="lintel.isEnabled"
           [uniqueItems]="true"
           *ngSwitchCase="'plugins'"
           class="plugins"
@@ -214,6 +224,7 @@
           *ngSwitchCase="'settings'">
 
           <lintel-key-value
+            [enabled]="lintel.isEnabled"
             *ngIf="canDoSettings(); else cantDoSettings"
             class="settings"
             columnWidth="20.5rem"

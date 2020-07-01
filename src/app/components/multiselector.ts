@@ -70,6 +70,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
   controls: FormControl[] = [];
 
   @Input() defaults: MultiselectorDefaults;
+  @Input() enabled = true;
 
   multiSelectorForm: FormGroup;
 

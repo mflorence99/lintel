@@ -46,15 +46,13 @@ export type SelectArrayType = (number | string)[];
 export class SelectArrayComponent implements ControlValueAccessor, OnInit {
 
   @Input() columnWidth = '10rem';
-
+  @Input() enabled = true;
   @Input() maxItems = Infinity;
-
   @Input() options: SingleselectorOptions = [];
 
   selectArrayForm: FormGroup;
 
   @Input() type: 'number' | 'text' = 'text';
-
   @Input() uniqueItems: boolean;
 
   values: SelectArrayType = [];

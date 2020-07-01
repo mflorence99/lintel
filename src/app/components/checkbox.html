@@ -5,12 +5,13 @@
   tabIndex=0>
   <fa-icon
     [icon]="['fas', 'check']"
-    [ngClass]="{checked: value, default: !touched && default}">
+    [ngClass]="{checked: value, default: !touched && default, disabled: !enabled}">
   </fa-icon>
 </button>
 
 <label
   (click)="toggleChecked()"
+  [ngClass]="{disabled: !enabled}"
   class="label">
   {{ label }}
 </label>

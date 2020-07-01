@@ -1,6 +1,5 @@
 :host {
   color: var(--vscode-settings-textInputForeground);
-  cursor: pointer;
   display: flex;
 }
 
@@ -9,6 +8,7 @@
   background-color: var(--vscode-settings-checkboxBackground);
   border: 1px solid var(--vscode-settings-checkboxBorder);
   color: var(--vscode-settings-textInputForeground);
+  cursor: pointer;
   display: grid;
   flex-shrink: 0;
   height: 18px;
@@ -32,10 +32,20 @@
       opacity: var(--lintel-opacity-disabled);
     }
 
+    &.disabled:not(.checked) {
+      cursor: not-allowed;
+    }
+
   }
 }
 
 .label {
   cursor: pointer;
   white-space: wrap;
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: var(--lintel-opacity-disabled);
+  }
+
 }

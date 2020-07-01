@@ -47,6 +47,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
   @Input() columnWidth = '10rem';
 
   @Input() defaults: InputArrayType;
+  @Input() enabled = true;
 
   inputArrayForm: FormGroup;
 
@@ -99,8 +100,10 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
 
   /** Add another input */
   addInput(): void {
-    const inputs = this.inputArrayForm.controls.inputs as FormArray;
-    inputs.push(new FormControl(null));
+    if (this.enabled) {
+      const inputs = this.inputArrayForm.controls.inputs as FormArray;
+      inputs.push(new FormControl(null));
+    }
   }
 
   /** When we're ready */
@@ -130,8 +133,10 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
 
   /** Remove specified input */
   removeInput(ix: number): void {
-    const inputs = this.inputArrayForm.controls.inputs as FormArray;
-    inputs.removeAt(ix);
+    if (this.enabled) {
+      const inputs = this.inputArrayForm.controls.inputs as FormArray;
+      inputs.removeAt(ix);
+    }
   }
 
   /** @see ControlValueAccessor */

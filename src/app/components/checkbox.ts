@@ -37,6 +37,7 @@ export class CheckboxComponent implements ControlValueAccessor {
   @ViewChild('checkbox', { static: true }) checkbox: ElementRef;
 
   @Input() default: boolean;
+  @Input() enabled = true;
 
   @Input() label = '';
 
@@ -69,9 +70,11 @@ export class CheckboxComponent implements ControlValueAccessor {
 
   /** Toggle checkbox value */
   toggleChecked(): void {
-    this.checkbox?.nativeElement.focus();
-    this.touched = true;
-    this.value = !this.value;
+    if (this.enabled) {
+      this.checkbox?.nativeElement.focus();
+      this.touched = true;
+      this.value = !this.value;
+    }
   }
 
   /** @see ControlValueAccessor */

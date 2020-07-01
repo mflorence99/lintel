@@ -5,6 +5,7 @@ import { DestroyService } from '../../services/destroy';
 import { ExtensionsState } from '../../state/extensions';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
+import { LintelState } from '../../state/lintel';
 import { OnInit } from '@angular/core';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
@@ -37,6 +38,7 @@ export class ParserOptionsComponent implements OnInit {
               private destroy$: DestroyService,
               public extensions: ExtensionsState,
               private formBuilder: FormBuilder,
+              public lintel: LintelState,
               public schema: SchemaState,
               public selection: SelectionState) {
     this.parserOptionsForm = this.formBuilder.group({

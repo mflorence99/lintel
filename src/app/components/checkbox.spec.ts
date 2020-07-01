@@ -33,6 +33,9 @@ describe('CheckboxComponent', () => {
     expect(component.value).toBeFalsy();
     component.toggleChecked();
     expect(component.value).toBe(true);
+    component.enabled = false;
+    component.toggleChecked();
+    expect(component.value).toBe(true);
   });
 
   test('writeValue', () => {

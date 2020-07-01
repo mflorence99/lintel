@@ -12,7 +12,7 @@
       <!-- key w/o key constraints -->
 
       <lintel-input
-        [enabled]="!isDefault(ix)"
+        [enabled]="!isDefault(ix) && enabled"
         [formControl]="keyValue['controls'][0]"
         *ngIf="!keyConstraints"
         class="key"
@@ -22,6 +22,7 @@
       <!-- key with key constraints -->
 
       <lintel-singleselector
+        [enabled]="enabled"
         [formControl]="keyValue['controls'][0]"
         [options]="keyConstraints"
         *ngIf="!!keyConstraints"
@@ -45,6 +46,7 @@
           class="suffixed value">
 
           <lintel-checkbox
+            [enabled]="enabled"
             [formControl]="keyValue['controls'][1]">
           </lintel-checkbox>
 
@@ -57,6 +59,7 @@
         </div>
 
         <lintel-input
+          [enabled]="enabled"
           [formControl]="keyValue['controls'][1]"
           [max]="max"
           [min]="min"
@@ -85,6 +88,7 @@
           class="suffixed value">
 
           <lintel-multiselector
+            [enabled]="enabled"
             [formControl]="keyValue['controls'][1]"
             [options]="valueConstraints">
           </lintel-multiselector>
@@ -98,6 +102,7 @@
         </div>
 
         <lintel-singleselector
+          [enabled]="enabled"
           [formControl]="keyValue['controls'][1]"
           [options]="valueConstraints"
           *ngSwitchDefault
@@ -121,6 +126,7 @@
         <fa-icon 
           (click)="removeKeyValue(ix)"
           [icon]="['fas', 'times']"
+          [ngClass]="{disabled: !enabled}"
           *ngIf="keyValueForm.controls.keyValues['controls'].length > 1"
           suffix
           title="Remove this item">
@@ -128,6 +134,7 @@
 
         <a
           (click)="addKeyValue()"
+          [ngClass]="{disabled: !enabled}"
           *ngIf="ix === keyValueForm.controls.keyValues['controls'].length - 1"
           suffix>
           More
