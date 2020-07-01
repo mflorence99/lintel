@@ -83,15 +83,24 @@ eslintFiles = {
       "overrides": [
         {
           "files": ["*.md"],
-          "ignorePatterns": ["*.mdx"]
+          "ignorePatterns": ["*.mdx"],
+          "rules": {
+            "node/callback-return": "error"
+          }
         },
         {
           "files": ["*.html"],
-          "globals": { "Event": "off" }
+          "globals": { "Event": "off" },
+          "rules": {
+            "node/exports-style": "warn"
+          }
         },
         {
           "files": ["*.ts", "*.tsx"],
-          "parser": "esprima"
+          "parser": "esprima",
+          "rules": {
+            "node/file-extension-in-import": "off"
+          }
         }
       ],
       "extends": [

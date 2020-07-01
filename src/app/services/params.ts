@@ -5,6 +5,7 @@ import { Utils } from './utils';
 export class Params {
 
   activeCategory = 'Active Rules';
+  allFilesOverride = '*.*';
   basePluginName = 'eslint';
   catchAllCategory = 'Other Rules';
   debounceTimeout = 2500;

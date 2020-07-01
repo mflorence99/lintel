@@ -1,6 +1,6 @@
 :host {
   align-items: center;
-  background: var(--vscode-settings-dropdownBackground);
+  background: color var(--vscode-settings-dropdownBackground);
   border: 1px solid var(--vscode-settings-dropdownBorder);
   color: var(--vscode-settings-dropdownForeground);
   display: flex;

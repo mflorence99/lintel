@@ -1,6 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-97.18%25-green)](https://github.com/mflorence99/lintel/issues)
+[![Jest Coverage](https://img.shields.io/badge/coverage-97.01%25-green)](https://github.com/mflorence99/lintel/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 
@@ -25,7 +25,7 @@ The Lintel VSCode extension provides a rich UI to visualize, edit and mange your
 * The rule you're looking for can be quickly found by a partial match to a name you type in the filter bar.
 * A 'cog' tool (like the settings editor in VSCode) supports additional operations, like removing a rule from your configuration.
 * The documentation for any rule is immediately accessible by clicking on the rule name.
-* Lintel is backed by almost 500 Jest unit tests.
+* Lintel is backed by over 500 Jest unit tests.
 
 ## Settings Options
 

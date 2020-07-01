@@ -246,7 +246,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     return extensionNames
       .map(extensionName => this.extensions.snapshot[extensionName])
       .filter(extension => !!extension)
-      .reduce((acc, extension) => meldConfigurations(acc, extension), { });
+      .reduce((acc, extension) => {
+        return meldConfigurations(acc, extension);
+      }, (this.selection.override != null) ? this.utils.deepCopy(this.baseConfiguration) : { });
   }
 
   @Computed() get extensionSettings(): Record<string, Settings> {
@@ -348,6 +350,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   // public methods
+
+  isOverrideInherited(ix: number): boolean {
+    return ix >= this.baseConfiguration.overrides?.length;
+  }
 
   isPluginFiltered(pluginName: string): boolean {
     const filter = this.filter.snapshot.ruleNameFilter;

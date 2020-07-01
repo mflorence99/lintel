@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { FilterState } from '../../state/filter';
+import { LintelState } from '../../state/lintel';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { Utils } from '../../services/utils';
@@ -23,6 +24,7 @@ export class ConfigsComponent implements AfterViewChecked {
   /** ctor */
   constructor(public configs: ConfigsState,
               public filter: FilterState,
+              public lintel: LintelState,
               public params: Params,
               public selection: SelectionState,
               public utils: Utils) { }
@@ -70,9 +72,7 @@ export class ConfigsComponent implements AfterViewChecked {
   selectCategory(event: Event, category: string): boolean {
     event.stopPropagation();
     if (category !== this.selection.category) {
-      if (category === this.params.generalSettings)
-        this.selection.select({ category, override: null });
-      else this.selection.select({ category });
+      this.selection.select({ category });
       return true;
     }  else return false;
   }
@@ -90,7 +90,11 @@ export class ConfigsComponent implements AfterViewChecked {
   selectOverride(event: Event, ix: number): boolean {
     event.stopPropagation();
     if (ix !== this.selection.override) {
-      this.selection.select({ category: this.params.generalSettings, override: ix });
+      this.selection.select({ override: ix });
+      // disable app when override selected that's not ours
+      if (this.configs.isOverrideInherited(ix))
+        this.lintel.enable({ enabled: false, message: this.disabledMessage() });
+      else this.lintel.enable({ enabled: true, message: null });
       return true;
     } else return false;
   }
@@ -99,6 +103,14 @@ export class ConfigsComponent implements AfterViewChecked {
   shortenFileName(fileName: string): string {
     return this.configs.shortFileName(fileName)
       .replace(/\//g, '/\u200b');
+  }
+
+  // private methods
+
+  private disabledMessage(): string {
+    const fileName = this.shortenFileName(this.selection.fileName);
+    const files = this.configs.overrides[this.selection.override].files.toString();
+    return `The settings for <b>${files}</b> files are inherited from configurations in <code>extends</code> and cannot be modified. To override them, add an <code>overrides</code> section to this <a>${fileName}</a> configuration.`;
   }
 
 }

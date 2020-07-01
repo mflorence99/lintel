@@ -6,6 +6,7 @@ import { ElementRef } from '@angular/core';
 import { ExtensionsState } from '../../state/extensions';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
+import { LintelState } from '../../state/lintel';
 import { MultiselectorOptions } from '../../components/multiselector';
 import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
@@ -63,6 +64,7 @@ export class GeneralComponent implements OnInit {
               public extensions: ExtensionsState,
               private formBuilder: FormBuilder,
               private host: ElementRef,
+              public lintel: LintelState,
               public schema: SchemaState,
               public selection: SelectionState,
               public utils: Utils) {

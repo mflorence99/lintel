@@ -68,7 +68,7 @@ input::placeholder {
 .ngx-contextmenu.dropdown {
 
   ul {
-    background: var(--vscode-settings-dropdownBackground);
+    background-color: var(--vscode-settings-dropdownBackground);
     border: 1px solid var(--vscode-focusBorder);
     list-style-type: none;
     margin: 0;
@@ -99,7 +99,7 @@ input::placeholder {
         text-decoration: none;
 
         &:hover {
-          background: var(--vscode-settings-modifiedItemIndicator);
+          background-color: var(--vscode-settings-modifiedItemIndicator);
         }
 
       }

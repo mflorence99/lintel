@@ -32,3 +32,13 @@
   }
 
 }
+
+.message {
+  align-items: center;
+  background-color: var(--vscode-settings-dropdownBackground);
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: auto 1fr;
+  line-height: 150%;
+  padding: 1rem;
+}

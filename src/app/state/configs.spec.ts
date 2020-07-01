@@ -108,6 +108,15 @@ describe('ConfigsState', () => {
     );
   });
 
+  test('isOverrideInherited', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    expect(bundle.configs.isOverrideInherited(null)).toBe(false);
+    expect(bundle.configs.isOverrideInherited(2)).toBe(false);
+    expect(bundle.configs.isOverrideInherited(3)).toBe(true);
+    bundle.selection.select({ fileName: 'home/mflorence99/el-3270/.eslintrc.js' });
+    expect(bundle.configs.isOverrideInherited(0)).toBe(false);
+  });
+
   test('isPluginFiltered', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
     bundle.filter.filterRuleName('class');

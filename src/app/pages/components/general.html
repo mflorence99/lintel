@@ -1,3 +1,18 @@
+<aside
+  *ngIf="!lintel.isEnabled"
+  class="message">
+
+  <fa-icon
+    [icon]="['fas', 'info-circle']"
+    size="3x">
+  </fa-icon>
+
+  <p
+    [innerHTML]="lintel.message">
+  </p>
+
+</aside>
+
 <ng-container
   [formGroup]="generalForm">
 

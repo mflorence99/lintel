@@ -28,6 +28,10 @@
       opacity: var(--lintel-opacity-icon);
     }
 
+    &.inherited {
+      opacity: 0.6;
+    }
+
     &.selected {
       color: var(--vscode-settings-headerForeground);
       font-weight: bold;

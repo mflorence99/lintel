@@ -4,6 +4,7 @@ import { ConfigsState } from '../../state/configs';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { ContextMenuService } from 'ngx-contextmenu';
 import { Input } from '@angular/core';
+import { LintelState } from '../../state/lintel';
 import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
 import { SelectionState } from '../../state/selection';
@@ -34,6 +35,7 @@ export class RulesComponent {
   /** ctor */
   constructor(public configs: ConfigsState,
               private contextMenuService: ContextMenuService,
+              public lintel: LintelState,
               public rules: RulesState,
               public selection: SelectionState,
               public utils: Utils) { }

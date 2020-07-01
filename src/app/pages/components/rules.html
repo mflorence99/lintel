@@ -1,4 +1,25 @@
 <ng-container
+  *ngIf="!lintel.isEnabled">
+
+  <div></div>
+  <aside
+    class="message">
+
+    <fa-icon
+      [icon]="['fas', 'info-circle']"
+      size="3x">
+    </fa-icon>
+
+    <p
+      [innerHTML]="lintel.message">
+    </p>
+
+  </aside>
+  <div></div>
+
+</ng-container>
+
+<ng-container
   *ngIf="!utils.isEmptyObject(view)">
 
   <ng-container

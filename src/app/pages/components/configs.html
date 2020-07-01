@@ -47,11 +47,29 @@
 
     </li>
 
-    <!-- One entry now for each override -->
+    <!-- One entry now for each override, plus one for "all files" -->
+
+    <li
+      (click)="selectOverride($event, null)"
+      [ngClass]="{selected: selection.override == null}"
+      *ngIf="configs.overrides.length > 0"
+      class="item">
+
+      <div>
+        <fa-icon 
+          [fixedWidth]="true"
+          [icon]="[selection.override == null? 'fas' : 'far', 'circle']"
+          size="xs">
+        </fa-icon>
+      </div>
+      
+      <div>{{ params.allFilesOverride }}</div>
+
+    </li>
 
     <li
       (click)="selectOverride($event, ix)"
-      [ngClass]="{selected: selection.override === ix}"
+      [ngClass]="{inherited: configs.isOverrideInherited(ix), selected: selection.override === ix}"
       *ngFor="let override of configs.overrides; let ix = index"
       class="item">
 

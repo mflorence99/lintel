@@ -14,6 +14,7 @@ import { DirectivesModule } from '../../directives/module';
 import { ElementRef } from '@angular/core';
 import { ExtensionsState } from '../../state/extensions';
 import { FilesState } from '../../state/files';
+import { LintelState } from '../../state/lintel';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
@@ -63,6 +64,8 @@ export function prepare(): void {
   TestBed.inject(ExtensionsState).initialize();
   TestBed.inject(RulesState).initialize();
   TestBed.inject(SchemaState).initialize();
+
+  TestBed.inject(LintelState);
 
 }
 

@@ -9,6 +9,7 @@ import { ConfigsState } from '../state/configs';
 import { ExtensionsState } from '../state/extensions';
 import { FilesState } from '../state/files';
 import { FilterState } from '../state/filter';
+import { LintelState } from '../state/lintel';
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
@@ -29,6 +30,7 @@ export interface Bundle {
   extensions?: ExtensionsState;
   files?: FilesState;
   filter?: FilterState;
+  lintel?: LintelState;
   params?: Params;
   rules?: RulesState;
   schema?: SchemaState;
@@ -60,6 +62,7 @@ export function prepare(): Bundle {
   bundle.extensions = TestBed.inject(ExtensionsState);
   bundle.files = TestBed.inject(FilesState);
   bundle.filter = TestBed.inject(FilterState);
+  bundle.lintel = TestBed.inject(LintelState);
   bundle.params = TestBed.inject(Params);
   bundle.rules = TestBed.inject(RulesState);
   bundle.schema = TestBed.inject(SchemaState);
