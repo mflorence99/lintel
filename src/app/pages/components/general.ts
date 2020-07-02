@@ -40,23 +40,23 @@ export class GeneralComponent implements OnInit {
 
   generalForm: FormGroup;
 
-  properties = [
+  private emitEvent = true;
+
+  private properties = [
     ['ecmaFeatures', 'specifying-parser-options'],
-    ['env', 'specifying-environments'], 
+    ['env', 'specifying-environments'],
     ['extends', 'extending-configuration-files'],
     ['globals', 'specifying-globals'],
     ['ignorePatterns', 'ignoring-files-and-directories'],
     ['noInlineConfig', 'disabling-rules-with-inline-comments'],
     ['overrides', 'configuration-based-on-glob-patterns'],
-    ['parser', 'specifying-parser'], 
-    ['parserOptions', 'specifying-parser-options'], 
+    ['parser', 'specifying-parser'],
+    ['parserOptions', 'specifying-parser-options'],
     ['plugins', 'configuring-plugins'],
     ['reportUnusedDisableDirectives', 'configuring-inline-comment-behaviors'],
-    ['root', 'configuration-cascading-and-hierarchy'], 
+    ['root', 'configuration-cascading-and-hierarchy'],
     ['settings', 'adding-shared-settings']
   ];
-
-  private emitEvent = true;
 
   /** ctor */
   constructor(public configs: ConfigsState,
@@ -97,7 +97,8 @@ export class GeneralComponent implements OnInit {
 
   /** Edit a file */
   editFile(fileName: string): void {
-    lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
+    if (this.lintel.isEnabled)
+      lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
   }
 
   /** Has this section been configured? */
@@ -141,6 +142,12 @@ export class GeneralComponent implements OnInit {
   makeOptionsForSingleselector(nm: string): SingleselectorOptions {
     const options = eval(`this.schema.properties.${nm}.enum`);
     return options.map(option => [option, option]);
+  }
+
+  /** NOTE: overrides can't have overrides */
+  makeProperties(): string[][] {
+    return this.properties
+      .filter(property => (this.selection.override == null) || (property[0] !== 'overrides'));
   }
 
   /** When we're ready */

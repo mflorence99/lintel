@@ -14,6 +14,7 @@ export interface SelectionStateModel {
   category?: string;
   fileName?: string;
   override?: number;
+  overrideFiles?: string[];
   pluginName?: string;
 }
 
@@ -46,6 +47,10 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
 
   @Computed() get override(): number {
     return this.snapshot.override;
+  }
+
+  @Computed() get overrideFiles(): string[] {
+    return this.snapshot.overrideFiles;
   }
 
   @Computed() get pluginName(): string {

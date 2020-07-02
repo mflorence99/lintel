@@ -48,6 +48,11 @@
     line-height: 150%;
   }
 
+  .disabled {
+    cursor: not-allowed !important;
+    opacity: var(--lintel-opacity-disabled);
+  }
+
   .name {
     border: 0 solid var(--vscode-textPreformat-foreground);
     color: var(--vscode-textPreformat-foreground);

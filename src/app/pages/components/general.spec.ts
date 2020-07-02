@@ -78,6 +78,17 @@ describe('GeneralComponent', () => {
     expect(options.find(option => option[0] === 'readonly')).toBeTruthy();
   });
 
+  test('makeProperties', () => {
+    const fixture = TestBed.createComponent(GeneralComponent);
+    const component = fixture.componentInstance;
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
+    let properties = component.makeProperties();
+    expect(properties.find(property => property[0] === 'overrides')).toBeTruthy();
+    component.selection.select({ override: 0 });
+    properties = component.makeProperties();
+    expect(properties.find(property => property[0] === 'overrides')).toBeFalsy();
+  });
+
   test('ngOnInit', () => {
     const fixture = TestBed.createComponent(GeneralComponent);
     const component = fixture.componentInstance;

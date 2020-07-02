@@ -117,7 +117,8 @@ export class RuleComponent implements OnInit {
 
   /** Edit a file */
   editFile(fileName: string): void {
-    lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
+    if (this.lintel.isEnabled)
+      lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
   }
 
   /** Get all the controls from a FormGroup */

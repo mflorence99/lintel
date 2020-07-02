@@ -62,6 +62,7 @@
 
     <div
       (click)="editFile(selection.fileName)"
+      [ngClass]="{disabled: !lintel.isEnabled}"
       *ngIf="rules.notYet(ruleDigest.ruleName, ruleDigest.rule) || !ruleDigest.rule; else debugWithJSON"
       class="notYet">
       <a>Edit other settings in {{ configs.shortFileName(selection.fileName) }}</a>

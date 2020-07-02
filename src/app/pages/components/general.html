@@ -17,7 +17,7 @@
   [formGroup]="generalForm">
 
   <ng-container
-    *ngFor="let property of properties">
+    *ngFor="let property of makeProperties()">
 
     <div
       [ngClass]="{active: isConfigured(property[0]), inherited: isInherited(property[0])}"
@@ -187,6 +187,7 @@
 
           <p
             (click)="editFile(selection.fileName)"
+            [ngClass]="{disabled: !lintel.isEnabled}"
             *ngIf="configs.configuration.parser || configs.extension.parser"
             class="editSettings">
             <a>Edit custom parser options in {{ configs.shortFileName(selection.fileName) }}</a>
@@ -235,6 +236,7 @@
             #cantDoSettings>
             <p
               (click)="editFile(selection.fileName)"
+              [ngClass]="{disabled: !lintel.isEnabled}"
               class="editSettings">
               <a>Edit settings in {{ configs.shortFileName(selection.fileName) }}</a>
             </p>

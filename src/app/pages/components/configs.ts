@@ -90,7 +90,7 @@ export class ConfigsComponent implements AfterViewChecked {
   selectOverride(event: Event, ix: number): boolean {
     event.stopPropagation();
     if (ix !== this.selection.override) {
-      this.selection.select({ override: ix });
+      this.selection.select({ override: ix, overrideFiles: (ix != null) ? this.configs.overrides[ix].files : null });
       // disable app when override selected that's not ours
       if (this.configs.isOverrideInherited(ix))
         this.lintel.enable({ enabled: false, message: this.disabledMessage() });

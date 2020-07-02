@@ -51,6 +51,11 @@
   grid-template-columns: 5rem 1fr;
   margin-top: 0.5rem;
 
+  .disabled {
+    cursor: not-allowed !important;
+    opacity: var(--lintel-opacity-disabled);
+  }
+
   .elements {
     display: flex;
 
