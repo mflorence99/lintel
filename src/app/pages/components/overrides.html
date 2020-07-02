@@ -8,9 +8,38 @@
     *ngFor="let control of overridesForm.controls.files['controls']; let ix = index">
 
     <div prefix>
-      {{ ix + 1 }}&nbsp;
+      {{ ix + 1 }}
+    </div>
+
+    <div suffix>
+      <fa-icon
+        (click)="showContextMenu($event, ix)"
+        [contextMenu]="contextMenu"
+        [contextMenuSubject]="ix"
+        [icon]="['fas', 'cog']">
+      </fa-icon>
     </div>
 
   </lintel-input-array>
 
 </div>
+
+<!-- Tools menu -->
+
+<context-menu>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event.item, 'add')"
+    [enabled]="lintel.isEnabled">
+    <p>Add a new override</p>
+  </ng-template>
+
+  <ng-template
+    contextMenuItem
+    (execute)="execute($event.item, 'delete')"
+    [enabled]="lintel.isEnabled">
+    <p>Remove this override</p>
+  </ng-template>
+
+</context-menu>

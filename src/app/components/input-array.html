@@ -43,6 +43,12 @@
         More
       </a>
 
+      <div
+        *ngIf="ix === (inputArrayForm.controls.inputs['controls'].length - 1)"
+        suffix>
+        <ng-content select="[suffix]"></ng-content>
+      </div>
+
     </lintel-input>
 
   </p>

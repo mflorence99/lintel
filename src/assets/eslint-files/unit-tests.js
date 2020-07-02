@@ -101,6 +101,9 @@ eslintFiles = {
           "rules": {
             "node/file-extension-in-import": "off"
           }
+        },
+        {
+          "files": ["*.empty"]
         }
       ],
       "extends": [

@@ -6,4 +6,14 @@
   display: grid;
   grid-row-gap: 0.75rem;
   grid-template-columns: repeat(auto-fit, 1fr);
+
+  [prefix] {
+    margin-right: 0.5rem;
+  }
+
+  [suffix] {
+    margin-left: 0;
+    opacity: var(--lintel-opacity-icon);
+  }
+
 }

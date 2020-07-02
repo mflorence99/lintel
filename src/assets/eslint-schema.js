@@ -1444,7 +1444,7 @@ eslintSchema = {
     },
     "overrides": {
       "type": "array",
-      "description": "Allows to override configuration for files and folders, specified by glob patterns",
+      "description": "Overrides the configuration for glob pattern-specified files and folders.",
       "items": {
         "type": "object",
         "properties": {

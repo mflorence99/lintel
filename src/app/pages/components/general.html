@@ -98,6 +98,11 @@
             {{ schema.properties[property[0]]?.description }}
 
             <ng-container
+              *ngIf="property[0] === 'overrides'">
+              <b>Use the <fa-icon [icon]="['fas', 'cog']" size="sm"></fa-icon> tool to remove overrides and add new ones.</b>
+            </ng-container>
+
+            <ng-container
               *ngIf="isInherited(property[0])">
               <b>Settings inherited from <code>extends</code> 
               <ng-container

@@ -27,12 +27,12 @@ lintelVSCodeAPI = {
         console.log('%cbootFail:', lintelVSCodeAPI._style('red'), message.text);
         break;
 
-      case 'editFile':
-        console.log('%ceditFile:', lintelVSCodeAPI._style('#3367d6'), message.fileName);
-        break;
-
       case 'clipboardCopy':
         console.log('%cclipboardCopy:', lintelVSCodeAPI._style('#1b5e20'), message.text);
+        break;
+
+      case 'editFile':
+        console.log('%ceditFile:', lintelVSCodeAPI._style('#3367d6'), message.fileName);
         break;
 
       case 'getExtensions':
@@ -47,8 +47,17 @@ lintelVSCodeAPI = {
         window.open(message.url, 'Lintel');
         break;
 
+      case 'removeOverride':
+        console.log('%cremoveOverride:', lintelVSCodeAPI._style('#004d40'), message.text, message.override);
+        confirm(message.text);
+        break;
+
+      case 'parseFail':
+        console.log('%cparseFail:', lintelVSCodeAPI._style('#bf360c'), message.fileName);
+        break;
+
       case 'saveFile':
-        console.log('%csaveFile:', lintelVSCodeAPI._style(' #f09300'), message.fileName, { message });
+        console.log('%csaveFile:', lintelVSCodeAPI._style('#f09300'), message.fileName, { message });
         break;
 
     }

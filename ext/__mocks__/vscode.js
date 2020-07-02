@@ -61,7 +61,8 @@ const window = {
   activeTextEditor: undefined,
   createWebviewPanel: jest.fn(() => panel),
   showErrorMessage: jest.fn(),
-  showTextDocument: jest.fn()
+  showTextDocument: jest.fn(),
+  showWarningMessage: jest.fn()
 };
 
 const workspace = {

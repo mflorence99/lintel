@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
+import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ContextMenuService } from 'ngx-contextmenu';
 import { DestroyService } from '../../services/destroy';
 import { ExtensionsState } from '../../state/extensions';
 import { FormArray } from '@angular/forms';
@@ -11,9 +13,12 @@ import { LintelState } from '../../state/lintel';
 import { OnInit } from '@angular/core';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
+import { ViewChild } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
+
+declare const lintelVSCodeAPI;
 
 /**
  * Overrides is complicated, so separate it from general.ts
@@ -29,12 +34,15 @@ import { takeUntil } from 'rxjs/operators';
 
 export class OverridesComponent implements OnInit {
 
+  @ViewChild(ContextMenuComponent, { static: true }) contextMenu: ContextMenuComponent;
+
   overridesForm: FormGroup;
 
   private underConstruction: boolean;
 
   /** ctor */
   constructor(public configs: ConfigsState,
+              private contextMenuService: ContextMenuService,
               private destroy$: DestroyService,
               public extensions: ExtensionsState,
               private formBuilder: FormBuilder,
@@ -48,6 +56,21 @@ export class OverridesComponent implements OnInit {
     this.handleSelectionState$();
   }
 
+  /** Execute context menu command */
+  execute(ix: number, command: string): void {
+    switch (command) {
+
+      case 'add':
+        break;
+
+      case 'delete':
+        if (!this.configs.isOverrideEmpty(ix))
+          lintelVSCodeAPI.postMessage({ command: 'removeOverride', override: ix, text: 'This override contains rules and other settings. Are you sure you want to remove it?' });
+        break;
+
+    }
+  }
+
   /** When we're ready */
   ngOnInit(): void {
     this.overridesForm.valueChanges
@@ -55,6 +78,14 @@ export class OverridesComponent implements OnInit {
         filter(_ => !this.underConstruction),
         takeUntil(this.destroy$)
       ).subscribe(changes => this.configs.changeOverrides(changes));
+  }
+
+  /** Show the context menu manually (on left click) */
+  showContextMenu(event: MouseEvent, ix: number): void {
+    // @see https://www.npmjs.com/package/ngx-contextmenu
+    this.contextMenuService.show.next({ event, item: ix });
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   // private methods

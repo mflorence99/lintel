@@ -102,6 +102,10 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
         vscode.env.openExternal(vscode.Uri.parse(message.url));
         break;
 
+      case 'removeOverride':
+        vscode.window.showWarningMessage(message.text, { modal: true }, 'OK');
+        break;
+
       case 'parseFail':
         vscode.window.showErrorMessage(`Lintel could not parse ${message.fileName}`);
         break;

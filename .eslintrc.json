@@ -39,6 +39,12 @@
     "*.js",
     "node_modules/"
   ],
+  "overrides": [
+    {
+      "files": ["*.markdown"],
+      "rules": { "xxx/braces": 0 }
+    }
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {

@@ -368,6 +368,16 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   // public methods
 
+  isOverrideEmpty(ix: number): boolean {
+    if ((ix !== null) && (ix < this.baseConfiguration.overrides?.length)) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { files, rules, ...rest } = this.baseConfiguration.overrides[ix];
+      if (!this.utils.isEmptyObject(rules) || !this.utils.isEmptyObject(rest))
+        return false;
+    }
+    return true;
+  }
+
   isOverrideInherited(ix: number): boolean {
     return ix >= this.baseConfiguration.overrides?.length;
   }
