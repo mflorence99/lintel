@@ -63,6 +63,20 @@ describe('FilesState', () => {
     expect(config.env.browser).toBe(false);
   });
 
+  test('config can be changed in package.json override', () => {
+    bundle.files.changeConfiguration({
+      fileName: '/home/mflorence99/lintel/package.json',
+      ix: 0,
+      replacement: {
+        env: {
+          browser: true
+        }
+      }
+    });
+    const config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.overrides[0].env.browser).toBe(true);
+  });
+
   test('rule can be changed in package.json', () => {
     bundle.files.changeRule({
       fileName: '/home/mflorence99/lintel/package.json',
@@ -72,6 +86,17 @@ describe('FilesState', () => {
     });
     const config = bundle.files.load('/home/mflorence99/lintel/package.json');
     expect(config.rules['brace-style']).toEqual(['off']);
+  });
+
+  test('rule can be changed in package.json override', () => {
+    bundle.files.changeRule({
+      fileName: '/home/mflorence99/lintel/package.json',
+      ix: 0,
+      ruleName: 'node/callback-return',
+      replacement: ['off']
+    });
+    const config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.overrides[0].rules['node/callback-return']).toEqual(['off']);
   });
 
   test('config can be changed in /home/mflorence99/el-3270/.eslintrc.js', () => {
@@ -159,6 +184,18 @@ describe('FilesState', () => {
     });
     config = bundle.files.load('/home/mflorence99/lintel/package.json');
     expect(config.rules['spaced-comment']).toBeFalsy();
+  });
+
+  test('rule can be deleted in /home/mflorence99/lintel/package.json override', () => {
+    let config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.overrides[0].rules['node/callback-return']).toBeTruthy();
+    bundle.files.deleteRule({
+      fileName: '/home/mflorence99/lintel/package.json',
+      ix: 0,
+      ruleName: 'node/callback-return'
+    });
+    config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.overrides[0].rules['node/callback-return']).toBeFalsy();
   });
 
   test('override can be added in /home/mflorence99/lintel/package.json', () => {

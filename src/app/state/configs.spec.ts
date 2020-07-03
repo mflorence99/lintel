@@ -132,17 +132,32 @@ describe('ConfigsState', () => {
     expect(bundle.configs.configuration.overrides.length).toBe(5);
   });
   
-  test('changeConfiguration', () => {
+  test('changeConfiguration in base configutation', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
     const changes = { browser: false };
     bundle.configs.changeConfiguration({ env: changes });
     expect(bundle.configs.configuration.env).toEqual(changes);
   });
 
-  test('changeRule', () => {
+  test('changeConfiguration in override', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: 0 });
+    const changes = { browser: true };
+    bundle.configs.changeConfiguration({ env: changes });
+    expect(bundle.configs.configuration.env).toEqual(changes);
+  });
+
+  test('changeRule in base configuration', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
     const changes = ['warn', { after: false, before: false }];
     const ruleName = 'brace-style';
+    bundle.configs.changeRule({ changes, ruleName });
+    expect(bundle.configs.configuration.rules[ruleName]).toEqual(changes);
+  });
+
+  test('changeRule in override', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: 1 });
+    const changes = ['off'];
+    const ruleName = 'node/exports-style';
     bundle.configs.changeRule({ changes, ruleName });
     expect(bundle.configs.configuration.rules[ruleName]).toEqual(changes);
   });
@@ -154,9 +169,17 @@ describe('ConfigsState', () => {
     expect(bundle.configs.configuration.overrides.length).toBe(3);
   });
 
-  test('deleteRule', () => {
+  test('deleteRule in base configuration', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
     const ruleName = 'spaced-comment';
+    expect(bundle.configs.configuration.rules[ruleName]).toBeTruthy();
+    bundle.configs.deleteRule({ ruleName });
+    expect(bundle.configs.configuration.rules[ruleName]).toBeFalsy();
+  });
+
+  test('deleteRule in override', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: 2 });
+    const ruleName = 'node/file-extension-in-import';
     expect(bundle.configs.configuration.rules[ruleName]).toBeTruthy();
     bundle.configs.deleteRule({ ruleName });
     expect(bundle.configs.configuration.rules[ruleName]).toBeFalsy();

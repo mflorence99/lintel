@@ -36,12 +36,11 @@ describe('ConfigsComponent', () => {
     expect(component.iconForFile('anything.json')).toEqual(['far', 'file-code']);
   });
 
-  test('ngAfterViewChecked', done => {
+  test('Categories are filtered', done => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
     component.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: component.params.basePluginName, category: 'Best Practices' });
     component.filter.filterRuleName('no-label-var');
-    component.ngAfterViewChecked();
     component.utils.nextTick(() => {
       expect(component.selection.snapshot.category).toBe('Variables');
       done();

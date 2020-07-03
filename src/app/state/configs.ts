@@ -421,13 +421,18 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   isPluginFiltered(pluginName: string): boolean {
-    const filter = this.filter.snapshot.ruleNameFilter;
-    if (!filter || (pluginName === this.params.basePluginName))
+    const filtered = !!this.filter.snapshot.ruleNameFilter;
+    const showInherited = this.filter.snapshot.showInheritedRules;
+    if (pluginName === this.params.basePluginName)
       return true;
-    else if (Object.keys(this.rules.snapshot[pluginName] ?? { })
-      .some(this.isRuleFiltered.bind(this)))
-      return true;
-    else return false;
+    else if (!showInherited && (this.selection.category === this.params.activeCategory)) {
+      return Object.keys(this.rules.snapshot[pluginName] ?? { })
+        .filter(ruleName => this.configuration.rules[ruleName])
+        .some(ruleName => this.isRuleFiltered(ruleName));
+    } else if (filtered) {
+      return Object.keys(this.rules.snapshot[pluginName] ?? { })
+        .some(ruleName => this.isRuleFiltered(ruleName));
+    } else return true;
   }
 
   isRuleFiltered(ruleName: string): boolean {

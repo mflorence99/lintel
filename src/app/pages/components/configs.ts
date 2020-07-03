@@ -1,12 +1,16 @@
-import { AfterViewChecked } from '@angular/core';
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
+import { DestroyService } from '../../services/destroy';
 import { FilterState } from '../../state/filter';
 import { LintelState } from '../../state/lintel';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { Utils } from '../../services/utils';
+
+import { filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * Configs component
@@ -14,20 +18,25 @@ import { Utils } from '../../services/utils';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
+  providers: [DestroyService],
   selector: 'lintel-configs',
   templateUrl: 'configs.html',
   styleUrls: ['configs.scss']
 })
 
-export class ConfigsComponent implements AfterViewChecked {
+export class ConfigsComponent {
 
   /** ctor */
-  constructor(public configs: ConfigsState,
+  constructor(private actions$: Actions,
+              public configs: ConfigsState,
+              private destroy$: DestroyService,
               public filter: FilterState,
               public lintel: LintelState,
               public params: Params,
               public selection: SelectionState,
-              public utils: Utils) { }
+              public utils: Utils) { 
+    this.handleActions$();
+  }
 
   /** Color code a file */
   colorForFile(fileName: string): string {
@@ -49,23 +58,6 @@ export class ConfigsComponent implements AfterViewChecked {
     else if (fileName.endsWith('.js'))
       return ['fab', 'js'];
     else return ['far', 'file-code'];
-  }
-
-  /** On every change detection */
-  ngAfterViewChecked(): void {
-    // NOTE: general settings and active rules are always available
-    if ((this.selection.category !== this.params.generalSettings)
-      && (this.selection.category !== this.params.activeCategory)) {
-      // categories will be all the available categories in order
-      const categories = [];
-      if (!this.utils.isEmptyObject(this.configs.activeView))
-        categories.push(this.params.activeCategory);
-      categories.push(...this.configs.categories);
-      // if the selected category is no longer available, pick one that is
-      if ((categories.length > 0) 
-        && !categories.includes(this.selection.category)) 
-        this.utils.nextTick(() => this.selection.select({ category: categories[categories.length - 1] }));
-    }
   }
 
   /** Select a category */
@@ -111,6 +103,29 @@ export class ConfigsComponent implements AfterViewChecked {
     const fileName = this.shortenFileName(this.selection.fileName);
     const files = this.configs.overrides[this.selection.override].files.toString();
     return `The settings for <b>${files}</b> files are inherited from configurations in <code>extends</code> and cannot be modified. To override them, add an <code>overrides</code> section to this <a>${fileName}</a> configuration.`;
+  }
+
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ status }) => status === 'SUCCESSFUL'),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(_ => {
+        // NOTE: general settings and active rules are always available
+        if ((this.selection.category !== this.params.generalSettings)
+          && (this.selection.category !== this.params.activeCategory)) {
+          // categories will be all the available categories in order
+          const categories = [];
+          if (!this.utils.isEmptyObject(this.configs.activeView))
+            categories.push(this.params.activeCategory);
+          categories.push(...this.configs.categories);
+          // if the selected category is no longer available, pick one that is
+          if ((categories.length > 0)
+            && !categories.includes(this.selection.category))
+            this.utils.nextTick(() => this.selection.select({ category: categories[categories.length - 1] }));
+        }
+      });
   }
 
 }

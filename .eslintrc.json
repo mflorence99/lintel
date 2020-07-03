@@ -41,8 +41,12 @@
   ],
   "overrides": [
     {
-      "files": ["*.markdown"],
-      "rules": { "xxx/braces": 0 }
+      "files": [
+        "*.markdown"
+      ],
+      "rules": {
+        "xxx/braces": 0
+      }
     }
   ],
   "parser": "@typescript-eslint/parser",
@@ -256,8 +260,9 @@
     "keyword-spacing": [
       "error",
       {
+        "before": true,
         "after": true,
-        "before": true
+        "overrides": {}
       }
     ],
     "max-len": "off",

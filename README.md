@@ -1,6 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-97.01%25-green)](https://github.com/mflorence99/lintel/issues)
+[![Jest Coverage](https://img.shields.io/badge/coverage-97.26%25-green)](https://github.com/mflorence99/lintel/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 
@@ -55,6 +55,14 @@ Active Rules shows all the rules that are currently defined in your configuratio
 
 > Hover over a rule and a `cog' tool like the settings editor in VSCode itself appears. One operation allows a rule to be removed from your configuration. If that rule is also exposed by a plugin, then the UI reverts to the plugin's settings.
 
+## Overrides
+
+Overrides are shown in the sidebar by their file filters, from which they can be selected to pivot the UI. Overrides are defined on the config page.
+
+![Active Rules](docs/overrides.png)
+
+* The `*.*` is a way to pivot back to the base configuration.
+* Grayed overrides (like `*.components.html` screenshot) are inherited from plugins. They can't be changed but they can be selected for analysis.
 
 ## Rules Lintel Can't Handle
 
@@ -65,8 +73,6 @@ Some rules would require a UI that would be significantly harder to understand t
 Lintel still allows you to set the rule level to `off`, `warn` or `error` and any other settings are undisturbed. The "edit" link opens up the configuration (if possible, in a VSCode column beside Lintel's) so that the remaining settings can be edited manually. Lintel stays synchronized with manual changes, as does your open configuration with Lintel's.
 
 ## Roadmap
-
-Lintel does not currently model ESLint `overrides` in its UI. Any settings here are left undisturbed by edits in Lintel.
 
 Lintel should support plugin installation and creation of an ESLint configuration from scratch.
 

@@ -14,12 +14,11 @@ describe('TabsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  test('ngAfterViewChecked', done => {
+  test('Plugins are filtered', done => {
     const fixture = TestBed.createComponent(TabsComponent);
     const component = fixture.componentInstance;
     component.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: 'vue', category: 'Best Practices' });
     component.filter.filterRuleName('tests');
-    component.ngAfterViewChecked();
     component.utils.nextTick(() => {
       expect(component.selection.snapshot.pluginName).toBe('jest');
       done();
