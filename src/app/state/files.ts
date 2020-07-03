@@ -11,6 +11,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
 import { assign } from '../comment-json';
+import { patch } from '@ngxs/store/operators';
 
 // NOTE: files content is provided statically in index.html
 declare const eslintFiles: Record<string, string>;
@@ -20,18 +21,18 @@ declare const lintelVSCodeAPI;
 interface ESLintFile {
   changeConfiguration(fileName: string, replacement: any): void;
   changeRule(fileName: string, ruleName: string, replacement: any): void;
-  deleteRule(fileName: string, ruleName: string): void;
   load(fileName: string): any;
   normalize(object: any): any;
   parse(fileName: string, source: string): any;
   save(fileName: string): void;
 }
 
-// NOTE: we don't actually store anything in the store itself,
-// because it is just a convenient framework to hold write-only data
-// for the purpose of regenerating eslintrc files
+// NOTE: we only keep a write-only copy of the store for logging purposes
+// the real data is help in "indents" and "objects" below because we don't want to 
+// deal with immutability
 export interface FilesStateModel {
-  dummy?: boolean;
+  indents: Record<string, Indent>;
+  objects: Record<string, any>;
 }
 
 export interface Indent {
@@ -45,7 +46,10 @@ export interface Indent {
 @StateRepository()
 @State<FilesStateModel>({
   name: 'files',
-  defaults: { }
+  defaults: { 
+    indents: { },
+    objects: { }
+  }
 })
 
 export class FilesState extends NgxsDataRepository<FilesStateModel> {
@@ -71,11 +75,6 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     changeRule(fileName: string, ruleName: string, replacement: any): void {
       const object = this.superThis.objects[fileName].rules;
       assign(object, { [ruleName]: replacement });
-    }
-
-    deleteRule(fileName: string, ruleName: string): void {
-      const object = this.superThis.objects[fileName].rules;
-      delete object[ruleName];
     }
 
     load(fileName: string): any {
@@ -131,11 +130,6 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
       assign(object, { [ruleName]: replacement });
     }
 
-    deleteRule(fileName: string, ruleName: string): void {
-      const object = this.superThis.objects[fileName].rules;
-      delete object[ruleName];
-    }
-
     load(fileName: string): any {
       return this.superThis.objects[fileName];
     }
@@ -173,11 +167,6 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     changeRule(fileName: string, ruleName: string, replacement: any): void {
       const object = this.superThis.objects[fileName]['eslintConfig'].rules;
       object[ruleName] = replacement;
-    }
-
-    deleteRule(fileName: string, ruleName: string): void {
-      const object = this.superThis.objects[fileName]['eslintConfig'].rules;
-      delete object[ruleName];
     }
 
     load(fileName: string): any {
@@ -219,11 +208,6 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
       object[ruleName] = replacement;
     }
 
-    deleteRule(fileName: string, ruleName: string): void {
-      const object = this.superThis.objects[fileName].rules;
-      delete object[ruleName];
-    }
-
     load(fileName: string): any {
       return this.superThis.objects[fileName];
     }
@@ -257,24 +241,51 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
+  addOverride(@Payload('override') { fileName, override }): void {
+    const impl = this.impl(fileName);
+    const object = impl.load(fileName);
+    if (!object.overrides)
+      object.overrides = [];
+    object.overrides.push(override);
+    this.save(fileName);
+  }
+
+  @DataAction({ insideZone: true })
   changeConfiguration(@Payload('replacements') { fileName, replacement }): void {
     const impl = this.impl(fileName);
     impl.changeConfiguration(fileName, replacement);
-    impl.save(fileName);
+    this.save(fileName);
+  }
+
+  @DataAction({ insideZone: true })
+  changeOverrideFiles(@Payload('replacements') { fileName, files }): void {
+    const impl = this.impl(fileName);
+    const overrides = impl.load(fileName).overrides ?? [];
+    overrides.forEach((override, ix) => override.files = files[ix]);
+    this.save(fileName);
   }
 
   @DataAction({ insideZone: true })
   changeRule(@Payload('replacements') { fileName, ruleName, replacement }): void {
     const impl = this.impl(fileName);
     impl.changeRule(fileName, ruleName, replacement);
-    impl.save(fileName);
+    this.save(fileName);
+  }
+
+  @DataAction({ insideZone: true })
+  deleteOverride(@Payload('override') { fileName, ix }): void {
+    const impl = this.impl(fileName);
+    const overrides = impl.load(fileName).overrides;
+    overrides?.splice(ix, 1);
+    this.save(fileName);
   }
 
   @DataAction({ insideZone: true })
   deleteRule(@Payload('ruleName') { fileName, ruleName }): void {
     const impl = this.impl(fileName);
-    impl.deleteRule(fileName, ruleName);
-    impl.save(fileName);
+    const rules = impl.load(fileName).rules;
+    delete rules[ruleName];
+    this.save(fileName);
   }
 
   @DataAction({ insideZone: true })
@@ -282,6 +293,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     this.indents = Object.keys(eslintFiles)
       .reduce((acc, fileName) => {
         acc[fileName] = CommentJSON.detectIndent(eslintFiles[fileName]);
+        const indents = this.utils.deepCopy(acc[fileName]);
+        this.ctx.setState(patch({ indents: patch({ [fileName]: indents }) }));
         return acc;
       }, { });
     this.objects = Object.keys(eslintFiles)
@@ -290,6 +303,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
         try {
           // if the source can't be parsed ...
           acc[fileName] = impl.normalize(impl.parse(fileName, eslintFiles[fileName]));
+          const object = this.utils.deepCopy(acc[fileName]);
+          this.ctx.setState(patch({ objects: patch({ [fileName]: object }) }));
         } catch (exception) {
           lintelVSCodeAPI.postMessage({ command: 'parseFail', fileName });
           // ... a null object is an upstream signal
@@ -309,6 +324,13 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   load(fileName: string): any {
     return this.impl(fileName).load(fileName);
+  }
+
+  save(fileName: string): void {
+    const impl = this.impl(fileName);
+    impl.save(fileName);
+    const object = this.utils.deepCopy(impl.load(fileName));
+    this.ctx.setState(patch({ objects: patch({ [fileName]: object }) }));
   }
 
   // private methods

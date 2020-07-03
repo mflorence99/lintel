@@ -17,7 +17,7 @@ export interface LintelStateModel {
 @Persistence({ useClass: StorageService })
 @StateRepository()
 @State<LintelStateModel>({
-  name: 'kintel',
+  name: 'lintel',
   defaults: {
     enabled: true,
     message: null

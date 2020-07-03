@@ -56,6 +56,9 @@ describe('VSCode extension', () => {
       post({ command: 'clipboardCopy', text: 'xxx' });
       expect(vscode.env.clipboard.writeText).toHaveBeenCalled();
 
+      post({ command: 'deleteOverride', text: 'xxx', override: 99 });
+      expect(vscode.window.showWarningMessage).toHaveBeenCalled();
+
       post({ command: 'editFile', fileName: 'xxx' });
       expect(vscode.window.showTextDocument).toHaveBeenCalled();
 

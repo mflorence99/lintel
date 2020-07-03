@@ -124,6 +124,13 @@ describe('ConfigsState', () => {
     expect(bundle.configs.isPluginFiltered('@angular-eslint')).toBe(true);
     expect(bundle.configs.isPluginFiltered('jest')).toBe(false);
   });
+
+  test('addOverride', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    expect(bundle.configs.configuration.overrides.length).toBe(4);
+    bundle.configs.addOverride();
+    expect(bundle.configs.configuration.overrides.length).toBe(5);
+  });
   
   test('changeConfiguration', () => {
     bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
@@ -138,6 +145,13 @@ describe('ConfigsState', () => {
     const ruleName = 'brace-style';
     bundle.configs.changeRule({ changes, ruleName });
     expect(bundle.configs.configuration.rules[ruleName]).toEqual(changes);
+  });
+
+  test('deleteOverride', () => {
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    expect(bundle.configs.configuration.overrides.length).toBe(4);
+    bundle.configs.deleteOverride({ ix: 0 });
+    expect(bundle.configs.configuration.overrides.length).toBe(3);
   });
 
   test('deleteRule', () => {

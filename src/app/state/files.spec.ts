@@ -152,4 +152,29 @@ describe('FilesState', () => {
     expect(config.rules['spaced-comment']).toBeFalsy();
   });
 
+  test('override can be added in /home/mflorence99/lintel/package.json', () => {
+    let config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.overrides.length).toBe(4);
+    bundle.files.addOverride({
+      fileName: '/home/mflorence99/lintel/package.json',
+      override:  {
+        files: ['*.temp'],
+        rules: { }
+      }
+    });
+    config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.overrides.length).toBe(5);
+  });
+
+  test('override can be deleted in /home/mflorence99/lintel/package.json', () => {
+    let config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.overrides.length).toBe(4);
+    bundle.files.deleteOverride({ 
+      fileName: '/home/mflorence99/lintel/package.json',
+      ix: 0
+    });
+    config = bundle.files.load('/home/mflorence99/lintel/package.json');
+    expect(config.overrides.length).toBe(3);
+  });
+
 });

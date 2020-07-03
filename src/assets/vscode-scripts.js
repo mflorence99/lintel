@@ -31,6 +31,15 @@ lintelVSCodeAPI = {
         console.log('%cclipboardCopy:', lintelVSCodeAPI._style('#1b5e20'), message.text);
         break;
 
+      case 'deleteOverride':
+        console.log('%cdeleteOverride:', lintelVSCodeAPI._style('#ad1457'), message.text, message.override);
+        if (confirm(message.text)) {
+          const reply = new Event('message');
+          reply.data = { command: 'deleteOverride', override: message.override };
+          window.dispatchEvent(reply);
+        }
+        break;
+
       case 'editFile':
         console.log('%ceditFile:', lintelVSCodeAPI._style('#3367d6'), message.fileName);
         break;
@@ -45,11 +54,6 @@ lintelVSCodeAPI = {
 
       case 'openFile':
         window.open(message.url, 'Lintel');
-        break;
-
-      case 'removeOverride':
-        console.log('%cremoveOverride:', lintelVSCodeAPI._style('#004d40'), message.text, message.override);
-        confirm(message.text);
         break;
 
       case 'parseFail':

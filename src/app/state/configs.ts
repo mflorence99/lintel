@@ -16,9 +16,11 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
+import { append } from '@ngxs/store/operators';
 import { meldConfigurations } from '../common/meld-configurations';
 import { normalizeConfiguration } from '../common/meld-configurations';
 import { patch } from '@ngxs/store/operators';
+import { removeItem } from '@ngxs/store/operators';
 import { scratch } from './operators';
 import { updateItem } from '@ngxs/store/operators';
 import { updateItems } from './operators';
@@ -82,6 +84,7 @@ export type Settings = [Level, ...any[]];
 export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   private debouncer = { };
+  private tempIndex = 0;
 
   /** ctor */
   constructor(private extensions: ExtensionsState,
@@ -95,6 +98,17 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   // actions
+
+  @DataAction({ insideZone: true })
+  addOverride(): void {
+    const fileName = this.selection.fileName;
+    const override: Configuration = {
+      files: [`*.temp.${++this.tempIndex}`],
+      rules : { }
+    };
+    this.ctx.setState(patch({ [fileName]: patch({ overrides: append([override]) }) }));
+    this.files.addOverride({ fileName, override });
+  }
 
   @DataAction({ insideZone: true })
   changeConfiguration(@Payload('changes') changes: any): void {
@@ -121,22 +135,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeOverrides(@Payload('changes') { files }): void {
+  changeOverrideFiles(@Payload('changes') { files }): void {
     const fileName = this.selection.fileName;
-    // sanity check: we can only change the "files" in overrides
-    // that actually already exist
-    if (!this.ctx.getState()[fileName]?.overrides)
-      throw new Error(`changeOverrides()${files.toString()}: no overrides to change`);
-    if (this.ctx.getState()[fileName].overrides.length !== files.length)
-      throw new Error(`changeOverrides()${files.toString()}: files mismatch`);
-    // now change the "files" in each overrides
-    files.forEach((extensions, ix) => {
-      this.ctx.setState(patch({ [fileName]: patch({ overrides: updateItem(ix, patch({ files: extensions }))}) }));
+    const overrides = this.ctx.getState()[fileName].overrides ?? [];
+    overrides.forEach((_, ix) => {
+      this.ctx.setState(patch({ [fileName]: patch({ overrides: updateItem(ix, patch({ files: files[ix] }))}) }));
     });
-    // now patch source file by resolving changes to a full replacement
-    const overrides = this.ctx.getState()[fileName].overrides;
-    const replacement = this.utils.deepCopy(overrides);
-    this.files.changeConfiguration({ fileName, replacement });
+    this.files.changeOverrideFiles({ fileName, files });
   }
 
   @DataAction({ insideZone: true })
@@ -147,6 +152,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     const state = this.ctx.getState();
     const replacement = state[fileName].rules[ruleName];
     this.files.changeRule({ fileName, ruleName, replacement });
+  }
+
+  @DataAction({ insideZone: true })
+  deleteOverride(@Payload('override') { ix }): void {
+    const fileName = this.selection.fileName;
+    this.ctx.setState(patch({ [fileName]: patch({ overrides: removeItem(ix) }) }));
+    this.files.deleteOverride({ fileName, ix });
   }
 
   @DataAction({ insideZone: true })
@@ -190,6 +202,15 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         this.filter.showInheritedRules();
       });
     }
+    // listen for confirmations to remove an override
+    window.addEventListener('message', event => {
+      const message = event.data;
+      switch (message.command) {
+        case 'deleteOverride':
+          this.deleteOverride({ ix: message.override });
+          break;
+      }
+    });
   }
 
   // accessors

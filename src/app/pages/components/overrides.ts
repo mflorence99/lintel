@@ -1,3 +1,4 @@
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
@@ -41,7 +42,8 @@ export class OverridesComponent implements OnInit {
   private underConstruction: boolean;
 
   /** ctor */
-  constructor(public configs: ConfigsState,
+  constructor(private actions$: Actions,
+              public configs: ConfigsState,
               private contextMenuService: ContextMenuService,
               private destroy$: DestroyService,
               public extensions: ExtensionsState,
@@ -53,7 +55,7 @@ export class OverridesComponent implements OnInit {
       files: new FormArray([])
     });
     // rebuild form on selection changes
-    this.handleSelectionState$();
+    this.handleActions$();
   }
 
   /** Execute context menu command */
@@ -61,11 +63,13 @@ export class OverridesComponent implements OnInit {
     switch (command) {
 
       case 'add':
+        this.configs.addOverride();
         break;
 
       case 'delete':
         if (!this.configs.isOverrideEmpty(ix))
-          lintelVSCodeAPI.postMessage({ command: 'removeOverride', override: ix, text: 'This override contains rules and other settings. Are you sure you want to remove it?' });
+          lintelVSCodeAPI.postMessage({ command: 'deleteOverride', override: ix, text: 'This override contains rules and other settings. Are you sure you want to delete it?' });
+        else this.configs.deleteOverride({ ix });
         break;
 
     }
@@ -77,7 +81,8 @@ export class OverridesComponent implements OnInit {
       .pipe(
         filter(_ => !this.underConstruction),
         takeUntil(this.destroy$)
-      ).subscribe(changes => this.configs.changeOverrides(changes));
+      ).subscribe(changes => this.configs.changeOverrideFiles(changes));
+    this.rebuildControls();
   }
 
   /** Show the context menu manually (on left click) */
@@ -90,22 +95,28 @@ export class OverridesComponent implements OnInit {
 
   // private methods
 
-  private handleSelectionState$(): void {
-    this.selection.state$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(_ => {
-        this.underConstruction = true;
-        // TODO: temporary
-        const values = this.configs.configuration.overrides?.map(override => override.files) ?? [];
-        const files = this.overridesForm.controls.files as FormArray;
-        while (files.length > values.length)
-          files.removeAt(files.length - 1);
-        while (files.length < values.length)
-          files.push(new FormControl(null));
-        // TODO: we don't know why { emitEvent: false } doesn't work
-        files.patchValue([...values], { emitEvent: false });
-        this.underConstruction = false;
-      });
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ action, status }) => action.override && (status === 'SUCCESSFUL')),
+        takeUntil(this.destroy$)
+      )
+      // NOTE: deferring the rebuild until the action is complete (add or delete)
+      // is necessary becausse delete may be asynchonous if a confirm is required
+      .subscribe(_ => this.rebuildControls());
+  }
+
+  private rebuildControls(): void {
+    this.underConstruction = true;
+    const values = this.configs.configuration.overrides?.map(override => override.files) ?? [];
+    const files = this.overridesForm.controls.files as FormArray;
+    while (files.length > values.length)
+      files.removeAt(files.length - 1);
+    while (files.length < values.length)
+      files.push(new FormControl(null));
+    // TODO: we don't know why { emitEvent: false } doesn't work
+    files.patchValue([...values], { emitEvent: false });
+    this.underConstruction = false;
   }
 
 }

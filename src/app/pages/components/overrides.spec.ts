@@ -14,6 +14,24 @@ describe('OverridesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  test('Override can be added', () => {
+    const fixture = TestBed.createComponent(OverridesComponent);
+    const component = fixture.componentInstance;
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    expect(component.configs.configuration.overrides.length).toBe(4);
+    component.execute(null, 'add');
+    expect(component.configs.configuration.overrides.length).toBe(5);
+  });
+
+  test('Override can be deleted', () => {
+    const fixture = TestBed.createComponent(OverridesComponent);
+    const component = fixture.componentInstance;
+    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    expect(component.configs.configuration.overrides.length).toBe(4);
+    component.execute(3, 'delete');
+    expect(component.configs.configuration.overrides.length).toBe(3);
+  });
+
   test('ngOnInit', () => {
     const fixture = TestBed.createComponent(OverridesComponent);
     const component = fixture.componentInstance;

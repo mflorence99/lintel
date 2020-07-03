@@ -62,7 +62,7 @@ const window = {
   createWebviewPanel: jest.fn(() => panel),
   showErrorMessage: jest.fn(),
   showTextDocument: jest.fn(),
-  showWarningMessage: jest.fn()
+  showWarningMessage: jest.fn(() => Promise.resolve())
 };
 
 const workspace = {

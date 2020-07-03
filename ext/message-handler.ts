@@ -86,6 +86,14 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
         vscode.env.clipboard.writeText(message.text);
         break;
 
+      case 'deleteOverride':
+        vscode.window.showWarningMessage(message.text, { modal: true }, 'OK')
+          .then(response => {
+            if (response === 'OK')
+              currentPanel.webview.postMessage({ command: 'deleteOverride', override: message.override });
+          });
+        break;
+
       case 'editFile':
         vscode.window.showTextDocument(vscode.Uri.parse(message.fileName), { viewColumn: vscode.ViewColumn.Beside });
         break;
@@ -100,10 +108,6 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
 
       case 'openFile':
         vscode.env.openExternal(vscode.Uri.parse(message.url));
-        break;
-
-      case 'removeOverride':
-        vscode.window.showWarningMessage(message.text, { modal: true }, 'OK');
         break;
 
       case 'parseFail':

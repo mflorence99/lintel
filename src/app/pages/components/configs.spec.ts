@@ -59,6 +59,21 @@ describe('ConfigsComponent', () => {
     expect(component.selection.category).toEqual('Best Practices');
   });
 
+  test('selectOverride', () => {
+    const fixture = TestBed.createComponent(ConfigsComponent);
+    const component = fixture.componentInstance;
+    component.selection.select({ override: null });
+    component.selectOverride(new Event('click'), 0);
+    expect(component.selection.override).toBe(0);
+    expect(component.selection.overrideFiles).toEqual(['*.md']);
+    expect(component.lintel.isEnabled).toBe(true);
+    // now one that is inherited
+    component.selectOverride(new Event('click'), 4);
+    expect(component.selection.override).toBe(4);
+    expect(component.selection.overrideFiles).toEqual(['*.cjs', '.*.cjs']);
+    expect(component.lintel.isEnabled).toBe(false);
+  });
+
   test('selectFileName', done => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
