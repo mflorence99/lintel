@@ -52,6 +52,7 @@ describe('FilesState', () => {
   test('config can be changed in package.json', () => {
     bundle.files.changeConfiguration({ 
       fileName: '/home/mflorence99/lintel/package.json',
+      ix: null,
       replacement: {
         env: {
           browser: false
@@ -65,6 +66,7 @@ describe('FilesState', () => {
   test('rule can be changed in package.json', () => {
     bundle.files.changeRule({
       fileName: '/home/mflorence99/lintel/package.json',
+      ix: null,
       ruleName: 'brace-style',
       replacement: ['off']
     });
@@ -75,6 +77,7 @@ describe('FilesState', () => {
   test('config can be changed in /home/mflorence99/el-3270/.eslintrc.js', () => {
     bundle.files.changeConfiguration({
       fileName: '/home/mflorence99/el-3270/.eslintrc.js',
+      ix: null,
       replacement: {
         env: {
           browser: false
@@ -88,6 +91,7 @@ describe('FilesState', () => {
   test('rule can be changed in ext/.eslintrc.js', () => {
     bundle.files.changeRule({
       fileName: '/home/mflorence99/el-3270/.eslintrc.js',
+      ix: null,
       ruleName: 'brace-style',
       replacement: ['off']
     });
@@ -98,6 +102,7 @@ describe('FilesState', () => {
   test('config can be changed in /home/mflorence99/el-file/.eslintrc.json', () => {
     bundle.files.changeConfiguration({
       fileName: '/home/mflorence99/el-file/.eslintrc.json',
+      ix: null,
       replacement: {
         env: {
           browser: false
@@ -111,6 +116,7 @@ describe('FilesState', () => {
   test('rule can be changed in /home/mflorence99/el-file/.eslintrc.json', () => {
     bundle.files.changeRule({
       fileName: '/home/mflorence99/el-file/.eslintrc.json',
+      ix: null,
       ruleName: 'brace-style',
       replacement: ['off']
     });
@@ -121,6 +127,7 @@ describe('FilesState', () => {
   test('config can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml', () => {
     bundle.files.changeConfiguration({
       fileName: '/home/mflorence99/lintel/src/app/.eslintrc.yaml',
+      ix: null,
       replacement: {
         env: {
           browser: false
@@ -134,6 +141,7 @@ describe('FilesState', () => {
   test('rule can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml', () => {
     bundle.files.changeRule({
       fileName: '/home/mflorence99/lintel/src/app/.eslintrc.yaml',
+      ix: null,
       ruleName: 'brace-style',
       replacement: ['off']
     });
@@ -146,6 +154,7 @@ describe('FilesState', () => {
     expect(config.rules['spaced-comment']).toBeTruthy();
     bundle.files.deleteRule({
       fileName: '/home/mflorence99/lintel/package.json',
+      ix: null,
       ruleName: 'spaced-comment'
     });
     config = bundle.files.load('/home/mflorence99/lintel/package.json');

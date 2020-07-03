@@ -99,7 +99,17 @@
 
             <ng-container
               *ngIf="property[0] === 'overrides'">
-              <b>Use the <fa-icon [icon]="['fas', 'cog']" size="sm"></fa-icon> tool to remove overrides and add new ones.</b>
+
+              <ng-container 
+                *ngIf="configs.configuration.overrides?.length; else firstOverride">
+                <b>Use the <fa-icon [icon]="['fas', 'cog']" size="sm"></fa-icon> tool to delete overrides and add new ones.</b>
+              </ng-container>
+
+              <ng-template 
+                #firstOverride>
+                <b><a (click)="configs.addOverride()">Click here</a> to create a new override.</b>
+              </ng-template>
+
             </ng-container>
 
             <ng-container

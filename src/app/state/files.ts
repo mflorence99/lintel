@@ -19,8 +19,8 @@ declare const eslintFiles: Record<string, string>;
 declare const lintelVSCodeAPI;
 
 interface ESLintFile {
-  changeConfiguration(fileName: string, replacement: any): void;
-  changeRule(fileName: string, ruleName: string, replacement: any): void;
+  changeConfiguration(fileName: string, ix: number, replacement: any): void;
+  changeRule(fileName: string, ix: number, ruleName: string, replacement: any): void;
   load(fileName: string): any;
   normalize(object: any): any;
   parse(fileName: string, source: string): any;
@@ -60,6 +60,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   // @see https://stackoverflow.com/questions/32494174
 
+  // ////////////////////////////////////////////////////////////////////////////////////
+
   private jsFile = new class implements ESLintFile {
 
     private prefix: Record<string, string> = { };
@@ -67,14 +69,18 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
     constructor(private superThis: FilesState) { }
 
-    changeConfiguration(fileName: string, replacement: any): void {
-      const object = this.superThis.objects[fileName];
+    changeConfiguration(fileName: string, ix: number, replacement: any): void {
+      let object = this.superThis.objects[fileName];
+      if (ix != null)
+        object = object.overrides[ix];
       assign(object, replacement);
     }
 
-    changeRule(fileName: string, ruleName: string, replacement: any): void {
-      const object = this.superThis.objects[fileName].rules;
-      assign(object, { [ruleName]: replacement });
+    changeRule(fileName: string, ix: number, ruleName: string, replacement: any): void {
+      let object = this.superThis.objects[fileName];
+      if (ix != null)
+        object = object.overrides[ix];
+      assign(object.rules, { [ruleName]: replacement });
     }
 
     load(fileName: string): any {
@@ -116,18 +122,24 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   }(this);
 
+  // ////////////////////////////////////////////////////////////////////////////////////
+
   private jsonFile = new class implements ESLintFile {
 
     constructor(private superThis: FilesState) { }
 
-    changeConfiguration(fileName: string, replacement: any): void {
-      const object = this.superThis.objects[fileName];
+    changeConfiguration(fileName: string, ix: number, replacement: any): void {
+      let object = this.superThis.objects[fileName];
+      if (ix != null)
+        object = object.overrides[ix];
       assign(object, replacement);
     }
 
-    changeRule(fileName: string, ruleName: string, replacement: any): void {
-      const object = this.superThis.objects[fileName].rules;
-      assign(object, { [ruleName]: replacement });
+    changeRule(fileName: string, ix: number, ruleName: string, replacement: any): void {
+      let object = this.superThis.objects[fileName];
+      if (ix != null)
+        object = object.overrides[ix];
+      assign(object.rules, { [ruleName]: replacement });
     }
 
     load(fileName: string): any {
@@ -153,20 +165,26 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   }(this);
 
+  // ////////////////////////////////////////////////////////////////////////////////////
+
   private packageJSONFile = new class implements ESLintFile {
 
     constructor(private superThis: FilesState) { }
 
     // NOTE: no worries here about comments
 
-    changeConfiguration(fileName: string, replacement: any): void {
-      const object = this.superThis.objects[fileName]['eslintConfig'];
+    changeConfiguration(fileName: string, ix: number, replacement: any): void {
+      let object = this.superThis.objects[fileName]['eslintConfig'];
+      if (ix != null)
+        object = object.overrides[ix];
       Object.assign(object, replacement);
     }
 
-    changeRule(fileName: string, ruleName: string, replacement: any): void {
-      const object = this.superThis.objects[fileName]['eslintConfig'].rules;
-      object[ruleName] = replacement;
+    changeRule(fileName: string, ix: number, ruleName: string, replacement: any): void {
+      let object = this.superThis.objects[fileName]['eslintConfig'];
+      if (ix != null)
+        object = object.overrides[ix];
+      object.rules[ruleName] = replacement;
     }
 
     load(fileName: string): any {
@@ -192,20 +210,26 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   }(this);
 
+  // ////////////////////////////////////////////////////////////////////////////////////
+
   private yamlFile = new class implements ESLintFile {
 
     constructor(private superThis: FilesState) { }
 
     // NOTE: YAML does not currently preserve comments
 
-    changeConfiguration(fileName: string, replacement: any): void {
-      const object = this.superThis.objects[fileName];
+    changeConfiguration(fileName: string, ix: number, replacement: any): void {
+      let object = this.superThis.objects[fileName];
+      if (ix != null)
+        object = object.overrides[ix];
       Object.assign(object, replacement);
     }
 
-    changeRule(fileName: string, ruleName: string, replacement: any): void {
-      const object = this.superThis.objects[fileName].rules;
-      object[ruleName] = replacement;
+    changeRule(fileName: string, ix: number, ruleName: string, replacement: any): void {
+      let object = this.superThis.objects[fileName];
+      if (ix != null)
+        object = object.overrides[ix];
+      object.rules[ruleName] = replacement;
     }
 
     load(fileName: string): any {
@@ -231,6 +255,8 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   }(this);
 
+  // ////////////////////////////////////////////////////////////////////////////////////
+
   /* eslint-enable @typescript-eslint/member-ordering */
 
   /** ctor */
@@ -251,9 +277,9 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeConfiguration(@Payload('replacements') { fileName, replacement }): void {
+  changeConfiguration(@Payload('replacements') { fileName, ix, replacement }): void {
     const impl = this.impl(fileName);
-    impl.changeConfiguration(fileName, replacement);
+    impl.changeConfiguration(fileName, ix, replacement);
     this.save(fileName);
   }
 
@@ -266,9 +292,9 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeRule(@Payload('replacements') { fileName, ruleName, replacement }): void {
+  changeRule(@Payload('replacements') { fileName, ix, ruleName, replacement }): void {
     const impl = this.impl(fileName);
-    impl.changeRule(fileName, ruleName, replacement);
+    impl.changeRule(fileName, ix, ruleName, replacement);
     this.save(fileName);
   }
 
@@ -281,9 +307,9 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  deleteRule(@Payload('ruleName') { fileName, ruleName }): void {
+  deleteRule(@Payload('ruleName') { fileName, ix, ruleName }): void {
     const impl = this.impl(fileName);
-    const rules = impl.load(fileName).rules;
+    const rules = (ix == null) ? impl.load(fileName).rules : impl.load(fileName).overrides[ix].rules;
     delete rules[ruleName];
     this.save(fileName);
   }

@@ -133,14 +133,14 @@ describe('ConfigsState', () => {
   });
   
   test('changeConfiguration', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
     const changes = { browser: false };
     bundle.configs.changeConfiguration({ env: changes });
     expect(bundle.configs.configuration.env).toEqual(changes);
   });
 
   test('changeRule', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
     const changes = ['warn', { after: false, before: false }];
     const ruleName = 'brace-style';
     bundle.configs.changeRule({ changes, ruleName });
@@ -155,7 +155,7 @@ describe('ConfigsState', () => {
   });
 
   test('deleteRule', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
     const ruleName = 'spaced-comment';
     expect(bundle.configs.configuration.rules[ruleName]).toBeTruthy();
     bundle.configs.deleteRule({ ruleName });

@@ -8,9 +8,12 @@ import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
 import { StorageService } from '../services/storage';
 
+import { patch } from '@ngxs/store/operators';
+
 export interface LintelStateModel {
   enabled: boolean;
   message: string;
+  unique: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -20,7 +23,8 @@ export interface LintelStateModel {
   name: 'lintel',
   defaults: {
     enabled: true,
-    message: null
+    message: null,
+    unique: 1
   }
 })
 
@@ -30,7 +34,7 @@ export class LintelState extends NgxsDataRepository<LintelStateModel> {
 
   @DataAction({ insideZone: true })
   enable(@Payload('enable') { enabled, message }): void {
-    this.ctx.setState({ enabled, message });
+    this.ctx.setState(patch({ enabled, message }));
   }
 
   // accessors
@@ -41,6 +45,12 @@ export class LintelState extends NgxsDataRepository<LintelStateModel> {
 
   @Computed() get message(): string {
     return this.snapshot.message;
+  }
+
+  @Computed() get unique(): number {
+    const unique = this.ctx.getState().unique;
+    this.ctx.setState(patch({ unique: unique + 1 }));
+    return unique;
   }
 
 }

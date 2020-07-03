@@ -6,6 +6,7 @@ import { FilesState } from './files';
 import { FilterState } from './filter';
 import { Injectable } from '@angular/core';
 import { Level } from './rules';
+import { LintelState } from './lintel';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Params } from '../services/params';
 import { Payload } from '@ngxs-labs/data/decorators';
@@ -84,12 +85,12 @@ export type Settings = [Level, ...any[]];
 export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
 
   private debouncer = { };
-  private tempIndex = 0;
 
   /** ctor */
   constructor(private extensions: ExtensionsState,
               private files: FilesState,
               private filter: FilterState,
+              private lintel: LintelState,
               private params: Params,
               private rules: RulesState, 
               private selection: SelectionState,
@@ -103,7 +104,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   addOverride(): void {
     const fileName = this.selection.fileName;
     const override: Configuration = {
-      files: [`*.temp.${++this.tempIndex}`],
+      files: [`*.temp.${this.lintel.unique}`],
       rules : { }
     };
     this.ctx.setState(patch({ [fileName]: patch({ overrides: append([override]) }) }));
@@ -113,9 +114,19 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @DataAction({ insideZone: true })
   changeConfiguration(@Payload('changes') changes: any): void {
     const fileName = this.selection.fileName;
-    const before = this.ctx.getState()[fileName];
-    this.ctx.setState(patch({ [fileName]: patch(changes) }));
-    const after = this.ctx.getState()[fileName];
+    const ix = this.selection.override;
+    let after, before;
+    if (ix == null) {
+      // patch in the changes to the base configuration
+      before = this.ctx.getState()[fileName];
+      this.ctx.setState(patch({ [fileName]: patch(changes) }));
+      after = this.ctx.getState()[fileName];
+    } else {
+      // patch in the changes to an override
+      before = this.ctx.getState()[fileName].overrides[ix];
+      this.ctx.setState(patch({ [fileName]: patch({ overrides: updateItem(ix, patch(changes)) }) }));
+      after = this.ctx.getState()[fileName].overrides[ix];
+    }
     // load any extensions that are new
     const extensions = this.utils.diffArrays(after.extends ?? [], before.extends ?? []);
     if (extensions.length)
@@ -124,14 +135,8 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     const plugins = this.utils.diffArrays(after.plugins ?? [], before.plugins ?? []);
     if (plugins.length)
       this.debouncedPostMessage({ command: 'getRules', fileName, plugins });
-    // now patch source file by resolving changes to a full replacement
-    const state = this.ctx.getState();
-    const replacement = Object.keys(changes)
-      .reduce((acc, key) => {
-        acc[key] = state[fileName][key];
-        return acc;
-      }, { });
-    this.files.changeConfiguration({ fileName, replacement });
+    // patch in the same changes to the source file
+    this.files.changeConfiguration({ fileName, ix, replacement: changes });
   }
 
   @DataAction({ insideZone: true })
@@ -147,11 +152,20 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @DataAction({ insideZone: true })
   changeRule(@Payload('changes') { changes, ruleName }): void {
     const fileName = this.selection.fileName;
-    this.ctx.setState(patch({ [fileName]: patch({ rules : patch({ [ruleName]: updateItems(changes) }) }) }));
-    // now patch source file by resolving rule changes to a full replacement
-    const state = this.ctx.getState();
-    const replacement = state[fileName].rules[ruleName];
-    this.files.changeRule({ fileName, ruleName, replacement });
+    const ix = this.selection.override;
+    let replacement;
+    if (ix == null) {
+      // patch in the changes to the base configuration
+      this.ctx.setState(patch({ [fileName]: patch({ rules : patch({ [ruleName]: updateItems(changes) }) }) }));
+      replacement = this.ctx.getState()[fileName].rules[ruleName];
+    } else {
+      // patch in the changes to an override
+      this.ctx.setState(patch({ [fileName]: patch({ overrides: updateItem(ix, patch({ rules: patch({ [ruleName]: updateItems(changes) }) })) }) }));
+      replacement = this.ctx.getState()[fileName].overrides[ix].rules[ruleName];
+    }
+    // patch in the same changes to the source file
+    // NOTE: wse have resolved rule changes to a full replacement
+    this.files.changeRule({ fileName, ix, ruleName, replacement });
   }
 
   @DataAction({ insideZone: true })
@@ -164,8 +178,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   @DataAction({ insideZone: true })
   deleteRule(@Payload('ruleName') { ruleName }): void {
     const fileName = this.selection.fileName;
-    this.ctx.setState(patch({ [fileName]: patch({ rules: scratch(ruleName) }) }));
-    this.files.deleteRule({ fileName, ruleName });
+    const ix = this.selection.override;
+    if (ix == null)
+      this.ctx.setState(patch({ [fileName]: patch({ rules: scratch(ruleName) }) }));
+    else this.ctx.setState(patch({ [fileName]: patch({ overrides: updateItem(ix, patch({ rules: scratch(ruleName) })) }) }));
+    this.files.deleteRule({ fileName, ix, ruleName });
   }
 
   @DataAction({ insideZone: true }) 

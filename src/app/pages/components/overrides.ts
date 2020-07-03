@@ -54,7 +54,8 @@ export class OverridesComponent implements OnInit {
     this.overridesForm = this.formBuilder.group({
       files: new FormArray([])
     });
-    // rebuild form on selection changes
+    // NOTE: we need to rebuild on selection changes AND after certain actions
+    // becvause a section change IS an action, this code works for both cases
     this.handleActions$();
   }
 
