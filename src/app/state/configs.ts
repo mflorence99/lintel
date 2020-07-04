@@ -112,7 +112,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeConfiguration(@Payload('changes') changes: any): void {
+  changeConfiguration(@Payload('ConfigsState.changeConfiguration') changes: any): void {
     const fileName = this.selection.fileName;
     const ix = this.selection.override;
     let after, before;
@@ -140,7 +140,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeOverrideFiles(@Payload('changes') { files }): void {
+  changeOverrideFiles(@Payload('ConfigsState.changeOverrideFiles') { files }): void {
     const fileName = this.selection.fileName;
     const overrides = this.ctx.getState()[fileName].overrides ?? [];
     overrides.forEach((_, ix) => {
@@ -150,7 +150,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeRule(@Payload('changes') { changes, ruleName }): void {
+  changeRule(@Payload('ConfigsState.changeRule') { changes, ruleName }): void {
     const fileName = this.selection.fileName;
     const ix = this.selection.override;
     let replacement;
@@ -169,14 +169,14 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  deleteOverride(@Payload('override') { ix }): void {
+  deleteOverride(@Payload('ConfigsState.deleteOverride') { ix }): void {
     const fileName = this.selection.fileName;
     this.ctx.setState(patch({ [fileName]: patch({ overrides: removeItem(ix) }) }));
     this.files.deleteOverride({ fileName, ix });
   }
 
   @DataAction({ insideZone: true })
-  deleteRule(@Payload('ruleName') { ruleName }): void {
+  deleteRule(@Payload('ConfigsState.deleteRule') { ruleName }): void {
     const fileName = this.selection.fileName;
     const ix = this.selection.override;
     if (ix == null)

@@ -267,7 +267,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  addOverride(@Payload('override') { fileName, override }): void {
+  addOverride(@Payload('FilesState.addOverride') { fileName, override }): void {
     const impl = this.impl(fileName);
     const object = impl.load(fileName);
     if (!object.overrides)
@@ -277,14 +277,14 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeConfiguration(@Payload('replacements') { fileName, ix, replacement }): void {
+  changeConfiguration(@Payload('FilesState.changeConfiguration') { fileName, ix, replacement }): void {
     const impl = this.impl(fileName);
     impl.changeConfiguration(fileName, ix, replacement);
     this.save(fileName);
   }
 
   @DataAction({ insideZone: true })
-  changeOverrideFiles(@Payload('replacements') { fileName, files }): void {
+  changeOverrideFiles(@Payload('FilesState.changeOverrideFiles') { fileName, files }): void {
     const impl = this.impl(fileName);
     const overrides = impl.load(fileName).overrides ?? [];
     overrides.forEach((override, ix) => override.files = files[ix]);
@@ -292,14 +292,14 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeRule(@Payload('replacements') { fileName, ix, ruleName, replacement }): void {
+  changeRule(@Payload('FilesState.changeRule') { fileName, ix, ruleName, replacement }): void {
     const impl = this.impl(fileName);
     impl.changeRule(fileName, ix, ruleName, replacement);
     this.save(fileName);
   }
 
   @DataAction({ insideZone: true })
-  deleteOverride(@Payload('override') { fileName, ix }): void {
+  deleteOverride(@Payload('FilesState.deleteOverride') { fileName, ix }): void {
     const impl = this.impl(fileName);
     const overrides = impl.load(fileName).overrides;
     overrides?.splice(ix, 1);
@@ -307,7 +307,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  deleteRule(@Payload('ruleName') { fileName, ix, ruleName }): void {
+  deleteRule(@Payload('FilesState.deleteRule') { fileName, ix, ruleName }): void {
     const impl = this.impl(fileName);
     const rules = (ix == null) ? impl.load(fileName).rules : impl.load(fileName).overrides[ix].rules;
     delete rules[ruleName];

@@ -99,7 +99,11 @@ export class OverridesComponent implements OnInit {
   private handleActions$(): void {
     this.actions$
       .pipe(
-        filter(({ action, status }) => action.override && (status === 'SUCCESSFUL')),
+        filter(({ action, status }) => {
+          return (action['FilesState.addOverride'] 
+            || action['FilesState.deleteOverride']) 
+            && (status === 'SUCCESSFUL');
+        }),
         takeUntil(this.destroy$)
       )
       // NOTE: deferring the rebuild until the action is complete (add or delete)

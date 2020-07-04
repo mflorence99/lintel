@@ -112,7 +112,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  changeRules(@Payload('changes') rules: RulesStateModel): void {
+  changeRules(@Payload('RulesState.changeRules') rules: RulesStateModel): void {
     Object.entries(rules).forEach(([pluginName, rules]) => {
       this.ctx.setState(patch({ [pluginName]: rules }));
     });

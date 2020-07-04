@@ -1,3 +1,7 @@
+## 1.1.1
+
+* Minor performance improvements
+
 ## 1.1.0
 
 * Lintel now fully supports overrides

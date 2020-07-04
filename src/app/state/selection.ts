@@ -31,7 +31,7 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
   // actions
 
   @DataAction({ insideZone: true }) 
-  select(@Payload('selection') selection: SelectionStateModel): void {
+  select(@Payload('SelectionState.select') selection: SelectionStateModel): void {
     this.ctx.setState(patch(selection));
   }
 

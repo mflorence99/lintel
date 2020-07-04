@@ -75,7 +75,7 @@ export class TabsComponent {
             .filter(pluginName => this.configs.isPluginFiltered(pluginName));
           // if the selected plugin is no longer available, pick one that is
           if (!pluginNames.includes(this.selection.pluginName))
-            this.utils.nextTick(() => this.selection.select({ pluginName: pluginNames[pluginNames.length - 1] }));
+            this.selection.select({ pluginName: pluginNames[pluginNames.length - 1] });
         }
       });
   }

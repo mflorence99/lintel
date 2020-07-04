@@ -41,14 +41,15 @@ export class ConfigsComponent {
   /** Color code a file */
   colorForFile(fileName: string): string {
     if (fileName.endsWith('package.json'))
-      return 'var(--mat-green-a400)';
+      return 'var(--mat-light-green-a700)';
     else if (fileName.endsWith('.js'))
-      return 'var(--mat-blue-a400)';
+      return 'var(--mat-light-blue-a700)';
     else if (fileName.endsWith('.cjs'))
-      return 'var(--mat-red-a400)';
-    else if (fileName.endsWith('.yml') || fileName.endsWith('.yaml'))
-      return 'var(--mat-yellow-a400)';
-    else return 'var(--mat-orange-a400)';
+      return 'var(--mat-pink-a700)';
+    else if (fileName.endsWith('.yml') 
+      || fileName.endsWith('.yaml'))
+      return 'var(--mat-yellow-a700)';
+    else return 'var(--mat-teal-a700)';
   }
 
   /** Make an icon for a file */
@@ -123,7 +124,7 @@ export class ConfigsComponent {
           // if the selected category is no longer available, pick one that is
           if ((categories.length > 0)
             && !categories.includes(this.selection.category))
-            this.utils.nextTick(() => this.selection.select({ category: categories[categories.length - 1] }));
+            this.selection.select({ category: categories[categories.length - 1] });
         }
       });
   }

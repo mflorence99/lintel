@@ -43,7 +43,7 @@ export class ExtensionsState extends NgxsDataRepository<ExtensionsStateModel> {
   }
 
   @DataAction({ insideZone: true })
-  changeExtensions(@Payload('changes') extensions: ExtensionsStateModel): void {
+  changeExtensions(@Payload('ExtensionsState.changeExtensions') extensions: ExtensionsStateModel): void {
     Object.entries(extensions).forEach(([extensionName, extension]) => {
       this.ctx.setState(patch({ [extensionName]: extension }));
     });
