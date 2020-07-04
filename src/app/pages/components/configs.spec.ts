@@ -17,12 +17,12 @@ describe('ConfigsComponent', () => {
   test('colorForFile', () => {
     const fixture = TestBed.createComponent(ConfigsComponent);
     const component = fixture.componentInstance;
-    expect(component.colorForFile('/home/mflorence99/lintel/package.json')).toBe('var(--mat-green-a400)');
-    expect(component.colorForFile('a/b/c.js')).toBe('var(--mat-blue-a400)');
-    expect(component.colorForFile('xxx.cjs')).toBe('var(--mat-red-a400)');
-    expect(component.colorForFile('ext/.eslintrc.yml')).toBe('var(--mat-yellow-a400)');
-    expect(component.colorForFile('ext/.eslintrc.yaml')).toBe('var(--mat-yellow-a400)');
-    expect(component.colorForFile('anything.json')).toBe('var(--mat-orange-a400)');
+    expect(component.colorForFile('/home/mflorence99/lintel/package.json')).toBe('var(--mat-light-green-a700)');
+    expect(component.colorForFile('a/b/c.js')).toBe('var(--mat-light-blue-a700)');
+    expect(component.colorForFile('xxx.cjs')).toBe('var(--mat-pink-a700)');
+    expect(component.colorForFile('ext/.eslintrc.yml')).toBe('var(--mat-yellow-a700)');
+    expect(component.colorForFile('ext/.eslintrc.yaml')).toBe('var(--mat-yellow-a700)');
+    expect(component.colorForFile('anything.json')).toBe('var(--mat-teal-a700)');
   });
 
   test('iconForFile', () => {

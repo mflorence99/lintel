@@ -61,7 +61,7 @@
     *ngIf="!schemaDigest.canGUI">
 
     <div
-      (click)="editFile(selection.fileName)"
+      (click)="editFile(selection.fileName, ruleDigest)"
       [ngClass]="{disabled: !lintel.isEnabled}"
       *ngIf="rules.notYet(ruleDigest.ruleName, ruleDigest.rule) || !ruleDigest.rule; else debugWithJSON"
       class="notYet">

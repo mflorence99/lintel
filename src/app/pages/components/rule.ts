@@ -116,9 +116,11 @@ export class RuleComponent implements OnInit {
   }
 
   /** Edit a file */
-  editFile(fileName: string): void {
+  editFile(fileName: string, ruleDigest?: RuleDigest): void {
     if (this.lintel.isEnabled)
       lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
+    if (ruleDigest)
+      console.log(`%c${ruleDigest.ruleName}:`, 'background-color: #00838f; color: white; font-weight: bold; padding: 4px', JSON.stringify(ruleDigest.rule.meta.schema, null, 2));
   }
 
   /** Get all the controls from a FormGroup */
