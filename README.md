@@ -1,6 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-97.23%25-green)](https://github.com/mflorence99/lintel/issues)
+[![Jest Coverage](https://img.shields.io/badge/coverage-97.23%25-blue)](https://github.com/mflorence99/lintel/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 
@@ -53,7 +53,7 @@ Active Rules shows all the rules that are currently defined in your configuratio
 * The analysis of inherited rules can be toggled via the 'eye' button in the filter bar.
 * Rules actually present in your configuration are highlighted by a solid bar and those inherited via a dotted bar.
 
-> Hover over a rule and a `cog' tool like the settings editor in VSCode itself appears. One operation allows a rule to be removed from your configuration. If that rule is also exposed by a plugin, then the UI reverts to the plugin's settings.
+> Hover over a rule and a `cog' tool (like the settings editor in VSCode itself) appears. One operation allows a rule to be removed from your configuration. If that rule is also exposed by a plugin, then the UI reverts to the plugin's settings.
 
 ## Overrides
 
@@ -61,8 +61,8 @@ Overrides are shown in the sidebar by their file filters, from which they can be
 
 ![Active Rules](docs/overrides.png)
 
-* The `*.*` is a way to pivot back to the base configuration.
-* Grayed overrides (like `*.components.html` screenshot) are inherited from plugins. They can't be changed but they can be selected for analysis.
+* `*.*` is a way to pivot back to the base configuration.
+* Grayed overrides (like `*.components.html` in the screenshot) are inherited from plugins. They can't be changed but they can be selected for analysis.
 
 ## Rules Lintel Can't Handle
 

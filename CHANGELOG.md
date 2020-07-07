@@ -1,3 +1,5 @@
+# Change Log
+
 ## 1.1.1
 
 * Minor performance improvements
