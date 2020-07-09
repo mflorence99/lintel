@@ -20902,7 +20902,7 @@ eslintRules = {
       "meta": {
         "docs": {
           "description": "Standardize the way function component get defined",
-          "category": "Stylistic issues",
+          "category": "Stylistic Issues",
           "recommended": false,
           "url": "https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules/function-component-definition.md"
         },

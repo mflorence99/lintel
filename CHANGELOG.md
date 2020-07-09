@@ -3,6 +3,7 @@
 ## 1.1.1
 
 * Minor performance improvements
+* No longer opening with ESLint Config #17
 
 ## 1.1.0
 
