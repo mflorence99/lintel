@@ -1,7 +1,8 @@
+import { HydratorDirective } from './hydrator';
+
 import { Directive } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { HydratorDirective } from './hydrator';
 import { Input } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';

@@ -1,7 +1,7 @@
+import { meldConfigurations } from './meld-configurations';
+
 import * as fs from 'fs';
 import * as path from 'path';
-
-import { meldConfigurations } from './meld-configurations';
 
 const moduleLoader = require('module');
 const parser = require('js-yaml');

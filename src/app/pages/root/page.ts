@@ -1,8 +1,5 @@
-import { ChangeDetectionStrategy } from '@angular/core';
-import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { DestroyService } from '../../services/destroy';
-import { ElementRef } from '@angular/core';
 import { ExtensionsState } from '../../state/extensions';
 import { FilesState } from '../../state/files';
 import { FilterState } from '../../state/filter';
@@ -10,6 +7,10 @@ import { Params } from '../../services/params';
 import { RulesState } from '../../state/rules';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
+
+import { ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 import { takeUntil } from 'rxjs/operators';
 

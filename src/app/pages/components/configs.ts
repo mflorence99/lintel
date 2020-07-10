@@ -1,6 +1,3 @@
-import { Actions } from '@ngxs/store';
-import { ChangeDetectionStrategy } from '@angular/core';
-import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { DestroyService } from '../../services/destroy';
 import { FilterState } from '../../state/filter';
@@ -8,6 +5,10 @@ import { LintelState } from '../../state/lintel';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
 import { Utils } from '../../services/utils';
+
+import { Actions } from '@ngxs/store';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';

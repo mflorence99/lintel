@@ -1,6 +1,7 @@
 import { BarrelModule } from '../barrel';
 import { LinkifyPipe } from './linkify';
 import { MarkedPipe } from './marked';
+
 import { NgModule } from '@angular/core';
 
 /**

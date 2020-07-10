@@ -1,23 +1,24 @@
-import { AbstractControl } from '@angular/forms';
-import { ChangeDetectionStrategy } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
-import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { DestroyService } from '../../services/destroy';
-import { FormArray } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
-import { FormControl } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
 import { HydratedDirective } from '../../directives/hydrated';
-import { Input } from '@angular/core';
 import { LintelState } from '../../state/lintel';
-import { OnInit } from '@angular/core';
-import { Optional } from '@angular/core';
 import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
 import { SchemaDigest } from '../../state/rules';
 import { SelectionState } from '../../state/selection';
 import { Settings } from '../../state/configs';
+
+import { AbstractControl } from '@angular/forms';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormArray } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { Input } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { Optional } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
 import { map } from 'rxjs/operators';

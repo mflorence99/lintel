@@ -1,10 +1,11 @@
+import { Utils } from '../services/utils';
+
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
-import { Utils } from '../services/utils';
 
 // NOTE: schema content is provided statically in index.html
 declare const eslintSchema: SchemaStateModel;

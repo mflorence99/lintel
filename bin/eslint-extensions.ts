@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-
 import { resolveExtension } from './common/resolve-extends';
+
+import * as fs from 'fs';
 
 const extensions = [
   'eslint:recommended',

@@ -1,8 +1,10 @@
+import { DestroyService } from '../services/destroy';
+import { SingleselectorOptions } from './singleselector';
+
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { DestroyService } from '../services/destroy';
 import { FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
@@ -10,7 +12,6 @@ import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OnInit } from '@angular/core';
-import { SingleselectorOptions } from './singleselector';
 
 import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';

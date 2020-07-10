@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy } from '@angular/core';
-import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { DestroyService } from '../../services/destroy';
 import { FilterState } from '../../state/filter';
+import { Params } from '../../services/params';
+import { SelectionState } from '../../state/selection';
+
+import { ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { OnInit } from '@angular/core';
-import { Params } from '../../services/params';
-import { SelectionState } from '../../state/selection';
 
 import { takeUntil } from 'rxjs/operators';
 

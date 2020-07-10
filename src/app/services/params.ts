@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
 import { Utils } from './utils';
+
+import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class Params {

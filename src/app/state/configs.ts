@@ -1,30 +1,32 @@
-import { Computed } from '@ngxs-labs/data/decorators';
-import { DataAction } from '@ngxs-labs/data/decorators';
 import { Extension } from './extensions';
 import { ExtensionsState } from './extensions';
 import { FilesState } from './files';
 import { FilterState } from './filter';
-import { Injectable } from '@angular/core';
 import { Level } from './rules';
 import { LintelState } from './lintel';
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Params } from '../services/params';
-import { Payload } from '@ngxs-labs/data/decorators';
 import { Rule } from './rules';
 import { RulesState } from './rules';
 import { SelectionState } from './selection';
-import { State } from '@ngxs/store';
-import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
-import { append } from '@ngxs/store/operators';
 import { meldConfigurations } from '../common/meld-configurations';
 import { normalizeConfiguration } from '../common/meld-configurations';
+import { scratch } from './operators';
+import { updateItems } from './operators';
+
+import { Computed } from '@ngxs-labs/data/decorators';
+import { DataAction } from '@ngxs-labs/data/decorators';
+import { Injectable } from '@angular/core';
+import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { Payload } from '@ngxs-labs/data/decorators';
+import { State } from '@ngxs/store';
+import { StateRepository } from '@ngxs-labs/data/decorators';
+
+import { append } from '@ngxs/store/operators';
 import { patch } from '@ngxs/store/operators';
 import { removeItem } from '@ngxs/store/operators';
-import { scratch } from './operators';
 import { updateItem } from '@ngxs/store/operators';
-import { updateItems } from './operators';
 
 declare const lintelVSCodeAPI;
 

@@ -1,9 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
-import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
-import { ContextMenuComponent } from 'ngx-contextmenu';
-import { ContextMenuService } from 'ngx-contextmenu';
-import { Input } from '@angular/core';
 import { LintelState } from '../../state/lintel';
 import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
@@ -11,6 +6,12 @@ import { SelectionState } from '../../state/selection';
 import { Settings } from '../../state/configs';
 import { Utils } from '../../services/utils';
 import { View } from '../../state/configs';
+
+import { ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ContextMenuService } from 'ngx-contextmenu';
+import { Input } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 declare const lintelVSCodeAPI;

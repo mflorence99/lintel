@@ -1,14 +1,16 @@
-import { DataAction } from '@ngxs-labs/data/decorators';
-import { Injectable } from '@angular/core';
-import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { ParserOptions } from './configs';
-import { Payload } from '@ngxs-labs/data/decorators';
 import { Settings } from './configs';
-import { State } from '@ngxs/store';
-import { StateRepository } from '@ngxs-labs/data/decorators';
 import { Utils } from '../services/utils';
 
 import { normalizeConfiguration } from '../common/meld-configurations';
+
+import { DataAction } from '@ngxs-labs/data/decorators';
+import { Injectable } from '@angular/core';
+import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { Payload } from '@ngxs-labs/data/decorators';
+import { State } from '@ngxs/store';
+import { StateRepository } from '@ngxs-labs/data/decorators';
+
 import { patch } from '@ngxs/store/operators';
 
 // NOTE: extensions content is provided statically in index.html

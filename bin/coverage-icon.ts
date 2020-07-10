@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import * as fs from 'fs';
 import * as path from 'path';
 
+/* eslint-disable @typescript-eslint/naming-convention */
 const coveragePath = path.join(__dirname, '..', 'coverage', 'coverage-summary.json');
 const coverage = JSON.parse(fs.readFileSync(coveragePath, { encoding: 'utf8' }));
 

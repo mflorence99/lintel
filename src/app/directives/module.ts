@@ -1,6 +1,7 @@
 import { BarrelModule } from '../barrel';
 import { HydratedDirective } from './hydrated';
 import { HydratorDirective } from './hydrator';
+
 import { NgModule } from '@angular/core';
 
 /**

@@ -4,9 +4,10 @@ import { InputArrayComponent } from './input-array';
 import { InputComponent } from './input';
 import { KeyValueComponent } from './key-value';
 import { MultiselectorComponent } from './multiselector';
-import { NgModule } from '@angular/core';
 import { SelectArrayComponent } from './select-array';
 import { SingleselectorComponent } from './singleselector';
+
+import { NgModule } from '@angular/core';
 
 /**
  * All our components

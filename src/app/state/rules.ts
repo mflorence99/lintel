@@ -1,12 +1,13 @@
+import { SelectionState } from './selection';
+import { Utils } from '../services/utils';
+
 import { Computed } from '@ngxs-labs/data/decorators';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { Injectable } from '@angular/core';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Payload } from '@ngxs-labs/data/decorators';
-import { SelectionState } from './selection';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
-import { Utils } from '../services/utils';
 
 import { patch } from '@ngxs/store/operators';
 

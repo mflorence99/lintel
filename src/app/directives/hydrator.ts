@@ -1,6 +1,7 @@
+import { Hydrateable } from './hydrated';
+
 import { Directive } from '@angular/core';
 import { ElementRef } from '@angular/core';
-import { Hydrateable } from './hydrated';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 

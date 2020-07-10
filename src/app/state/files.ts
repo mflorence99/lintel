@@ -1,4 +1,9 @@
 import * as CommentJSON from '../comment-json';
+
+import { Utils } from '../services/utils';
+
+import { assign } from '../comment-json';
+
 import * as jsyaml from 'js-yaml';
 
 import { Computed } from '@ngxs-labs/data/decorators';
@@ -8,9 +13,7 @@ import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { Payload } from '@ngxs-labs/data/decorators';
 import { State } from '@ngxs/store';
 import { StateRepository } from '@ngxs-labs/data/decorators';
-import { Utils } from '../services/utils';
 
-import { assign } from '../comment-json';
 import { patch } from '@ngxs/store/operators';
 
 // NOTE: files content is provided statically in index.html

@@ -4,7 +4,6 @@ import { ConfigsComponent } from './configs';
 import { DirectivesModule } from '../../directives/module';
 import { FilterComponent } from './filter';
 import { GeneralComponent } from './general';
-import { NgModule } from '@angular/core';
 import { OverridesComponent } from './overrides';
 import { ParserOptionsComponent } from './parser-options';
 import { PipesModule } from '../../pipes/module';
@@ -12,6 +11,8 @@ import { RuleComponent } from './rule';
 import { RulesComponent } from './rules';
 import { ScrollerComponent } from './scroller';
 import { TabsComponent } from './tabs';
+
+import { NgModule } from '@angular/core';
 
 /**
  * All our components

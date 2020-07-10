@@ -1,7 +1,7 @@
-import * as vscode from 'vscode';
-
 import { messageHandlerFactory } from './message-handler';
 import { webviewContentFactory } from './webview-content';
+
+import * as vscode from 'vscode';
 
 const fileCache: Record<string, string> = { };
 

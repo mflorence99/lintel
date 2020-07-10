@@ -1,9 +1,9 @@
+import { resolveExtension } from './common/resolve-extends';
+
 import * as eslint from 'eslint';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-
-import { resolveExtension } from './common/resolve-extends';
 
 const debouncer: Record<string, any> = { };
 const extensionCache: Record<string, any> = { };

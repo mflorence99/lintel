@@ -1,19 +1,20 @@
-import { ChangeDetectionStrategy } from '@angular/core';
-import { Component } from '@angular/core';
 import { ConfigsState } from '../../state/configs';
 import { DestroyService } from '../../services/destroy';
-import { ElementRef } from '@angular/core';
 import { ExtensionsState } from '../../state/extensions';
-import { FormBuilder } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
 import { LintelState } from '../../state/lintel';
 import { MultiselectorOptions } from '../../components/multiselector';
-import { Observable } from 'rxjs';
-import { OnInit } from '@angular/core';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
 import { SingleselectorOptions } from '../../components/singleselector';
 import { Utils } from '../../services/utils';
+
+import { ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { ElementRef } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { OnInit } from '@angular/core';
 
 import { combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
