@@ -280,16 +280,12 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get extension(): Extension {
-    let base = { };
     const files = this.selection.overrideFiles;
     const ix = this.selection.override;
-    // if calculating for an override, the first extension is the base itself
-    if ((ix != null) && !this.isOverrideInherited(ix)) 
-      base = this.utils.deepCopy(this.baseConfiguration);
-    // now meld all the extensions of the base, in order
+    // meld all the extensions of the base, in order
     // NOTE: the extends of every extension have already been resolved at load time
     const extensionNames = this.baseConfiguration.extends ?? [];
-    return extensionNames
+    let extension =  extensionNames
       .map(extensionName => this.extensions.snapshot[extensionName])
       .filter(extension => !!extension)
       .reduce((acc, extension) => {
@@ -303,7 +299,11 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
             acc = meldConfigurations(acc, override);
         }
         return acc;
-      }, base);
+      }, { });
+    // if calculating for an override, the last extension is the base itself
+    if ((ix != null) && !this.isOverrideInherited(ix))
+      extension = meldConfigurations(extension, this.utils.deepCopy(this.baseConfiguration));
+    return extension;
   }
 
   @Computed() get extensionSettings(): Record<string, Settings> {
