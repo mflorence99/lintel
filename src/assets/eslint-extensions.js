@@ -1321,6 +1321,18 @@
       "compat/compat": "error"
     }
   },
+  "plugin:import-splitnsort/recommended": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "import-splitnsort"
+    ],
+    "rules": {
+      "import-splitnsort/split-and-sort": "error"
+    }
+  },
   "plugin:jest/recommended": {
     "plugins": [
       "jest"
@@ -1335,16 +1347,16 @@
       "jest/no-export": "error",
       "jest/no-focused-tests": "error",
       "jest/no-identical-title": "error",
+      "jest/no-jasmine-globals": "warn",
       "jest/no-jest-import": "error",
       "jest/no-mocks-import": "error",
-      "jest/no-jasmine-globals": "warn",
       "jest/no-standalone-expect": "error",
       "jest/no-test-callback": "error",
       "jest/no-test-prefixes": "error",
       "jest/no-try-expect": "error",
       "jest/valid-describe": "error",
-      "jest/valid-expect": "error",
-      "jest/valid-expect-in-promise": "error"
+      "jest/valid-expect-in-promise": "error",
+      "jest/valid-expect": "error"
     }
   },
   "plugin:lodash/recommended": {

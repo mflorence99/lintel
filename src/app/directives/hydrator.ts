@@ -58,10 +58,11 @@ export class HydratorDirective implements OnInit {
         const was = hydrateable.isHydrated;
         if (was !== isNow) {
           if (this.hydratorTrace) {
+            const style = color => `background-color: ${color}; color: white; font-weight: bold; padding: 4px`;
             const uuid = hydrateable.lintelHydrated;
             if (isNow)
-              console.log(`%cHydrate %c${uuid}`, 'color: #1b5e20', 'color: grey');
-            else console.log(`%cDehydrate %c${uuid}`, 'color: #b71c1c', 'color: grey');
+              console.log('%cHydrate', style('#1b5e20'), uuid);
+            else console.log('%cDehydrate', style('#b71c1c'), uuid);
           }
           hydrateable.isHydrated = isNow;
         }

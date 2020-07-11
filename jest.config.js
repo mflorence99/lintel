@@ -20,6 +20,9 @@ module.exports = {
   roots: ['<rootDir>/common/', '<rootDir>/ext/', '<rootDir>/src/'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
   testResultsProcessor: 'jest-junit',
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest'
+  },  
   transformIgnorePatterns: ['^.+\\.js$'],
   setupFilesAfterEnv: ['<rootDir>/src/test.ts']
 };

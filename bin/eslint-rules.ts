@@ -7,6 +7,7 @@ const plugins = [
   '@typescript-eslint',
   'compat',
   'eslint',
+  'import-splitnsort',
   'jest',
   'lodash',
   'lodash-fp',

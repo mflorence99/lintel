@@ -7,6 +7,7 @@ const extensions = [
   'eslint-config-eslint',
   'eslint-config-google',
   'plugin:compat/recommended',
+  'plugin:import-splitnsort/recommended',
   'plugin:jest/recommended',
   'plugin:lodash/recommended',
   'plugin:lodash-fp/recommended',

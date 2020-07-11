@@ -1,7 +1,6 @@
 import { Pipe } from '@angular/core';
 import { PipeTransform } from '@angular/core';
 
-
 /**
  * Converts substrings that look like URLs into <a href="...">...</a> sequences.
  *

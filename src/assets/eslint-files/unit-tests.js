@@ -109,6 +109,7 @@ eslintFiles = {
       "extends": [
         "eslint:recommended",
         "plugin:compat/recommended",
+        "plugin:import-splitnsort/recommended",
         "plugin:jest/recommended",
         "plugin:lodash-fp/recommended",
         "plugin:node/recommended",
@@ -147,19 +148,6 @@ eslintFiles = {
         ],
         "sourceType": "module"
       },
-      "plugins": [
-        "compat",
-        "node",
-        "react",
-        "react-hooks",
-        "react-native",
-        "react-redux",
-        "sonarjs",
-        "unicorn",
-        "vue",
-        "@angular-eslint",
-        "@typescript-eslint"
-      ],
       "reportUnusedDisableDirectives": true,
       "rules": {
         "@typescript-eslint/brace-style": 2,
