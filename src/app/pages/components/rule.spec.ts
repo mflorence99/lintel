@@ -1,8 +1,10 @@
 import { RuleComponent } from './rule';
+
+import { prepare } from './component.spec';
+
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { prepare } from './component.spec';
 
 declare const lintelVSCodeAPI;
 

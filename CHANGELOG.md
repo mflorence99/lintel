@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.1.2
+
+* Inherited rules for overrides calculated incorrectly #18
+* Unknown category does not account for rules that actually exist, but for which no plugin is defined or inherited #19
+* When switching to a new file, try to preserve selected plugin #20
+* When category or plugin can't be found, switch to base #21
+
 ## 1.1.1
 
 * Minor performance improvements

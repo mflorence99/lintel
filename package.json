@@ -157,7 +157,7 @@
     "clean:caches": "jest --clearCache",
     "clean:deps": "rm -rf node_modules && rm package-lock.json && npm install",
     "extensions": "ts-node -P tsconfig.bin.json bin/eslint-extensions.ts",
-    "lint": "eslint --fix --ignore-pattern '**/*.spec.ts' 'bin/**/*.ts' 'common/**/*.ts' 'ext/**/*.ts' 'src/app/**/*.ts' && stylelint 'src/**/*.css' 'src/**/*.scss'",
+    "lint": "eslint --fix 'bin/**/*.ts' 'common/**/*.ts' 'ext/**/*.ts' 'src/app/**/*.ts' && stylelint 'src/**/*.css' 'src/**/*.scss'",
     "ng": "ng",
     "package": "npm run build && vsce package",
     "postinstall": "ngcc",
@@ -168,5 +168,5 @@
     "test:only": "jest --coverage=false -- %1",
     "test:watch": "jest --watch"
   },
-  "version": "1.1.1"
+  "version": "1.1.2"
 }

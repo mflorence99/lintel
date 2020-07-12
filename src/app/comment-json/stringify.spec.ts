@@ -1,11 +1,11 @@
-import * as fs from 'fs';
-import * as path from 'path';
-
 import { assign } from './';
 import { isFunction } from './core-util-is';
 import { isString } from './core-util-is';
 import { parse } from './';
 import { stringify } from './';
+
+import * as fs from 'fs';
+import * as path from 'path';
 
 const is = (received, expected): void => expect(received).toEqual(expected);
 

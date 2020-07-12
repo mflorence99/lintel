@@ -11,7 +11,7 @@ export class Params {
   catchAllCategory = 'Other Rules';
   debounceTimeout = 2500;
   generalSettings = 'ESLint Config';
-  maxNumTabs = 8;
+  maxNumTabs = 7;
   searchParams = {
     freshStart: false
   };

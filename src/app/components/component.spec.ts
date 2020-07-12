@@ -1,5 +1,6 @@
 import { BarrelModule } from '../barrel';
 import { ComponentsModule } from './module';
+
 import { TestBed } from '@angular/core/testing';
 
 export function prepare(): void {

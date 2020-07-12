@@ -1,6 +1,7 @@
-import { patch } from '@ngxs/store/operators';
 import { scratch } from './operators';
 import { updateItems } from './operators';
+
+import { patch } from '@ngxs/store/operators';
 
 describe('Custom operators', () => {
 

@@ -10,17 +10,18 @@ import { ExtensionsState } from '../state/extensions';
 import { FilesState } from '../state/files';
 import { FilterState } from '../state/filter';
 import { LintelState } from '../state/lintel';
-import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
-import { NgxsModule } from '@ngxs/store';
 import { Params } from '../services/params';
 import { RulesState } from '../state/rules';
 import { SchemaState } from '../state/schema';
 import { SelectionState } from '../state/selection';
-import { TestBed } from '@angular/core/testing';
 import { Utils } from '../services/utils';
 
 import { states } from './app';
+
+import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
+import { NgxsDataPluginModule } from '@ngxs-labs/data';
+import { NgxsModule } from '@ngxs/store';
+import { TestBed } from '@angular/core/testing';
 
 declare let lintelSearchParams;
 declare let lintelVSCodeAPI;

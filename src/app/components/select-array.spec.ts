@@ -1,9 +1,11 @@
-import { FormArray } from '@angular/forms';
 import { SelectArrayComponent } from './select-array';
+
+import { prepare } from './component.spec';
+
+import { FormArray } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { prepare } from './component.spec';
 
 describe('SelectArrayComponent', () => {
 

@@ -9,21 +9,22 @@ import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from './module';
 import { ComponentsModule as CommonComponents } from '../../components/module';
 import { ConfigsState } from '../../state/configs';
-import { ContextMenuService } from 'ngx-contextmenu';
 import { DirectivesModule } from '../../directives/module';
-import { ElementRef } from '@angular/core';
 import { ExtensionsState } from '../../state/extensions';
 import { FilesState } from '../../state/files';
 import { LintelState } from '../../state/lintel';
-import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
-import { NgxsModule } from '@ngxs/store';
 import { PipesModule } from '../../pipes/module';
 import { RulesState } from '../../state/rules';
 import { SchemaState } from '../../state/schema';
-import { TestBed } from '@angular/core/testing';
 
 import { states } from '../../state/app';
+
+import { ContextMenuService } from 'ngx-contextmenu';
+import { ElementRef } from '@angular/core';
+import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
+import { NgxsDataPluginModule } from '@ngxs-labs/data';
+import { NgxsModule } from '@ngxs/store';
+import { TestBed } from '@angular/core/testing';
 
 declare let lintelVSCodeAPI;
 

@@ -1,9 +1,11 @@
 import { RuleDigest } from '../../state/configs';
 import { RulesComponent } from './rules';
+
+import { prepare } from './component.spec';
+
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { prepare } from './component.spec';
 
 declare const lintelVSCodeAPI;
 

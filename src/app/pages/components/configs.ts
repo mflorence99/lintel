@@ -75,7 +75,7 @@ export class ConfigsComponent {
   selectFileName(event: Event, fileName: string): boolean {
     event.stopPropagation();
     if (fileName !== this.selection.fileName) {
-      this.selection.select({ fileName: fileName, override: null, pluginName: this.params.basePluginName });
+      this.selection.select({ fileName: fileName, override: null });
       return true;
     } else return false;
   }
@@ -125,7 +125,7 @@ export class ConfigsComponent {
           // if the selected category is no longer available, pick one that is
           if ((categories.length > 0)
             && !categories.includes(this.selection.category))
-            this.selection.select({ category: categories[categories.length - 1] });
+            this.selection.select({ category: this.params.activeCategory });
         }
       });
   }

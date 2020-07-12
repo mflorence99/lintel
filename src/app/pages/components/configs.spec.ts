@@ -1,8 +1,10 @@
 import { ConfigsComponent } from './configs';
+
+import { prepare } from './component.spec';
+
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { prepare } from './component.spec';
 
 describe('ConfigsComponent', () => {
 
@@ -42,7 +44,7 @@ describe('ConfigsComponent', () => {
     component.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: component.params.basePluginName, category: 'Best Practices' });
     component.filter.filterRuleName('no-label-var');
     component.utils.nextTick(() => {
-      expect(component.selection.snapshot.category).toBe('Variables');
+      expect(component.selection.snapshot.category).toBe(component.params.activeCategory);
       done();
     });
   });

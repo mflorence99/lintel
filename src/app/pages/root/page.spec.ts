@@ -8,15 +8,17 @@ import '../../../assets/vscode-startup.js';
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule } from '../components/module';
 import { DirectivesModule } from '../../directives/module';
+import { PipesModule } from '../../pipes/module';
+import { RootPageComponent } from './page';
+
+import { states } from '../../state/app';
+
 import { NGXS_DATA_STORAGE_PLUGIN } from '@ngxs-labs/data/storage';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
-import { PipesModule } from '../../pipes/module';
-import { RootPageComponent } from './page';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { states } from '../../state/app';
 
 declare let lintelVSCodeAPI;
 

@@ -1,8 +1,10 @@
 import { InputComponent } from './input';
+
+import { prepare } from './component.spec';
+
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { prepare } from './component.spec';
 
 describe('InputComponent', () => {
 

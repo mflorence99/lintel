@@ -1,8 +1,10 @@
 import { TabsComponent } from './tabs';
+
+import { prepare } from './component.spec';
+
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { prepare } from './component.spec';
 
 describe('TabsComponent', () => {
 
@@ -20,7 +22,7 @@ describe('TabsComponent', () => {
     component.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: 'vue', category: 'Best Practices' });
     component.filter.filterRuleName('tests');
     component.utils.nextTick(() => {
-      expect(component.selection.snapshot.pluginName).toBe('jest');
+      expect(component.selection.snapshot.pluginName).toBe(component.params.basePluginName);
       done();
     });
   });

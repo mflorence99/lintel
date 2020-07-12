@@ -1,9 +1,11 @@
-import { FormArray } from '@angular/forms';
 import { KeyValueComponent } from './key-value';
+
+import { prepare } from './component.spec';
+
+import { FormArray } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 
 import { async } from '@angular/core/testing';
-import { prepare } from './component.spec';
 
 describe('KeyValueComponent', () => {
 

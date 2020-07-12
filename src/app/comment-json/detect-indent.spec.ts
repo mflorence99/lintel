@@ -1,7 +1,7 @@
+import { detectIndent } from './detect-indent';
+
 import * as fs from 'fs';
 import * as path from 'path';
-
-import { detectIndent } from './detect-indent';
 
 const getFile = (file): string => fs.readFileSync(path.join(__dirname, file), 'utf8');
 

@@ -373,11 +373,15 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get pluginNames(): string[] {
-    const uniqueNames = new Set([...this.configuration.plugins ?? [], ...this.extension.plugins ?? []]); 
-    const pluginNames = [this.params.basePluginName, ...Array.from(uniqueNames).sort()];
+    const pluginNames = this.rawPluginNames;
     if (!this.utils.isEmptyObject(this.unknownView))
       pluginNames.push(this.params.unknownPluginName);
     return pluginNames;
+  }
+
+  @Computed() get rawPluginNames(): string[] {
+    const uniqueNames = new Set([...this.configuration.plugins ?? [], ...this.extension.plugins ?? []]);
+    return [this.params.basePluginName, ...Array.from(uniqueNames).sort()];
   }
 
   @Computed() get shortFileNames(): string[] {
@@ -397,7 +401,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         return (parts.length === 2) ? 
           [parts[0], ruleName] : [this.params.basePluginName, ruleName];
       })
-      .filter(([pluginName, ruleName]) => !this.rules.snapshot[pluginName]?.[ruleName])
+      .filter(([pluginName, ruleName]) => !(this.rawPluginNames.includes(pluginName) && this.rules.snapshot[pluginName]?.[ruleName]))
       .reduce((acc, [_, ruleName]) => {
         acc[ruleName] = [null, settings[ruleName]];
         return acc;
