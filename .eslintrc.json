@@ -4,10 +4,7 @@
   ],
   "parserOptions": {
     "project": [
-      "./tsconfig.app.json",
-      "./tsconfig.bin.json",
-      "./tsconfig.ext.json",
-      "./tsconfig.spec.json"
+      "./tsconfig.json"
     ]
   },
   "root": true

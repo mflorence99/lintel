@@ -60,7 +60,7 @@
             "styles": [
               "src/theme.scss"
             ],
-            "tsConfig": "tsconfig.app.json"
+            "tsConfig": "src/tsconfig.json"
           }
         },
         "extract-i18n": {

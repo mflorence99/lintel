@@ -1,8 +1,8 @@
+import { activate } from './lintel';
+
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-
-import { activate } from './lintel';
 
 // @see __mocks__/vscode.js 
 

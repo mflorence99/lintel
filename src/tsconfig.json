@@ -1,0 +1,17 @@
+{
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  },
+  "exclude": [
+    "**/*.spec.ts"
+  ],
+  "extends": "../tsconfig.json",
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "../common/meld-configurations.ts"
+  ]
+}

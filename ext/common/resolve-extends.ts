@@ -1,0 +1,1 @@
+../../common/resolve-extends.ts

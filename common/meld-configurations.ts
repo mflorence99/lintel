@@ -29,7 +29,7 @@ function arraysEqual(p: any[], q: any[]): boolean {
   return p.slice(0).sort().toString() === q.slice(0).sort().toString();
 }
 
-// slow but sure
+// slow but sure and safe
 function deepCopy(obj: any): any {
   return JSON.parse(JSON.stringify(obj));
 }
@@ -76,7 +76,7 @@ export function meldConfigurationsRules(config: any, extension: any): void {
 
 export function normalizeConfiguration(config: any): any {
   // very convenient to ensure that rules exist in std format
-  config.rules = Object.entries(config.rules ?? {})
+  config.rules = Object.entries(config.rules ?? { })
     .reduce((acc, [ruleName, rule]) => {
       let normalized: any = rule;
       if (typeof rule === 'string' || Number.isInteger(rule as any))

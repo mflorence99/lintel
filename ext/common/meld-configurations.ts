@@ -1,0 +1,1 @@
+../../common/meld-configurations.ts

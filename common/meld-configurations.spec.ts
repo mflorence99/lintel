@@ -1,8 +1,9 @@
 import { meldConfigurations } from './meld-configurations';
+import { normalizeConfiguration } from './meld-configurations';
 
 describe('meld-configurations', () => {
 
-  let config, extension;
+  let config, extension, normalized, unnormalized;
 
   beforeEach(() => {
 
@@ -57,10 +58,52 @@ describe('meld-configurations', () => {
       }
     };
 
+    normalized = {
+      extends: [
+        'x'
+      ],
+      globals: {
+        a: 'writable',
+        b: 'readonly',
+        c: 'readonly'
+      },
+      ignorePatterns: [
+        '*.tsx'
+      ],
+      plugins: [
+        'p'
+      ],
+      rules: {
+        p: ['off'],
+        q: ['warn'],
+        r: ['error']
+      }
+    };
+
+    unnormalized = {
+      extends: 'x',
+      globals: {
+        a: true,
+        b: false,
+        c: 'readonly'
+      },
+      ignorePatterns: '*.tsx',
+      plugins: 'p',
+      rules: {
+        p: 0,
+        q: 1,
+        r: 2
+      }
+    };
+
   });
 
   test('smoke test', () => {
     expect(meldConfigurations({ }, { })).toEqual({ });
+  });
+
+  test('configurations can be normalized', () => {
+    expect(normalizeConfiguration(unnormalized)).toEqual(normalized);
   });
 
   test('objects can be melded', () => {
