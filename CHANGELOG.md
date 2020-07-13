@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.3
+
+Based on some well-considered feedback, this release adopts a much more conservative implementation of the 'show inherited rules' feature, as triggered by the 'eye' icon.
+
+When inherited rules are hidden, Lintel will now *only* show those rules that are directly defined in the `.eslintrc` file under analysis. Those rules will be partitioned by plugin (via tabs on top) and by category (via menu items in  the sidebar) just as normal, but *only* those plugins and categories that are being directly used are listed.
+
 ## 1.1.2
 
 * Inherited rules for overrides calculated incorrectly #18

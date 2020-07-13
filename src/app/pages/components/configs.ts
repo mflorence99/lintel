@@ -118,9 +118,9 @@ export class ConfigsComponent {
         if ((this.selection.category !== this.params.generalSettings)
           && (this.selection.category !== this.params.activeCategory)) {
           // categories will be all the available categories in order
+          // NOTE: Active Rules is always available
           const categories = [];
-          if (!this.utils.isEmptyObject(this.configs.activeView))
-            categories.push(this.params.activeCategory);
+          categories.push(this.params.activeCategory);
           categories.push(...this.configs.categories);
           // if the selected category is no longer available, pick one that is
           if ((categories.length > 0)

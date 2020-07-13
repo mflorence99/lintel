@@ -263,6 +263,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     const settings = this.configuration.rules;
     return Object.keys(rules)
       .filter(ruleName => this.isRuleFiltered(ruleName))
+      .filter(ruleName => this.filter.snapshot.showInheritedRules || settings[ruleName])
       .sort()
       .reduce((acc, ruleName) => {
         const category = this.normalizeCategory(rules[ruleName].meta?.docs?.category);
@@ -427,16 +428,17 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   isPluginFiltered(pluginName: string): boolean {
     const filtered = !!this.filter.snapshot.ruleNameFilter;
     const showInherited = this.filter.snapshot.showInheritedRules;
-    if (pluginName === this.params.basePluginName)
+    // NOTE: quick exit
+    if (!filtered && showInherited)
       return true;
-    else if (!showInherited && (this.selection.category === this.params.activeCategory)) {
+      // NOTE: base plugin is always available
+    else if (pluginName === this.params.basePluginName)
+      return true;
+    else {
       return Object.keys(this.rules.snapshot[pluginName] ?? { })
-        .filter(ruleName => this.configuration.rules[ruleName])
+        .filter(ruleName => showInherited || this.configuration.rules[ruleName])
         .some(ruleName => this.isRuleFiltered(ruleName));
-    } else if (filtered) {
-      return Object.keys(this.rules.snapshot[pluginName] ?? { })
-        .some(ruleName => this.isRuleFiltered(ruleName));
-    } else return true;
+    } 
   }
 
   isRuleFiltered(ruleName: string): boolean {
