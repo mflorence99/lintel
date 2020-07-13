@@ -12,13 +12,16 @@ describe('VSCode extension', () => {
 
   let mockContext;
 
-  beforeEach(() => {
+  beforeAll(() => {
+    fs.mkdirSync(path.join(__dirname, '..', 'dist', 'lintel'), { recursive: true });
+    fs.copyFileSync(path.join(__dirname, '..', 'src', 'index.html'), path.join(__dirname, '..', 'dist', 'lintel', 'index.html'));
+  });
 
+  beforeEach(() => {
     mockContext = {
       extensionPath: path.join(__dirname, '..'),
       subscriptions: [],
     };
-
   });
 
   test('Smoke test', () => {
