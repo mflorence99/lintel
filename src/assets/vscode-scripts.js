@@ -28,7 +28,7 @@ lintelVSCodeAPI = {
         break;
 
       case 'clipboardCopy':
-        console.log('%cclipboardCopy:', lintelVSCodeAPI._style('#1b5e20'), message.text);
+        console.log('%cclipboardCopy:', lintelVSCodeAPI._style('#00796b'), message.text);
         break;
 
       case 'deleteOverride':

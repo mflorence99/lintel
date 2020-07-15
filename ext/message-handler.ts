@@ -22,7 +22,6 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
   const extensionsGenerator = (fileName, extensions: string[]): void => {
     extensions
       .forEach(extensionName => {
-        // TODO: we need to consider extensions versioning
         let config = extensionCache[extensionName];
         if (!config) {
           try {
@@ -41,7 +40,6 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
 
   const rulesGenerator = (fileName: string, plugins: string[]): void => {
     plugins.forEach(pluginName => {
-      // TODO: we need to consider rules versioning
       let rules = ruleCache[pluginName];
       if (!rules) {
         try {

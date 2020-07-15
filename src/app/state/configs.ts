@@ -212,7 +212,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       || !this.selection.fileName
       || !this.fileNames.includes(this.selection.fileName)) {
       this.selection.select({ fileName: null, pluginName: this.pluginNames[0], category: this.params.generalSettings, override: null });
-      // TODO: this trick forces us to rebuild when fileName changes
+      // NOTE: this trick forces us to rebuild when fileName changes
       this.utils.nextTick(() => {
         this.selection.select({ fileName: this.fileNames[0] });
         this.filter.filterRuleName(null);
@@ -487,10 +487,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     let normalized = category;
     if (!normalized || (normalized.length === 0))
       normalized = this.params.catchAllCategory;
-    // TODO: toLowerCase() turns out to be too heavy-handed as it reduces
-    // ECMAScript to Ecmascript -- eliminate for now but revisit if we can't
-    // properly correct enough categories
-    return normalized/* .toLowerCase() */
+    return normalized
       .split(' ')
       .map(word => `${word[0].toUpperCase()}${word.slice(1)}`)
       .join(' ');

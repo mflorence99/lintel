@@ -70,7 +70,7 @@ export function prepare(): Bundle {
   bundle.selection = TestBed.inject(SelectionState);
   bundle.utils = TestBed.inject(Utils);
 
-  // TODO: must do files first
+  // NOTE: must do files first
   bundle.files.initialize();
   bundle.configs.initialize();
   bundle.rules.initialize();

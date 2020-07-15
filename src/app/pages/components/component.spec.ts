@@ -59,7 +59,7 @@ export function prepare(): void {
     setState: jest.fn(),
   };
 
-  // TODO: must do files first
+  // NOTE: must do files first
   TestBed.inject(FilesState).initialize();
   TestBed.inject(ConfigsState).initialize();
   TestBed.inject(ExtensionsState).initialize();

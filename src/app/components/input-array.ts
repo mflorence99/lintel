@@ -82,7 +82,6 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
     inputs.patchValue([...this.values, null], { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.values);
-    // TODO: Angular can be so weird!
     this.cdf.detectChanges();
   }
 

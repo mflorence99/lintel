@@ -203,9 +203,6 @@ export class GeneralComponent implements OnInit {
           // TODO: we don't know why { emitEvent: false } doesn't work
         }, { emitEvent: false });
         this.emitEvent = true;
-        // make sure we scroll to the top after rebuilding form
-        // TODO: maybe, maybe not
-        // this.host.nativeElement.scrollTo?.({ top: 0, left: 0, behavior: 'auto' });
       });
   }
 

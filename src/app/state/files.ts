@@ -111,7 +111,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
         this.suffix[fileName] = ';';
         const module: any = { };
         eval(source);
-        return  module.exports;
+        return module.exports;
       }
     }
 

@@ -73,7 +73,6 @@ export class SingleselectorComponent implements ControlValueAccessor {
     if (this.select?.nativeElement && this.select.nativeElement.options.length)
       this.select.nativeElement.selectedIndex = this.getOptionIndex(value);
     this.onChange?.(value);
-    // TODO: Angular can be so weird!
     this.cdf.detectChanges();
   }
 

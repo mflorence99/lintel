@@ -50,7 +50,6 @@ export class CheckboxComponent implements ControlValueAccessor {
   set value(checked: boolean) {
     this.checked = checked;
     this.onChange?.(checked);
-    // TODO: Angular can be so weird!
     this.cdf.detectChanges();
   }
 

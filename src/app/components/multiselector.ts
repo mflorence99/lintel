@@ -114,7 +114,6 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     checkboxes.patchValue(patch, { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.value);
-    // TODO: Angular can be so weird!
     this.cdf.detectChanges();
   }
 

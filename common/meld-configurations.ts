@@ -53,7 +53,7 @@ export function meldConfigurationsPlugins(config: any, extension: any): void {
   config['plugins'] = Array.from(new Set([...config.plugins || [], ...extension.plugins]));
 }
 
-// NOTE: rules can override onky the level, leaving other settings intact
+// NOTE: rules can override only the level, leaving other settings intact
 // @see https://eslint.org/docs/user-guide/configuring
 export function meldConfigurationsRules(config: any, extension: any): void {
   config['rules'] = config.rules || { };

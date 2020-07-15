@@ -147,7 +147,7 @@ export class RulesState extends NgxsDataRepository<RulesStateModel> {
       elements: []
     };
     if (rule?.meta?.schema && !this.notYet(ruleName, rule)) {
-      // TODO: currently ignoring anything with anyOf or oneOf
+      // MOTE: currently ignoring anything with anyOf or oneOf
       // so we don't worry ATM about SchemaWithDiscriminants
       const schema = rule.meta.schema as SchemaWith$refs;
       let schemes = rule.meta.schema as Scheme[];

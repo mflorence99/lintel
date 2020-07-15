@@ -84,7 +84,6 @@ export class RuleComponent implements OnInit {
       const elements = this.ruleForm.controls.root['controls'].elements as FormArray;
       this.controls.forEach(control => elements.push(control));
       this.underConstruction = false;
-      // TODO: Angular can be so weird!
       this.cdf.detectChanges();
     }
   }

@@ -87,7 +87,6 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
     keyValues.patchValue(patch, { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.value);
-    // TODO: Angular can be so weird!
     this.cdf.detectChanges();
   }
 

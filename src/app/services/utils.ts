@@ -9,7 +9,7 @@ export class Utils {
 
   /** Compare two arrays for equality */
   arraysEqual(p: any[], q: any[]): boolean {
-    // TODO: works for overrides.files, but not generally
+    // NOTE: works for overrides.files, but not generally
     return p.slice(0).sort().toString() === q.slice(0).sort().toString();
   }
 
