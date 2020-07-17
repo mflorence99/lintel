@@ -151,7 +151,7 @@
     "url": "https://github.com/mflorence99/lintel.git"
   },
   "scripts": {
-    "build": "rimraf dist && ng --prod build && tsc -p ext/tsconfig.json",
+    "build": "rimraf dist && ng --aot --prod build && tsc -p ext/tsconfig.json",
     "build:ext": "tsc -p ext/tsconfig.json -w",
     "build:src": "ng --watch build",
     "clean:caches": "jest --clearCache",
