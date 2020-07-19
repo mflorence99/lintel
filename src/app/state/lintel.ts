@@ -48,7 +48,7 @@ export class LintelState extends NgxsDataRepository<LintelStateModel> {
     return this.snapshot.message;
   }
 
-  @Computed() get unique(): number {
+  get unique(): number {
     const unique = this.ctx.getState().unique;
     this.ctx.setState(patch({ unique: unique + 1 }));
     return unique;

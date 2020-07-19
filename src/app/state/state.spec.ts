@@ -5,15 +5,15 @@ import '../../assets/eslint-schema.js';
 import '../../assets/vscode-scripts.js';
 import '../../assets/vscode-startup.js';
 
-import { ConfigsState } from '../state/configs';
-import { ExtensionsState } from '../state/extensions';
-import { FilesState } from '../state/files';
-import { FilterState } from '../state/filter';
-import { LintelState } from '../state/lintel';
+import { ConfigsState } from './configs';
+import { ExtensionsState } from './extensions';
+import { FilesState } from './files';
+import { FilterState } from './filter';
+import { LintelState } from './lintel';
 import { Params } from '../services/params';
-import { RulesState } from '../state/rules';
-import { SchemaState } from '../state/schema';
-import { SelectionState } from '../state/selection';
+import { RulesState } from './rules';
+import { SchemaState } from './schema';
+import { SelectionState } from './selection';
 import { Utils } from '../services/utils';
 
 import { states } from './app';
