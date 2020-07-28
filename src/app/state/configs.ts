@@ -106,7 +106,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   addOverride(): void {
     const fileName = this.selection.fileName;
     const override: Configuration = {
-      files: [`*.temp.${this.lintel.unique}`],
+      files: [`*.temp.${this.lintel.unique()}`],
       rules : { }
     };
     this.ctx.setState(patch({ [fileName]: patch({ overrides: append([override]) }) }));

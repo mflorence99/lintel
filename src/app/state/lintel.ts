@@ -38,6 +38,12 @@ export class LintelState extends NgxsDataRepository<LintelStateModel> {
     this.ctx.setState(patch({ enabled, message }));
   }
 
+  @DataAction({ insideZone: true })
+  updateUnique(): void {
+    const unique = this.ctx.getState().unique;
+    this.ctx.setState(patch({ unique: unique + 1 }));
+  }
+
   // accessors
 
   @Computed() get isEnabled(): boolean {
@@ -48,10 +54,11 @@ export class LintelState extends NgxsDataRepository<LintelStateModel> {
     return this.snapshot.message;
   }
 
-  get unique(): number {
-    const unique = this.ctx.getState().unique;
-    this.ctx.setState(patch({ unique: unique + 1 }));
-    return unique;
+  /* eslint-disable @typescript-eslint/member-ordering */
+
+  unique(): number {
+    this.updateUnique();
+    return this.snapshot.unique;
   }
 
 }
