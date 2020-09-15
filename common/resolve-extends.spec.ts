@@ -2,6 +2,8 @@ import { normalizeExtensionName } from './resolve-extends';
 import { requireExtension } from './resolve-extends';
 import { resolveExtension } from './resolve-extends';
 
+import 'jest-extended';
+
 describe('resolve-extends', () => {
   test('Extension names are normalized', () => {
     expect(normalizeExtensionName('/this/that.js')).toEqual({
@@ -51,7 +53,7 @@ describe('resolve-extends', () => {
     expect(result.extension).toBeTruthy();
     expect(
       result.modulePath.endsWith('node_modules/eslint-plugin-jest/lib/index.js')
-    ).toBe(true);
+    ).toBeTrue();
     result = requireExtension('google', __filename);
     expect(result.extension.rules).toBeTruthy();
     result = requireExtension('eslint', __filename);

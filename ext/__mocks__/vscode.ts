@@ -1,14 +1,18 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+import { commandHandler } from './helpers';
+import { messageHandler } from './helpers';
+
 // @see https://www.richardkotze.com/coding/unit-test-mock-vs-code-extension-api-jest
 
 const path = require('path');
 
 let webviewContentResolver;
-const webviewContent = new Promise((resolve, reject) => {
+const webviewContent = new Promise<string>((resolve, _) => {
   webviewContentResolver = resolve;
 });
 
 const commands = {
-  registerCommand: jest.fn()
+  registerCommand: jest.fn(commandHandler)
 };
 
 const env = {
@@ -20,13 +24,14 @@ const env = {
 };
 
 const panel = {
+  dispose: (): void => panel.onDidDispose.mock.calls[0][0](),
   onDidDispose: jest.fn(),
   reveal: jest.fn(),
   webview: {
     asWebviewUri: jest.fn((path) => path),
-    onDidReceiveMessage: jest.fn(),
+    onDidReceiveMessage: jest.fn(messageHandler),
     postMessage: jest.fn(),
-    get html() {
+    get html(): Promise<string> {
       return webviewContent;
     },
     set html(html) {
@@ -61,7 +66,7 @@ const watcher = {
   onDidDelete: jest.fn()
 };
 
-const window = {
+const _window = {
   activeTextEditor: undefined,
   createWebviewPanel: jest.fn(() => panel),
   showErrorMessage: jest.fn(),
@@ -73,7 +78,7 @@ const workspace = {
   createFileSystemWatcher: jest.fn(() => watcher),
   findFiles: jest.fn(
     () =>
-      new Promise((resolve, reject) => {
+      new Promise((resolve, _) => {
         resolve([{ fsPath: path.join(projectPath, '.eslintrc.json') }]);
       })
   ),
@@ -96,7 +101,7 @@ const vscode = {
   RelativePattern,
   Uri,
   ViewColumn,
-  window,
+  window: _window,
   workspace
 };
 

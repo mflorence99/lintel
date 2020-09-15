@@ -13,5 +13,5 @@
     "sourceMap": true,
     "target": "es2015"
   },
-  "include": ["**/*.spec.ts"]
+  "include": ["**/*.spec.ts", "**/__mocks__/*.ts"]
 }

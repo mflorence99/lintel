@@ -53,9 +53,9 @@ export function requireExtension(
   let extension;
   // TODO: eslint:all gives:
   // Uncaught TypeError: Cannot read property 'deprecated' of undefined
-  if (extensionName === 'eslint:all')
-    extension = require('eslint/conf/eslint-all');
-  else if (extensionName === 'eslint:recommended')
+  // if (extensionName === 'eslint:all')
+  //   extension = require('eslint/conf/eslint-all');
+  if (extensionName === 'eslint:recommended')
     extension = require('eslint/conf/eslint-recommended');
   else if (extensionName.startsWith('/'))
     extension = requireExtensionFromFile(extensionName);
@@ -85,7 +85,7 @@ export function resolveExtension(
   modulePath: string
 ): any {
   const outer = requireExtension(extensionName, modulePath);
-  const resolver = ({ extension, modulePath }) => {
+  const resolver = ({ extension, modulePath }): any => {
     if (extension?.extends) {
       if (!Array.isArray(extension.extends))
         extension.extends = [extension.extends];

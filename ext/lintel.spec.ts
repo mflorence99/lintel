@@ -1,4 +1,8 @@
 import { activate } from './lintel';
+import { handleCommand } from './__mocks__/helpers';
+import { handleMessage } from './__mocks__/helpers';
+
+import 'jest-extended';
 
 import * as fs from 'fs';
 import * as path from 'path';
@@ -30,56 +34,64 @@ describe('VSCode extension', () => {
 
   test('Smoke test', () => {
     activate(mockContext);
-    expect(vscode.commands.registerCommand).toHaveBeenCalled();
-    const command = (vscode.commands.registerCommand as any).mock.calls[0][0];
-    expect(command).toBe('lintel.start');
+    expect(vscode.commands.registerCommand).toHaveBeenCalledWith(
+      'lintel.start',
+      expect.any(Function)
+    );
   });
 
   test('Correct HTML is produced at launch', (done) => {
     activate(mockContext);
-    const activator = (vscode.commands.registerCommand as any).mock.calls[0][1];
     const panel = vscode.window.createWebviewPanel(
       'lintel',
       'Lintel',
       undefined
     );
+    // when the test is started
     (panel.webview.html as any).then((html: string) => {
       const filePath = path.join(mockContext.extensionPath, '.eslintrc.json');
-      expect(html.includes(`<script>eslintFiles = { "${filePath}":`)).toBe(
-        true
-      );
-      expect(html.includes('lintelVSCodeAPI = acquireVsCodeApi()')).toBe(true);
+      expect(
+        html.includes(`<script>eslintFiles = { "${filePath}":`)
+      ).toBeTrue();
+      expect(html.includes('lintelVSCodeAPI = acquireVsCodeApi()')).toBeTrue();
       done();
     });
-    activator();
+    // start the test
+    handleCommand('lintel.start')();
   });
 
   test('Extension reacts to messages from webview', (done) => {
     activate(mockContext);
-    const activator = (vscode.commands.registerCommand as any).mock.calls[0][1];
     const panel = vscode.window.createWebviewPanel(
       'lintel',
       'Lintel',
       undefined
     );
+    // when the test is started
     (panel.webview.html as any).then((_: string) => {
-      let calls, message;
-      const post = (panel.webview.onDidReceiveMessage as any).mock.calls[0][0];
+      handleMessage({ command: 'bootFail' });
+      expect(vscode.window.showErrorMessage).toHaveBeenCalledWith(
+        'Lintel could not start. Please try again.'
+      );
 
-      post({ command: 'bootFail' });
-      expect(vscode.window.showErrorMessage).toHaveBeenCalled();
+      handleMessage({ command: 'clipboardCopy', text: 'xxx' });
+      expect(vscode.env.clipboard.writeText).toHaveBeenCalledWith('xxx');
 
-      post({ command: 'clipboardCopy', text: 'xxx' });
-      expect(vscode.env.clipboard.writeText).toHaveBeenCalled();
+      handleMessage({ command: 'deleteOverride', text: 'xxx', override: 99 });
+      expect(vscode.window.showWarningMessage).toHaveBeenCalledWith(
+        'xxx',
+        { modal: true },
+        'OK'
+      );
 
-      post({ command: 'deleteOverride', text: 'xxx', override: 99 });
-      expect(vscode.window.showWarningMessage).toHaveBeenCalled();
-
-      post({ command: 'editFile', fileName: 'xxx' });
-      expect(vscode.window.showTextDocument).toHaveBeenCalled();
+      handleMessage({ command: 'editFile', fileName: 'xxx' });
+      expect(vscode.window.showTextDocument).toHaveBeenCalledWith(
+        vscode.Uri.parse('xxx'),
+        expect.any(Object)
+      );
 
       // NOTE: must be a real file in this case
-      post({
+      handleMessage({
         command: 'getExtensions',
         fileName: path.join(mockContext.extensionPath, '.eslintrc.json'),
         extensions: [
@@ -88,39 +100,53 @@ describe('VSCode extension', () => {
           'plugin:@angular-eslint/recommended'
         ]
       });
-      calls = (panel.webview.postMessage as any).mock.calls;
-      // NOTE: will be called twice
-      expect(calls.length).toBeGreaterThanOrEqual(2);
-      message = calls[calls.length - 3][0];
-      expect(message.command).toEqual('extensions');
-      expect(message.extensions['plugin:jest/recommended']).toBeTruthy();
-      message = calls[calls.length - 2][0];
-      expect(message.extensions['plugin:vue/recommended']).toBeTruthy();
-      message = calls[calls.length - 1][0];
-      expect(
-        message.extensions['plugin:@angular-eslint/recommended']
-      ).toBeTruthy();
+      expect(panel.webview.postMessage).toHaveBeenNthCalledWith(1, {
+        command: 'extensions',
+        extensions: expect.objectContaining({
+          'plugin:jest/recommended': expect.any(Object)
+        })
+      });
+      expect(panel.webview.postMessage).toHaveBeenNthCalledWith(2, {
+        command: 'extensions',
+        extensions: expect.objectContaining({
+          'plugin:vue/recommended': expect.any(Object)
+        })
+      });
+      expect(panel.webview.postMessage).toHaveBeenNthCalledWith(3, {
+        command: 'extensions',
+        extensions: expect.objectContaining({
+          'plugin:@angular-eslint/recommended': expect.any(Object)
+        })
+      });
 
       // NOTE: must be a real file in this case
-      post({
+      handleMessage({
         command: 'getRules',
         fileName: path.join(mockContext.extensionPath, '.eslintrc.json'),
         plugins: ['jest']
       });
-      expect(panel.webview.postMessage).toHaveBeenCalled();
-      calls = (panel.webview.postMessage as any).mock.calls;
-      expect(calls.length).toBeGreaterThanOrEqual(1);
-      message = calls[calls.length - 1][0];
-      expect(message.command).toEqual('rules');
-      expect(message.rules['jest']).toBeTruthy();
+      expect(panel.webview.postMessage).toHaveBeenCalledWith({
+        command: 'rules',
+        rules: expect.objectContaining({
+          jest: expect.any(Object)
+        })
+      });
 
-      post({ command: 'openFile', url: 'xxx' });
-      expect(vscode.env.openExternal).toHaveBeenCalled();
+      handleMessage({ command: 'openFile', url: 'xxx' });
+      expect(vscode.env.openExternal).toHaveBeenCalledWith(
+        vscode.Uri.parse('xxx')
+      );
 
-      post({ command: 'parseFail', fileName: 'xxx' });
-      expect(vscode.window.showErrorMessage).toHaveBeenCalled();
+      handleMessage({ command: 'parseFail', fileName: 'xxx' });
+      expect(vscode.window.showErrorMessage).toHaveBeenCalledWith(
+        'Lintel could not parse xxx'
+      );
 
-      post({ command: 'saveFile', fileName: '.eslintrc.xxx', source: '{ }' });
+      handleMessage({
+        command: 'saveFile',
+        fileName: '.eslintrc.xxx',
+        source: '{ }'
+      });
       const contents = fs.readFileSync(
         path.join(mockContext.extensionPath, '.eslintrc.xxx'),
         { encoding: 'utf8' }
@@ -129,7 +155,9 @@ describe('VSCode extension', () => {
 
       done();
     });
-    activator();
+
+    // start the test
+    handleCommand('lintel.start')();
   });
 
   test('Extension can be disposed', (done) => {
@@ -141,8 +169,8 @@ describe('VSCode extension', () => {
     );
     const watcher = vscode.workspace.createFileSystemWatcher(undefined);
     (panel.webview.html as any).then((_: string) => {
-      const dispose = (panel.onDidDispose as any).mock.calls[0][0];
-      dispose();
+      // const dispose = (panel.onDidDispose as any).mock.calls[0][0];
+      panel.dispose();
       expect(watcher.dispose).toHaveBeenCalled();
       done();
     });

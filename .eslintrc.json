@@ -1,7 +1,12 @@
 {
   "extends": ["eslint-config-mflorence99", "eslint-config-prettier"],
   "parserOptions": {
-    "project": ["./tsconfig.json"]
+    "project": [
+      "./tsconfig.spec.json",
+      "./bin/tsconfig.json",
+      "./ext/tsconfig.json",
+      "./src/tsconfig.json"
+    ]
   },
   "root": true
 }

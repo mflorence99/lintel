@@ -1,6 +1,8 @@
 import { meldConfigurations } from './meld-configurations';
 import { normalizeConfiguration } from './meld-configurations';
 
+import 'jest-extended';
+
 describe('meld-configurations', () => {
   let config, extension, normalized, unnormalized;
 
