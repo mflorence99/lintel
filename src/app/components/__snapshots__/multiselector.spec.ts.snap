@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultiselectorComponent snapshot 1`] = `
+<lintel-multiselector
+  __ngContext__={[Function LRootView]}
+  _options={[Function Array]}
+  cdf={[Function ViewRef]}
+  columnWidth={[Function String]}
+  controls={[Function Array]}
+  destroy$={[Function DestroyService]}
+  enabled={[Function Boolean]}
+  formBuilder={[Function FormBuilder]}
+  multiSelectorForm={[Function FormGroup]}
+  nameOfDecoded={[Function String]}
+  nameOfDescription={[Function String]}
+  nameOfEncoded={[Function String]}
+  origOptions={[Function Array]}
+  underConstruction="false"
+  values={[Function Set]}
+>
+  <p
+    class="checkboxes"
+    style="grid-template-columns: repeat(auto-fit, 10rem);"
+  >
+    <lintel-checkbox
+      class="ng-untouched ng-pristine ng-valid"
+      title=""
+    >
+      <button
+        class="checkbox"
+        tabindex="0"
+      >
+        <fa-icon
+          class="ng-fa-icon"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-check fa-w-16"
+            data-icon="check"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"
+              fill="currentColor"
+            />
+          </svg>
+        </fa-icon>
+      </button>
+      <label
+        class="label"
+      >
+         London
+  
+      </label>
+    </lintel-checkbox>
+    <lintel-checkbox
+      class="ng-untouched ng-pristine ng-valid"
+      title="City of Light"
+    >
+      <button
+        class="checkbox"
+        tabindex="0"
+      >
+        <fa-icon
+          class="ng-fa-icon"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-check fa-w-16"
+            data-icon="check"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"
+              fill="currentColor"
+            />
+          </svg>
+        </fa-icon>
+      </button>
+      <label
+        class="label"
+      >
+         Paris
+  
+      </label>
+    </lintel-checkbox>
+    <lintel-checkbox
+      class="ng-untouched ng-pristine ng-valid"
+      title=""
+    >
+      <button
+        class="checkbox"
+        tabindex="0"
+      >
+        <fa-icon
+          class="ng-fa-icon"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-check fa-w-16"
+            data-icon="check"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"
+              fill="currentColor"
+            />
+          </svg>
+        </fa-icon>
+      </button>
+      <label
+        class="label"
+      >
+         Rome
+  
+      </label>
+    </lintel-checkbox>
+    
+  </p>
+</lintel-multiselector>
+`;

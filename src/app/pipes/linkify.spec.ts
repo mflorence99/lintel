@@ -1,5 +1,7 @@
 import { LinkifyPipe } from './linkify';
 
+import 'jest-extended';
+
 const before = `Blah blah
 https://www.google.com blah blah
 www.google.com/error blah blah
@@ -13,7 +15,7 @@ const after = `Blah blah
 describe('LinkifyPipe', () => {
   test('null returns default', () => {
     const linkify = new LinkifyPipe();
-    expect(linkify.transform(null, 'default')).toEqual('default');
+    expect(linkify.transform(null, 'default')).toBe('default');
   });
 
   test('links are not transformed again', () => {

@@ -2,18 +2,20 @@ import { Params } from './params';
 
 import { prepare } from './service.spec';
 
-describe('Params', () => {
-  let services;
+import 'jest-extended';
 
-  beforeEach(() => (services = prepare([Params])));
+import { TestBed } from '@angular/core/testing';
+
+describe('Params', () => {
+  beforeEach(() => prepare());
 
   test('Params are set as expected', () => {
-    const params: Params = services[0];
+    const params: Params = TestBed.inject(Params);
     expect(params.basePluginName).toEqual('eslint');
   });
 
   test('searchParams are initialized correctly', () => {
-    const params: Params = services[0];
+    const params: Params = TestBed.inject(Params);
     expect(params.searchParams['freshStart']).toBe(true);
   });
 });

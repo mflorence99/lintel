@@ -1,9 +1,17 @@
 import { HydratorDirective } from './hydrator';
 
+import 'jest-extended';
+
 describe('HydratorDirective', () => {
+  let hydrator: HydratorDirective;
+  let logger: any;
   let mockElementRef: any;
   let mockEntry: any;
   let mockHydrated: any;
+
+  afterEach(() => {
+    console.log = logger;
+  });
 
   beforeEach(() => {
     mockElementRef = {
@@ -20,6 +28,13 @@ describe('HydratorDirective', () => {
       isHydrated: true,
       lintelHydrated: 'xxx'
     };
+
+    hydrator = new HydratorDirective(mockElementRef);
+
+    // NOTE: we want to trigger logging for the coverage report
+    // but we don't want to see the actual log lines rhemselves
+    logger = console.log;
+    console.log = jest.fn();
 
     // link hydrated as in real directive
     document.body.setAttribute('lintelHydrated', 'xxx');
@@ -38,12 +53,10 @@ describe('HydratorDirective', () => {
   });
 
   test('Directive is created', () => {
-    const hydrator = new HydratorDirective(mockElementRef);
     expect(hydrator).toBeTruthy();
   });
 
   test('ngOnInit', () => {
-    const hydrator = new HydratorDirective(mockElementRef);
     hydrator.hydratorMargin = '1rem';
     hydrator.ngOnInit();
     expect(hydrator['observer'].root).toBe(document.body);
@@ -51,7 +64,6 @@ describe('HydratorDirective', () => {
   });
 
   test('registerHydrateable', () => {
-    const hydrator = new HydratorDirective(mockElementRef);
     hydrator.ngOnInit();
     hydrator.registerHydrateable(mockHydrated);
     expect(hydrator['hydrateables']['xxx']).toEqual(mockHydrated);
@@ -60,7 +72,6 @@ describe('HydratorDirective', () => {
   });
 
   test('unregisterHydrateable', () => {
-    const hydrator = new HydratorDirective(mockElementRef);
     hydrator.ngOnInit();
     hydrator.registerHydrateable(mockHydrated);
     expect(hydrator['hydrateables']['xxx']).toEqual(mockHydrated);
@@ -71,14 +82,13 @@ describe('HydratorDirective', () => {
   });
 
   test('callback', () => {
-    const hydrator = new HydratorDirective(mockElementRef);
     hydrator.hydratorTrace = true;
     hydrator.ngOnInit();
     hydrator.registerHydrateable(mockHydrated);
     expect(hydrator['hydrateables']['xxx']).toBe(mockHydrated);
-    expect(mockHydrated.isHydrated).toBe(true);
-    expect(mockEntry.isIntersecting).toBe(false);
+    expect(mockHydrated.isHydrated).toBeTrue();
+    expect(mockEntry.isIntersecting).toBeFalse();
     hydrator['callback']([mockEntry], null);
-    expect(mockHydrated.isHydrated).toBe(false);
+    expect(mockHydrated.isHydrated).toBeFalse();
   });
 });

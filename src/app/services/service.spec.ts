@@ -1,23 +1,21 @@
 import '../../assets/vscode-scripts.js';
 import '../../assets/vscode-startup.js';
 
-import { TestBed } from '@angular/core/testing';
-
 declare let lintelSearchParams;
 declare let lintelVSCodeAPI;
 
-export function prepare(services: any[]): any[] {
+export function prepare(): void {
   let state: any;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   lintelSearchParams = '?freshStart=true';
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   lintelVSCodeAPI = {
     getState: jest.fn(() => state),
     postMessage: jest.fn((message) => message),
     setState: jest.fn((st) => (state = st))
   };
-
-  return services.map((service) => TestBed.inject(service));
 }
 
 describe('Service tests helpers', () => {

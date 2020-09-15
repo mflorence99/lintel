@@ -1,5 +1,7 @@
 import { DestroyService } from './destroy';
 
+import 'jest-extended';
+
 import { from } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

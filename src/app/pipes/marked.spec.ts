@@ -1,5 +1,7 @@
 import { MarkedPipe } from './marked';
 
+import 'jest-extended';
+
 const before = 'Blah blah [Google](https://www.google.com) blah blah';
 
 const after =
@@ -8,7 +10,7 @@ const after =
 describe('MarkedPipe', () => {
   test('null returns default', () => {
     const linkify = new MarkedPipe();
-    expect(linkify.transform(null, 'default')).toEqual('default');
+    expect(linkify.transform(null, 'default')).toBe('default');
   });
 
   test('links are transformed', () => {

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SingleselectorComponent snapshot 1`] = `
+<lintel-singleselector
+  __ngContext__={[Function LRootView]}
+  _options={[Function Array]}
+  cdf={[Function ViewRef]}
+  enabled={[Function Boolean]}
+  nameOfDecoded={[Function String]}
+  nameOfEncoded={[Function String]}
+  origOptions={[Function Array]}
+  placeholder={[Function String]}
+  select={[Function ElementRef]}
+>
+  <select
+    autocomplete="off"
+    tabindex="0"
+  >
+    <option
+      value="null"
+    >
+      xxx
+    </option>
+    
+    <option
+      value="l"
+    >
+       London 
+    </option>
+    <option
+      value="p"
+    >
+       Paris 
+    </option>
+    <option
+      value="r"
+    >
+       Rome 
+    </option>
+    
+  </select>
+</lintel-singleselector>
+`;

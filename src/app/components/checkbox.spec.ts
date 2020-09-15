@@ -2,57 +2,56 @@ import { CheckboxComponent } from './checkbox';
 
 import { prepare } from './component.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('CheckboxComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: CheckboxComponent;
+  let fixture: ComponentFixture<CheckboxComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(CheckboxComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(CheckboxComponent);
+    component = fixture.componentInstance;
   });
 
   test('registerOnChange', () => {
-    const fixture = TestBed.createComponent(CheckboxComponent);
-    const component = fixture.componentInstance;
     component.registerOnChange(jest.fn());
     expect(component['onChange']).toBeTruthy();
   });
 
   test('registerOnTouched', () => {
-    const fixture = TestBed.createComponent(CheckboxComponent);
-    const component = fixture.componentInstance;
     expect(component.registerOnTouched(null)).toBeFalsy();
   });
 
   test('toggleChecked', () => {
-    const fixture = TestBed.createComponent(CheckboxComponent);
-    const component = fixture.componentInstance;
     expect(component.value).toBeFalsy();
     component.toggleChecked();
-    expect(component.value).toBe(true);
+    expect(component.value).toBeTrue();
     component.enabled = false;
     component.toggleChecked();
-    expect(component.value).toBe(true);
+    expect(component.value).toBeTrue();
   });
 
   test('writeValue', () => {
-    const fixture = TestBed.createComponent(CheckboxComponent);
-    const component = fixture.componentInstance;
     expect(component.value).toBeFalsy();
     component.writeValue(true);
-    expect(component.value).toBe(true);
+    expect(component.value).toBeTrue();
   });
 
   test('set value', () => {
-    const fixture = TestBed.createComponent(CheckboxComponent);
-    const component = fixture.componentInstance;
     expect(component.value).toBeFalsy();
-    component.registerOnChange((value) => expect(value).toBe(true));
+    component.registerOnChange((value) => expect(value).toBeTrue());
     component.value = true;
-    expect(component.value).toBe(true);
+    expect(component.value).toBeTrue();
+  });
+
+  test('snapshot', () => {
+    component.label = 'A message';
+    component.value = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });

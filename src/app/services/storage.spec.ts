@@ -2,20 +2,22 @@ import { StorageService } from './storage';
 
 import { prepare } from './service.spec';
 
-describe('StorageService', () => {
-  let services;
+import 'jest-extended';
 
-  beforeEach(() => (services = prepare([StorageService])));
+import { TestBed } from '@angular/core/testing';
+
+describe('StorageService', () => {
+  beforeEach(() => prepare());
 
   test('setItem/getItem', () => {
-    const storage: StorageService = services[0];
+    const storage: StorageService = TestBed.inject(StorageService);
     expect(storage.getItem('x')).toBeUndefined();
     storage.setItem('x', 'y');
     expect(storage.getItem('x')).toBe('y');
   });
 
   test('removeItem', () => {
-    const storage: StorageService = services[0];
+    const storage: StorageService = TestBed.inject(StorageService);
     storage.removeItem('x');
     storage.setItem('x', 'y');
     expect(storage.getItem('x')).toBe('y');
@@ -24,7 +26,7 @@ describe('StorageService', () => {
   });
 
   test('clear', () => {
-    const storage: StorageService = services[0];
+    const storage: StorageService = TestBed.inject(StorageService);
     storage.setItem('x', 'y');
     expect(storage.getItem('x')).toBe('y');
     storage.clear();
@@ -32,7 +34,7 @@ describe('StorageService', () => {
   });
 
   test('key', () => {
-    const storage: StorageService = services[0];
+    const storage: StorageService = TestBed.inject(StorageService);
     expect(storage.key(0)).toBeUndefined();
     storage.setItem('a', 'b');
     storage.setItem('x', 'y');

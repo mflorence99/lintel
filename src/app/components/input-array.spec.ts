@@ -2,36 +2,32 @@ import { InputArrayComponent } from './input-array';
 
 import { prepare } from './component.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { FormArray } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('InputArrayComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: InputArrayComponent;
+  let fixture: ComponentFixture<InputArrayComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(InputArrayComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(InputArrayComponent);
+    component = fixture.componentInstance;
   });
 
   test('registerOnChange', () => {
-    const fixture = TestBed.createComponent(InputArrayComponent);
-    const component = fixture.componentInstance;
     component.registerOnChange(jest.fn());
     expect(component['onChange']).toBeTruthy();
   });
 
   test('registerOnTouched', () => {
-    const fixture = TestBed.createComponent(InputArrayComponent);
-    const component = fixture.componentInstance;
     expect(component.registerOnTouched(null)).toBeFalsy();
   });
 
   test('writeValue of number', () => {
-    const fixture = TestBed.createComponent(InputArrayComponent);
-    const component = fixture.componentInstance;
     component.type = 'number';
     expect(component.value).toEqual([]);
     component.writeValue([1, 2, 3]);
@@ -39,8 +35,6 @@ describe('InputArrayComponent', () => {
   });
 
   test('writeValue of string', () => {
-    const fixture = TestBed.createComponent(InputArrayComponent);
-    const component = fixture.componentInstance;
     component.type = 'text';
     expect(component.value).toEqual([]);
     component.writeValue(['London', 'Paris', 'Rome']);
@@ -48,36 +42,30 @@ describe('InputArrayComponent', () => {
   });
 
   test('addInput', () => {
-    const fixture = TestBed.createComponent(InputArrayComponent);
-    const component = fixture.componentInstance;
     component.type = 'text';
     component.value = ['London', 'Paris', 'Rome'];
-    expect(
-      (component.inputArrayForm.controls.inputs as FormArray).length
-    ).toEqual(4);
+    expect((component.inputArrayForm.controls.inputs as FormArray).length).toBe(
+      4
+    );
     component.addInput();
-    expect(
-      (component.inputArrayForm.controls.inputs as FormArray).length
-    ).toEqual(5);
+    expect((component.inputArrayForm.controls.inputs as FormArray).length).toBe(
+      5
+    );
   });
 
   test('removeInput', () => {
-    const fixture = TestBed.createComponent(InputArrayComponent);
-    const component = fixture.componentInstance;
     component.type = 'number';
     component.value = [1, 2, 3];
-    expect(
-      (component.inputArrayForm.controls.inputs as FormArray).length
-    ).toEqual(4);
+    expect((component.inputArrayForm.controls.inputs as FormArray).length).toBe(
+      4
+    );
     component.removeInput(1);
-    expect(
-      (component.inputArrayForm.controls.inputs as FormArray).length
-    ).toEqual(3);
+    expect((component.inputArrayForm.controls.inputs as FormArray).length).toBe(
+      3
+    );
   });
 
   test('ngOnInit', (done) => {
-    const fixture = TestBed.createComponent(InputArrayComponent);
-    const component = fixture.componentInstance;
     component.type = 'text';
     component.uniqueItems = true;
     component.value = ['London', 'Paris', 'Paris', 'Rome'];
@@ -88,5 +76,13 @@ describe('InputArrayComponent', () => {
     component.ngOnInit();
     // NOTE: trips valueChanges
     component.inputArrayForm.updateValueAndValidity({ emitEvent: true });
+  });
+
+  test('snapshot', () => {
+    component.type = 'text';
+    component.uniqueItems = true;
+    component.value = ['London', 'Paris', 'Paris', 'Rome'];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });

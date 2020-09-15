@@ -2,36 +2,32 @@ import { KeyValueComponent } from './key-value';
 
 import { prepare } from './component.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { FormArray } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('KeyValueComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: KeyValueComponent;
+  let fixture: ComponentFixture<KeyValueComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(KeyValueComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(KeyValueComponent);
+    component = fixture.componentInstance;
   });
 
   test('registerOnChange', () => {
-    const fixture = TestBed.createComponent(KeyValueComponent);
-    const component = fixture.componentInstance;
     component.registerOnChange(jest.fn());
     expect(component['onChange']).toBeTruthy();
   });
 
   test('registerOnTouched', () => {
-    const fixture = TestBed.createComponent(KeyValueComponent);
-    const component = fixture.componentInstance;
     expect(component.registerOnTouched(null)).toBeFalsy();
   });
 
   test('writeValue', () => {
-    const fixture = TestBed.createComponent(KeyValueComponent);
-    const component = fixture.componentInstance;
     expect(component.value).toEqual({});
     const value = { a: 1, b: 2, c: '3' };
     component.writeValue(value);
@@ -39,34 +35,28 @@ describe('KeyValueComponent', () => {
   });
 
   test('addKeyValue', () => {
-    const fixture = TestBed.createComponent(KeyValueComponent);
-    const component = fixture.componentInstance;
     component.value = { a: 1, b: 2, c: '3' };
     expect(
       (component.keyValueForm.controls.keyValues as FormArray).length
-    ).toEqual(4);
+    ).toBe(4);
     component.addKeyValue();
     expect(
       (component.keyValueForm.controls.keyValues as FormArray).length
-    ).toEqual(5);
+    ).toBe(5);
   });
 
   test('removeKeyValue', () => {
-    const fixture = TestBed.createComponent(KeyValueComponent);
-    const component = fixture.componentInstance;
     component.value = { a: 1, b: 2, c: '3' };
     expect(
       (component.keyValueForm.controls.keyValues as FormArray).length
-    ).toEqual(4);
+    ).toBe(4);
     component.removeKeyValue(1);
     expect(
       (component.keyValueForm.controls.keyValues as FormArray).length
-    ).toEqual(3);
+    ).toBe(3);
   });
 
   test('ngOnInit for numbers', (done) => {
-    const fixture = TestBed.createComponent(KeyValueComponent);
-    const component = fixture.componentInstance;
     component.type = 'number';
     component.value = { a: 1, b: 2, c: '3' };
     component.registerOnChange((value) => {
@@ -79,8 +69,6 @@ describe('KeyValueComponent', () => {
   });
 
   test('ngOnInit for text', (done) => {
-    const fixture = TestBed.createComponent(KeyValueComponent);
-    const component = fixture.componentInstance;
     component.type = 'text';
     component.value = { a: 'true', b: 'false', c: '3' };
     component.registerOnChange((value) => {
@@ -90,5 +78,12 @@ describe('KeyValueComponent', () => {
     component.ngOnInit();
     // NOTE: trips valueChanges
     component.keyValueForm.updateValueAndValidity({ emitEvent: true });
+  });
+
+  test('snapshot', () => {
+    component.type = 'text';
+    component.value = { a: 'true', b: 'false', c: '3' };
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });

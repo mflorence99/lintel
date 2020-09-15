@@ -1,6 +1,9 @@
 import { HydratedDirective } from './hydrated';
 
+import 'jest-extended';
+
 describe('HydratedDirective', () => {
+  let hydrated: HydratedDirective;
   let mockElementRef: any;
   let mockHydrator: any;
 
@@ -8,36 +11,32 @@ describe('HydratedDirective', () => {
     mockElementRef = {
       nativeElement: document.body
     };
-
     mockHydrator = {
       registerHydrateable: jest.fn(),
       unregisterHydrateable: jest.fn()
     };
+    hydrated = new HydratedDirective(mockElementRef, mockHydrator);
   });
 
   test('Directive is created', () => {
-    const hydrated = new HydratedDirective(mockElementRef, mockHydrator);
     expect(hydrated).toBeTruthy();
   });
 
   test('isHydrated', (done) => {
-    const hydrated = new HydratedDirective(mockElementRef, mockHydrator);
     hydrated.hydrated.subscribe((state) => {
-      expect(state).toBe(true);
+      expect(state).toBeTrue();
       done();
     });
     hydrated.isHydrated = true;
-    expect(hydrated.isHydrated).toBe(true);
+    expect(hydrated.isHydrated).toBeTrue();
   });
 
   test('ngOnDestroy', () => {
-    const hydrated = new HydratedDirective(mockElementRef, mockHydrator);
     hydrated.ngOnDestroy();
     expect(mockHydrator.unregisterHydrateable).toHaveBeenCalled();
   });
 
   test('ngOnInit', () => {
-    const hydrated = new HydratedDirective(mockElementRef, mockHydrator);
     hydrated.lintelHydrated = 'xxx';
     hydrated.ngOnInit();
     expect(mockHydrator.registerHydrateable).toHaveBeenCalled();

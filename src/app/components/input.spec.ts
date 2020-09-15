@@ -2,43 +2,37 @@ import { InputComponent } from './input';
 
 import { prepare } from './component.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('InputComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: InputComponent;
+  let fixture: ComponentFixture<InputComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(InputComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(InputComponent);
+    component = fixture.componentInstance;
   });
 
   test('registerOnChange', () => {
-    const fixture = TestBed.createComponent(InputComponent);
-    const component = fixture.componentInstance;
     component.registerOnChange(jest.fn());
     expect(component['onChange']).toBeTruthy();
   });
 
   test('registerOnTouched', () => {
-    const fixture = TestBed.createComponent(InputComponent);
-    const component = fixture.componentInstance;
     expect(component.registerOnTouched(null)).toBeFalsy();
   });
 
   test('writeValue', () => {
-    const fixture = TestBed.createComponent(InputComponent);
-    const component = fixture.componentInstance;
     expect(component.value).toBeUndefined();
     component.writeValue(42);
     expect(component.value).toBe(42);
   });
 
   test('set number value', () => {
-    const fixture = TestBed.createComponent(InputComponent);
-    const component = fixture.componentInstance;
     component.type = 'number';
     expect(component.value).toBeFalsy();
     component.registerOnChange((value) => expect(value).toBe(42));
@@ -47,12 +41,16 @@ describe('InputComponent', () => {
   });
 
   test('set string value', () => {
-    const fixture = TestBed.createComponent(InputComponent);
-    const component = fixture.componentInstance;
     component.type = 'text';
     expect(component.value).toBeFalsy();
     component.registerOnChange((value) => expect(value).toBe('xxx'));
     component.value = 'xxx';
     expect(component.value).toBe('xxx');
+  });
+
+  test('snapshot', () => {
+    component.type = 'text';
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });

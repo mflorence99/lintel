@@ -1,0 +1,317 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KeyValueComponent snapshot 1`] = `
+<lintel-key-value
+  __ngContext__={[Function LRootView]}
+  cdf={[Function ViewRef]}
+  columnWidth={[Function String]}
+  destroy$={[Function DestroyService]}
+  enabled={[Function Boolean]}
+  formBuilder={[Function FormBuilder]}
+  keyValueForm={[Function FormGroup]}
+  keyValues={[Function Object]}
+  origValue={[Function Object]}
+  type={[Function String]}
+  underConstruction="false"
+>
+  <div
+    class="keyValues"
+    style="grid-template-columns: repeat(auto-fit, 20rem);"
+  >
+    <div
+      class="keyValue"
+    >
+      <lintel-input
+        class="key ng-untouched ng-pristine ng-valid"
+        type="text"
+      >
+        <input
+          autocomplete="off"
+          max="undefined"
+          min="undefined"
+          placeholder=""
+          step="undefined"
+          tabindex="0"
+          type="text"
+        />
+      </lintel-input>
+      
+      
+      <div
+        class="separator"
+      >
+        :
+      </div>
+      
+      <lintel-input
+        class="value ng-untouched ng-pristine ng-valid"
+      >
+        <input
+          autocomplete="off"
+          max="undefined"
+          min="undefined"
+          placeholder=""
+          step="undefined"
+          tabindex="0"
+          type="text"
+        />
+        <fa-icon
+          class="ng-fa-icon"
+          suffix=""
+          title="Remove this item"
+        >
+          <svg
+            aria-labelledby="svg-inline--fa-title-xxx"
+            class="svg-inline--fa fa-times fa-w-11"
+            data-icon="times"
+            data-prefix="fas"
+            role="img"
+            viewBox="0 0 352 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title
+              id="svg-inline--fa-title-xxx"
+            >
+              Remove this item
+            </title>
+            <path
+              d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+              fill="currentColor"
+            />
+          </svg>
+        </fa-icon>
+        
+        
+        
+      </lintel-input>
+      
+      
+      
+      
+      
+    </div>
+    <div
+      class="keyValue"
+    >
+      <lintel-input
+        class="key ng-untouched ng-pristine ng-valid"
+        type="text"
+      >
+        <input
+          autocomplete="off"
+          max="undefined"
+          min="undefined"
+          placeholder=""
+          step="undefined"
+          tabindex="0"
+          type="text"
+        />
+      </lintel-input>
+      
+      
+      <div
+        class="separator"
+      >
+        :
+      </div>
+      
+      <lintel-input
+        class="value ng-untouched ng-pristine ng-valid"
+      >
+        <input
+          autocomplete="off"
+          max="undefined"
+          min="undefined"
+          placeholder=""
+          step="undefined"
+          tabindex="0"
+          type="text"
+        />
+        <fa-icon
+          class="ng-fa-icon"
+          suffix=""
+          title="Remove this item"
+        >
+          <svg
+            aria-labelledby="svg-inline--fa-title-xxx"
+            class="svg-inline--fa fa-times fa-w-11"
+            data-icon="times"
+            data-prefix="fas"
+            role="img"
+            viewBox="0 0 352 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title
+              id="svg-inline--fa-title-xxx"
+            >
+              Remove this item
+            </title>
+            <path
+              d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+              fill="currentColor"
+            />
+          </svg>
+        </fa-icon>
+        
+        
+        
+      </lintel-input>
+      
+      
+      
+      
+      
+    </div>
+    <div
+      class="keyValue"
+    >
+      <lintel-input
+        class="key ng-untouched ng-pristine ng-valid"
+        type="text"
+      >
+        <input
+          autocomplete="off"
+          max="undefined"
+          min="undefined"
+          placeholder=""
+          step="undefined"
+          tabindex="0"
+          type="text"
+        />
+      </lintel-input>
+      
+      
+      <div
+        class="separator"
+      >
+        :
+      </div>
+      
+      <lintel-input
+        class="value ng-untouched ng-pristine ng-valid"
+      >
+        <input
+          autocomplete="off"
+          max="undefined"
+          min="undefined"
+          placeholder=""
+          step="undefined"
+          tabindex="0"
+          type="text"
+        />
+        <fa-icon
+          class="ng-fa-icon"
+          suffix=""
+          title="Remove this item"
+        >
+          <svg
+            aria-labelledby="svg-inline--fa-title-xxx"
+            class="svg-inline--fa fa-times fa-w-11"
+            data-icon="times"
+            data-prefix="fas"
+            role="img"
+            viewBox="0 0 352 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title
+              id="svg-inline--fa-title-xxx"
+            >
+              Remove this item
+            </title>
+            <path
+              d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+              fill="currentColor"
+            />
+          </svg>
+        </fa-icon>
+        
+        
+        
+      </lintel-input>
+      
+      
+      
+      
+      
+    </div>
+    <div
+      class="keyValue"
+    >
+      <lintel-input
+        class="key ng-untouched ng-pristine ng-valid"
+        type="text"
+      >
+        <input
+          autocomplete="off"
+          max="undefined"
+          min="undefined"
+          placeholder=""
+          step="undefined"
+          tabindex="0"
+          type="text"
+        />
+      </lintel-input>
+      
+      
+      <div
+        class="separator"
+      >
+        :
+      </div>
+      
+      <lintel-input
+        class="value ng-untouched ng-pristine ng-valid"
+      >
+        <input
+          autocomplete="off"
+          max="undefined"
+          min="undefined"
+          placeholder=""
+          step="undefined"
+          tabindex="0"
+          type="text"
+        />
+        <fa-icon
+          class="ng-fa-icon"
+          suffix=""
+          title="Remove this item"
+        >
+          <svg
+            aria-labelledby="svg-inline--fa-title-xxx"
+            class="svg-inline--fa fa-times fa-w-11"
+            data-icon="times"
+            data-prefix="fas"
+            role="img"
+            viewBox="0 0 352 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title
+              id="svg-inline--fa-title-xxx"
+            >
+              Remove this item
+            </title>
+            <path
+              d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+              fill="currentColor"
+            />
+          </svg>
+        </fa-icon>
+        
+        <a
+          suffix=""
+        >
+           More 
+        </a>
+        
+        
+      </lintel-input>
+      
+      
+      
+      
+      
+    </div>
+    
+  </div>
+</lintel-key-value>
+`;

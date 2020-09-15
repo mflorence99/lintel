@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputComponent snapshot 1`] = `
+<lintel-input
+  __ngContext__={[Function LRootView]}
+  cdf={[Function ViewRef]}
+  enabled={[Function Boolean]}
+  input={[Function ElementRef]}
+  placeholder=""
+  type={[Function String]}
+>
+  <input
+    autocomplete="off"
+    max="undefined"
+    min="undefined"
+    placeholder=""
+    step="undefined"
+    tabindex="0"
+    type="text"
+  />
+</lintel-input>
+`;
