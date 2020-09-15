@@ -1,9 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-97.64%25-blue)](https://github.com/mflorence99/lintel/issues)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
-
+[![Jest Coverage](https://img.shields.io/badge/coverage-97.64%25-blue)](https://github.com/mflorence99/lintel/issues) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 
 The Lintel VSCode extension provides a rich UI to visualize, edit and mange your ESLint configuration files. It finds and analyzes all the configurations in your workspace and loads that analysis into its sidebar, from which you can drill into individual rules and their settings.
 
@@ -16,23 +13,23 @@ The Lintel VSCode extension provides a rich UI to visualize, edit and mange your
 
 ## Features
 
-* All configurations in `.eslintrc.*` files, together with those stored in an `eslintConfig` key of a project's `package.json` are loaded.
-* As changes are made, Lintel will keep in sync with any configurations you edit manually (eg: in a VSCode text editor) and vice versa.
-* Lintel will preserve any comments you have placed in JSON, YAML or JavaScript configuration files.
+- All configurations in `.eslintrc.*` files, together with those stored in an `eslintConfig` key of a project's `package.json` are loaded.
+- As changes are made, Lintel will keep in sync with any configurations you edit manually (eg: in a VSCode text editor) and vice versa.
+- Lintel will preserve any comments you have placed in JSON, YAML or JavaScript configuration files.
   > Comments aren't allowed in `package.json` files and are not currently supported in YAML files.
-* Configurations are broken down by rule category (eg: Best Practices) and plugin (eg: `@typescript/eslint`).
-* "Active Rules" shows just the rules that you've actually set, plus (optionally) those inherited via plugin `extends`.
-* The rule you're looking for can be quickly found by a partial match to a name you type in the filter bar.
-* A 'cog' tool (like the settings editor in VSCode) supports additional operations, like removing a rule from your configuration.
-* The documentation for any rule is immediately accessible by clicking on the rule name.
-* Lintel is backed by over 500 Jest unit tests.
+- Configurations are broken down by rule category (eg: Best Practices) and plugin (eg: `@typescript/eslint`).
+- "Active Rules" shows just the rules that you've actually set, plus (optionally) those inherited via plugin `extends`.
+- The rule you're looking for can be quickly found by a partial match to a name you type in the filter bar.
+- A 'cog' tool (like the settings editor in VSCode) supports additional operations, like removing a rule from your configuration.
+- The documentation for any rule is immediately accessible by clicking on the rule name.
+- Lintel is backed by over 500 Jest unit tests.
 
 ## Settings Options
 
 Lintel contributes the following variables to the [settings](https://code.visualstudio.com/docs/getstarted/settings):
 
-* `lintel.ignoredDirectories` - A list of directories _not_ searched for `.eslintrc.*` and `package.json` files. Defaults to `node_modules`, `build`, `dist` and `out`.
-* `lintel.updateDebounceTime` - The lag time in ms between changes you make through Lintel's UI and when your configuration is saved. Defaults to 2500ms.
+- `lintel.ignoredDirectories` - A list of directories _not_ searched for `.eslintrc.*` and `package.json` files. Defaults to `node_modules`, `build`, `dist` and `out`.
+- `lintel.updateDebounceTime` - The lag time in ms between changes you make through Lintel's UI and when your configuration is saved. Defaults to 2500ms.
 
 ## How it Works
 
@@ -50,8 +47,8 @@ Active Rules shows all the rules that are currently defined in your configuratio
 
 ![Active Rules](docs/active-rules.png)
 
-* The analysis of inherited rules can be toggled via the 'eye' button in the filter bar.
-* Rules actually present in your configuration are highlighted by a solid bar and those inherited via a dotted bar.
+- The analysis of inherited rules can be toggled via the 'eye' button in the filter bar.
+- Rules actually present in your configuration are highlighted by a solid bar and those inherited via a dotted bar.
 
 > Hover over a rule and a `cog' tool (like the settings editor in VSCode itself) appears. One operation allows a rule to be removed from your configuration. If that rule is also exposed by a plugin, then the UI reverts to the plugin's settings.
 
@@ -61,8 +58,8 @@ Overrides are shown in the sidebar by their file filters, from which they can be
 
 ![Active Rules](docs/overrides.png)
 
-* `*.*` is a way to pivot back to the base configuration.
-* Grayed overrides (like `*.components.html` in the screenshot) are inherited from plugins. They can't be changed but they can be selected for analysis.
+- `*.*` is a way to pivot back to the base configuration.
+- Grayed overrides (like `*.components.html` in the screenshot) are inherited from plugins. They can't be changed but they can be selected for analysis.
 
 ## Rules Lintel Can't Handle
 

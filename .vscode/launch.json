@@ -1,13 +1,9 @@
 {
   "configurations": [
     {
-      "args": [
-        "--extensionDevelopmentPath=${workspaceRoot}"
-      ],
+      "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
       "name": "Debug Lintel Extension",
-      "outFiles": [
-        "${workspaceFolder}/dist/ext/**/*.js"
-      ],
+      "outFiles": ["${workspaceFolder}/dist/ext/**/*.js"],
       "request": "launch",
       "runtimeExecutable": "${execPath}",
       "type": "extensionHost"

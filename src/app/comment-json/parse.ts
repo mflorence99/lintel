@@ -11,10 +11,11 @@ import { PREFIX_AFTER_VALUE } from './array';
 import { PREFIX_BEFORE } from './array';
 import { UNDEFINED } from './array';
 
-export const tokenize = code => esprima.tokenize(code, {
-  comment: true,
-  loc: true
-});
+export const tokenize = (code) =>
+  esprima.tokenize(code, {
+    comment: true,
+    loc: true
+  });
 
 const previous_hosts = [];
 let comments_host = null;
@@ -32,8 +33,7 @@ let index;
 let reviver = null;
 
 const clean = () => {
-  previous_props.length =
-    previous_hosts.length = 0;
+  previous_props.length = previous_hosts.length = 0;
 
   last = null;
   last_prop = UNDEFINED;
@@ -44,12 +44,7 @@ const free = () => {
 
   tokens.length = 0;
 
-  unassigned_comments =
-    comments_host =
-    tokens =
-    last =
-    current =
-    reviver = null;
+  unassigned_comments = comments_host = tokens = last = current = reviver = null;
 };
 
 export const PREFIX_BEFORE_ALL = 'before-all';
@@ -64,18 +59,15 @@ export const COMMA = ',';
 export const EMPTY = '';
 export const MINUS = '-';
 
-const symbolFor = prefix => Symbol.for(
-  last_prop !== UNDEFINED
-    ? `${prefix}:${last_prop}`
-    : prefix
-);
+const symbolFor = (prefix) =>
+  Symbol.for(last_prop !== UNDEFINED ? `${prefix}:${last_prop}` : prefix);
 
-const transform = (k, v) => reviver
-  ? reviver(k, v)
-  : v;
+const transform = (k, v) => (reviver ? reviver(k, v) : v);
 
 const unexpected = () => {
-  const error = new SyntaxError(`Unexpected token ${current.value.slice(0, 1)}`);
+  const error = new SyntaxError(
+    `Unexpected token ${current.value.slice(0, 1)}`
+  );
   Object.assign(error, current.loc.start);
 
   throw error;
@@ -83,13 +75,16 @@ const unexpected = () => {
 
 const unexpected_end = () => {
   const error = new SyntaxError('Unexpected end of JSON input');
-  Object.assign(error, last
-    ? last.loc.end
-    // Empty string
-    : {
-      line: 1,
-      column: 0
-     } );
+  Object.assign(
+    error,
+    last
+      ? last.loc.end
+      : // Empty string
+        {
+          line: 1,
+          column: 0
+        }
+  );
 
   throw error;
 };
@@ -97,10 +92,11 @@ const unexpected_end = () => {
 // Move the reader to the next
 const next = () => {
   const new_token = tokens[++index];
-  inline = current
-    && new_token
-    && current.loc.end.line === new_token.loc.start.line
-    || false;
+  inline =
+    (current &&
+      new_token &&
+      current.loc.end.line === new_token.loc.start.line) ||
+    false;
 
   last = current;
   current = new_token;
@@ -111,20 +107,18 @@ const type = () => {
     unexpected_end();
   }
 
-  return current.type === 'Punctuator'
-    ? current.value
-    : current.type;
+  return current.type === 'Punctuator' ? current.value : current.type;
 };
 
-const is = t => type() === t;
+const is = (t) => type() === t;
 
-const expect = a => {
+const expect = (a) => {
   if (!is(a)) {
     unexpected();
   }
 };
 
-const set_comments_host = new_host => {
+const set_comments_host = (new_host) => {
   previous_hosts.push(comments_host);
   comments_host = new_host;
 };
@@ -165,7 +159,7 @@ const assign_after_comma_comments = () => {
   comments_host[symbolFor(PREFIX_AFTER_COMMA)] = after_comma_comments;
 };
 
-const assign_comments = prefix => {
+const assign_comments = (prefix) => {
   if (!unassigned_comments) {
     return;
   }
@@ -177,13 +171,7 @@ const assign_comments = prefix => {
 const parse_comments = (prefix?: any) => {
   const comments = [];
 
-  while (
-    current
-    && (
-      is('LineComment')
-      || is('BlockComment')
-    )
-  ) {
+  while (current && (is('LineComment') || is('BlockComment'))) {
     const comment = {
       ...current,
       inline
@@ -224,7 +212,7 @@ const restore_prop = () => {
 };
 
 const parse_object = () => {
-  const obj = { };
+  const obj = {};
   set_comments_host(obj);
   set_prop(UNDEFINED, true);
 
@@ -259,8 +247,7 @@ const parse_object = () => {
     try {
       expect('String');
       name = JSON.parse(current.value);
-    }
-    catch (exception) {
+    } catch (exception) {
       expect('Identifier');
       name = current.value;
     }
@@ -286,11 +273,7 @@ const parse_object = () => {
 
   // If there is no properties in the object,
   // try to save unassigned comments
-  assign_comments(
-    started
-      ? PREFIX_AFTER
-      : PREFIX_BEFORE
-  );
+  assign_comments(started ? PREFIX_AFTER : PREFIX_BEFORE);
 
   restore_comments_host();
   restore_prop();
@@ -334,11 +317,7 @@ const parse_array = () => {
   next();
   last_prop = undefined;
 
-  assign_comments(
-    started
-      ? PREFIX_AFTER
-      : PREFIX_BEFORE
-  );
+  assign_comments(started ? PREFIX_AFTER : PREFIX_BEFORE);
 
   restore_comments_host();
   restore_prop();
@@ -371,18 +350,18 @@ function walk() {
   let v;
 
   switch (tt) {
-  case 'String':
-  case 'Boolean':
-  case 'Null':
-  case 'Numeric':
-    v = current.value;
-    next();
-    return JSON.parse(negative + v);
-  default:
+    case 'String':
+    case 'Boolean':
+    case 'Null':
+    case 'Numeric':
+      v = current.value;
+      next();
+      return JSON.parse(negative + v);
+    default:
   }
 }
 
-const isObject = subject => Object(subject) === subject;
+const isObject = (subject) => Object(subject) === subject;
 
 export function parse(code, rev = null, no_comments = false) {
   // Clean variables in closure
@@ -399,7 +378,7 @@ export function parse(code, rev = null, no_comments = false) {
   index = -1;
   next();
 
-  set_comments_host({ });
+  set_comments_host({});
 
   parse_comments(PREFIX_BEFORE_ALL);
 
@@ -431,4 +410,4 @@ export function parse(code, rev = null, no_comments = false) {
   free();
 
   return result;
-};
+}

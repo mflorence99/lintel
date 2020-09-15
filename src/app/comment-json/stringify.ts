@@ -32,11 +32,11 @@ const LF = '\n';
 const STR_NULL = 'null';
 
 // Symbol tags
-const BEFORE = prop => `${PREFIX_BEFORE}:${prop}`;
-const AFTER_PROP = prop => `${PREFIX_AFTER_PROP}:${prop}`;
-const AFTER_COLON = prop => `${PREFIX_AFTER_COLON}:${prop}`;
-const AFTER_VALUE = prop => `${PREFIX_AFTER_VALUE}:${prop}`;
-const AFTER_COMMA = prop => `${PREFIX_AFTER_COMMA}:${prop}`;
+const BEFORE = (prop) => `${PREFIX_BEFORE}:${prop}`;
+const AFTER_PROP = (prop) => `${PREFIX_AFTER_PROP}:${prop}`;
+const AFTER_COLON = (prop) => `${PREFIX_AFTER_COLON}:${prop}`;
+const AFTER_VALUE = (prop) => `${PREFIX_AFTER_VALUE}:${prop}`;
+const AFTER_COMMA = (prop) => `${PREFIX_AFTER_COMMA}:${prop}`;
 
 // table of character substitutions
 const meta = {
@@ -49,40 +49,43 @@ const meta = {
   '\\': '\\\\'
 };
 
-const escape = string => {
+const escape = (string) => {
   ESCAPABLE.lastIndex = 0;
 
   if (!ESCAPABLE.test(string)) {
     return string;
   }
 
-  return string.replace(ESCAPABLE, a => {
+  return string.replace(ESCAPABLE, (a) => {
     const c = meta[a];
     return typeof c === 'string'
       ? c
-      : `\\u${(`0000${a.charCodeAt(0).toString(16)}`).slice(-4)}`;
+      : `\\u${`0000${a.charCodeAt(0).toString(16)}`.slice(-4)}`;
   });
 };
 
 // Escape no control characters, no quote characters,
 // and no backslash characters,
 // then we can safely slap some quotes around it.
-const quote = string => `${quoteStr}${escape(string)}${quoteStr}`;
+const quote = (string) => `${quoteStr}${escape(string)}${quoteStr}`;
 
 // MEF 6/8/2020
-const quoteKey = key => {
-  if (!quoteKeys && key.match(/^([a-zA-Z_$][a-zA-Z\d_$]*)$/))
-    return key;
+const quoteKey = (key) => {
+  if (!quoteKeys && key.match(/^([a-zA-Z_$][a-zA-Z\d_$]*)$/)) return key;
   return quote(key);
 };
 
-const comment_stringify = (value, line) => line
-  ? `//${value}`
-  : `/*${value}*/`;
+const comment_stringify = (value, line) =>
+  line ? `//${value}` : `/*${value}*/`;
 
 // display_block `boolean` whether the
 //   WHOLE block of comments is always a block group
-const process_comments = (host, symbol_tag, deeper_gap, display_block = false) => {
+const process_comments = (
+  host,
+  symbol_tag,
+  deeper_gap,
+  display_block = false
+) => {
   const comments = host[Symbol.for(symbol_tag)];
   if (!comments || !comments.length) {
     return EMPTY;
@@ -90,24 +93,17 @@ const process_comments = (host, symbol_tag, deeper_gap, display_block = false) =
 
   let is_line_comment = false;
 
-  const str = comments.reduce((prev, {
-    inline,
-    type,
-    value
-  }) => {
-    const delimiter = inline
-      ? SPACE
-      : LF + deeper_gap;
+  const str = comments.reduce((prev, { inline, type, value }) => {
+    const delimiter = inline ? SPACE : LF + deeper_gap;
 
     is_line_comment = type === 'LineComment';
 
     return prev + delimiter + comment_stringify(value, is_line_comment);
   }, EMPTY);
 
-
-  return display_block
+  return display_block ||
     // line comment should always end with a LF
-    || is_line_comment
+    is_line_comment
     ? str + LF + deeper_gap
     : str;
 };
@@ -129,15 +125,15 @@ const clean = () => {
 const join = (one, two, gap) =>
   one
     ? two
-      // Symbol.for('before') and Symbol.for('before:prop')
-      // might both exist if user mannually add comments to the object
-      // and make a mistake.
-      // SO, we are not to only trimRight but trim for both sides
-      ? one + two.trim() + LF + gap
+      ? // Symbol.for('before') and Symbol.for('before:prop')
+        // might both exist if user mannually add comments to the object
+        // and make a mistake.
+        // SO, we are not to only trimRight but trim for both sides
+        one + two.trim() + LF + gap
       : one.trimRight() + LF + gap
     : two
-      ? two.trimRight() + LF + gap
-      : EMPTY;
+    ? two.trimRight() + LF + gap
+    : EMPTY;
 
 const join_content = (inside, value, gap) => {
   const comment = process_comments(value, PREFIX_BEFORE, gap + indent, true);
@@ -173,7 +169,7 @@ const array_stringify = (value, gap) => {
       deeper_gap
     );
 
-    inside += before || (LF + deeper_gap);
+    inside += before || LF + deeper_gap;
 
     // JSON.stringify([undefined])  => [null]
     inside += base_stringify(i, value, deeper_gap) || STR_NULL;
@@ -189,9 +185,7 @@ const array_stringify = (value, gap) => {
     deeper_gap
   );
 
-  return BRACKET_OPEN
-    + join_content(inside, value, gap)
-    + BRACKET_CLOSE;
+  return BRACKET_OPEN + join_content(inside, value, gap) + BRACKET_CLOSE;
 };
 
 // | deeper_gap   |
@@ -209,20 +203,16 @@ const object_stringify = (value, gap) => {
 
   const deeper_gap = gap + indent;
 
-  const colon_value_gap = indent
-    ? SPACE
-    : EMPTY;
+  const colon_value_gap = indent ? SPACE : EMPTY;
 
   // From the first element to before close
   let inside = EMPTY;
   let after_comma = EMPTY;
   let first = true;
 
-  const keys = isArray(replacer)
-    ? replacer
-    : Object.keys(value);
+  const keys = isArray(replacer) ? replacer : Object.keys(value);
 
-  const iteratee = key => {
+  const iteratee = (key) => {
     // Stringified value
     const sv = base_stringify(key, value, deeper_gap);
 
@@ -244,15 +234,16 @@ const object_stringify = (value, gap) => {
       deeper_gap
     );
 
-    inside += before || (LF + deeper_gap);
+    inside += before || LF + deeper_gap;
 
-    inside += quoteKey(key) // MEF 6/8/2020
-      + process_comments(value, AFTER_PROP(key), deeper_gap)
-      + COLON
-      + process_comments(value, AFTER_COLON(key), deeper_gap)
-      + colon_value_gap
-      + sv
-      + process_comments(value, AFTER_VALUE(key), deeper_gap);
+    inside +=
+      quoteKey(key) + // MEF 6/8/2020
+      process_comments(value, AFTER_PROP(key), deeper_gap) +
+      COLON +
+      process_comments(value, AFTER_COLON(key), deeper_gap) +
+      colon_value_gap +
+      sv +
+      process_comments(value, AFTER_VALUE(key), deeper_gap);
 
     after_comma = process_comments(value, AFTER_COMMA(key), deeper_gap);
   };
@@ -269,9 +260,9 @@ const object_stringify = (value, gap) => {
     deeper_gap
   );
 
-  return CURLY_BRACKET_OPEN
-    + join_content(inside, value, gap)
-    + CURLY_BRACKET_CLOSE;
+  return (
+    CURLY_BRACKET_OPEN + join_content(inside, value, gap) + CURLY_BRACKET_CLOSE
+  );
 };
 
 // @param {string} key
@@ -294,47 +285,52 @@ function base_stringify(key, holder, gap) {
   }
 
   switch (typeof value) {
-  case 'string':
-    return quote(value);
+    case 'string':
+      return quote(value);
 
-  case 'number':
-    // JSON numbers must be finite. Encode non-finite numbers as null.
-    return Number.isFinite(value) ? String(value) : STR_NULL;
+    case 'number':
+      // JSON numbers must be finite. Encode non-finite numbers as null.
+      return Number.isFinite(value) ? String(value) : STR_NULL;
 
-  case 'boolean':
-  case null:
-
-    // If the value is a boolean or null, convert it to a string. Note:
-    // typeof null does not produce 'null'. The case is included here in
-    // the remote chance that this gets fixed someday.
-    return String(value);
+    case 'boolean':
+    case null:
+      // If the value is a boolean or null, convert it to a string. Note:
+      // typeof null does not produce 'null'. The case is included here in
+      // the remote chance that this gets fixed someday.
+      return String(value);
 
     // If the type is 'object', we might be dealing with an object or an array or
     // null.
-  case 'object':
-    return isArray(value)
-      ? array_stringify(value, gap)
-      : object_stringify(value, gap);
+    case 'object':
+      return isArray(value)
+        ? array_stringify(value, gap)
+        : object_stringify(value, gap);
 
     // undefined
-  default:
+    default:
     // JSON.stringify(undefined) === undefined
     // JSON.stringify('foo', () => undefined) === undefined
   }
 }
 
-const get_indent = space => isString(space)
-  // If the space parameter is a string, it will be used as the indent string.
-  ? space
-  : isNumber(space)
+const get_indent = (space) =>
+  isString(space)
+    ? // If the space parameter is a string, it will be used as the indent string.
+      space
+    : isNumber(space)
     ? repeat(SPACE, space)
     : EMPTY;
 
 // @param {function()|Array} replacer
 // @param {string|number} space
-export function stringify(value, replacer_ = null, space = null, 
+export function stringify(
+  value,
+  replacer_ = null,
+  space = null,
   // MEF 6/8/2020 -- ugly, but it does the job
-  quoteStr_ = '"', quoteKeys_ = true) {
+  quoteStr_ = '"',
+  quoteKeys_ = true
+) {
   // The stringify method takes a value and an optional replacer, and an optional
   // space parameter, and returns a JSON text. The replacer can be a function
   // that can replace values, or an array of strings that will select the keys.
@@ -367,8 +363,8 @@ export function stringify(value, replacer_ = null, space = null,
   clean();
 
   return isObject(value)
-    ? process_comments(value, PREFIX_BEFORE_ALL, EMPTY).trimLeft()
-    + str
-    + process_comments(value, PREFIX_AFTER_ALL, EMPTY).trimRight()
+    ? process_comments(value, PREFIX_BEFORE_ALL, EMPTY).trimLeft() +
+        str +
+        process_comments(value, PREFIX_AFTER_ALL, EMPTY).trimRight()
     : str;
-};
+}

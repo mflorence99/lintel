@@ -5,14 +5,17 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
-const debouncer: Record<string, any> = { };
-const extensionCache: Record<string, any> = { };
-const ruleCache: Record<string, any> = { };
+const debouncer: Record<string, any> = {};
+const extensionCache: Record<string, any> = {};
+const ruleCache: Record<string, any> = {};
 
-export function messageHandlerFactory(currentPanel: vscode.WebviewPanel, 
-  fileCache: Record<string, string>): (message: any) => any {
+type FileSaver = (...args: any[]) => void;
 
-  const fileSaverFactory = (fileName: string, source: string): Function => {
+export function messageHandlerFactory(
+  currentPanel: vscode.WebviewPanel,
+  fileCache: Record<string, string>
+): (message: any) => any {
+  const fileSaverFactory = (fileName: string, source: string): FileSaver => {
     return (): void => {
       fileCache[fileName] = source;
       fs.writeFileSync(fileName, source);
@@ -20,42 +23,43 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
   };
 
   const extensionsGenerator = (fileName, extensions: string[]): void => {
-    extensions
-      .forEach(extensionName => {
-        let config = extensionCache[extensionName];
-        if (!config) {
-          try {
-            config = resolveExtension(extensionName, fileName);
-            extensionCache[extensionName] = config;
-          } catch (error) { 
-            // TODO: telemetry on error
-            // BUT ... we may just be loading a partially typed name
-            console.log(error.message);
-          } 
+    extensions.forEach((extensionName) => {
+      let config = extensionCache[extensionName];
+      if (!config) {
+        try {
+          config = resolveExtension(extensionName, fileName);
+          extensionCache[extensionName] = config;
+        } catch (error) {
+          // TODO: telemetry on error
+          // BUT ... we may just be loading a partially typed name
+          console.log(error.message);
         }
-        if (config && Object.keys(config).length)
-          currentPanel.webview.postMessage({ command: 'extensions', extensions: { [extensionName]: config } });
-      });
+      }
+      if (config && Object.keys(config).length)
+        currentPanel.webview.postMessage({
+          command: 'extensions',
+          extensions: { [extensionName]: config }
+        });
+    });
   };
 
   const rulesGenerator = (fileName: string, plugins: string[]): void => {
-    plugins.forEach(pluginName => {
+    plugins.forEach((pluginName) => {
       let rules = ruleCache[pluginName];
       if (!rules) {
         try {
           const cli = new eslint.CLIEngine({
             baseConfig: { plugins: [pluginName] },
-            // NOTE: we're going to use the node_modules of the 
+            // NOTE: we're going to use the node_modules of the
             // workspace itself, not of the extension!!
             cwd: path.dirname(fileName),
             useEslintrc: false
           });
           // NOTE: we already have all the ESLint rules,
           // which the CLI as coded above always returns
-          rules = { };
+          rules = {};
           cli.getRules().forEach((value, key) => {
-            if (key.includes('/'))
-              rules[key] = value;
+            if (key.includes('/')) rules[key] = value;
           });
           ruleCache[pluginName] = rules;
         } catch (error) {
@@ -65,19 +69,24 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
         }
       }
       if (rules && Object.keys(rules).length)
-        currentPanel.webview.postMessage({ command: 'rules', rules: { [pluginName]: rules } });
+        currentPanel.webview.postMessage({
+          command: 'rules',
+          rules: { [pluginName]: rules }
+        });
     });
   };
 
   return (message): void => {
-
-    const debounceTimeout = vscode.workspace.getConfiguration('lintel')?.get('updateDebounceTime', 2500); 
+    const debounceTimeout = vscode.workspace
+      .getConfiguration('lintel')
+      ?.get('updateDebounceTime', 2500);
     const fileSaver = fileSaverFactory(message.fileName, message.source);
 
     switch (message.command) {
-
       case 'bootFail':
-        vscode.window.showErrorMessage('Lintel could not start. Please try again.');
+        vscode.window.showErrorMessage(
+          'Lintel could not start. Please try again.'
+        );
         break;
 
       case 'clipboardCopy':
@@ -85,15 +94,21 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
         break;
 
       case 'deleteOverride':
-        vscode.window.showWarningMessage(message.text, { modal: true }, 'OK')
-          .then(response => {
+        vscode.window
+          .showWarningMessage(message.text, { modal: true }, 'OK')
+          .then((response) => {
             if (response === 'OK')
-              currentPanel.webview.postMessage({ command: 'deleteOverride', override: message.override });
+              currentPanel.webview.postMessage({
+                command: 'deleteOverride',
+                override: message.override
+              });
           });
         break;
 
       case 'editFile':
-        vscode.window.showTextDocument(vscode.Uri.parse(message.fileName), { viewColumn: vscode.ViewColumn.Beside });
+        vscode.window.showTextDocument(vscode.Uri.parse(message.fileName), {
+          viewColumn: vscode.ViewColumn.Beside
+        });
         break;
 
       case 'getExtensions':
@@ -109,7 +124,9 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
         break;
 
       case 'parseFail':
-        vscode.window.showErrorMessage(`Lintel could not parse ${message.fileName}`);
+        vscode.window.showErrorMessage(
+          `Lintel could not parse ${message.fileName}`
+        );
         break;
 
       case 'saveFile':
@@ -120,9 +137,6 @@ export function messageHandlerFactory(currentPanel: vscode.WebviewPanel,
           debouncer[message.fileName] = setTimeout(fileSaver, debounceTimeout);
         else fileSaver();
         break;
-
     }
-
   };
-  
 }

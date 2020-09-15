@@ -25,7 +25,7 @@ export type SelectArrayType = (number | string)[];
  * NOTE: just enough to be able to match VSCode as well as possible
  *
  * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
- * 
+ *
  * Reference is old, but still helpful
  */
 
@@ -43,9 +43,7 @@ export type SelectArrayType = (number | string)[];
   templateUrl: 'select-array.html',
   styleUrls: ['select-array.scss']
 })
-
 export class SelectArrayComponent implements ControlValueAccessor, OnInit {
-
   @Input() columnWidth = '10rem';
   @Input() enabled = true;
   @Input() maxItems = Infinity;
@@ -68,9 +66,9 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
     const selects = this.selectArrayForm.controls.selects as FormArray;
     // NOTE: there's always one more input for a new value
     // trim off excess selects
-    while (selects.length > (this.values.length + 1))
+    while (selects.length > this.values.length + 1)
       selects.removeAt(selects.length - 1);
-    while (selects.length < (this.values.length + 1))
+    while (selects.length < this.values.length + 1)
       selects.push(new FormControl(null));
     // patch in the new values
     selects.patchValue([...this.values, null], { emitEvent: false });
@@ -83,9 +81,11 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
   private underConstruction: boolean;
 
   /** ctor */
-  constructor(private cdf: ChangeDetectorRef,
-              private destroy$: DestroyService,
-              private formBuilder: FormBuilder) {
+  constructor(
+    private cdf: ChangeDetectorRef,
+    private destroy$: DestroyService,
+    private formBuilder: FormBuilder
+  ) {
     // initialize the form
     this.selectArrayForm = this.formBuilder.group({
       selects: new FormArray([])
@@ -102,14 +102,12 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
   ngOnInit(): void {
     this.selectArrayForm.valueChanges
       .pipe(
-        filter(_ => !this.underConstruction),
+        filter((_) => !this.underConstruction),
         takeUntil(this.destroy$)
       )
-      .subscribe(value => {
-        this.values = value.selects
-          .filter(val => !!val);
-        if (this.uniqueItems)
-          this.values = Array.from(new Set(this.values));
+      .subscribe((value) => {
+        this.values = value.selects.filter((val) => !!val);
+        if (this.uniqueItems) this.values = Array.from(new Set(this.values));
         this.onChange?.(this.value);
       });
   }
@@ -120,7 +118,7 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void { }
+  registerOnTouched(_): void {}
 
   /** Remove specified selector */
   removeSelector(ix: number): void {
@@ -132,5 +130,4 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
   writeValue(value): void {
     this.value = value;
   }
-
 }

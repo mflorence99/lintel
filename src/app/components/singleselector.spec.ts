@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('SingleselectorComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -37,7 +36,7 @@ describe('SingleselectorComponent', () => {
     expect(component.value).toBe(42);
   });
 
-  test('number options, not decoded, no placeholder', () =>{
+  test('number options, not decoded, no placeholder', () => {
     const fixture = TestBed.createComponent(SingleselectorComponent);
     const component = fixture.componentInstance;
     component.options = [1, 2, 3];
@@ -53,7 +52,11 @@ describe('SingleselectorComponent', () => {
   test('number options, decoded, no placeholder', () => {
     const fixture = TestBed.createComponent(SingleselectorComponent);
     const component = fixture.componentInstance;
-    component.options = [[1, 'London'], [2, 'Paris'], [3, 'Rome']];
+    component.options = [
+      [1, 'London'],
+      [2, 'Paris'],
+      [3, 'Rome']
+    ];
     expect(component.getOptionDecoded(1)).toBe('Paris');
     expect(component.getOptionDecoded(-1)).toBe(null);
     expect(component.getOptionEncoded(1)).toBe(2);
@@ -93,7 +96,11 @@ describe('SingleselectorComponent', () => {
   test('string options, decoded, no placeholder', () => {
     const fixture = TestBed.createComponent(SingleselectorComponent);
     const component = fixture.componentInstance;
-    component.options = [['l', 'London'], ['p', 'Paris'], ['r', 'Rome']];
+    component.options = [
+      ['l', 'London'],
+      ['p', 'Paris'],
+      ['r', 'Rome']
+    ];
     expect(component.getOptionDecoded(1)).toBe('Paris');
     expect(component.getOptionDecoded(-1)).toBe(null);
     expect(component.getOptionEncoded(1)).toBe('p');
@@ -122,7 +129,7 @@ describe('SingleselectorComponent', () => {
     const component = fixture.componentInstance;
     component.options = [1, 2, 3];
     expect(component.value).toBeFalsy();
-    component.registerOnChange(value => expect(value).toBe(2));
+    component.registerOnChange((value) => expect(value).toBe(2));
     component.value = 2;
     expect(component.value).toBe(2);
   });
@@ -132,9 +139,8 @@ describe('SingleselectorComponent', () => {
     const component = fixture.componentInstance;
     component.options = ['London', 'Paris', 'Rome'];
     expect(component.value).toBeFalsy();
-    component.registerOnChange(value => expect(value).toBe('Paris'));
+    component.registerOnChange((value) => expect(value).toBe('Paris'));
     component.value = 'Paris';
     expect(component.value).toBe('Paris');
   });
-
 });

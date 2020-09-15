@@ -25,22 +25,22 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'tabs.html',
   styleUrls: ['tabs.scss']
 })
-
 export class TabsComponent {
-
-  @ViewChild(SingleselectorComponent) 
+  @ViewChild(SingleselectorComponent)
   set more(m: SingleselectorComponent) {
     m?.registerOnChange(this.selectPluginName.bind(this));
   }
 
   /** ctor */
-  constructor(private actions$: Actions,
-              public configs: ConfigsState,
-              private destroy$: DestroyService,
-              public filter: FilterState,
-              public params: Params,
-              public selection: SelectionState,
-              public utils: Utils) { 
+  constructor(
+    private actions$: Actions,
+    public configs: ConfigsState,
+    private destroy$: DestroyService,
+    public filter: FilterState,
+    public params: Params,
+    public selection: SelectionState,
+    public utils: Utils
+  ) {
     this.handleActions$();
   }
 
@@ -54,8 +54,9 @@ export class TabsComponent {
 
   /** Which plugins go in the tabs, which in the overflow "more..." dropdown? */
   whichPlugins(): any {
-    const pluginNames = this.configs.pluginNames
-      .filter(pluginName => this.configs.isPluginFiltered(pluginName));
+    const pluginNames = this.configs.pluginNames.filter((pluginName) =>
+      this.configs.isPluginFiltered(pluginName)
+    );
     const inTab = pluginNames.slice(0, this.params.maxNumTabs);
     const inMore = pluginNames.slice(this.params.maxNumTabs);
     return { inTab, inMore };
@@ -69,16 +70,16 @@ export class TabsComponent {
         filter(({ status }) => status === 'SUCCESSFUL'),
         takeUntil(this.destroy$)
       )
-      .subscribe(_ => {
+      .subscribe((_) => {
         // NOTE: the base plugin is always available
         if (this.selection.pluginName !== this.params.basePluginName) {
-          const pluginNames = this.configs.pluginNames
-            .filter(pluginName => this.configs.isPluginFiltered(pluginName));
+          const pluginNames = this.configs.pluginNames.filter((pluginName) =>
+            this.configs.isPluginFiltered(pluginName)
+          );
           // if the selected plugin is no longer available, pick one that is
           if (!pluginNames.includes(this.selection.pluginName))
             this.selection.select({ pluginName: this.params.basePluginName });
         }
       });
   }
-
 }

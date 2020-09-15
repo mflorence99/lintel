@@ -4,7 +4,6 @@
 
 // eslint-disable-next-line no-undef
 eslintFiles = {
-
   '.eslintrc.js': `
 module.exports = {
 
@@ -399,5 +398,4 @@ module.exports = {
 /* blah */
 
 ;`
-
 };

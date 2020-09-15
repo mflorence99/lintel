@@ -6,7 +6,6 @@ export type DeepSearchCallback = (container: any, value: any) => void;
 
 @Injectable({ providedIn: 'root' })
 export class Utils {
-
   /** Compare two arrays for equality */
   arraysEqual(p: any[], q: any[]): boolean {
     // NOTE: works for overrides.files, but not generally
@@ -20,16 +19,14 @@ export class Utils {
 
   /** Deep search an object for a key and optional value */
   deepSearch(obj: any, expr: string, cb: DeepSearchCallback): void {
-    if (Array.isArray(obj)) 
-      obj.forEach(item => this.deepSearch(item, expr, cb));
+    if (Array.isArray(obj))
+      obj.forEach((item) => this.deepSearch(item, expr, cb));
     else if (obj && typeof obj === 'object') {
       const [k, v] = expr.split('=');
-      Object.entries(obj)
-        .forEach(([key, value]) => {
-          if ((key === k) && (!v || value === v))
-            cb(obj, value);
-          this.deepSearch(value, expr, cb);
-        });
+      Object.entries(obj).forEach(([key, value]) => {
+        if (key === k && (!v || value === v)) cb(obj, value);
+        this.deepSearch(value, expr, cb);
+      });
     }
   }
 
@@ -37,34 +34,31 @@ export class Utils {
   diffArrays(p: any[], q: any[]): any[] {
     const s = new Set(p);
     const t = new Set(q);
-    return [...s].filter(x => !t.has(x));
+    return [...s].filter((x) => !t.has(x));
   }
 
   /** Does this thing exist? */
   exists(obj: any): boolean {
-    if (obj == null)
-      return false;
-    else if (Array.isArray(obj))
-      return !!obj.length;
-    else if (typeof obj === 'string')
-      return !!obj.length;
-    else if (typeof obj === 'object')
-      return !this.isEmptyObject(obj);
+    if (obj == null) return false;
+    else if (Array.isArray(obj)) return !!obj.length;
+    else if (typeof obj === 'string') return !!obj.length;
+    else if (typeof obj === 'object') return !this.isEmptyObject(obj);
     else return true;
   }
 
   /** Is supplied object empty? */
   isEmptyObject(obj: any): boolean {
-    return (obj == null) 
-      || (Object.getOwnPropertyNames(obj).length === 0)
-      || Object.getOwnPropertyNames(obj).every(nm => obj[nm] == null);
+    return (
+      obj == null ||
+      Object.getOwnPropertyNames(obj).length === 0 ||
+      Object.getOwnPropertyNames(obj).every((nm) => obj[nm] == null)
+    );
   }
 
   /** Find the longest common prefix from a list */
   longestCommonPrefix(strings: string[]): string {
     // NOTE: we have cheated and made sure Windows paths appear using /
-    if (strings.length === 0)
-      return '';
+    if (strings.length === 0) return '';
     else if (strings.length === 1) {
       const ix = strings[0].lastIndexOf('/');
       return strings[0].substring(0, ix + 1);
@@ -82,8 +76,8 @@ export class Utils {
           }
         }
       }
-      return first.slice(0, commonLength);  
-    }  
+      return first.slice(0, commonLength);
+    }
   }
 
   /** Run func tion on next tick */
@@ -93,21 +87,18 @@ export class Utils {
 
   /** Extract search params from launch URL */
   parseInitialSearchParams(): any {
-    if (lintelSearchParams && (lintelSearchParams.length > 1)) {
+    if (lintelSearchParams && lintelSearchParams.length > 1) {
       const raw = lintelSearchParams.substring(1).split('&');
       return raw.reduce((params, pair) => {
         const [k, v] = pair.split('=');
         // NOTE: a bit cheesy
-        if (v === 'false')
-          params[k] = false;
-        else if (v === 'true')
-          params[k] = true;
-        else if (/^[0-9]*$/.test(v))
-          params[k] = Number(v);
+        if (v === 'false') params[k] = false;
+        else if (v === 'true') params[k] = true;
+        else if (/^[0-9]*$/.test(v)) params[k] = Number(v);
         else params[k] = v;
         return params;
-      }, { });
-    } else return { };
+      }, {});
+    } else return {};
   }
 
   /** Safe eval, returning default on error */
@@ -118,5 +109,4 @@ export class Utils {
       return dflt;
     }
   }
-
 }

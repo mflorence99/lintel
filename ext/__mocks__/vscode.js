@@ -3,7 +3,7 @@
 const path = require('path');
 
 let webviewContentResolver;
-const webviewContent = new Promise((resolve, reject) => { 
+const webviewContent = new Promise((resolve, reject) => {
   webviewContentResolver = resolve;
 });
 
@@ -23,11 +23,15 @@ const panel = {
   onDidDispose: jest.fn(),
   reveal: jest.fn(),
   webview: {
-    asWebviewUri: jest.fn(path => path),
+    asWebviewUri: jest.fn((path) => path),
     onDidReceiveMessage: jest.fn(),
     postMessage: jest.fn(),
-    get html() { return webviewContent },
-    set html(html) { webviewContentResolver(html) }
+    get html() {
+      return webviewContent;
+    },
+    set html(html) {
+      webviewContentResolver(html);
+    }
   }
 };
 
@@ -37,14 +41,14 @@ const projectFolder = {
   uri: {
     fsPath: projectPath
   }
-}
+};
 
 const RelativePattern = jest.fn();
 
 const Uri = {
-  file: jest.fn(path => path),
+  file: jest.fn((path) => path),
   parse: jest.fn()
-}
+};
 
 const ViewColumn = {
   Beside: undefined
@@ -55,7 +59,7 @@ const watcher = {
   onDidChange: jest.fn(),
   onDidCreate: jest.fn(),
   onDidDelete: jest.fn()
-}
+};
 
 const window = {
   activeTextEditor: undefined,
@@ -67,9 +71,12 @@ const window = {
 
 const workspace = {
   createFileSystemWatcher: jest.fn(() => watcher),
-  findFiles: jest.fn(() => new Promise((resolve, reject) => {
-    resolve([{ fsPath: path.join(projectPath, '.eslintrc.json') }]);
-  })),
+  findFiles: jest.fn(
+    () =>
+      new Promise((resolve, reject) => {
+        resolve([{ fsPath: path.join(projectPath, '.eslintrc.json') }]);
+      })
+  ),
   getConfiguration: jest.fn(() => ({
     get: jest.fn((nm, dflt) => {
       switch (nm) {

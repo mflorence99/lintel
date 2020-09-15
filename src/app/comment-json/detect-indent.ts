@@ -65,7 +65,8 @@ function makeIndentsMap(string) {
         weight++;
         // We use the key from previous loop
       } else {
-        const absoluteIndentDifference = indentDifference > 0 ? indentDifference : -indentDifference;
+        const absoluteIndentDifference =
+          indentDifference > 0 ? indentDifference : -indentDifference;
         key = encodeIndentsKey(indentType, absoluteIndentDifference);
       }
 
@@ -140,7 +141,7 @@ export function detectIndent(string) {
   // @see https://stackoverflow.com/questions/881085
   const numDoubles = (string.match(/"/g) || []).length;
   const numSingles = (string.match(/'/g) || []).length;
-  let quotes = (numDoubles > numSingles) ? '"' : "'";
+  let quotes = numDoubles > numSingles ? '"' : "'";
 
   if (keyOfMostUsedIndent !== undefined) {
     ({ type, amount } = decodeIndentsKey(keyOfMostUsedIndent));
@@ -150,8 +151,8 @@ export function detectIndent(string) {
   return {
     amount,
     type,
-    indent, 
-  // MEF added 6/7/2020
+    indent,
+    // MEF added 6/7/2020
     quotes
   };
-};
+}

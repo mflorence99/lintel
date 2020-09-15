@@ -33,25 +33,26 @@ declare const lintelVSCodeAPI;
   templateUrl: 'overrides.html',
   styleUrls: ['overrides.scss']
 })
-
 export class OverridesComponent implements OnInit {
-
-  @ViewChild(ContextMenuComponent, { static: true }) contextMenu: ContextMenuComponent;
+  @ViewChild(ContextMenuComponent, { static: true })
+  contextMenu: ContextMenuComponent;
 
   overridesForm: FormGroup;
 
   private underConstruction: boolean;
 
   /** ctor */
-  constructor(private actions$: Actions,
-              public configs: ConfigsState,
-              private contextMenuService: ContextMenuService,
-              private destroy$: DestroyService,
-              public extensions: ExtensionsState,
-              private formBuilder: FormBuilder,
-              public lintel: LintelState,
-              public schema: SchemaState,
-              public selection: SelectionState) {
+  constructor(
+    private actions$: Actions,
+    public configs: ConfigsState,
+    private contextMenuService: ContextMenuService,
+    private destroy$: DestroyService,
+    public extensions: ExtensionsState,
+    private formBuilder: FormBuilder,
+    public lintel: LintelState,
+    public schema: SchemaState,
+    public selection: SelectionState
+  ) {
     this.overridesForm = this.formBuilder.group({
       files: new FormArray([])
     });
@@ -63,17 +64,20 @@ export class OverridesComponent implements OnInit {
   /** Execute context menu command */
   execute(ix: number, command: string): void {
     switch (command) {
-
       case 'add':
         this.configs.addOverride();
         break;
 
       case 'delete':
         if (!this.configs.isOverrideEmpty(ix))
-          lintelVSCodeAPI.postMessage({ command: 'deleteOverride', override: ix, text: 'This override contains rules and other settings. Are you sure you want to delete it?' });
+          lintelVSCodeAPI.postMessage({
+            command: 'deleteOverride',
+            override: ix,
+            text:
+              'This override contains rules and other settings. Are you sure you want to delete it?'
+          });
         else this.configs.deleteOverride({ ix });
         break;
-
     }
   }
 
@@ -81,9 +85,10 @@ export class OverridesComponent implements OnInit {
   ngOnInit(): void {
     this.overridesForm.valueChanges
       .pipe(
-        filter(_ => !this.underConstruction),
+        filter((_) => !this.underConstruction),
         takeUntil(this.destroy$)
-      ).subscribe(changes => this.configs.changeOverrideFiles(changes));
+      )
+      .subscribe((changes) => this.configs.changeOverrideFiles(changes));
     this.rebuildControls();
   }
 
@@ -101,28 +106,29 @@ export class OverridesComponent implements OnInit {
     this.actions$
       .pipe(
         filter(({ action, status }) => {
-          return (action['FilesState.addOverride'] 
-            || action['FilesState.deleteOverride']) 
-            && (status === 'SUCCESSFUL');
+          return (
+            (action['FilesState.addOverride'] ||
+              action['FilesState.deleteOverride']) &&
+            status === 'SUCCESSFUL'
+          );
         }),
         takeUntil(this.destroy$)
       )
       // NOTE: deferring the rebuild until the action is complete (add or delete)
       // is necessary becausse delete may be asynchonous if a confirm is required
-      .subscribe(_ => this.rebuildControls());
+      .subscribe((_) => this.rebuildControls());
   }
 
   private rebuildControls(): void {
     this.underConstruction = true;
-    const values = this.configs.configuration.overrides?.map(override => override.files) ?? [];
+    const values =
+      this.configs.configuration.overrides?.map((override) => override.files) ??
+      [];
     const files = this.overridesForm.controls.files as FormArray;
-    while (files.length > values.length)
-      files.removeAt(files.length - 1);
-    while (files.length < values.length)
-      files.push(new FormControl(null));
+    while (files.length > values.length) files.removeAt(files.length - 1);
+    while (files.length < values.length) files.push(new FormControl(null));
     // TODO: we don't know why { emitEvent: false } doesn't work
     files.patchValue([...values], { emitEvent: false });
     this.underConstruction = false;
   }
-
 }

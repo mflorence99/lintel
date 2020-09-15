@@ -21,13 +21,12 @@ const plugins = [
   'vue'
 ];
 
-const schema = { };
+const schema = {};
 
-plugins.forEach(plugin => {
-
+plugins.forEach((plugin) => {
   const cli = new cliEngine({
     baseConfig: {
-      plugins: [plugin],
+      plugins: [plugin]
       // extends: [plugin[1]]
     },
     useEslintrc: false
@@ -35,15 +34,13 @@ plugins.forEach(plugin => {
 
   const rules = cli.getRules();
 
-  const obj = { };
+  const obj = {};
   rules.forEach((value, key) => {
     // NOTE: we always get eslint:all -- why??
-    if (plugin.startsWith('eslint') || key.includes('/'))
-      obj[key] = value;
+    if (plugin.startsWith('eslint') || key.includes('/')) obj[key] = value;
   });
 
   schema[plugin] = obj;
-
 });
 
 // NOTE: there are some well-known typos in plugin schemas

@@ -11,5 +11,4 @@ import { Component } from '@angular/core';
   templateUrl: 'scroller.html',
   styleUrls: ['scroller.scss']
 })
-
-export class ScrollerComponent { }
+export class ScrollerComponent {}

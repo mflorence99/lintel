@@ -1,14 +1,13 @@
-<ng-container
-  [formGroup]="inputArrayForm">
-
-  <p 
+<ng-container [formGroup]="inputArrayForm">
+  <p
     [ngStyle]="{'grid-template-columns': 'repeat(auto-fit, ' + columnWidth + ')'}"
-    class="inputs">
-
+    class="inputs"
+  >
     <lintel-input
       [enabled]="false"
       [value]="default"
-      *ngFor="let default of (defaults || []).sort()">
+      *ngFor="let default of (defaults || []).sort()"
+    >
     </lintel-input>
 
     <lintel-input
@@ -18,39 +17,37 @@
       [min]="min"
       [step]="step"
       [type]="type"
-      *ngFor="let input of inputArrayForm.controls.inputs['controls']; let ix = index">
-
-      <div
-        *ngIf="ix === 0"
-        prefix>
+      *ngFor="let input of inputArrayForm.controls.inputs['controls']; let ix = index"
+    >
+      <div *ngIf="ix === 0" prefix>
         <ng-content select="[prefix]"></ng-content>
       </div>
 
-      <fa-icon 
+      <fa-icon
         (click)="removeInput(ix)"
         [icon]="['fas', 'times']"
         [ngClass]="{disabled: !enabled}"
         *ngIf="inputArrayForm.controls.inputs['controls'].length > 1"
         suffix
-        title="Remove this item">
+        title="Remove this item"
+      >
       </fa-icon>
 
       <a
         (click)="addInput()"
         [ngClass]="{disabled: !enabled}"
         *ngIf="ix === (inputArrayForm.controls.inputs['controls'].length - 1) && ix < (maxItems - 1)"
-        suffix>
+        suffix
+      >
         More
       </a>
 
       <div
         *ngIf="ix === (inputArrayForm.controls.inputs['controls'].length - 1)"
-        suffix>
+        suffix
+      >
         <ng-content select="[suffix]"></ng-content>
       </div>
-
     </lintel-input>
-
   </p>
-
 </ng-container>

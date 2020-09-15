@@ -16,7 +16,7 @@ import { filter } from 'rxjs/operators';
 import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
-export type InputArrayType =(number | string)[];
+export type InputArrayType = (number | string)[];
 
 /**
  * Input array form control
@@ -24,7 +24,7 @@ export type InputArrayType =(number | string)[];
  * NOTE: just enough to be able to match VSCode as well as possible
  *
  * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
- * 
+ *
  * Reference is old, but still helpful
  */
 
@@ -42,9 +42,7 @@ export type InputArrayType =(number | string)[];
   templateUrl: 'input-array.html',
   styleUrls: ['input-array.scss']
 })
-
 export class InputArrayComponent implements ControlValueAccessor, OnInit {
-
   @Input() columnWidth = '10rem';
 
   @Input() defaults: InputArrayType;
@@ -74,9 +72,9 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
     const inputs = this.inputArrayForm.controls.inputs as FormArray;
     // NOTE: there's always one more input for a new value
     // trim off excess inputs
-    while (inputs.length > (this.values.length + 1))
+    while (inputs.length > this.values.length + 1)
       inputs.removeAt(inputs.length - 1);
-    while (inputs.length < (this.values.length + 1))
+    while (inputs.length < this.values.length + 1)
       inputs.push(new FormControl(null));
     // patch in the new values
     inputs.patchValue([...this.values, null], { emitEvent: false });
@@ -89,9 +87,11 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
   private underConstruction: boolean;
 
   /** ctor */
-  constructor(private cdf: ChangeDetectorRef,
-              private destroy$: DestroyService,
-              private formBuilder: FormBuilder) { 
+  constructor(
+    private cdf: ChangeDetectorRef,
+    private destroy$: DestroyService,
+    private formBuilder: FormBuilder
+  ) {
     // initialize the form
     this.inputArrayForm = this.formBuilder.group({
       inputs: new FormArray([])
@@ -110,15 +110,14 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
   ngOnInit(): void {
     this.inputArrayForm.valueChanges
       .pipe(
-        filter(_ => !this.underConstruction),
+        filter((_) => !this.underConstruction),
         takeUntil(this.destroy$)
       )
-      .subscribe(value => {
+      .subscribe((value) => {
         this.values = value.inputs
-          .filter(val => !!val)
-          .map(val => (this.type === 'number') ? Number(val) : val);
-        if (this.uniqueItems)
-          this.values = Array.from(new Set(this.values));
+          .filter((val) => !!val)
+          .map((val) => (this.type === 'number' ? Number(val) : val));
+        if (this.uniqueItems) this.values = Array.from(new Set(this.values));
         this.onChange?.(this.value);
       });
   }
@@ -129,7 +128,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void { }
+  registerOnTouched(_): void {}
 
   /** Remove specified input */
   removeInput(ix: number): void {
@@ -143,5 +142,4 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
   writeValue(value): void {
     this.value = value;
   }
-
 }

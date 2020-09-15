@@ -26,25 +26,29 @@ declare const lintelVSCodeAPI;
   templateUrl: 'rules.html',
   styleUrls: ['rules.scss']
 })
-
 export class RulesComponent {
-
-  @ViewChild(ContextMenuComponent, { static: true }) contextMenu: ContextMenuComponent;
+  @ViewChild(ContextMenuComponent, { static: true })
+  contextMenu: ContextMenuComponent;
 
   @Input() view: View;
 
   /** ctor */
-  constructor(public configs: ConfigsState,
-              private contextMenuService: ContextMenuService,
-              public lintel: LintelState,
-              public rules: RulesState,
-              public selection: SelectionState,
-              public utils: Utils) { }
+  constructor(
+    public configs: ConfigsState,
+    private contextMenuService: ContextMenuService,
+    public lintel: LintelState,
+    public rules: RulesState,
+    public selection: SelectionState,
+    public utils: Utils
+  ) {}
 
   /**  Can we export this rule? */
   canExportRule(ruleDigest: RuleDigest): boolean {
     const ruleName = ruleDigest.ruleName;
-    return !!(this.configs.configuration.rules[ruleName] || this.configs.extensionSettings[ruleName]);
+    return !!(
+      this.configs.configuration.rules[ruleName] ||
+      this.configs.extensionSettings[ruleName]
+    );
   }
 
   /** Execute context menu command */
@@ -52,16 +56,19 @@ export class RulesComponent {
     const ruleName = ruleDigest.ruleName;
     let settings: Settings;
     switch (command) {
-
       case 'delete':
         this.configs.deleteRule({ ruleName });
         break;
 
       case 'export':
-        settings = this.configs.configuration.rules[ruleName] || this.configs.extensionSettings[ruleName];
-        lintelVSCodeAPI.postMessage({ command: 'clipboardCopy', text: JSON.stringify({ [ruleName]: settings }) });
+        settings =
+          this.configs.configuration.rules[ruleName] ||
+          this.configs.extensionSettings[ruleName];
+        lintelVSCodeAPI.postMessage({
+          command: 'clipboardCopy',
+          text: JSON.stringify({ [ruleName]: settings })
+        });
         break;
-
     }
   }
 
@@ -75,12 +82,11 @@ export class RulesComponent {
     // @see https://www.npmjs.com/package/ngx-contextmenu
     this.contextMenuService.show.next({ event, item: ruleDigest });
     event.preventDefault();
-    event.stopPropagation();  
+    event.stopPropagation();
   }
 
   /** Track ngFor by rule name */
   trackByRule(_, item): string {
     return item.key;
   }
-
 }

@@ -3,13 +3,14 @@ import { Bundle } from './state.spec';
 import { prepare } from './state.spec';
 
 describe('FilesState', () => {
-
   let bundle: Bundle;
 
-  beforeEach(() => bundle = prepare());
+  beforeEach(() => (bundle = prepare()));
 
   test('FilesState is initialized', () => {
-    expect(bundle.files.fileNames[0]).toEqual('/home/mflorence99/lintel/package.json');
+    expect(bundle.files.fileNames[0]).toEqual(
+      '/home/mflorence99/lintel/package.json'
+    );
   });
 
   test('package.json is properly parsed', () => {
@@ -17,40 +18,44 @@ describe('FilesState', () => {
     expect(config.extends[0]).toEqual('eslint:recommended');
   });
 
-  test('ext/.eslintrc.js is properly parsed', () => { 
+  test('ext/.eslintrc.js is properly parsed', () => {
     const config = bundle.files.load('/home/mflorence99/el-3270/.eslintrc.js');
     expect(config.plugins[0]).toEqual('does-not-exist');
-  }); 
+  });
 
   test('/home/mflorence99/el-file/.eslintrc.json is parsed without rules', () => {
-    const config = bundle.files.load('/home/mflorence99/el-file/.eslintrc.json');
-    expect(config.rules).toEqual({ });
-  }); 
+    const config = bundle.files.load(
+      '/home/mflorence99/el-file/.eslintrc.json'
+    );
+    expect(config.rules).toEqual({});
+  });
 
   test('/home/mflorence99/lintel/src/app/.eslintrc.yaml is properly parsed', () => {
-    const config = bundle.files.load('/home/mflorence99/lintel/src/app/.eslintrc.yaml');
+    const config = bundle.files.load(
+      '/home/mflorence99/lintel/src/app/.eslintrc.yaml'
+    );
     expect(config.parserOptions.ecmaFeatures.globalReturn).toBe(true);
     expect(config.rules['accessor-pairs']).toBe('warn');
     expect(config.env.browser).toBe(true);
-  }); 
+  });
 
   test('completely /home/mflorence99/lintel/empty.json is properly parsed', () => {
     const config = bundle.files.load('/home/mflorence99/lintel/empty.json');
-    expect(config.rules).toEqual({ });
-  }); 
+    expect(config.rules).toEqual({});
+  });
 
   test('/home/mflorence99/lintel/common-js.cjs is parsed but the config is empty', () => {
     const config = bundle.files.load('/home/mflorence99/lintel/common-js.cjs');
-    expect(config.rules).toEqual({ });
-  }); 
+    expect(config.rules).toEqual({});
+  });
 
   test('/home/mflorence99/lintel/invalid.json is parsed but the config is null', () => {
     const config = bundle.files.load('/home/mflorence99/lintel/invalid.json');
     expect(config).toBeNull();
-  }); 
+  });
 
   test('config can be changed in package.json', () => {
-    bundle.files.changeConfiguration({ 
+    bundle.files.changeConfiguration({
       fileName: '/home/mflorence99/lintel/package.json',
       ix: null,
       replacement: {
@@ -134,7 +139,9 @@ describe('FilesState', () => {
         }
       }
     });
-    const config = bundle.files.load('/home/mflorence99/el-file/.eslintrc.json');
+    const config = bundle.files.load(
+      '/home/mflorence99/el-file/.eslintrc.json'
+    );
     expect(config.env.browser).toBe(false);
   });
 
@@ -145,7 +152,9 @@ describe('FilesState', () => {
       ruleName: 'brace-style',
       replacement: ['off']
     });
-    const config = bundle.files.load('/home/mflorence99/el-file/.eslintrc.json');
+    const config = bundle.files.load(
+      '/home/mflorence99/el-file/.eslintrc.json'
+    );
     expect(config.rules['brace-style']).toEqual(['off']);
   });
 
@@ -159,7 +168,9 @@ describe('FilesState', () => {
         }
       }
     });
-    const config = bundle.files.load('/home/mflorence99/lintel/src/app/.eslintrc.yaml');
+    const config = bundle.files.load(
+      '/home/mflorence99/lintel/src/app/.eslintrc.yaml'
+    );
     expect(config.env.browser).toBe(false);
   });
 
@@ -170,7 +181,9 @@ describe('FilesState', () => {
       ruleName: 'brace-style',
       replacement: ['off']
     });
-    const config = bundle.files.load('/home/mflorence99/lintel/src/app/.eslintrc.yaml');
+    const config = bundle.files.load(
+      '/home/mflorence99/lintel/src/app/.eslintrc.yaml'
+    );
     expect(config.rules['brace-style']).toEqual(['off']);
   });
 
@@ -203,9 +216,9 @@ describe('FilesState', () => {
     expect(config.overrides.length).toBe(4);
     bundle.files.addOverride({
       fileName: '/home/mflorence99/lintel/package.json',
-      override:  {
+      override: {
         files: ['*.temp'],
-        rules: { }
+        rules: {}
       }
     });
     config = bundle.files.load('/home/mflorence99/lintel/package.json');
@@ -215,12 +228,11 @@ describe('FilesState', () => {
   test('override can be deleted in /home/mflorence99/lintel/package.json', () => {
     let config = bundle.files.load('/home/mflorence99/lintel/package.json');
     expect(config.overrides.length).toBe(4);
-    bundle.files.deleteOverride({ 
+    bundle.files.deleteOverride({
       fileName: '/home/mflorence99/lintel/package.json',
       ix: 0
     });
     config = bundle.files.load('/home/mflorence99/lintel/package.json');
     expect(config.overrides.length).toBe(3);
   });
-
 });

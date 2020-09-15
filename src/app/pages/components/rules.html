@@ -1,53 +1,34 @@
-<ng-container
-  *ngIf="!lintel.isEnabled">
-
+<ng-container *ngIf="!lintel.isEnabled">
   <div></div>
-  <aside
-    class="message">
+  <aside class="message">
+    <fa-icon [icon]="['fas', 'info-circle']" size="3x"> </fa-icon>
 
-    <fa-icon
-      [icon]="['fas', 'info-circle']"
-      size="3x">
-    </fa-icon>
-
-    <p
-      [innerHTML]="lintel.message">
-    </p>
-
+    <p [innerHTML]="lintel.message"></p>
   </aside>
   <div></div>
-
 </ng-container>
 
-<ng-container
-  *ngIf="!utils.isEmptyObject(view)">
-
-  <ng-container
-    *ngFor="let item of view | keyvalue; trackBy: trackByRule">
-
+<ng-container *ngIf="!utils.isEmptyObject(view)">
+  <ng-container *ngFor="let item of view | keyvalue; trackBy: trackByRule">
     <ng-container
-      *ngIf="configs.makeRuleDigest(item.key, item.value[0], item.value[1]) as ruleDigest">
-
+      *ngIf="configs.makeRuleDigest(item.key, item.value[0], item.value[1]) as ruleDigest"
+    >
       <aside
         (mouseout)="tools.style.opacity = 0"
         (mouseover)="tools.style.opacity = 1"
         [ngClass]="{active: !!ruleDigest.settings, inherited: ruleDigest.inherited, unknown: !ruleDigest.rule}"
-        class="gutter">
-
-        <div
-          #tools
-          class="tools">
-
+        class="gutter"
+      >
+        <div #tools class="tools">
           <fa-icon
             (click)="showContextMenu($event, ruleDigest)"
             [contextMenu]="contextMenu"
             [contextMenuSubject]="ruleDigest"
             [icon]="['fas', 'cog']"
-            *ngIf="isRuleDefined(ruleDigest) || canExportRule(ruleDigest)">
+            *ngIf="isRuleDefined(ruleDigest) || canExportRule(ruleDigest)"
+          >
           </fa-icon>
-
         </div>
-
       </aside>
 
       <lintel-rule
@@ -57,42 +38,37 @@
         [lintelHydrated]="ruleDigest.ruleName"
         [ruleDigest]="ruleDigest"
         [schemaDigest]="rules.makeSchemaDigest(item.key, item.value[0])"
-        #rule>
+        #rule
+      >
       </lintel-rule>
 
       <div></div>
-
     </ng-container>
-
   </ng-container>
-
 </ng-container>
 
-<ng-container
-  *ngIf="utils.isEmptyObject(view)">
-
+<ng-container *ngIf="utils.isEmptyObject(view)">
   <div></div>
   <p>No matching rules in {{ selection.category }}</p>
   <div></div>
-
 </ng-container>
 
 <!-- Tools menu -->
 
 <context-menu>
-
   <ng-template
     contextMenuItem
     (execute)="execute($event.item, 'delete')"
-    [enabled]="isRuleDefined.bind(this) && lintel.isEnabled">
+    [enabled]="isRuleDefined.bind(this) && lintel.isEnabled"
+  >
     <p>Remove this rule</p>
   </ng-template>
 
   <ng-template
     contextMenuItem
     (execute)="execute($event.item, 'export')"
-    [enabled]="canExportRule.bind(this)">
+    [enabled]="canExportRule.bind(this)"
+  >
     <p>Copy rule as JSON</p>
   </ng-template>
-
 </context-menu>

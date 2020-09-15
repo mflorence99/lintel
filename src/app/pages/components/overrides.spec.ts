@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('OverridesComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -19,7 +18,9 @@ describe('OverridesComponent', () => {
   test('Override can be added', () => {
     const fixture = TestBed.createComponent(OverridesComponent);
     const component = fixture.componentInstance;
-    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    component.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     expect(component.configs.configuration.overrides.length).toBe(4);
     component.execute(null, 'add');
     expect(component.configs.configuration.overrides.length).toBe(5);
@@ -28,7 +29,9 @@ describe('OverridesComponent', () => {
   test('Override can be deleted', () => {
     const fixture = TestBed.createComponent(OverridesComponent);
     const component = fixture.componentInstance;
-    component.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    component.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     expect(component.configs.configuration.overrides.length).toBe(4);
     component.execute(3, 'delete');
     expect(component.configs.configuration.overrides.length).toBe(3);
@@ -39,7 +42,9 @@ describe('OverridesComponent', () => {
     const component = fixture.componentInstance;
     component.ngOnInit();
     component.overridesForm.patchValue({ files: [['*.md', '*.markdown']] });
-    expect(component.configs.configuration.overrides[0].files).toEqual(['*.md', '*.markdown']);
+    expect(component.configs.configuration.overrides[0].files).toEqual([
+      '*.md',
+      '*.markdown'
+    ]);
   });
-
 });

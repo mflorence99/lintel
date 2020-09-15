@@ -6,7 +6,6 @@
 
 // eslint-disable-next-line no-undef
 eslintFiles = {
-
   '/home/mflorence99/lintel/package.json': `{
     "activationEvents": [
       "onCommand:lintel.start"

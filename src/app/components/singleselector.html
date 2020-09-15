@@ -5,22 +5,18 @@
   [attr.disabled]="!enabled? true : null"
   [ngClass]="{placeholder: placeholder && (select.selectedIndex === 0)}"
   #select
-  tabIndex=0
-  autocomplete="off">
-
-  <option
-    [value]="null"
-    *ngIf="placeholder">
-    {{ placeholder }}
-  </option>
+  tabindex="0"
+  autocomplete="off"
+>
+  <option [value]="null" *ngIf="placeholder">{{ placeholder }}</option>
 
   <option
     [attr.selected]="(value === option[0]) || ((ix === 0) && !placeholder)? true : null"
     [value]="option[0]"
-    *ngFor="let option of options; let ix = index">
+    *ngFor="let option of options; let ix = index"
+  >
     {{ option[1] }}
   </option>
-
 </select>
 
 <ng-content select="[suffix]"></ng-content>

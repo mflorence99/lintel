@@ -8,7 +8,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('SelectArrayComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -53,9 +52,13 @@ describe('SelectArrayComponent', () => {
     const component = fixture.componentInstance;
     component.type = 'text';
     component.value = ['London', 'Paris', 'Rome'];
-    expect((component.selectArrayForm.controls.selects as FormArray).length).toEqual(4);
+    expect(
+      (component.selectArrayForm.controls.selects as FormArray).length
+    ).toEqual(4);
     component.addSelector();
-    expect((component.selectArrayForm.controls.selects as FormArray).length).toEqual(5);
+    expect(
+      (component.selectArrayForm.controls.selects as FormArray).length
+    ).toEqual(5);
   });
 
   test('removeSelector', () => {
@@ -63,18 +66,22 @@ describe('SelectArrayComponent', () => {
     const component = fixture.componentInstance;
     component.type = 'number';
     component.value = [1, 2, 3];
-    expect((component.selectArrayForm.controls.selects as FormArray).length).toEqual(4);
+    expect(
+      (component.selectArrayForm.controls.selects as FormArray).length
+    ).toEqual(4);
     component.removeSelector(1);
-    expect((component.selectArrayForm.controls.selects as FormArray).length).toEqual(3);
+    expect(
+      (component.selectArrayForm.controls.selects as FormArray).length
+    ).toEqual(3);
   });
 
-  test('ngOnInit', done => {
+  test('ngOnInit', (done) => {
     const fixture = TestBed.createComponent(SelectArrayComponent);
     const component = fixture.componentInstance;
     component.type = 'text';
     component.uniqueItems = true;
     component.value = ['London', 'Paris', 'Paris', 'Rome'];
-    component.registerOnChange(value => {
+    component.registerOnChange((value) => {
       expect(value).toEqual(['London', 'Paris', 'Rome']);
       done();
     });
@@ -82,5 +89,4 @@ describe('SelectArrayComponent', () => {
     // NOTE: trips valueChanges
     component.addSelector();
   });
-
 });

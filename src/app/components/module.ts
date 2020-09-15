@@ -24,19 +24,10 @@ const COMPONENTS = [
 ];
 
 @NgModule({
+  declarations: [...COMPONENTS],
 
-  declarations: [
-    ...COMPONENTS
-  ],
+  exports: [...COMPONENTS],
 
-  exports: [
-    ...COMPONENTS
-  ],
-
-  imports: [
-    BarrelModule
-  ]
-
+  imports: [BarrelModule]
 })
-
-export class ComponentsModule { }
+export class ComponentsModule {}

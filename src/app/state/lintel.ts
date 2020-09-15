@@ -28,9 +28,7 @@ export interface LintelStateModel {
     unique: 1
   }
 })
-
 export class LintelState extends NgxsDataRepository<LintelStateModel> {
-
   // actions
 
   @DataAction({ insideZone: true })
@@ -60,5 +58,4 @@ export class LintelState extends NgxsDataRepository<LintelStateModel> {
     this.updateUnique();
     return this.snapshot.unique;
   }
-
 }

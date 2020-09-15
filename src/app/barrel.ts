@@ -21,15 +21,8 @@ const MODULES = [
 ];
 
 @NgModule({
+  imports: [...MODULES],
 
-  imports: [
-    ...MODULES
-  ],
-
-  exports: [
-    ...MODULES
-  ],
-
+  exports: [...MODULES]
 })
-
-export class BarrelModule { }
+export class BarrelModule {}

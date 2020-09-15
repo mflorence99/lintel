@@ -1,21 +1,18 @@
 import { HydratedDirective } from './hydrated';
 
 describe('HydratedDirective', () => {
-
   let mockElementRef: any;
   let mockHydrator: any;
 
   beforeEach(() => {
-
     mockElementRef = {
       nativeElement: document.body
-    }; 
+    };
 
     mockHydrator = {
       registerHydrateable: jest.fn(),
-      unregisterHydrateable: jest.fn(),
+      unregisterHydrateable: jest.fn()
     };
-
   });
 
   test('Directive is created', () => {
@@ -23,9 +20,9 @@ describe('HydratedDirective', () => {
     expect(hydrated).toBeTruthy();
   });
 
-  test('isHydrated', done => {
+  test('isHydrated', (done) => {
     const hydrated = new HydratedDirective(mockElementRef, mockHydrator);
-    hydrated.hydrated.subscribe(state => {
+    hydrated.hydrated.subscribe((state) => {
       expect(state).toBe(true);
       done();
     });
@@ -46,5 +43,4 @@ describe('HydratedDirective', () => {
     expect(mockHydrator.registerHydrateable).toHaveBeenCalled();
     expect(document.body.getAttribute('lintelHydrated')).toBe('xxx');
   });
-
 });

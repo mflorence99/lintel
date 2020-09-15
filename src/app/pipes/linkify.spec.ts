@@ -11,7 +11,6 @@ const after = `Blah blah
 <a href="mailto:mflo999@gmail.com">mflo999@gmail.com</a> blah blah`;
 
 describe('LinkifyPipe', () => {
-
   test('null returns default', () => {
     const linkify = new LinkifyPipe();
     expect(linkify.transform(null, 'default')).toEqual('default');
@@ -26,5 +25,4 @@ describe('LinkifyPipe', () => {
     const linkify = new LinkifyPipe();
     expect(linkify.transform(before)).toEqual(after);
   });
-
 });

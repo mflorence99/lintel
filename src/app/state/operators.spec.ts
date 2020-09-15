@@ -4,7 +4,6 @@ import { updateItems } from './operators';
 import { patch } from '@ngxs/store/operators';
 
 describe('Custom operators', () => {
-
   test('update simple rule', () => {
     const rules: any = { r: ['warn', 42, true] };
     const updated = patch({ r: updateItems(['off']) })(rules);
@@ -29,5 +28,4 @@ describe('Custom operators', () => {
     expect(updated.p).toBeTruthy();
     expect(updated.q).toBeFalsy();
   });
-
 });

@@ -1,89 +1,60 @@
-<ng-container
-  *ngIf="!configs.isEmpty; else noConfigs">
+<ng-container *ngIf="!configs.isEmpty; else noConfigs">
+  <lintel-configs class="configs"> </lintel-configs>
 
-  <lintel-configs
-    class="configs">
-  </lintel-configs>
-
-  <ng-container
-    *ngIf="selection.fileName">
-
-    <ng-container
-      *ngIf="!configs.configuration.loading; else invalidConfig">
-
-      <ng-container
-        [ngSwitch]="selection.category">
-
-        <lintel-general 
+  <ng-container *ngIf="selection.fileName">
+    <ng-container *ngIf="!configs.configuration.loading; else invalidConfig">
+      <ng-container [ngSwitch]="selection.category">
+        <lintel-general
           *ngSwitchCase="params.generalSettings"
-          class="general settings">
+          class="general settings"
+        >
         </lintel-general>
 
-        <div
-          *ngSwitchDefault
-          class="rules settings">
+        <div *ngSwitchDefault class="rules settings">
+          <lintel-filter class="filter"> </lintel-filter>
 
-          <lintel-filter
-            class="filter">
-          </lintel-filter>
-
-          <lintel-tabs
-            class="tabs">
-          </lintel-tabs>
+          <lintel-tabs class="tabs"> </lintel-tabs>
 
           <lintel-scroller
-            [hydratorMargin]="'100px'" 
+            [hydratorMargin]="'100px'"
             [hydratorTrace]="true"
             [ngSwitch]="selection.category"
             class="rules"
             id="theScroller"
-            lintelHydrator>
-
-            <lintel-rules 
+            lintelHydrator
+          >
+            <lintel-rules
               [view]="configs.activeView"
-              *ngSwitchCase="params.activeCategory">
+              *ngSwitchCase="params.activeCategory"
+            >
             </lintel-rules>
 
-            <lintel-rules 
+            <lintel-rules
               [view]="configs.categoryView[selection.category]"
-              *ngSwitchDefault>
+              *ngSwitchDefault
+            >
             </lintel-rules>
-
           </lintel-scroller>
-
         </div>
-
       </ng-container>
-
     </ng-container>
 
-    <ng-template
-      #invalidConfig>
-
-      <main
-        (click)="editFile(selection.fileName)"
-        class="exception settings">
+    <ng-template #invalidConfig>
+      <main (click)="editFile(selection.fileName)" class="exception settings">
         <div>
           <div>This configuration file cannot be analyzed</div>
           <a>Edit in {{ configs.shortFileName(selection.fileName) }}</a>
         </div>
       </main>
-
     </ng-template>
-
   </ng-container>
-
 </ng-container>
 
-<ng-template
-  #noConfigs>
-
-  <main
-    class="exception settings">
+<ng-template #noConfigs>
+  <main class="exception settings">
     <div>
       <div>There are no ESLint configurations</div>
       <div>in this project</div>
     </div>
   </main>
-
 </ng-template>

@@ -8,25 +8,13 @@ import { NgModule } from '@angular/core';
  * All our directives
  */
 
-const DIRECTIVES = [
-  HydratedDirective,
-  HydratorDirective
-];
+const DIRECTIVES = [HydratedDirective, HydratorDirective];
 
 @NgModule({
+  declarations: [...DIRECTIVES],
 
-  declarations: [
-    ...DIRECTIVES
-  ],
+  exports: [...DIRECTIVES],
 
-  exports: [
-    ...DIRECTIVES
-  ],
-
-  imports: [
-    BarrelModule
-  ]
-
+  imports: [BarrelModule]
 })
-
-export class DirectivesModule { }
+export class DirectivesModule {}

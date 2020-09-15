@@ -3,10 +3,9 @@ import { Bundle } from './state.spec';
 import { prepare } from './state.spec';
 
 describe('FilterState', () => {
-
   let bundle: Bundle;
 
-  beforeEach(() => bundle = prepare());
+  beforeEach(() => (bundle = prepare()));
 
   test('Rule name filter can be set', () => {
     bundle.selection.select({
@@ -16,8 +15,12 @@ describe('FilterState', () => {
     });
     bundle.filter.filterRuleName('default');
     expect(bundle.filter.snapshot.ruleNameFilter).toEqual('default');
-    expect(bundle.configs.categoryView['Best Practices']['default-case']).toBeTruthy();
-    expect(bundle.configs.categoryView['Best Practices']['comma-spacing']).toBeFalsy();
+    expect(
+      bundle.configs.categoryView['Best Practices']['default-case']
+    ).toBeTruthy();
+    expect(
+      bundle.configs.categoryView['Best Practices']['comma-spacing']
+    ).toBeFalsy();
   });
 
   test('Empty data returned for non-matching filter', () => {
@@ -29,7 +32,9 @@ describe('FilterState', () => {
     bundle.filter.filterRuleName('xxx');
     expect(bundle.filter.snapshot.ruleNameFilter).toEqual('xxx');
     expect(bundle.configs.categories.length).toEqual(0);
-    expect(bundle.utils.isEmptyObject(bundle.configs.categoryView)).toBeTruthy();
+    expect(
+      bundle.utils.isEmptyObject(bundle.configs.categoryView)
+    ).toBeTruthy();
   });
 
   test('Inherited rules can be shown or hidden', () => {
@@ -40,5 +45,4 @@ describe('FilterState', () => {
     bundle.filter.toggleInheritedRules();
     expect(bundle.filter.snapshot.showInheritedRules).toBe(true);
   });
-
 });

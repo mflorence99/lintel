@@ -42,7 +42,6 @@
     border-color: var(--vscode-editorOverviewRuler-warningForeground);
     color: var(--vscode-editorOverviewRuler-warningForeground);
   }
-
 }
 
 .settings {
@@ -64,11 +63,11 @@
       margin-right: 0.5rem;
     }
 
-    > lintel-input[type=number] {
+    > lintel-input[type='number'] {
       width: 5rem;
     }
 
-    > lintel-input[type=text] {
+    > lintel-input[type='text'] {
       width: 15rem;
     }
 
@@ -94,13 +93,11 @@
         width: 10rem;
 
         &::after {
-          content: "........................................................";
+          content: '........................................................';
           position: absolute;
         }
       }
-
     }
-
   }
 
   .notYet {
@@ -108,5 +105,4 @@
     cursor: pointer;
     display: flex;
   }
-
 }

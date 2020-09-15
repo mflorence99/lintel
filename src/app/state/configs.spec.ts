@@ -3,21 +3,28 @@ import { Bundle } from './state.spec';
 import { prepare } from './state.spec';
 
 describe('ConfigsState', () => {
-
   let bundle: Bundle;
 
-  beforeEach(() => bundle = prepare());
+  beforeEach(() => (bundle = prepare()));
 
   test('ConfigsState is initialized', () => {
-    expect(bundle.configs.snapshot['/home/mflorence99/lintel/package.json']).toBeTruthy();
+    expect(
+      bundle.configs.snapshot['/home/mflorence99/lintel/package.json']
+    ).toBeTruthy();
     expect(bundle.configs.fileNames.length).toBeGreaterThanOrEqual(7);
-    expect(bundle.configs.fileNames[0]).toEqual('/home/mflorence99/lintel/package.json');
+    expect(bundle.configs.fileNames[0]).toEqual(
+      '/home/mflorence99/lintel/package.json'
+    );
   });
 
   test('fileNames are properly constructed', () => {
     expect(bundle.configs.fileNames.length).toBeGreaterThanOrEqual(7);
-    expect(bundle.configs.fileNames[0]).toEqual('/home/mflorence99/lintel/package.json');
-    expect(bundle.configs.fileNames[1]).toEqual('/home/mflorence99/el-3270/.eslintrc.js');
+    expect(bundle.configs.fileNames[0]).toEqual(
+      '/home/mflorence99/lintel/package.json'
+    );
+    expect(bundle.configs.fileNames[1]).toEqual(
+      '/home/mflorence99/el-3270/.eslintrc.js'
+    );
   });
 
   test('shortFileNames are properly constructed', () => {
@@ -27,18 +34,25 @@ describe('ConfigsState', () => {
   });
 
   test('shortFileName', () => {
-    expect(bundle.configs.shortFileName('/home/mflorence99/el-3270/.eslintrc.js')).toEqual('el-3270/.eslintrc.js');
+    expect(
+      bundle.configs.shortFileName('/home/mflorence99/el-3270/.eslintrc.js')
+    ).toEqual('el-3270/.eslintrc.js');
   });
 
   test('pluginNames are properly constructed', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     expect(bundle.configs.pluginNames.length).toBeGreaterThanOrEqual(5);
     expect(bundle.configs.pluginNames[0]).toEqual(bundle.params.basePluginName);
     expect(bundle.configs.pluginNames[1]).toEqual('@angular-eslint');
   });
 
   test('categories are properly constructed', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: bundle.params.basePluginName
+    });
     expect(bundle.configs.categories.length).toEqual(7);
     expect(bundle.configs.categories[0]).toEqual('Best Practices');
     expect(bundle.configs.categories[1]).toEqual('ECMAScript 6');
@@ -50,13 +64,19 @@ describe('ConfigsState', () => {
   });
 
   test('activeView is properly constructed', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: bundle.params.basePluginName
+    });
     const view = bundle.configs.activeView;
     expect(view['space-infix-ops']).toBeTruthy();
   });
 
   test('activeView is really unknownView if unknownPluginName is selected', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.unknownPluginName });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: bundle.params.unknownPluginName
+    });
     const view = bundle.configs.activeView;
     expect(view['space-infix-ops']).toBeFalsy();
     expect(view['jest/no-existential-angst']).toBeTruthy();
@@ -64,21 +84,29 @@ describe('ConfigsState', () => {
   });
 
   test('categoryView is properly constructed', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: bundle.params.basePluginName
+    });
     const view = bundle.configs.categoryView;
     expect(view['Best Practices']['accessor-pairs']).toBeTruthy();
     expect(view['Variables']['init-declarations']).toBeTruthy();
   });
 
   test('unknownView is properly constructed', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: bundle.params.basePluginName
+    });
     const view = bundle.configs.unknownView;
     expect(view['jest/no-existential-angst']).toBeTruthy();
     expect(view['prefer-shaken-not-stirred']).toBeTruthy();
   });
 
   test('Extensions are properly merged', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     const extension = bundle.configs.extension;
     expect(extension.plugins).toContain('compat');
     expect(extension.plugins).toContain('jest');
@@ -87,17 +115,29 @@ describe('ConfigsState', () => {
   });
 
   test('Overrides are properly merged', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     const overrides = bundle.configs.overrides;
-    expect(overrides[0].files).toEqual(bundle.configs.configuration.overrides[0].files);
-    expect(overrides.length).toBeGreaterThan(bundle.configs.configuration.overrides.length);
+    expect(overrides[0].files).toEqual(
+      bundle.configs.configuration.overrides[0].files
+    );
+    expect(overrides.length).toBeGreaterThan(
+      bundle.configs.configuration.overrides.length
+    );
   });
 
   test('Rule digest is properly constructed', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: bundle.params.basePluginName
+    });
     const ruleName = 'brace-style';
     const rule = bundle.rules.snapshot[bundle.params.basePluginName][ruleName];
-    const settings = bundle.configs.snapshot['/home/mflorence99/lintel/package.json']?.rules?.[ruleName];
+    const settings =
+      bundle.configs.snapshot['/home/mflorence99/lintel/package.json']?.rules?.[
+        ruleName
+      ];
     const digest = bundle.configs.makeRuleDigest(ruleName, rule, settings);
     expect(digest).toEqual(
       expect.objectContaining({
@@ -109,16 +149,23 @@ describe('ConfigsState', () => {
   });
 
   test('isOverrideInherited', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     expect(bundle.configs.isOverrideInherited(null)).toBe(false);
     expect(bundle.configs.isOverrideInherited(3)).toBe(false);
     expect(bundle.configs.isOverrideInherited(4)).toBe(true);
-    bundle.selection.select({ fileName: 'home/mflorence99/el-3270/.eslintrc.js' });
+    bundle.selection.select({
+      fileName: 'home/mflorence99/el-3270/.eslintrc.js'
+    });
     expect(bundle.configs.isOverrideInherited(0)).toBe(false);
   });
 
   test('isPluginFiltered', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', pluginName: bundle.params.basePluginName });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: bundle.params.basePluginName
+    });
     bundle.filter.filterRuleName('class');
     expect(bundle.configs.isPluginFiltered('eslint')).toBe(true);
     expect(bundle.configs.isPluginFiltered('@angular-eslint')).toBe(true);
@@ -126,28 +173,39 @@ describe('ConfigsState', () => {
   });
 
   test('addOverride', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     expect(bundle.configs.configuration.overrides.length).toBe(4);
     bundle.configs.addOverride();
     expect(bundle.configs.configuration.overrides.length).toBe(5);
   });
-  
+
   test('changeConfiguration in base configutation', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      override: null
+    });
     const changes = { browser: false };
     bundle.configs.changeConfiguration({ env: changes });
     expect(bundle.configs.configuration.env).toEqual(changes);
   });
 
   test('changeConfiguration in override', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: 0 });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      override: 0
+    });
     const changes = { browser: true };
     bundle.configs.changeConfiguration({ env: changes });
     expect(bundle.configs.configuration.env).toEqual(changes);
   });
 
   test('changeRule in base configuration', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      override: null
+    });
     const changes = ['warn', { after: false, before: false }];
     const ruleName = 'brace-style';
     bundle.configs.changeRule({ changes, ruleName });
@@ -155,7 +213,10 @@ describe('ConfigsState', () => {
   });
 
   test('changeRule in override', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: 1 });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      override: 1
+    });
     const changes = ['off'];
     const ruleName = 'node/exports-style';
     bundle.configs.changeRule({ changes, ruleName });
@@ -163,14 +224,19 @@ describe('ConfigsState', () => {
   });
 
   test('deleteOverride', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json' });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     expect(bundle.configs.configuration.overrides.length).toBe(4);
     bundle.configs.deleteOverride({ ix: 0 });
     expect(bundle.configs.configuration.overrides.length).toBe(3);
   });
 
   test('deleteRule in base configuration', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: null });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      override: null
+    });
     const ruleName = 'spaced-comment';
     expect(bundle.configs.configuration.rules[ruleName]).toBeTruthy();
     bundle.configs.deleteRule({ ruleName });
@@ -178,11 +244,13 @@ describe('ConfigsState', () => {
   });
 
   test('deleteRule in override', () => {
-    bundle.selection.select({ fileName: '/home/mflorence99/lintel/package.json', override: 2 });
+    bundle.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      override: 2
+    });
     const ruleName = 'node/file-extension-in-import';
     expect(bundle.configs.configuration.rules[ruleName]).toBeTruthy();
     bundle.configs.deleteRule({ ruleName });
     expect(bundle.configs.configuration.rules[ruleName]).toBeFalsy();
   });
-
 });

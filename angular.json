@@ -41,14 +41,9 @@
             }
           },
           "options": {
-            "allowedCommonJsDependencies": [
-              "js-yaml"
-            ],
+            "allowedCommonJsDependencies": ["js-yaml"],
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "index": "src/index.html",
             "main": "src/main.ts",
             "outputPath": "dist/lintel",
@@ -57,9 +52,7 @@
               "src/scripts/esprima@4.1/esprima.js",
               "src/scripts/js-yaml@3.14.0/js-yaml.min.js"
             ],
-            "styles": [
-              "src/theme.scss"
-            ],
+            "styles": ["src/theme.scss"],
             "tsConfig": "src/tsconfig.json"
           }
         },

@@ -3,10 +3,12 @@ import { detectIndent } from './detect-indent';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const getFile = (file): string => fs.readFileSync(path.join(__dirname, file), 'utf8');
+const getFile = (file): string =>
+  fs.readFileSync(path.join(__dirname, file), 'utf8');
 
 const is = (received, expected): void => expect(received).toEqual(expected);
-const deepEqual = (received, expected): void => expect(received).toEqual(expected);
+const deepEqual = (received, expected): void =>
+  expect(received).toEqual(expected);
 
 test('detect the indent of a file with space indent', () => {
   is(detectIndent(getFile('fixtures/space')).indent, '    ');
@@ -18,7 +20,7 @@ test('return indentation stats for spaces', () => {
     amount: 4,
     indent: '    ',
     type: 'space',
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -28,7 +30,7 @@ test('return indentation stats for multiple tabs', () => {
     amount: 4,
     indent: '\t\t\t\t',
     type: 'tab',
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -42,7 +44,7 @@ test('return indentation stats for tabs', () => {
     amount: 1,
     indent: '\t',
     type: 'tab',
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -56,7 +58,7 @@ test('return indentation stats for equal tabs and spaces', () => {
     amount: 1,
     indent: '\t',
     type: 'tab',
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -71,7 +73,7 @@ test('return indentation stats for mostly spaces', () => {
     amount: 4,
     indent: '    ',
     type: 'space',
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -86,7 +88,7 @@ test('return indentation stats for various spaces', () => {
     amount: 4,
     indent: '    ',
     type: 'space',
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -100,7 +102,7 @@ test('return indentation stats for no indentation', () => {
     amount: 0,
     indent: '',
     type: undefined,
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -110,7 +112,7 @@ test('return indentation stats for fifty-fifty indented files with spaces first'
     amount: 4,
     indent: '    ',
     type: 'space',
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -120,7 +122,7 @@ test('return indentation stats for fifty-fifty indented files with tabs first', 
     amount: 1,
     indent: '\t',
     type: 'tab',
-    quotes: '\''
+    quotes: "'"
   });
 });
 
@@ -130,7 +132,7 @@ test('return indentation stats for indented files with spaces and tabs last', ()
     amount: 1,
     indent: '\t',
     type: 'tab',
-    quotes: '\''
+    quotes: "'"
   });
 });
 

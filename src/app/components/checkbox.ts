@@ -14,7 +14,7 @@ import { forwardRef } from '@angular/core';
  * NOTE: just enough to be able to match VSCode as well as possible
  *
  * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
- * 
+ *
  * Reference is old, but still helpful
  */
 
@@ -31,9 +31,7 @@ import { forwardRef } from '@angular/core';
   templateUrl: 'checkbox.html',
   styleUrls: ['checkbox.scss']
 })
-
 export class CheckboxComponent implements ControlValueAccessor {
-
   @ViewChild('checkbox', { static: true }) checkbox: ElementRef;
 
   @Input() default: boolean;
@@ -57,7 +55,7 @@ export class CheckboxComponent implements ControlValueAccessor {
   private onChange: Function;
 
   /** ctor */
-  constructor(private cdf: ChangeDetectorRef) { }
+  constructor(private cdf: ChangeDetectorRef) {}
 
   /** @see ControlValueAccessor */
   registerOnChange(fn): void {
@@ -65,7 +63,7 @@ export class CheckboxComponent implements ControlValueAccessor {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void { }
+  registerOnTouched(_): void {}
 
   /** Toggle checkbox value */
   toggleChecked(): void {
@@ -80,5 +78,4 @@ export class CheckboxComponent implements ControlValueAccessor {
   writeValue(value): void {
     this.value = value;
   }
-
 }

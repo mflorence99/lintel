@@ -17,7 +17,7 @@ export type InputValueType = number | string;
  * NOTE: just enough to be able to match VSCode as well as possible
  *
  * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
- * 
+ *
  * Reference is old, but still helpful
  */
 
@@ -34,9 +34,7 @@ export type InputValueType = number | string;
   templateUrl: 'input.html',
   styleUrls: ['input.scss']
 })
-
 export class InputComponent implements ControlValueAccessor {
-
   @Input() enabled = true;
 
   @ViewChild('input', { static: true }) input: ElementRef;
@@ -56,9 +54,8 @@ export class InputComponent implements ControlValueAccessor {
   }
   set value(value: InputValueType) {
     this._value = value;
-    if (this.input?.nativeElement)
-      this.input.nativeElement.value = value;
-    this.onChange?.((this.type === 'number') ? Number(value) : value);
+    if (this.input?.nativeElement) this.input.nativeElement.value = value;
+    this.onChange?.(this.type === 'number' ? Number(value) : value);
     this.cdf.detectChanges();
   }
 
@@ -66,7 +63,7 @@ export class InputComponent implements ControlValueAccessor {
   private onChange: Function;
 
   /** ctor */
-  constructor(private cdf: ChangeDetectorRef) { }
+  constructor(private cdf: ChangeDetectorRef) {}
 
   /** @see ControlValueAccessor */
   registerOnChange(fn): void {
@@ -74,11 +71,10 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void { }
+  registerOnTouched(_): void {}
 
   /** @see ControlValueAccessor */
   writeValue(value): void {
     this.value = value;
   }
-
 }

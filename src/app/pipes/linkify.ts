@@ -8,18 +8,13 @@ import { PipeTransform } from '@angular/core';
  */
 
 @Pipe({ name: 'lintelLinkify' })
-
 export class LinkifyPipe implements PipeTransform {
-
   transform(s: string, dflt = ''): string {
-
     // quick exit if empty string
-    if (s == null)
-      return dflt;
+    if (s == null) return dflt;
 
     // quick exit if already transformed
-    if (s.includes('<a ') && s.includes('</a>'))
-      return s;
+    if (s.includes('<a ') && s.includes('</a>')) return s;
 
     // URLs starting with http://, https://, or ftp://
     const p1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gim;
@@ -34,7 +29,5 @@ export class LinkifyPipe implements PipeTransform {
     s = s.replace(p3, '<a href="mailto:$1">$1</a>');
 
     return s;
-
   }
-
 }

@@ -36,9 +36,7 @@ declare const lintelVSCodeAPI;
   templateUrl: 'general.html',
   styleUrls: ['general.scss']
 })
-
-export class GeneralComponent implements OnInit { 
-
+export class GeneralComponent implements OnInit {
   generalForm: FormGroup;
 
   private emitEvent = true;
@@ -60,15 +58,17 @@ export class GeneralComponent implements OnInit {
   ];
 
   /** ctor */
-  constructor(public configs: ConfigsState,
-              private destroy$: DestroyService,
-              public extensions: ExtensionsState,
-              private formBuilder: FormBuilder,
-              private host: ElementRef,
-              public lintel: LintelState,
-              public schema: SchemaState,
-              public selection: SelectionState,
-              public utils: Utils) {
+  constructor(
+    public configs: ConfigsState,
+    private destroy$: DestroyService,
+    public extensions: ExtensionsState,
+    private formBuilder: FormBuilder,
+    private host: ElementRef,
+    public lintel: LintelState,
+    public schema: SchemaState,
+    public selection: SelectionState,
+    public utils: Utils
+  ) {
     this.generalForm = this.formBuilder.group({
       ecmaFeatures: null,
       env: null,
@@ -88,11 +88,13 @@ export class GeneralComponent implements OnInit {
 
   /** We can only process if all values are string, number or boolean */
   canDoSettings(): boolean {
-    const settings = this.configs.configuration.settings ?? { };
-    return Object.values(settings).every(setting => {
-      return typeof setting === 'string'
-          || typeof setting === 'number'
-          || typeof setting === 'boolean';
+    const settings = this.configs.configuration.settings ?? {};
+    return Object.values(settings).every((setting) => {
+      return (
+        typeof setting === 'string' ||
+        typeof setting === 'number' ||
+        typeof setting === 'boolean'
+      );
     });
   }
 
@@ -106,11 +108,14 @@ export class GeneralComponent implements OnInit {
   isConfigured(key: string): boolean {
     // NOTE: ecmaFeatures moved from the top level into parseOptions
     if (key === 'ecmaFeatures')
-      return this.utils.exists(this.configs.configuration.parserOptions?.ecmaFeatures);
+      return this.utils.exists(
+        this.configs.configuration.parserOptions?.ecmaFeatures
+      );
     // ... but still consider parserOptions separately
     else if (key === 'parserOptions') {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { ecmaFeatures, ...rest } = this.configs.configuration.parserOptions ?? { };
+      const { ecmaFeatures, ...rest } =
+        this.configs.configuration.parserOptions ?? {};
       return this.utils.exists(rest);
     } else return this.utils.exists(this.configs.configuration[key]);
   }
@@ -119,13 +124,15 @@ export class GeneralComponent implements OnInit {
   isInherited(key: string): boolean {
     // NOTE: ecmaFeatures moved from the top level into parseOptions
     if (key === 'ecmaFeatures')
-      return this.utils.exists(this.configs.extension.parserOptions?.ecmaFeatures);
-    else if (key === 'overrides')
-      return false;
+      return this.utils.exists(
+        this.configs.extension.parserOptions?.ecmaFeatures
+      );
+    else if (key === 'overrides') return false;
     // ... but still consider parserOptions separately
     else if (key === 'parserOptions') {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { ecmaFeatures, ...rest } = this.configs.extension.parserOptions ?? { };
+      const { ecmaFeatures, ...rest } =
+        this.configs.extension.parserOptions ?? {};
       return this.utils.exists(rest);
     } else return this.utils.exists(this.configs.extension[key]);
   }
@@ -133,22 +140,30 @@ export class GeneralComponent implements OnInit {
   /** Merge extension into options */
   makeOptionsForMultiselector(nm: string, ext: string): MultiselectorOptions {
     const properties = eval(`this.schema.properties.${nm}.properties`);
-    const inherited = Object.keys(this.utils.safeEval(this, `configs.extension.${ext}`, { }));
+    const inherited = Object.keys(
+      this.utils.safeEval(this, `configs.extension.${ext}`, {})
+    );
     return Array.from(new Set([...Object.keys(properties), ...inherited]))
       .sort()
-      .map(property => [property, property, properties[property]?.description]);
+      .map((property) => [
+        property,
+        property,
+        properties[property]?.description
+      ]);
   }
 
   /** Options from enum */
   makeOptionsForSingleselector(nm: string): SingleselectorOptions {
     const options = eval(`this.schema.properties.${nm}.enum`);
-    return options.map(option => [option, option]);
+    return options.map((option) => [option, option]);
   }
 
   /** NOTE: overrides can't have overrides */
   makeProperties(): string[][] {
-    return this.properties
-      .filter(property => (this.selection.override == null) || (property[0] !== 'overrides'));
+    return this.properties.filter(
+      (property) =>
+        this.selection.override == null || property[0] !== 'overrides'
+    );
   }
 
   /** When we're ready */
@@ -169,45 +184,56 @@ export class GeneralComponent implements OnInit {
     ];
     merge(...changes)
       .pipe(
-        filter(_ => this.emitEvent),
+        filter((_) => this.emitEvent),
         map(([changes, key]) => {
           // NOTE: ecmaFeatures moved from the top level into parseOptions
           if (key === 'ecmaFeatures')
-            return { parserOptions: { ...this.configs.configuration.parserOptions, ecmaFeatures: changes }};
+            return {
+              parserOptions: {
+                ...this.configs.configuration.parserOptions,
+                ecmaFeatures: changes
+              }
+            };
           return { [key]: changes };
         }),
         takeUntil(this.destroy$)
-      ).subscribe(changes => this.configs.changeConfiguration(changes));
+      )
+      .subscribe((changes) => this.configs.changeConfiguration(changes));
   }
 
   // private methods
 
   private handleSelectionState$(): void {
-    this.selection.state$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(_ => {
-        this.emitEvent = false;
-        this.generalForm.patchValue({
+    this.selection.state$.pipe(takeUntil(this.destroy$)).subscribe((_) => {
+      this.emitEvent = false;
+      this.generalForm.patchValue(
+        {
           // NOTE: ecmaFeatures moved from the top level into parseOptions
-          ecmaFeatures: this.configs.configuration.parserOptions?.ecmaFeatures ?? { },
-          env: this.configs.configuration.env ?? { },
+          ecmaFeatures:
+            this.configs.configuration.parserOptions?.ecmaFeatures ?? {},
+          env: this.configs.configuration.env ?? {},
           extends: this.configs.configuration.extends ?? [],
-          globals: this.configs.configuration.globals ?? { },
+          globals: this.configs.configuration.globals ?? {},
           ignorePatterns: this.configs.configuration.ignorePatterns ?? [],
           noInlineConfig: this.configs.configuration.noInlineConfig ?? false,
           parser: this.configs.configuration.parser ?? null,
           plugins: this.configs.configuration.plugins ?? [],
-          reportUnusedDisableDirectives: this.configs.configuration.reportUnusedDisableDirectives ?? false,
+          reportUnusedDisableDirectives:
+            this.configs.configuration.reportUnusedDisableDirectives ?? false,
           root: this.configs.configuration.root ?? false,
-          settings: this.configs.configuration.settings ?? { }
+          settings: this.configs.configuration.settings ?? {}
           // TODO: we don't know why { emitEvent: false } doesn't work
-        }, { emitEvent: false });
-        this.emitEvent = true;
-      });
+        },
+        { emitEvent: false }
+      );
+      this.emitEvent = true;
+    });
   }
 
   private makeValueChanges(key: string): Observable<[any, string]> {
-    return combineLatest([this.generalForm.controls[key].valueChanges, of(key)]);
+    return combineLatest([
+      this.generalForm.controls[key].valueChanges,
+      of(key)
+    ]);
   }
-
 }

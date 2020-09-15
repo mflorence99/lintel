@@ -24,41 +24,35 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'configs.html',
   styleUrls: ['configs.scss']
 })
-
 export class ConfigsComponent {
-
   /** ctor */
-  constructor(private actions$: Actions,
-              public configs: ConfigsState,
-              private destroy$: DestroyService,
-              public filter: FilterState,
-              public lintel: LintelState,
-              public params: Params,
-              public selection: SelectionState,
-              public utils: Utils) { 
+  constructor(
+    private actions$: Actions,
+    public configs: ConfigsState,
+    private destroy$: DestroyService,
+    public filter: FilterState,
+    public lintel: LintelState,
+    public params: Params,
+    public selection: SelectionState,
+    public utils: Utils
+  ) {
     this.handleActions$();
   }
 
   /** Color code a file */
   colorForFile(fileName: string): string {
-    if (fileName.endsWith('package.json'))
-      return 'var(--mat-light-green-a700)';
-    else if (fileName.endsWith('.js'))
-      return 'var(--mat-light-blue-a700)';
-    else if (fileName.endsWith('.cjs'))
-      return 'var(--mat-pink-a700)';
-    else if (fileName.endsWith('.yml') 
-      || fileName.endsWith('.yaml'))
+    if (fileName.endsWith('package.json')) return 'var(--mat-light-green-a700)';
+    else if (fileName.endsWith('.js')) return 'var(--mat-light-blue-a700)';
+    else if (fileName.endsWith('.cjs')) return 'var(--mat-pink-a700)';
+    else if (fileName.endsWith('.yml') || fileName.endsWith('.yaml'))
       return 'var(--mat-yellow-a700)';
     else return 'var(--mat-teal-a700)';
   }
 
   /** Make an icon for a file */
   iconForFile(fileName: string): string[] {
-    if (fileName.endsWith('package.json'))
-      return ['fab', 'node-js'];
-    else if (fileName.endsWith('.js'))
-      return ['fab', 'js'];
+    if (fileName.endsWith('package.json')) return ['fab', 'node-js'];
+    else if (fileName.endsWith('.js')) return ['fab', 'js'];
     else return ['far', 'file-code'];
   }
 
@@ -68,7 +62,7 @@ export class ConfigsComponent {
     if (category !== this.selection.category) {
       this.selection.select({ category });
       return true;
-    }  else return false;
+    } else return false;
   }
 
   /** Select a file name */
@@ -84,7 +78,10 @@ export class ConfigsComponent {
   selectOverride(event: Event, ix: number): boolean {
     event.stopPropagation();
     if (ix !== this.selection.override) {
-      this.selection.select({ override: ix, overrideFiles: (ix != null) ? this.configs.overrides[ix].files : null });
+      this.selection.select({
+        override: ix,
+        overrideFiles: ix != null ? this.configs.overrides[ix].files : null
+      });
       // disable app when override selected that's not ours
       if (this.configs.isOverrideInherited(ix))
         this.lintel.enable({ enabled: false, message: this.disabledMessage() });
@@ -95,15 +92,16 @@ export class ConfigsComponent {
 
   /** Shorten a file name */
   shortenFileName(fileName: string): string {
-    return this.configs.shortFileName(fileName)
-      .replace(/\//g, '/\u200b');
+    return this.configs.shortFileName(fileName).replace(/\//g, '/\u200b');
   }
 
   // private methods
 
   private disabledMessage(): string {
     const fileName = this.shortenFileName(this.selection.fileName);
-    const files = this.configs.overrides[this.selection.override].files.toString();
+    const files = this.configs.overrides[
+      this.selection.override
+    ].files.toString();
     return `The settings for <b>${files}</b> files are inherited from configurations in <code>extends</code> and cannot be modified. To override them, add an <code>overrides</code> section to this <a>${fileName}</a> configuration.`;
   }
 
@@ -113,21 +111,24 @@ export class ConfigsComponent {
         filter(({ status }) => status === 'SUCCESSFUL'),
         takeUntil(this.destroy$)
       )
-      .subscribe(_ => {
+      .subscribe((_) => {
         // NOTE: general settings and active rules are always available
-        if ((this.selection.category !== this.params.generalSettings)
-          && (this.selection.category !== this.params.activeCategory)) {
+        if (
+          this.selection.category !== this.params.generalSettings &&
+          this.selection.category !== this.params.activeCategory
+        ) {
           // categories will be all the available categories in order
           // NOTE: Active Rules is always available
           const categories = [];
           categories.push(this.params.activeCategory);
           categories.push(...this.configs.categories);
           // if the selected category is no longer available, pick one that is
-          if ((categories.length > 0)
-            && !categories.includes(this.selection.category))
+          if (
+            categories.length > 0 &&
+            !categories.includes(this.selection.category)
+          )
             this.selection.select({ category: this.params.activeCategory });
         }
       });
   }
-
 }

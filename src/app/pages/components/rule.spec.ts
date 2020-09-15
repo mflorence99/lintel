@@ -9,7 +9,6 @@ import { async } from '@angular/core/testing';
 declare const lintelVSCodeAPI;
 
 describe('RuleComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -48,12 +47,28 @@ describe('RuleComponent', () => {
     const fixture = TestBed.createComponent(RuleComponent);
     const component = fixture.componentInstance;
     const rule = component.rules.snapshot['eslint']['brace-style'];
-    let settings = component.configs.snapshot['/home/mflorence99/lintel/package.json'].rules['brace-style'];
-    component.ruleDigest = component.configs.makeRuleDigest('brace-style', rule, settings);
-    component.schemaDigest = component.rules.makeSchemaDigest('brace-style', rule);
+    let settings =
+      component.configs.snapshot['/home/mflorence99/lintel/package.json'].rules[
+        'brace-style'
+      ];
+    component.ruleDigest = component.configs.makeRuleDigest(
+      'brace-style',
+      rule,
+      settings
+    );
+    component.schemaDigest = component.rules.makeSchemaDigest(
+      'brace-style',
+      rule
+    );
     component.ngOnInit();
-    component.ruleForm.patchValue({ level: 'warn', root: { elements: ['stroustrup', { allowSingleLine: true }] } });
-    settings = component.configs.snapshot['/home/mflorence99/lintel/package.json'].rules['brace-style'];
+    component.ruleForm.patchValue({
+      level: 'warn',
+      root: { elements: ['stroustrup', { allowSingleLine: true }] }
+    });
+    settings =
+      component.configs.snapshot['/home/mflorence99/lintel/package.json'].rules[
+        'brace-style'
+      ];
     expect(settings).toEqual(['warn', 'stroustrup', { allowSingleLine: true }]);
   });
 
@@ -69,5 +84,4 @@ describe('RuleComponent', () => {
       url: 'www.google.com'
     });
   });
-
 });

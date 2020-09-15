@@ -27,21 +27,21 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'parser-options.html',
   styleUrls: ['parser-options.scss']
 })
-
 export class ParserOptionsComponent implements OnInit {
-
   parserOptionsForm: FormGroup;
 
   private emitEvent = true;
 
   /** ctor */
-  constructor(public configs: ConfigsState,
-              private destroy$: DestroyService,
-              public extensions: ExtensionsState,
-              private formBuilder: FormBuilder,
-              public lintel: LintelState,
-              public schema: SchemaState,
-              public selection: SelectionState) {
+  constructor(
+    public configs: ConfigsState,
+    private destroy$: DestroyService,
+    public extensions: ExtensionsState,
+    private formBuilder: FormBuilder,
+    public lintel: LintelState,
+    public schema: SchemaState,
+    public selection: SelectionState
+  ) {
     this.parserOptionsForm = this.formBuilder.group({
       ecmaVersion: null,
       sourceType: null
@@ -53,35 +53,39 @@ export class ParserOptionsComponent implements OnInit {
   /** Options from enum */
   makeOptionsForSingleselector(nm: string): SingleselectorOptions {
     const options = eval(`this.schema.properties.${nm}.enum`);
-    return options.map(option => [option, option]);
+    return options.map((option) => [option, option]);
   }
 
   /** When we're ready */
   ngOnInit(): void {
     this.parserOptionsForm.valueChanges
       .pipe(
-        filter(_ => this.emitEvent),
+        filter((_) => this.emitEvent),
         takeUntil(this.destroy$)
-      ).subscribe(changes => 
+      )
+      .subscribe((changes) =>
         // NOTE: we're patching these changes because each parser can define its own
-        // set of parserOptions and we can't be sure we've built the UI for all of them 
-        this.configs.changeConfiguration({ parserOptions: patch(changes) }));
+        // set of parserOptions and we can't be sure we've built the UI for all of them
+        this.configs.changeConfiguration({ parserOptions: patch(changes) })
+      );
   }
 
   // private methods
 
   private handleSelectionState$(): void {
-    this.selection.state$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(_ => {
-        this.emitEvent = false;
-        this.parserOptionsForm.patchValue({
-          ecmaVersion: this.configs.configuration.parserOptions?.ecmaVersion ?? null,
-          sourceType: this.configs.configuration.parserOptions?.sourceType ?? null
+    this.selection.state$.pipe(takeUntil(this.destroy$)).subscribe((_) => {
+      this.emitEvent = false;
+      this.parserOptionsForm.patchValue(
+        {
+          ecmaVersion:
+            this.configs.configuration.parserOptions?.ecmaVersion ?? null,
+          sourceType:
+            this.configs.configuration.parserOptions?.sourceType ?? null
           // TODO: we don't know why { emitEvent: false } doesn't work
-        }, { emitEvent: false });
-        this.emitEvent = true;
-      });
+        },
+        { emitEvent: false }
+      );
+      this.emitEvent = true;
+    });
   }
-
 }

@@ -1,17 +1,11 @@
-<button
-  (click)="toggleChecked()"
-  #checkbox
-  class="checkbox"
-  tabIndex=0>
+<button (click)="toggleChecked()" #checkbox class="checkbox" tabindex="0">
   <fa-icon
     [icon]="['fas', 'check']"
-    [ngClass]="{checked: value, default: !touched && default, disabled: !enabled}">
+    [ngClass]="{checked: value, default: !touched && default, disabled: !enabled}"
+  >
   </fa-icon>
 </button>
 
-<label
-  (click)="toggleChecked()"
-  [ngClass]="{disabled: !enabled}"
-  class="label">
+<label (click)="toggleChecked()" [ngClass]="{disabled: !enabled}" class="label">
   {{ label }}
 </label>

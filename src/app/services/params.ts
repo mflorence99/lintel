@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class Params {
-
   activeCategory = 'Active Rules';
   allFilesOverride = '*.*';
   basePluginName = 'eslint';
@@ -15,11 +14,10 @@ export class Params {
   searchParams = {
     freshStart: false
   };
-  unknownPluginName= 'unknown';
+  unknownPluginName = 'unknown';
 
   /** ctor */
-  constructor(utils: Utils) { 
+  constructor(utils: Utils) {
     this.searchParams = utils.parseInitialSearchParams();
   }
-  
 }

@@ -1,10 +1,9 @@
 import * as isa from './core-util-is';
 
 describe('core-util-is', () => {
-
   test('isArray', () => {
     expect(isa.isArray([])).toBeTruthy();
-    expect(isa.isArray({ })).toBeFalsy();
+    expect(isa.isArray({})).toBeFalsy();
     expect(isa.isArray(42)).toBeFalsy();
     Array.isArray = undefined;
     expect(isa.isArray([])).toBeTruthy();
@@ -61,7 +60,7 @@ describe('core-util-is', () => {
   });
 
   test('isObject', () => {
-    expect(isa.isObject({ })).toBeTruthy();
+    expect(isa.isObject({})).toBeTruthy();
     // NOTE: don't think this should be true, but this is just a port
     expect(isa.isObject([])).toBeTruthy();
   });
@@ -93,5 +92,4 @@ describe('core-util-is', () => {
     expect(isa.isPrimitive(Symbol('42'))).toBeTruthy();
     expect(isa.isPrimitive([null])).toBeFalsy();
   });
-
 });

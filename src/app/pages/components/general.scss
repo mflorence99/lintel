@@ -26,7 +26,6 @@
     // border-right-style: dashed;
     border-right-style: solid;
   }
-
 }
 
 .message {
@@ -69,7 +68,6 @@
     &.active {
       font-weight: bold;
     }
-
   }
 
   .settings {
@@ -79,7 +77,6 @@
       cursor: pointer;
       margin-top: 0.5rem;
     }
-
   }
 
   // NOTE: special version of description for properties that are just a checkbox
@@ -87,12 +84,9 @@
   &.noInlineConfig,
   &.reportUnusedDisableDirectives,
   &.root {
-
     .description {
       display: grid;
       grid-template-columns: auto 1fr;
     }
-
   }
-
 }

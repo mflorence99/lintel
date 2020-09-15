@@ -8,12 +8,15 @@ import { StateOperator } from '@ngxs/store';
 
 export function scratch(...keys: string[]): StateOperator<any> {
   return (state: any): any => {
-    if (!keys.some(key => !!state[key]))
-      return state;
-    else return keys.reduce((acc, key) => {
-      delete acc[key];
-      return acc;
-    }, { ...state });
+    if (!keys.some((key) => !!state[key])) return state;
+    else
+      return keys.reduce(
+        (acc, key) => {
+          delete acc[key];
+          return acc;
+        },
+        { ...state }
+      );
   };
 }
 

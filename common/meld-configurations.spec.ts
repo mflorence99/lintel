@@ -2,11 +2,9 @@ import { meldConfigurations } from './meld-configurations';
 import { normalizeConfiguration } from './meld-configurations';
 
 describe('meld-configurations', () => {
-
   let config, extension, normalized, unnormalized;
 
   beforeEach(() => {
-
     config = {
       env: {
         amd: true,
@@ -59,20 +57,14 @@ describe('meld-configurations', () => {
     };
 
     normalized = {
-      extends: [
-        'x'
-      ],
+      extends: ['x'],
       globals: {
         a: 'writable',
         b: 'readonly',
         c: 'readonly'
       },
-      ignorePatterns: [
-        '*.tsx'
-      ],
-      plugins: [
-        'p'
-      ],
+      ignorePatterns: ['*.tsx'],
+      plugins: ['p'],
       rules: {
         p: ['off'],
         q: ['warn'],
@@ -95,11 +87,10 @@ describe('meld-configurations', () => {
         r: 2
       }
     };
-
   });
 
   test('smoke test', () => {
-    expect(meldConfigurations({ }, { })).toEqual({ });
+    expect(meldConfigurations({}, {})).toEqual({});
   });
 
   test('configurations can be normalized', () => {
@@ -107,13 +98,15 @@ describe('meld-configurations', () => {
   });
 
   test('objects can be melded', () => {
-    expect(meldConfigurations(config, extension)).toEqual(expect.objectContaining({
-      env: {
-        amd: true,
-        es6: false,
-        jest: true
-      }
-    }));
+    expect(meldConfigurations(config, extension)).toEqual(
+      expect.objectContaining({
+        env: {
+          amd: true,
+          es6: false,
+          jest: true
+        }
+      })
+    );
   });
 
   // TODO: more work here
@@ -124,20 +117,23 @@ describe('meld-configurations', () => {
   });
 
   test('plugins can be melded and deduplicated', () => {
-    expect(meldConfigurations(config, extension)).toEqual(expect.objectContaining({
-      plugins: ['a', 'b', 'c']
-    }));
+    expect(meldConfigurations(config, extension)).toEqual(
+      expect.objectContaining({
+        plugins: ['a', 'b', 'c']
+      })
+    );
   });
 
   test('rules can be melded', () => {
-    expect(meldConfigurations(config, extension)).toEqual(expect.objectContaining({
-      rules: {
-        p: [1],
-        q: ['warn', 2, 3],
-        r: ['error', 42, true],
-        s: ['error', true]
-      }
-    }));
+    expect(meldConfigurations(config, extension)).toEqual(
+      expect.objectContaining({
+        rules: {
+          p: [1],
+          q: ['warn', 2, 3],
+          r: ['error', 42, true],
+          s: ['error', true]
+        }
+      })
+    );
   });
-
 });

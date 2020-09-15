@@ -1,50 +1,44 @@
-<header
-  class="logo">
-  <img src="assets/lintel.png">
+<header class="logo">
+  <img src="assets/lintel.png" />
 </header>
 
-<menu 
-  *ngFor="let fileName of configs.fileNames"
-  class="config">
-
+<menu *ngFor="let fileName of configs.fileNames" class="config">
   <li
     (click)="selectFileName($event, fileName)"
     [ngClass]="{selected: selection.fileName === fileName}"
-    class="item">
-
+    class="item"
+  >
     <div>
-      <fa-icon 
+      <fa-icon
         [fixedWidth]="true"
         [icon]="iconForFile(fileName)"
         [ngStyle]="{color: colorForFile(fileName)}"
-        size="lg">
+        size="lg"
+      >
       </fa-icon>
     </div>
 
     <div>{{ shortenFileName(fileName) }}</div>
-
   </li>
 
-  <ng-container
-    *ngIf="selection.fileName === fileName">
-
+  <ng-container *ngIf="selection.fileName === fileName">
     <!-- NOTE: general settings are ALWAYS available -->
 
     <li
       (click)="selectCategory($event, params.generalSettings) || selectOverride($event, null)"
       [ngClass]="{selected: selection.category === params.generalSettings}"
-      class="item">
-
+      class="item"
+    >
       <div>
-        <fa-icon 
+        <fa-icon
           [fixedWidth]="true"
           [icon]="[selection.category === params.generalSettings? 'fas' : 'far', 'circle']"
-          size="xs">
+          size="xs"
+        >
         </fa-icon>
       </div>
-      
-      <div>{{ params.generalSettings }}</div>
 
+      <div>{{ params.generalSettings }}</div>
     </li>
 
     <!-- One entry now for each override, plus one for "all files" -->
@@ -53,54 +47,50 @@
       (click)="selectOverride($event, null)"
       [ngClass]="{selected: selection.override == null}"
       *ngIf="configs.overrides.length > 0"
-      class="item">
-
+      class="item"
+    >
       <div>
-        <fa-icon 
+        <fa-icon
           [fixedWidth]="true"
           [icon]="[selection.override == null? 'fas' : 'far', 'circle']"
-          size="xs">
+          size="xs"
+        >
         </fa-icon>
       </div>
-      
-      <div>{{ params.allFilesOverride }}</div>
 
+      <div>{{ params.allFilesOverride }}</div>
     </li>
 
     <li
       (click)="selectOverride($event, ix)"
       [ngClass]="{inherited: configs.isOverrideInherited(ix), selected: selection.override === ix}"
       *ngFor="let override of configs.overrides; let ix = index"
-      class="item">
-
+      class="item"
+    >
       <div>
-        <fa-icon 
+        <fa-icon
           [fixedWidth]="true"
           [icon]="[selection.override === ix? 'fas' : 'far', 'circle']"
-          size="xs">
+          size="xs"
+        >
         </fa-icon>
       </div>
-      
-      <div>{{ override.files.join(', ') }}</div>
 
+      <div>{{ override.files.join(', ') }}</div>
     </li>
 
     <!-- Show the current plugin -->
 
-    <li  
+    <li
       (click)="selectCategory($event, params.activeCategory)"
       [ngClass]="{selected: selection.category !== params.generalSettings, unknown: selection.pluginName === params.unknownPluginName}"
-      class="item">
-
+      class="item"
+    >
       <div>
-        <fa-icon 
-          [fixedWidth]="true"
-          [icon]="['fas', 'plug']">
-        </fa-icon>
+        <fa-icon [fixedWidth]="true" [icon]="['fas', 'plug']"> </fa-icon>
       </div>
 
       <div>{{ selection.pluginName }}</div>
-
     </li>
 
     <!-- NOTE: active rules are ALWAYS available -->
@@ -108,18 +98,18 @@
     <li
       (click)="selectCategory($event, params.activeCategory)"
       [ngClass]="{selected: selection.category === params.activeCategory}"
-      class="item">
-
+      class="item"
+    >
       <div>
-        <fa-icon 
+        <fa-icon
           [fixedWidth]="true"
           [icon]="[selection.category === params.activeCategory? 'fas' : 'far', 'circle']"
-          size="xs">
+          size="xs"
+        >
         </fa-icon>
       </div>
-      
-      <div>{{ params.activeCategory }}</div>
 
+      <div>{{ params.activeCategory }}</div>
     </li>
 
     <!-- Each category, but only if populated -->
@@ -128,20 +118,18 @@
       (click)="selectCategory($event, category)"
       [ngClass]="{selected: selection.category === category}"
       *ngFor="let category of configs.categories"
-      class="item">
-
+      class="item"
+    >
       <div>
-        <fa-icon 
+        <fa-icon
           [fixedWidth]="true"
           [icon]="[selection.category === category? 'fas' : 'far', 'circle']"
-          size="xs">
+          size="xs"
+        >
         </fa-icon>
       </div>
-      
+
       <div>{{ category }}</div>
-
     </li>
-
   </ng-container>
-
 </menu>

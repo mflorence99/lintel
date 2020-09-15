@@ -16,9 +16,7 @@ import { UUID } from 'angular2-uuid';
 @Directive({
   selector: '[lintelHydrated]'
 })
-
 export class HydratedDirective implements Hydrateable, OnDestroy, OnInit {
-
   @Output() hydrated = new EventEmitter<boolean>();
 
   @Input() lintelHydrated = UUID.UUID();
@@ -26,11 +24,13 @@ export class HydratedDirective implements Hydrateable, OnDestroy, OnInit {
   private _hydrated = true;
 
   /** ctor */
-  constructor(public element: ElementRef,
-              private hydrator: HydratorDirective) { }
+  constructor(
+    public element: ElementRef,
+    private hydrator: HydratorDirective
+  ) {}
 
   // property accessors / mutators
-  
+
   @Input()
   get isHydrated(): boolean {
     return this._hydrated;
@@ -47,10 +47,12 @@ export class HydratedDirective implements Hydrateable, OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.element.nativeElement.setAttribute('lintelHydrated', this.lintelHydrated);
+    this.element.nativeElement.setAttribute(
+      'lintelHydrated',
+      this.lintelHydrated
+    );
     this.hydrator.registerHydrateable(this);
   }
-
 }
 
 /**

@@ -9,10 +9,9 @@ declare const eslintRules: RulesStateModel;
 declare let lintelSearchParams;
 
 describe('Utils', () => {
-
   let services;
 
-  beforeEach(() => services = prepare([Utils]));
+  beforeEach(() => (services = prepare([Utils])));
 
   test('two arrays can be compared for equality', () => {
     const utils: Utils = services[0];
@@ -54,7 +53,7 @@ describe('Utils', () => {
 
   test('Object exists', () => {
     const utils: Utils = services[0];
-    expect(utils.exists({ })).toBe(false);
+    expect(utils.exists({})).toBe(false);
     expect(utils.exists({ x: 1 })).toBe(true);
     expect(utils.exists(null)).toBe(false);
     expect(utils.exists(undefined)).toBe(false);
@@ -68,7 +67,7 @@ describe('Utils', () => {
 
   test('Object is empty', () => {
     const utils: Utils = services[0];
-    expect(utils.isEmptyObject({ })).toBe(true);
+    expect(utils.isEmptyObject({})).toBe(true);
     expect(utils.isEmptyObject({ x: 1 })).toBe(false);
   });
 
@@ -79,9 +78,7 @@ describe('Utils', () => {
   });
 
   test('longestCommonPrefix', () => {
-    const strings = [
-      'c:/users/project/.eslintrc.json'
-    ];
+    const strings = ['c:/users/project/.eslintrc.json'];
     const utils: Utils = services[0];
     expect(utils.longestCommonPrefix(strings)).toBe('c:/users/project/');
   });
@@ -116,14 +113,14 @@ describe('Utils', () => {
   });
 
   test('longestCommonPrefix', () => {
-    const strings = [
-      '/home/experiments/el-3270/.eslintrc.json'
-    ];
+    const strings = ['/home/experiments/el-3270/.eslintrc.json'];
     const utils: Utils = services[0];
-    expect(utils.longestCommonPrefix(strings)).toBe('/home/experiments/el-3270/');
+    expect(utils.longestCommonPrefix(strings)).toBe(
+      '/home/experiments/el-3270/'
+    );
   });
 
-  test('nextTick works asynchronously', done => {
+  test('nextTick works asynchronously', (done) => {
     const num = 42;
     const utils: Utils = services[0];
     utils.nextTick(() => {
@@ -153,7 +150,6 @@ describe('Utils', () => {
     const utils: Utils = services[0];
     expect(utils.safeEval(utils, 'safeEval')).toBeTruthy();
     expect(utils.safeEval(this, 'xxx', [])).toEqual([]);
-    expect(utils.safeEval(this, 'xxx.yyy', { })).toEqual({ });
+    expect(utils.safeEval(this, 'xxx.yyy', {})).toEqual({});
   });
-
 });

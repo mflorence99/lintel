@@ -17,7 +17,7 @@ import { forwardRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 
 // NOTE: defaults can be one of the following:
-// -- array of booleans 
+// -- array of booleans
 // -- Record<string, boolean> <-- PREFERRED
 
 export type MultiselectorDefaults = boolean[] | Record<string, boolean>;
@@ -26,22 +26,22 @@ export type MultiselectorDefaults = boolean[] | Record<string, boolean>;
 // -- array of encoded values
 // -- array of [encoded, decoded, description] values <-- PREFERRED
 // -- array of {
-//               [nameOfEncoded]: encoded, 
-//               [nameOfDecoded]: decoded, 
+//               [nameOfEncoded]: encoded,
+//               [nameOfDecoded]: decoded,
 //               [nameOfDescription]: description
 //             } values
 
 export type MultiselectorOptions = string[] | string[][] | any[];
 
 // NOTE: values can be one of the following:
-// -- array of encoded values 
+// -- array of encoded values
 // -- Record<string, boolean> <-- PREFERRED
 
 export type MultiselectorValues = string[] | Record<string, boolean>;
 
 /**
  * Multiselect values via checkboxes
- * 
+ *
  * NOTE: just enough to be able to match VSCode as well as possible
  *
  * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
@@ -63,9 +63,7 @@ export type MultiselectorValues = string[] | Record<string, boolean>;
   templateUrl: 'multiselector.html',
   styleUrls: ['multiselector.scss']
 })
-
 export class MultiselectorComponent implements ControlValueAccessor, OnInit {
-
   @Input() columnWidth = '10rem';
 
   controls: FormControl[] = [];
@@ -92,10 +90,12 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
       this.underConstruction = true;
       // create controls for each option
       // NOTE: now options are [encoded, decoded]
-      this.controls = this._options
-        .map(option => new FormControl(this.values.has(option[0])));
-      const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
-      this.controls.forEach(control => checkboxes.push(control));
+      this.controls = this._options.map(
+        (option) => new FormControl(this.values.has(option[0]))
+      );
+      const checkboxes = this.multiSelectorForm.controls
+        .checkboxes as FormArray;
+      this.controls.forEach((control) => checkboxes.push(control));
       this.underConstruction = false;
     }
   }
@@ -110,7 +110,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     // patch the form to reflect the values
     this.underConstruction = true;
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
-    const patch = this._options.map(option => this.values.has(option[0]));
+    const patch = this._options.map((option) => this.values.has(option[0]));
     checkboxes.patchValue(patch, { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.value);
@@ -127,9 +127,11 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
   private valuesType: 'array' | 'object';
 
   /** ctor  */
-  constructor(private cdf: ChangeDetectorRef,
-              private destroy$: DestroyService,
-              private formBuilder: FormBuilder) {
+  constructor(
+    private cdf: ChangeDetectorRef,
+    private destroy$: DestroyService,
+    private formBuilder: FormBuilder
+  ) {
     this.multiSelectorForm = this.formBuilder.group({
       checkboxes: new FormArray([])
     });
@@ -137,10 +139,8 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
 
   /** Get a default by its index */
   getDefault(ix: number): boolean {
-    if (this.defaults == null)
-      return false;
-    else if (Array.isArray(this.defaults))
-      return this.defaults[ix];
+    if (this.defaults == null) return false;
+    else if (Array.isArray(this.defaults)) return this.defaults[ix];
     else if (typeof this.defaults === 'object')
       return this.defaults[this._options[ix][0]];
     else return false;
@@ -166,14 +166,14 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
     checkboxes.valueChanges
       .pipe(
-        filter(_ => !this.underConstruction),
+        filter((_) => !this.underConstruction),
         takeUntil(this.destroy$)
       )
       .subscribe((settings: boolean[]) => {
         // NOTE: remember options are [encoded, decoded]
         const values = this._options
           .filter((option, ix) => settings[ix])
-          .map(option => option[0]);
+          .map((option) => option[0]);
         this.values = new Set(values);
         this.onChange?.(this.value);
       });
@@ -185,7 +185,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void { }
+  registerOnTouched(_): void {}
 
   /** @see ControlValueAccessor */
   writeValue(value): void {
@@ -197,13 +197,20 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
   private fromMultiselectorOptions(options: MultiselectorOptions): string[][] {
     let normalized: string[][] = [];
     // NOTE: see above for different options for supplying options
-    if (Array.isArray(options) && (options.length > 0)) {
+    if (Array.isArray(options) && options.length > 0) {
       if (typeof options[0] === 'string')
-        normalized = (options as string[]).map(option => [option, option, null]);
-      else if (Array.isArray(options[0]))
-        normalized = options as string[][];
+        normalized = (options as string[]).map((option) => [
+          option,
+          option,
+          null
+        ]);
+      else if (Array.isArray(options[0])) normalized = options as string[][];
       else if (typeof options[0] === 'object')
-        normalized = (options as string[]).map(option => [option[this.nameOfEncoded], option[this.nameOfDecoded], option[this.nameOfDescription]]);
+        normalized = (options as string[]).map((option) => [
+          option[this.nameOfEncoded],
+          option[this.nameOfDecoded],
+          option[this.nameOfDescription]
+        ]);
     }
     return normalized;
   }
@@ -214,7 +221,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
       return new Set(values);
     } else if (values && typeof values === 'object') {
       this.valuesType = 'object';
-      return new Set(Object.keys(values).filter(key => values[key]));
+      return new Set(Object.keys(values).filter((key) => values[key]));
     } else {
       this.valuesType = 'object';
       return new Set();
@@ -225,14 +232,13 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     if (this.valuesType === 'object') {
       const obj = this._options
         // NOTE: we're only going to emit what was passed in
-        .filter(option => this.origValue?.[option[0]] !== undefined)
+        .filter((option) => this.origValue?.[option[0]] !== undefined)
         .reduce((acc, option) => {
           acc[option[0]] = false;
           return acc;
-        }, { });
-      this.values.forEach(value => obj[value] = true);
+        }, {});
+      this.values.forEach((value) => (obj[value] = true));
       return obj;
     } else return Array.from(this.values) as MultiselectorValues;
   }
-
 }

@@ -23,18 +23,18 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'filter.html',
   styleUrls: ['filter.scss']
 })
-
 export class FilterComponent implements OnInit {
-
   filterForm: FormGroup;
 
   /** ctor */
-  constructor(public configs: ConfigsState,
-              private destroy$: DestroyService,
-              public filter: FilterState,
-              private formBuilder: FormBuilder,
-              public params: Params,
-              public selection: SelectionState) { 
+  constructor(
+    public configs: ConfigsState,
+    private destroy$: DestroyService,
+    public filter: FilterState,
+    private formBuilder: FormBuilder,
+    public params: Params,
+    public selection: SelectionState
+  ) {
     // create the filter form
     this.filterForm = this.formBuilder.group({
       filter: this.filter.snapshot.ruleNameFilter
@@ -51,12 +51,11 @@ export class FilterComponent implements OnInit {
   ngOnInit(): void {
     this.filterForm.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(filterForm => this.filter.filterRuleName(filterForm.filter));
+      .subscribe((filterForm) => this.filter.filterRuleName(filterForm.filter));
   }
 
   /** Show or hide inherited rules */
   toggleInheritedRules(): void {
     this.filter.toggleInheritedRules();
   }
-
 }

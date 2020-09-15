@@ -23,13 +23,9 @@ import { async } from '@angular/core/testing';
 declare let lintelVSCodeAPI;
 
 describe('RootPageComponent', () => {
-
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
-      declarations: [
-        RootPageComponent
-      ],
+      declarations: [RootPageComponent],
       imports: [
         BarrelModule,
         ComponentsModule,
@@ -43,9 +39,8 @@ describe('RootPageComponent', () => {
     lintelVSCodeAPI = {
       getState: jest.fn(),
       postMessage: jest.fn(),
-      setState: jest.fn(),
+      setState: jest.fn()
     };
-
   }));
 
   test('App is created', () => {
@@ -66,5 +61,4 @@ describe('RootPageComponent', () => {
       fileName: '/home/mflorence99/lintel/package.json'
     });
   });
-
 });

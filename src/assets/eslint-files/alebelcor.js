@@ -4,7 +4,6 @@
 
 // eslint-disable-next-line no-undef
 eslintFiles = {
-
   '.eslintrc': `
 {
   "parserOptions": {
@@ -245,5 +244,4 @@ eslintFiles = {
     "yield-star-spacing": ["error", "after"]
   }
 }`
-
 };

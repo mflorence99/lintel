@@ -1,0 +1,5 @@
+/coverage
+/reports
+/dist
+/node_modules
+fixtures

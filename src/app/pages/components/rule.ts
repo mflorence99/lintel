@@ -37,14 +37,12 @@ declare const lintelVSCodeAPI;
   templateUrl: 'rule.html',
   styleUrls: ['rule.scss']
 })
-
 export class RuleComponent implements OnInit {
-
   controls: AbstractControl[] = [];
 
   ruleForm: FormGroup;
 
-  @Input() 
+  @Input()
   get ruleDigest(): RuleDigest {
     return this._ruleDigest;
   }
@@ -55,7 +53,7 @@ export class RuleComponent implements OnInit {
     this.underConstruction = false;
   }
 
-  @Input() 
+  @Input()
   get schemaDigest(): SchemaDigest {
     return this._schemaDigest;
   }
@@ -68,21 +66,25 @@ export class RuleComponent implements OnInit {
         return element.elements.reduce((acc, element) => {
           const setting = settings?.[element.name];
           if (element.type === 'object')
-            acc[element.name] = this.formBuilder.group(makeGroup(element, setting));
+            acc[element.name] = this.formBuilder.group(
+              makeGroup(element, setting)
+            );
           else acc[element.name] = [setting ?? element.default];
           return acc;
-        }, { });
+        }, {});
       };
       // create controls for each GUI element
-      this.controls = this.schemaDigest.elements
-        .map((element, ix) => {
-          const settings = this.ruleDigest.settings?.[ix + 1];
-          if (element.type === 'object')
-            return this.formBuilder.group(makeGroup(element, settings ?? element.default));
-          return new FormControl(settings);
-        });
-      const elements = this.ruleForm.controls.root['controls'].elements as FormArray;
-      this.controls.forEach(control => elements.push(control));
+      this.controls = this.schemaDigest.elements.map((element, ix) => {
+        const settings = this.ruleDigest.settings?.[ix + 1];
+        if (element.type === 'object')
+          return this.formBuilder.group(
+            makeGroup(element, settings ?? element.default)
+          );
+        return new FormControl(settings);
+      });
+      const elements = this.ruleForm.controls.root['controls']
+        .elements as FormArray;
+      this.controls.forEach((control) => elements.push(control));
       this.underConstruction = false;
       this.cdf.detectChanges();
     }
@@ -93,17 +95,19 @@ export class RuleComponent implements OnInit {
   private underConstruction: boolean;
 
   /** ctor */
-  constructor(private cdf: ChangeDetectorRef,
-              public configs: ConfigsState,
-              private destroy$: DestroyService,
-              private formBuilder: FormBuilder,
-              @Optional() public hydrated: HydratedDirective,
-              public lintel: LintelState,
-              public rules: RulesState,
-              public selection: SelectionState) { 
+  constructor(
+    private cdf: ChangeDetectorRef,
+    public configs: ConfigsState,
+    private destroy$: DestroyService,
+    private formBuilder: FormBuilder,
+    @Optional() public hydrated: HydratedDirective,
+    public lintel: LintelState,
+    public rules: RulesState,
+    public selection: SelectionState
+  ) {
     this.ruleForm = this.formBuilder.group({
       level: null,
-      root: this.formBuilder.group({ 
+      root: this.formBuilder.group({
         elements: new FormArray([])
       })
     });
@@ -120,7 +124,11 @@ export class RuleComponent implements OnInit {
     if (this.lintel.isEnabled)
       lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
     if (ruleDigest)
-      console.log(`%c${ruleDigest.ruleName}:`, 'background-color: #00838f; color: white; font-weight: bold; padding: 4px', JSON.stringify(ruleDigest.rule.meta.schema, null, 2));
+      console.log(
+        `%c${ruleDigest.ruleName}:`,
+        'background-color: #00838f; color: white; font-weight: bold; padding: 4px',
+        JSON.stringify(ruleDigest.rule.meta.schema, null, 2)
+      );
   }
 
   /** Get all the controls from a FormGroup */
@@ -132,11 +140,15 @@ export class RuleComponent implements OnInit {
   ngOnInit(): void {
     this.ruleForm.valueChanges
       .pipe(
-        filter(_ => !this.underConstruction),
-        map(changes => [changes.level, ...changes.root.elements]),
+        filter((_) => !this.underConstruction),
+        map((changes) => [changes.level, ...changes.root.elements]),
         takeUntil(this.destroy$)
-      ).subscribe((changes: Settings) => {
-        this.configs.changeRule({ changes, ruleName: this.ruleDigest.ruleName });
+      )
+      .subscribe((changes: Settings) => {
+        this.configs.changeRule({
+          changes,
+          ruleName: this.ruleDigest.ruleName
+        });
       });
   }
 
@@ -144,5 +156,4 @@ export class RuleComponent implements OnInit {
   openURL(url: string): void {
     lintelVSCodeAPI.postMessage({ command: 'openFile', url });
   }
-
 }

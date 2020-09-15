@@ -15,7 +15,6 @@ jobs:
       - store_artifacts:
           path: ./reports/junit
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
-        
+  build-and-test:
+    jobs:
+      - build-and-test

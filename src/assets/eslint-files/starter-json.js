@@ -4,7 +4,6 @@
 
 // eslint-disable-next-line no-undef
 eslintFiles = {
-
   '.eslintrc.json': `
 {
 
@@ -392,5 +391,4 @@ eslintFiles = {
     }
 
 }`
-
 };

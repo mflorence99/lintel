@@ -9,9 +9,8 @@ lintelSearchParams = location.search;
 
 // eslint-disable-next-line no-undef
 lintelVSCodeAPI = {
-
   getState: () => {
-    const state = { };
+    const state = {};
     let ix = 0;
     let key;
     while ((key = localStorage.key(ix++)))
@@ -20,36 +19,61 @@ lintelVSCodeAPI = {
     return state;
   },
 
-  postMessage: message => {
+  postMessage: (message) => {
     switch (message.command) {
-
       case 'bootFail':
         console.log('%cbootFail:', lintelVSCodeAPI._style('red'), message.text);
         break;
 
       case 'clipboardCopy':
-        console.log('%cclipboardCopy:', lintelVSCodeAPI._style('#00796b'), message.text);
+        console.log(
+          '%cclipboardCopy:',
+          lintelVSCodeAPI._style('#00796b'),
+          message.text
+        );
         break;
 
       case 'deleteOverride':
-        console.log('%cdeleteOverride:', lintelVSCodeAPI._style('#ad1457'), message.text, message.override);
+        console.log(
+          '%cdeleteOverride:',
+          lintelVSCodeAPI._style('#ad1457'),
+          message.text,
+          message.override
+        );
         if (confirm(message.text)) {
           const reply = new Event('message');
-          reply.data = { command: 'deleteOverride', override: message.override };
+          reply.data = {
+            command: 'deleteOverride',
+            override: message.override
+          };
           window.dispatchEvent(reply);
         }
         break;
 
       case 'editFile':
-        console.log('%ceditFile:', lintelVSCodeAPI._style('#3367d6'), message.fileName);
+        console.log(
+          '%ceditFile:',
+          lintelVSCodeAPI._style('#3367d6'),
+          message.fileName
+        );
         break;
 
       case 'getExtensions':
-        console.log('%cgetExtensions:', lintelVSCodeAPI._style('#4a148c'), message.fileName, `[${message.extensions.join(',')}]`);
+        console.log(
+          '%cgetExtensions:',
+          lintelVSCodeAPI._style('#4a148c'),
+          message.fileName,
+          `[${message.extensions.join(',')}]`
+        );
         break;
 
       case 'getRules':
-        console.log('%cgetRules:', lintelVSCodeAPI._style('#795548'), message.fileName, `[${message.plugins.join(',')}]`);
+        console.log(
+          '%cgetRules:',
+          lintelVSCodeAPI._style('#795548'),
+          message.fileName,
+          `[${message.plugins.join(',')}]`
+        );
         break;
 
       case 'openFile':
@@ -57,23 +81,30 @@ lintelVSCodeAPI = {
         break;
 
       case 'parseFail':
-        console.log('%cparseFail:', lintelVSCodeAPI._style('#bf360c'), message.fileName);
+        console.log(
+          '%cparseFail:',
+          lintelVSCodeAPI._style('#bf360c'),
+          message.fileName
+        );
         break;
 
       case 'saveFile':
-        console.log('%csaveFile:', lintelVSCodeAPI._style('#f09300'), message.fileName, { message });
+        console.log(
+          '%csaveFile:',
+          lintelVSCodeAPI._style('#f09300'),
+          message.fileName,
+          { message }
+        );
         break;
-
     }
   },
 
-  setState: state => {
+  setState: (state) => {
     // console.log(`%csetState()`, lintelVSCodeAPI._style('#311b92'), state);
-    Object.keys(state).forEach(key => localStorage.setItem(key, state[key]));
+    Object.keys(state).forEach((key) => localStorage.setItem(key, state[key]));
   },
 
-  _style: color => {
+  _style: (color) => {
     return `background-color: ${color}; color: white; font-weight: bold; padding: 4px`;
   }
-
 };

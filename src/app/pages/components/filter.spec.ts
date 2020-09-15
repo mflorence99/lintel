@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('FilterComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -41,5 +40,4 @@ describe('FilterComponent', () => {
     component.toggleInheritedRules();
     expect(component.filter.snapshot.showInheritedRules).toBe(false);
   });
-
 });

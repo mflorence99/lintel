@@ -3,10 +3,9 @@ import { Bundle } from './state.spec';
 import { prepare } from './state.spec';
 
 describe('LintelState', () => {
-
   let bundle: Bundle;
 
-  beforeEach(() => bundle = prepare());
+  beforeEach(() => (bundle = prepare()));
 
   test('Lintel can be enabled and disabled', () => {
     expect(bundle.lintel.isEnabled).toBe(true);
@@ -21,5 +20,4 @@ describe('LintelState', () => {
     const unique2 = bundle.lintel.unique();
     expect(unique2 - unique1).toBe(1);
   });
-
 });

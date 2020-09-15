@@ -1,33 +1,17 @@
-<aside
-  *ngIf="!lintel.isEnabled"
-  class="message">
+<aside *ngIf="!lintel.isEnabled" class="message">
+  <fa-icon [icon]="['fas', 'info-circle']" size="3x"> </fa-icon>
 
-  <fa-icon
-    [icon]="['fas', 'info-circle']"
-    size="3x">
-  </fa-icon>
-
-  <p
-    [innerHTML]="lintel.message">
-  </p>
-
+  <p [innerHTML]="lintel.message"></p>
 </aside>
 
-<ng-container
-  [formGroup]="generalForm">
-
-  <ng-container
-    *ngFor="let property of makeProperties()">
-
+<ng-container [formGroup]="generalForm">
+  <ng-container *ngFor="let property of makeProperties()">
     <div
       [ngClass]="{active: isConfigured(property[0]), inherited: isInherited(property[0])}"
-      class="gutter">
-    </div>
+      class="gutter"
+    ></div>
 
-    <section 
-      [ngClass]="property[0]"
-      class="property">
-
+    <section [ngClass]="property[0]" class="property">
       <!-- TITLE -->
 
       <a
@@ -35,103 +19,94 @@
         [ngClass]="{active: isConfigured(property[0])}"
         class="name"
         target="lintel"
-        tabIndex=-1>
+        tabindex="-1"
+      >
         {{ property[0] }}
       </a>
 
       <!-- DESCRIPTION -->
 
-      <article
-        class="description">
-
+      <article class="description">
         <!-- NOTE: special version of description for properties that are just a checkbox -->
 
-        <ng-container
-          [ngSwitch]="property[0]">
-
+        <ng-container [ngSwitch]="property[0]">
           <!-- NOINLINECONFIG -->
 
-          <ng-container
-            *ngSwitchCase="'noInlineConfig'">
-
+          <ng-container *ngSwitchCase="'noInlineConfig'">
             <lintel-checkbox
               [enabled]="lintel.isEnabled"
-              formControlName="noInlineConfig">
+              formControlName="noInlineConfig"
+            >
             </lintel-checkbox>
 
             <p>{{ schema.properties.noInlineConfig.description }}</p>
-
           </ng-container>
 
           <!-- ROOT -->
 
-          <ng-container
-            *ngSwitchCase="'root'">
-
+          <ng-container *ngSwitchCase="'root'">
             <lintel-checkbox
               [enabled]="lintel.isEnabled"
-              formControlName="root">
+              formControlName="root"
+            >
             </lintel-checkbox>
 
             <p>{{ schema.properties.root.description }}</p>
-
           </ng-container>
 
           <!-- REPORTUNUSEDDIRECTIVES -->
 
-          <ng-container
-            *ngSwitchCase="'reportUnusedDisableDirectives'">
-
+          <ng-container *ngSwitchCase="'reportUnusedDisableDirectives'">
             <lintel-checkbox
               [enabled]="lintel.isEnabled"
-              formControlName="reportUnusedDisableDirectives">
+              formControlName="reportUnusedDisableDirectives"
+            >
             </lintel-checkbox>
 
             <!-- NOTE: for some reason, this isn't in the schema -->
 
-            <p>To report unused eslint-disable comments, use reportUnusedDisableDirectives setting.</p>
-
+            <p>
+              To report unused eslint-disable comments, use
+              reportUnusedDisableDirectives setting.
+            </p>
           </ng-container>
 
-          <p
-            *ngSwitchDefault>
+          <p *ngSwitchDefault>
             {{ schema.properties[property[0]]?.description }}
 
-            <ng-container
-              *ngIf="property[0] === 'overrides'">
-
-              <ng-container 
-                *ngIf="configs.configuration.overrides?.length; else firstOverride">
-                <b>Use the <fa-icon [icon]="['fas', 'cog']" size="sm"></fa-icon> tool to delete overrides and add new ones.</b>
-              </ng-container>
-
-              <ng-template 
-                #firstOverride>
-                <b><a (click)="configs.addOverride()">Click here</a> to create a new override.</b>
-              </ng-template>
-
-            </ng-container>
-
-            <ng-container
-              *ngIf="isInherited(property[0])">
-              <b>Settings inherited from <code>extends</code> 
+            <ng-container *ngIf="property[0] === 'overrides'">
               <ng-container
-                *ngIf="property[0] !== 'plugins'">
-                can be overriden and
+                *ngIf="configs.configuration.overrides?.length; else firstOverride"
+              >
+                <b
+                  >Use the
+                  <fa-icon [icon]="['fas', 'cog']" size="sm"></fa-icon> tool to
+                  delete overrides and add new ones.</b
+                >
               </ng-container>
-              are shown grayed.</b>
+
+              <ng-template #firstOverride>
+                <b
+                  ><a (click)="configs.addOverride()">Click here</a> to create a
+                  new override.</b
+                >
+              </ng-template>
             </ng-container>
 
+            <ng-container *ngIf="isInherited(property[0])">
+              <b
+                >Settings inherited from <code>extends</code>
+                <ng-container *ngIf="property[0] !== 'plugins'">
+                  can be overriden and
+                </ng-container>
+                are shown grayed.</b
+              >
+            </ng-container>
           </p>
-
         </ng-container>
-
       </article>
 
-      <article
-        [ngSwitch]="property[0]"
-        class="settings">
-
+      <article [ngSwitch]="property[0]" class="settings">
         <!-- ECMAFEATURES -->
 
         <lintel-multiselector
@@ -141,7 +116,8 @@
           *ngSwitchCase="'ecmaFeatures'"
           class="ecmaFeatures"
           columnWidth="20.5rem"
-          formControlName="ecmaFeatures">
+          formControlName="ecmaFeatures"
+        >
         </lintel-multiselector>
 
         <!-- ENV -->
@@ -153,7 +129,8 @@
           *ngSwitchCase="'env'"
           class="env"
           columnWidth="10rem"
-          formControlName="env">
+          formControlName="env"
+        >
         </lintel-multiselector>
 
         <!-- EXTENDS -->
@@ -163,7 +140,8 @@
           *ngSwitchCase="'extends'"
           class="extends"
           columnWidth="20.5rem"
-          formControlName="extends">
+          formControlName="extends"
+        >
         </lintel-input-array>
 
         <!-- GLOBALS -->
@@ -175,7 +153,8 @@
           *ngSwitchCase="'globals'"
           class="globals"
           columnWidth="20.5rem"
-          formControlName="globals">
+          formControlName="globals"
+        >
         </lintel-key-value>
 
         <!-- IGNOREPATTERNS -->
@@ -185,41 +164,40 @@
           *ngSwitchCase="'ignorePatterns'"
           class="ignorePatterns"
           columnWidth="10rem"
-          formControlName="ignorePatterns">
+          formControlName="ignorePatterns"
+        >
         </lintel-input-array>
 
         <!-- PARSER -->
 
-        <div
-          *ngSwitchCase="'parser'"
-          class="parser">
-
+        <div *ngSwitchCase="'parser'" class="parser">
           <lintel-input
             [enabled]="lintel.isEnabled"
             [placeholder]="configs.extension.parser || ''"
-            formControlName="parser">
+            formControlName="parser"
+          >
           </lintel-input>
 
           <p
             (click)="editFile(selection.fileName)"
             [ngClass]="{disabled: !lintel.isEnabled}"
             *ngIf="configs.configuration.parser || configs.extension.parser"
-            class="editSettings">
-            <a>Edit custom parser options in {{ configs.shortFileName(selection.fileName) }}</a>
+            class="editSettings"
+          >
+            <a
+              >Edit custom parser options in {{
+              configs.shortFileName(selection.fileName) }}</a
+            >
           </p>
-
         </div>
 
         <!-- OVERRIDES -->
 
-        <lintel-overrides
-          *ngSwitchCase="'overrides'">
-        </lintel-overrides>
+        <lintel-overrides *ngSwitchCase="'overrides'"> </lintel-overrides>
 
         <!-- PARSEROPTIONS -->
 
-        <lintel-parser-options
-          *ngSwitchCase="'parserOptions'">
+        <lintel-parser-options *ngSwitchCase="'parserOptions'">
         </lintel-parser-options>
 
         <!-- PLUGINS -->
@@ -231,38 +209,36 @@
           *ngSwitchCase="'plugins'"
           class="plugins"
           columnWidth="10rem"
-          formControlName="plugins">
+          formControlName="plugins"
+        >
         </lintel-input-array>
 
         <!-- SETTINGS -->
 
-        <ng-container
-          *ngSwitchCase="'settings'">
-
+        <ng-container *ngSwitchCase="'settings'">
           <lintel-key-value
             [enabled]="lintel.isEnabled"
             *ngIf="canDoSettings(); else cantDoSettings"
             class="settings"
             columnWidth="20.5rem"
-            formControlName="settings">
+            formControlName="settings"
+          >
           </lintel-key-value>
 
-          <ng-template
-            #cantDoSettings>
+          <ng-template #cantDoSettings>
             <p
               (click)="editFile(selection.fileName)"
               [ngClass]="{disabled: !lintel.isEnabled}"
-              class="editSettings">
-              <a>Edit settings in {{ configs.shortFileName(selection.fileName) }}</a>
+              class="editSettings"
+            >
+              <a
+                >Edit settings in {{ configs.shortFileName(selection.fileName)
+                }}</a
+              >
             </p>
           </ng-template>
-
         </ng-container>
-
       </article>
-
     </section>
-
   </ng-container>
-
 </ng-container>

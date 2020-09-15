@@ -1,24 +1,19 @@
-<ng-container
-  [formGroup]="filterForm">
-
-  <lintel-input
-    formControlName="filter"
-    placeholder="Filter rules">
-
-    <fa-icon 
+<ng-container [formGroup]="filterForm">
+  <lintel-input formControlName="filter" placeholder="Filter rules">
+    <fa-icon
       (click)="toggleInheritedRules()"
       [icon]="['fas', filter.snapshot.showInheritedRules? 'eye' : 'eye-slash']"
       suffix
-      title="Toggle inherited rules analysis">
+      title="Toggle inherited rules analysis"
+    >
     </fa-icon>
 
-    <fa-icon 
+    <fa-icon
       (click)="clearRuleNameFilter()"
       [icon]="['fas', 'times']"
       suffix
-      title="Clear filter rules input">
+      title="Clear filter rules input"
+    >
     </fa-icon>
-
   </lintel-input>
-
 </ng-container>

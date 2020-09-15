@@ -3,10 +3,9 @@ import { StorageService } from './storage';
 import { prepare } from './service.spec';
 
 describe('StorageService', () => {
-
   let services;
 
-  beforeEach(() => services = prepare([StorageService]));
+  beforeEach(() => (services = prepare([StorageService])));
 
   test('setItem/getItem', () => {
     const storage: StorageService = services[0];
@@ -41,5 +40,4 @@ describe('StorageService', () => {
     expect(storage.key(1)).toBe('x');
     expect(storage.key(2)).toBeUndefined();
   });
-
 });

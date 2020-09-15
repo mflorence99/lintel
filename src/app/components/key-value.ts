@@ -44,9 +44,7 @@ export type ValueType = boolean | number | string | Record<string, boolean>;
   styleUrls: ['key-value.scss'],
   templateUrl: 'key-value.html'
 })
-
-export class KeyValueComponent implements ControlValueAccessor, OnInit { 
-
+export class KeyValueComponent implements ControlValueAccessor, OnInit {
   @Input() columnWidth = '20rem';
 
   @Input() defaults: KeyValueType;
@@ -55,7 +53,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   @Input() keyConstraints: string[];
 
   keyValueForm: FormGroup;
-  keyValues: KeyValueType = { };
+  keyValues: KeyValueType = {};
 
   @Input() max: number;
   @Input() min: number;
@@ -66,22 +64,24 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
 
   @Input() valueConstraints: string[];
 
-  @Input() 
+  @Input()
   get value(): KeyValueType {
-    return this.toKeyValue(); 
+    return this.toKeyValue();
   }
   set value(value: KeyValueType) {
-    this.origValue = value ?? { };
+    this.origValue = value ?? {};
     this.keyValues = this.fromKeyValue(value);
     this.underConstruction = true;
     const keyValues = this.keyValueForm.controls.keyValues as FormArray;
     // NOTE: there's always one more array for a new key-value
     // trim off excess keyValues
     const keys = Object.keys(this.keyValues);
-    while (keyValues.length > (keys.length + 1))
+    while (keyValues.length > keys.length + 1)
       keyValues.removeAt(keyValues.length - 1);
-    while (keyValues.length < (keys.length + 1))
-      keyValues.push(new FormArray([new FormControl(null), new FormControl(null)]));
+    while (keyValues.length < keys.length + 1)
+      keyValues.push(
+        new FormArray([new FormControl(null), new FormControl(null)])
+      );
     // patch in the new values
     const patch = Object.entries(this.keyValues).concat([[null, null]]);
     keyValues.patchValue(patch, { emitEvent: false });
@@ -95,9 +95,11 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   private underConstruction: boolean;
 
   /** ctor  */
-  constructor(private cdf: ChangeDetectorRef,
-              private destroy$: DestroyService,
-              private formBuilder: FormBuilder) { 
+  constructor(
+    private cdf: ChangeDetectorRef,
+    private destroy$: DestroyService,
+    private formBuilder: FormBuilder
+  ) {
     // initialize the form
     this.keyValueForm = this.formBuilder.group({
       keyValues: new FormArray([])
@@ -107,30 +109,36 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   /** Add a new key-value pair */
   addKeyValue(): void {
     const keyValues = this.keyValueForm.controls.keyValues as FormArray;
-    keyValues.push(new FormArray([new FormControl(null), new FormControl(null)]));
+    keyValues.push(
+      new FormArray([new FormControl(null), new FormControl(null)])
+    );
   }
 
   /** Is this control a default? */
   isDefault(ix: number): boolean {
     const key = Object.keys(this.keyValues)[ix];
-    return (this.defaults?.[key] != null) && (this.origValue?.[key] == null);
+    return this.defaults?.[key] != null && this.origValue?.[key] == null;
   }
 
   /** When we're ready */
   ngOnInit(): void {
     this.keyValueForm.valueChanges
       .pipe(
-        filter(_ => !this.underConstruction),
+        filter((_) => !this.underConstruction),
         takeUntil(this.destroy$)
       )
-      .subscribe(value => {
+      .subscribe((value) => {
         const keyValues = value.keyValues
           // NOTE: keep originals and changed defaults
-          .filter((entry, ix) => entry[0] && (!this.isDefault(ix) || this.keyValues[entry[0]] !== entry[1]))
+          .filter(
+            (entry, ix) =>
+              entry[0] &&
+              (!this.isDefault(ix) || this.keyValues[entry[0]] !== entry[1])
+          )
           .reduce((acc, cur) => {
             acc[cur[0]] = this.coerce(cur[1]);
             return acc;
-          }, { });
+          }, {});
         this.origValue = keyValues;
         this.keyValues = this.fromKeyValue(keyValues);
         this.onChange?.(this.value);
@@ -143,7 +151,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void { }
+  registerOnTouched(_): void {}
 
   /** Remove a specified key-value pair */
   removeKeyValue(ix: number): void {
@@ -159,13 +167,10 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   // private methods
 
   private coerce(value: any): any {
-    if (this.type === 'checkbox')
-      return Boolean(value);
-    else if (this.type === 'number')
-      return Number(value);
-    else if ((this.type === 'text') && (typeof value === 'string')) {
-      if (/^[0-9]*$/.test(value))
-        return Number(value);
+    if (this.type === 'checkbox') return Boolean(value);
+    else if (this.type === 'number') return Number(value);
+    else if (this.type === 'text' && typeof value === 'string') {
+      if (/^[0-9]*$/.test(value)) return Number(value);
       else if (['true', 'false'].includes(value))
         return Boolean(value === 'true');
     }
@@ -173,24 +178,23 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   }
 
   private fromKeyValue(value: KeyValueType): KeyValueType {
-    const keyValues = { };
+    const keyValues = {};
     // NOTE: we want the keys in alpha order
-    Object.keys(this.defaults ?? { })
+    Object.keys(this.defaults ?? {})
       .sort()
-      .forEach(key => keyValues[key] = this.defaults[key]);
-    Object.keys(value ?? { })
+      .forEach((key) => (keyValues[key] = this.defaults[key]));
+    Object.keys(value ?? {})
       .sort()
-      .forEach(key => keyValues[key] = value[key]);
+      .forEach((key) => (keyValues[key] = value[key]));
     return keyValues;
   }
 
   private toKeyValue(): KeyValueType {
     return Object.keys(this.keyValues)
-      .filter(key => this.origValue?.[key] != null)
+      .filter((key) => this.origValue?.[key] != null)
       .reduce((acc, key) => {
         acc[key] = this.keyValues[key];
         return acc;
-      }, { });
+      }, {});
   }
-
 }

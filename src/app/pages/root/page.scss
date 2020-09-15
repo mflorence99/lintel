@@ -1,6 +1,6 @@
 :host {
   display: grid;
-  grid-template-areas: "configs settings";
+  grid-template-areas: 'configs settings';
   grid-template-columns: 10rem 1fr;
   height: 100%;
   margin: 0 auto;
@@ -27,15 +27,14 @@
     line-height: 200%;
     text-align: center;
   }
-
 }
 
 .rules {
   display: grid;
   grid-template-areas:
-    "filter"
-    "tabs"
-    "rules";
+    'filter'
+    'tabs'
+    'rules';
   grid-template-columns: 1fr;
   // TODO: hack for scrolling -- extra 2rem a fudge for main padding
   grid-template-rows: 3rem 3rem calc(100vh - 8rem);
@@ -52,7 +51,6 @@
     grid-area: rules;
     overflow-y: auto;
   }
-
 }
 
 .settings {

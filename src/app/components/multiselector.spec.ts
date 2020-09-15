@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('MultiselectorComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -39,8 +38,8 @@ describe('MultiselectorComponent', () => {
   test('writeValue of object', () => {
     const fixture = TestBed.createComponent(MultiselectorComponent);
     const component = fixture.componentInstance;
-    component.writeValue({ london: true, paris: false, rome: true});
-    expect(component.value).toEqual({ london: true, rome: true});
+    component.writeValue({ london: true, paris: false, rome: true });
+    expect(component.value).toEqual({ london: true, rome: true });
   });
 
   test('test options as encoded array', () => {
@@ -58,8 +57,8 @@ describe('MultiselectorComponent', () => {
     const fixture = TestBed.createComponent(MultiselectorComponent);
     const component = fixture.componentInstance;
     component.options = [
-      ['london', 'London'], 
-      ['paris', 'Paris', 'City of Light'], 
+      ['london', 'London'],
+      ['paris', 'Paris', 'City of Light'],
       ['rome', 'Rome']
     ];
     expect(component.getOptionDecoded(1)).toBe('Paris');
@@ -87,22 +86,23 @@ describe('MultiselectorComponent', () => {
     const component = fixture.componentInstance;
     component.options = ['london', 'paris', 'rome'];
     component.value = null;
-    expect(component.value).toEqual({ });
+    expect(component.value).toEqual({});
   });
 
-  test('ngOnInit', done => {
+  test('ngOnInit', (done) => {
     const fixture = TestBed.createComponent(MultiselectorComponent);
     const component = fixture.componentInstance;
     component.options = ['london', 'paris', 'rome'];
     const value = { london: true, paris: false, rome: true };
     component.value = value;
-    component.registerOnChange(value => {
+    component.registerOnChange((value) => {
       expect(value).toEqual(value);
       done();
     });
     component.ngOnInit();
     // NOTE: trips valueChanges
-    component.multiSelectorForm.controls.checkboxes.updateValueAndValidity({ emitEvent: true });
+    component.multiSelectorForm.controls.checkboxes.updateValueAndValidity({
+      emitEvent: true
+    });
   });
-
 });

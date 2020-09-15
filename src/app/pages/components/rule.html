@@ -3,104 +3,83 @@
   [ngClass]="{inherited: ruleDigest.inherited}"
   *ngIf="ruleDigest.url && ruleDigest.rule; else unknownRule"
   class="ruleName {{ ruleDigest.level }} known"
-  target="lintel">
+  target="lintel"
+>
   {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
 </a>
 
-<ng-template
-  #unknownRule>
+<ng-template #unknownRule>
   <article
     [ngClass]="{inherited: ruleDigest.inherited}"
     *ngIf="!ruleDigest.url"
-    class="ruleName {{ ruleDigest.level }} unknown">
+    class="ruleName {{ ruleDigest.level }} unknown"
+  >
     {{ ruleDigest.ruleName }}: '{{ ruleDigest.level }}'
   </article>
 </ng-template>
 
-<article
-  *ngIf="ruleDigest.description"
-  class="description">
+<article *ngIf="ruleDigest.description" class="description">
+  <span [innerHTML]="ruleDigest.description | lintelMarked "> </span>
 
-  <span
-    [innerHTML]="ruleDigest.description | lintelMarked ">
-  </span>
-
-  <b
-    *ngIf="ruleDigest.deprecated">
+  <b *ngIf="ruleDigest.deprecated">
     Deprecated.
-    <ng-container
-      *ngIf="ruleDigest.replacedBy.length">
+    <ng-container *ngIf="ruleDigest.replacedBy.length">
       Please use <code>{{ ruleDigest.replacedBy.join(', ') }}</code>.
     </ng-container>
   </b>
-
 </article>
 
-<article 
-  [formGroup]="ruleForm"
-  class="settings">
-
+<article [formGroup]="ruleForm" class="settings">
   <lintel-singleselector
     [enabled]="lintel.isEnabled"
     [options]="['off', 'warn', 'error']"
-    formControlName="level">
+    formControlName="level"
+  >
   </lintel-singleselector>
 
   <div
     *ngIf="hydrated?.isHydrated && schemaDigest.canGUI"
     formGroupName="root"
-    class="elements">
-
+    class="elements"
+  >
     <ng-container
-      *ngTemplateOutlet="elementsTemplate; context: {controls: controls, elements: schemaDigest.elements}">
+      *ngTemplateOutlet="elementsTemplate; context: {controls: controls, elements: schemaDigest.elements}"
+    >
     </ng-container>
-
   </div>
 
-  <ng-container
-    *ngIf="!schemaDigest.canGUI">
-
+  <ng-container *ngIf="!schemaDigest.canGUI">
     <div
       (click)="editFile(selection.fileName, ruleDigest)"
       [ngClass]="{disabled: !lintel.isEnabled}"
       *ngIf="rules.notYet(ruleDigest.ruleName, ruleDigest.rule) || !ruleDigest.rule; else debugWithJSON"
-      class="notYet">
-      <a>Edit other settings in {{ configs.shortFileName(selection.fileName) }}</a>
+      class="notYet"
+    >
+      <a
+        >Edit other settings in {{ configs.shortFileName(selection.fileName)
+        }}</a
+      >
     </div>
 
-    <ng-template
-      #debugWithJSON>
+    <ng-template #debugWithJSON>
       <pre>{{ ruleDigest.rule?.meta.schema | json }}</pre>
     </ng-template>
-
   </ng-container>
-
 </article>
 
 <!-- NOTE: elements built recursively -->
 
-<ng-template
-  #elementsTemplate
-  let-controls="controls"
-  let-elements="elements">
-
-  <ng-container
-    *ngFor="let element of elements; let ix = index">
-
-    <ng-container
-      [ngSwitch]="element.type">
-
-      <div
-        *ngIf="element.name"
-        class="name">
-        {{ breakable(element.name) }}
-      </div>
+<ng-template #elementsTemplate let-controls="controls" let-elements="elements">
+  <ng-container *ngFor="let element of elements; let ix = index">
+    <ng-container [ngSwitch]="element.type">
+      <div *ngIf="element.name" class="name">{{ breakable(element.name) }}</div>
 
       <lintel-checkbox
         [enabled]="lintel.isEnabled"
         [formControl]="controls[ix]"
         *ngSwitchCase="'checkbox'"
-        class="checkbox">
+        class="checkbox"
+      >
       </lintel-checkbox>
 
       <lintel-key-value
@@ -113,7 +92,8 @@
         [type]="element.subType"
         [valueConstraints]="element.options"
         *ngSwitchCase="'key-value'"
-        class="key-value {{ element.subType }}">
+        class="key-value {{ element.subType }}"
+      >
       </lintel-key-value>
 
       <lintel-multiselector
@@ -121,7 +101,8 @@
         [formControl]="controls[ix]"
         [options]="element.options"
         *ngSwitchCase="'multiselect'"
-        columnWidth="15rem">
+        columnWidth="15rem"
+      >
       </lintel-multiselector>
 
       <lintel-input-array
@@ -131,7 +112,8 @@
         *ngSwitchCase="'number-array'"
         class="number-array"
         columnWidth="10rem"
-        type="number">
+        type="number"
+      >
       </lintel-input-array>
 
       <lintel-input
@@ -142,17 +124,15 @@
         [step]="element.step"
         *ngSwitchCase="'number-input'"
         class="number-input"
-        type="number">
+        type="number"
+      >
       </lintel-input>
 
-      <div
-        *ngSwitchCase="'object'"
-        class="object">
-
+      <div *ngSwitchCase="'object'" class="object">
         <ng-container
-          *ngTemplateOutlet="elementsTemplate; context: {controls: formGroupControls(controls[ix]), elements: element.elements}">
+          *ngTemplateOutlet="elementsTemplate; context: {controls: formGroupControls(controls[ix]), elements: element.elements}"
+        >
         </ng-container>
-
       </div>
 
       <lintel-select-array
@@ -162,7 +142,8 @@
         [options]="element.options"
         *ngSwitchCase="'select-array'"
         class="select-array"
-        columnWidth="15rem">
+        columnWidth="15rem"
+      >
       </lintel-select-array>
 
       <lintel-singleselector
@@ -171,7 +152,8 @@
         [options]="element.options"
         *ngSwitchCase="'singleselect'"
         class="single-select"
-        placeholder=" ">
+        placeholder=" "
+      >
       </lintel-singleselector>
 
       <lintel-input-array
@@ -181,7 +163,8 @@
         *ngSwitchCase="'string-array'"
         class="string-array"
         columnWidth="15rem"
-        type="text">
+        type="text"
+      >
       </lintel-input-array>
 
       <lintel-input
@@ -189,11 +172,9 @@
         [formControl]="controls[ix]"
         *ngSwitchCase="'string-input'"
         class="string-input"
-        type="text">
+        type="text"
+      >
       </lintel-input>
-
     </ng-container>
-
   </ng-container>
-
 </ng-template>

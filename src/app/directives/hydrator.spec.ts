@@ -1,13 +1,11 @@
 import { HydratorDirective } from './hydrator';
 
 describe('HydratorDirective', () => {
-
   let mockElementRef: any;
   let mockEntry: any;
   let mockHydrated: any;
 
   beforeEach(() => {
-
     mockElementRef = {
       nativeElement: document.body
     };
@@ -27,7 +25,6 @@ describe('HydratorDirective', () => {
     document.body.setAttribute('lintelHydrated', 'xxx');
 
     window.IntersectionObserver = jest.fn((cb, options) => {
-      this.cb = cb;
       return {
         disconnect: jest.fn(),
         observe: jest.fn(),
@@ -38,7 +35,6 @@ describe('HydratorDirective', () => {
         unobserve: jest.fn()
       };
     });
-
   });
 
   test('Directive is created', () => {
@@ -85,5 +81,4 @@ describe('HydratorDirective', () => {
     hydrator['callback']([mockEntry], null);
     expect(mockHydrated.isHydrated).toBe(false);
   });
-
 });

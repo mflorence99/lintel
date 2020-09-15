@@ -30,13 +30,12 @@ declare let lintelVSCodeAPI;
 
 // @see https://stackoverflow.com/questions/38623065
 export class MockElementRef extends ElementRef {
-  constructor() { 
-    super(null); 
+  constructor() {
+    super(null);
   }
 }
 
 export function prepare(): void {
-
   TestBed.configureTestingModule({
     imports: [
       BarrelModule,
@@ -56,7 +55,7 @@ export function prepare(): void {
   lintelVSCodeAPI = {
     getState: jest.fn(),
     postMessage: jest.fn(),
-    setState: jest.fn(),
+    setState: jest.fn()
   };
 
   // NOTE: must do files first
@@ -67,13 +66,10 @@ export function prepare(): void {
   TestBed.inject(SchemaState).initialize();
 
   TestBed.inject(LintelState);
-
 }
 
 describe('Components tests helpers', () => {
-
   test('Dummy test', () => {
     expect(true).toBeTruthy();
   });
-
 });

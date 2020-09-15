@@ -1,17 +1,25 @@
 {
+  "allowJs": true,
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   },
-  "exclude": [
-    "**/*.spec.ts"
-  ],
-  "extends": "../tsconfig.json",
-  "files": [
-    "main.ts",
-    "polyfills.ts"
-  ],
-  "include": [
-    "../common/meld-configurations.ts"
-  ]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "declaration": false,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "lib": ["es2019", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "../dist/lintel",
+    "sourceMap": true,
+    "target": "es2015"
+  },
+  "exclude": ["**/*.spec.ts", "**/__mocks__/*.ts"],
+  "files": ["main.ts", "polyfills.ts"],
+  "include": ["../common/meld-configurations.ts"]
 }

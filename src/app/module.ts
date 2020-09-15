@@ -18,18 +18,12 @@ import { NgxsModule } from '@ngxs/store';
 
 const COMPONENTS = [];
 
-const MODULES = [
-  BarrelModule,
-  RootPageModule
-];
+const MODULES = [BarrelModule, RootPageModule];
 
 @NgModule({
-
   bootstrap: [RootPageComponent],
 
-  declarations: [
-    ...COMPONENTS
-  ],
+  declarations: [...COMPONENTS],
 
   imports: [
     ...MODULES,
@@ -45,7 +39,5 @@ const MODULES = [
       logger: console
     })
   ]
-
 })
-
-export class LintelModule { }
+export class LintelModule {}

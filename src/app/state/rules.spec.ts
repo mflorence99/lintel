@@ -3,10 +3,9 @@ import { Bundle } from './state.spec';
 import { prepare } from './state.spec';
 
 describe('RulesState', () => {
-
   let bundle: Bundle;
 
-  beforeEach(() => bundle = prepare());
+  beforeEach(() => (bundle = prepare()));
 
   test('RulesState is initialized', () => {
     expect(bundle.rules.snapshot[bundle.params.basePluginName]).toBeTruthy();
@@ -18,9 +17,10 @@ describe('RulesState', () => {
     const message: any = new Event('message');
     message.data = { command: 'rules', rules: { xxx: newRules } };
     window.dispatchEvent(message);
-    expect(bundle.rules.snapshot['xxx']['jest/consistent-test-it']).toBeTruthy();
+    expect(
+      bundle.rules.snapshot['xxx']['jest/consistent-test-it']
+    ).toBeTruthy();
   });
-
 
   test('no-mixed-operators cannot be processed', () => {
     const rule = bundle.rules.snapshot['eslint']['no-mixed-operators'];
@@ -33,7 +33,10 @@ describe('RulesState', () => {
   test('react/jsx-no-script-url cannot be processed', () => {
     const rule = bundle.rules.snapshot['react']['react/jsx-no-script-url'];
     expect(rule).toBeTruthy();
-    const digest = bundle.rules.makeSchemaDigest('react/jsx-no-script-url', rule);
+    const digest = bundle.rules.makeSchemaDigest(
+      'react/jsx-no-script-url',
+      rule
+    );
     expect(digest.canGUI).toBe(false);
     expect(digest.elements).toEqual([]);
   });
@@ -57,7 +60,10 @@ describe('RulesState', () => {
   test('Rules with "allOf" cannot be processed', () => {
     const rule = bundle.rules.snapshot['react']['react/jsx-curly-spacing'];
     expect(rule).toBeTruthy();
-    const digest = bundle.rules.makeSchemaDigest('react/jsx-curly-spacing', rule);
+    const digest = bundle.rules.makeSchemaDigest(
+      'react/jsx-curly-spacing',
+      rule
+    );
     expect(digest.canGUI).toBe(false);
     expect(digest.elements).toEqual([]);
   });
@@ -81,7 +87,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('brace-style', rule);
     expect(digest.canGUI).toBe(true);
-    bundle.utils.deepSearch(digest.elements, 'name=allowSingleLine', obj => {
+    bundle.utils.deepSearch(digest.elements, 'name=allowSingleLine', (obj) => {
       expect(obj).toEqual({
         default: false,
         name: 'allowSingleLine',
@@ -93,14 +99,19 @@ describe('RulesState', () => {
   test('Rules with additional boolean properties produce a key-value/checkbox', () => {
     const rule = bundle.rules.snapshot['react']['react/forbid-prop-types'];
     expect(rule).toBeTruthy();
-    const digest = bundle.rules.makeSchemaDigest('react/forbid-prop-types', rule);
+    const digest = bundle.rules.makeSchemaDigest(
+      'react/forbid-prop-types',
+      rule
+    );
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements).toEqual([{
-      default: undefined,
-      name: null,
-      subType: 'checkbox',
-      type: 'key-value'
-    }]);
+    expect(digest.elements).toEqual([
+      {
+        default: undefined,
+        name: null,
+        subType: 'checkbox',
+        type: 'key-value'
+      }
+    ]);
   });
 
   test('Rules with additional string properties produce a key-value/text', () => {
@@ -108,7 +119,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('valid-jsdoc', rule);
     expect(digest.canGUI).toBe(true);
-    bundle.utils.deepSearch(digest.elements, 'name=prefer', obj => {
+    bundle.utils.deepSearch(digest.elements, 'name=prefer', (obj) => {
       expect(obj).toEqual({
         default: undefined,
         name: 'prefer',
@@ -123,7 +134,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('keyword-spacing', rule);
     expect(digest.canGUI).toBe(true);
-    bundle.utils.deepSearch(digest.elements, 'name=overrides', obj => {
+    bundle.utils.deepSearch(digest.elements, 'name=overrides', (obj) => {
       expect(obj).toEqual(
         expect.objectContaining({
           default: undefined,
@@ -142,24 +153,31 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('accessor-pairs', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements).toEqual([{
-      default: undefined,
-      name: null,
-      options: ['getWithoutSet', 'setWithoutGet', 'enforceForClassMembers'],
-      type: 'multiselect'
-    }]);
+    expect(digest.elements).toEqual([
+      {
+        default: undefined,
+        name: null,
+        options: ['getWithoutSet', 'setWithoutGet', 'enforceForClassMembers'],
+        type: 'multiselect'
+      }
+    ]);
   });
 
   test('Rules with an empty object as the schema are a noop', () => {
     const rule = bundle.rules.snapshot['react']['react/require-render-return'];
     expect(rule).toBeTruthy();
-    const digest = bundle.rules.makeSchemaDigest('react/require-render-return', rule);
+    const digest = bundle.rules.makeSchemaDigest(
+      'react/require-render-return',
+      rule
+    );
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements).toEqual([{
-      default: undefined,
-      name: null,
-      type: 'noop'
-    }]);
+    expect(digest.elements).toEqual([
+      {
+        default: undefined,
+        name: null,
+        type: 'noop'
+      }
+    ]);
   });
 
   // TODO: no-magic numbers now has anyOf and can't find another instance
@@ -183,12 +201,14 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('max-classes-per-file', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements).toEqual([{
-      default: undefined,
-      min: 1,
-      name: null,
-      type: 'number-input'
-    }]);
+    expect(digest.elements).toEqual([
+      {
+        default: undefined,
+        min: 1,
+        name: null,
+        type: 'number-input'
+      }
+    ]);
   });
 
   test('Rules with type: array of enums produce a select-array', () => {
@@ -196,11 +216,22 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('prefer-reflect', rule);
     expect(digest.canGUI).toBe(true);
-    bundle.utils.deepSearch(digest.elements, 'name=exceptions', obj => {
+    bundle.utils.deepSearch(digest.elements, 'name=exceptions', (obj) => {
       expect(obj).toEqual({
         default: undefined,
         name: 'exceptions',
-        options: ['apply', 'call', 'delete', 'defineProperty', 'getOwnPropertyDescriptor', 'getPrototypeOf', 'setPrototypeOf', 'isExtensible', 'getOwnPropertyNames', 'preventExtensions'],
+        options: [
+          'apply',
+          'call',
+          'delete',
+          'defineProperty',
+          'getOwnPropertyDescriptor',
+          'getPrototypeOf',
+          'setPrototypeOf',
+          'isExtensible',
+          'getOwnPropertyNames',
+          'preventExtensions'
+        ],
         type: 'select-array',
         uniqueItems: true
       });
@@ -212,12 +243,14 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('block-spacing', rule);
     expect(digest.canGUI).toBe(true);
-    expect(digest.elements).toEqual([{
-      default: undefined,
-      name: null,
-      options: ['always', 'never'],
-      type: 'singleselect'
-    }]);
+    expect(digest.elements).toEqual([
+      {
+        default: undefined,
+        name: null,
+        options: ['always', 'never'],
+        type: 'singleselect'
+      }
+    ]);
   });
 
   test('Rules with type: array of strings produce a string-array', () => {
@@ -225,7 +258,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('no-native-reassign', rule);
     expect(digest.canGUI).toBe(true);
-    bundle.utils.deepSearch(digest.elements, 'name=exceptions', obj => {
+    bundle.utils.deepSearch(digest.elements, 'name=exceptions', (obj) => {
       expect(obj).toEqual({
         default: undefined,
         name: 'exceptions',
@@ -240,7 +273,7 @@ describe('RulesState', () => {
     expect(rule).toBeTruthy();
     const digest = bundle.rules.makeSchemaDigest('default-case', rule);
     expect(digest.canGUI).toBe(true);
-    bundle.utils.deepSearch(digest.elements, 'name=commentPattern', obj => {
+    bundle.utils.deepSearch(digest.elements, 'name=commentPattern', (obj) => {
       expect(obj).toEqual({
         default: undefined,
         name: 'commentPattern',
@@ -248,5 +281,4 @@ describe('RulesState', () => {
       });
     });
   });
-
 });

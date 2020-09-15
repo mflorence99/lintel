@@ -12,7 +12,9 @@
 }
 
 body,
-html { height: 100%; }
+html {
+  height: 100%;
+}
 
 body {
   overflow: hidden;
@@ -36,11 +38,9 @@ body.vscode-light {
 a,
 input,
 select {
-
   &:focus {
     outline: none;
   }
-
 }
 
 a {
@@ -52,8 +52,8 @@ a code {
   color: inherit;
 }
 
-input[type=number],
-input[type=text] {
+input[type='number'],
+input[type='text'] {
   background: transparent;
   border: none;
   color: var(--vscode-input-foreground);
@@ -65,7 +65,6 @@ input::placeholder {
 }
 
 .ngx-contextmenu.dropdown {
-
   ul {
     background-color: var(--vscode-settings-dropdownBackground);
     border: 1px solid var(--vscode-focusBorder);
@@ -75,18 +74,14 @@ input::placeholder {
     padding: 0;
 
     li {
-
       &.disabled {
-
         a {
           opacity: var(--lintel-opacity-disabled);
 
           &:hover {
             background: inherit;
           }
-
         }
-
       }
 
       a {
@@ -100,11 +95,7 @@ input::placeholder {
         &:hover {
           background-color: var(--vscode-settings-modifiedItemIndicator);
         }
-
       }
-
     }
-
   }
-
 }

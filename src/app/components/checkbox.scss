@@ -35,7 +35,6 @@
     &.disabled:not(.checked) {
       cursor: not-allowed;
     }
-
   }
 }
 
@@ -47,5 +46,4 @@
     cursor: not-allowed;
     opacity: var(--lintel-opacity-disabled);
   }
-
 }

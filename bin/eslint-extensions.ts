@@ -27,7 +27,7 @@ const extensions = [
 const schema = extensions.reduce((acc, extensionName) => {
   acc[extensionName] = resolveExtension(extensionName, __filename);
   return acc;
-}, { });
+}, {});
 
 const normalized = JSON.stringify(schema, null, 2);
 

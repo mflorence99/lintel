@@ -24,15 +24,15 @@ export interface SelectionStateModel {
 @StateRepository()
 @State<SelectionStateModel>({
   name: 'selection',
-  defaults: { }
+  defaults: {}
 })
-
 export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
-
   // actions
 
-  @DataAction({ insideZone: true }) 
-  select(@Payload('SelectionState.select') selection: SelectionStateModel): void {
+  @DataAction({ insideZone: true })
+  select(
+    @Payload('SelectionState.select') selection: SelectionStateModel
+  ): void {
     this.ctx.setState(patch(selection));
   }
 
@@ -57,5 +57,4 @@ export class SelectionState extends NgxsDataRepository<SelectionStateModel> {
   @Computed() get pluginName(): string {
     return this.snapshot.pluginName;
   }
-
 }

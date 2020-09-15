@@ -8,13 +8,20 @@ const parser = require('js-yaml');
 
 /** Resolve 'extends' references */
 
-export type NormalizedExtensionName = { configName?: string, moduleName: string };
-export type RequireExtensionResult = { extension: any, modulePath: string };
+export type NormalizedExtensionName = {
+  configName?: string;
+  moduleName: string;
+};
+export type RequireExtensionResult = { extension: any; modulePath: string };
 
-export function normalizeExtensionName(extensionName: string): NormalizedExtensionName {
-  if ((extensionName.startsWith('/') 
-    || extensionName.startsWith('.')
-    || extensionName.startsWith('eslint:')))
+export function normalizeExtensionName(
+  extensionName: string
+): NormalizedExtensionName {
+  if (
+    extensionName.startsWith('/') ||
+    extensionName.startsWith('.') ||
+    extensionName.startsWith('eslint:')
+  )
     return { moduleName: extensionName };
   else if (extensionName.startsWith('plugin:')) {
     const parts = extensionName.substring(7).split('/');
@@ -39,7 +46,10 @@ export function normalizeExtensionName(extensionName: string): NormalizedExtensi
   }
 }
 
-export function requireExtension(extensionName: string, modulePath: string): RequireExtensionResult {
+export function requireExtension(
+  extensionName: string,
+  modulePath: string
+): RequireExtensionResult {
   let extension;
   // TODO: eslint:all gives:
   // Uncaught TypeError: Cannot read property 'deprecated' of undefined
@@ -50,14 +60,18 @@ export function requireExtension(extensionName: string, modulePath: string): Req
   else if (extensionName.startsWith('/'))
     extension = requireExtensionFromFile(extensionName);
   else if (extensionName.startsWith('.'))
-    extension = requireExtensionFromFile(path.join(path.dirname(modulePath), extensionName));
+    extension = requireExtensionFromFile(
+      path.join(path.dirname(modulePath), extensionName)
+    );
   else {
     const { configName, moduleName } = normalizeExtensionName(extensionName);
     modulePath = moduleLoader.createRequire(modulePath).resolve(moduleName);
     // NOTE: only plugins have a config name
-    extension = configName ? require(modulePath).configs[configName] : require(modulePath);
+    extension = configName
+      ? require(modulePath).configs[configName]
+      : require(modulePath);
   }
-  return { extension, modulePath };  
+  return { extension, modulePath };
 }
 
 function requireExtensionFromFile(filePath: string): any {
@@ -66,16 +80,18 @@ function requireExtensionFromFile(filePath: string): any {
   else return require(filePath);
 }
 
-export function resolveExtension(extensionName: string, modulePath: string): any {
+export function resolveExtension(
+  extensionName: string,
+  modulePath: string
+): any {
   const outer = requireExtension(extensionName, modulePath);
   const resolver = ({ extension, modulePath }) => {
     if (extension?.extends) {
       if (!Array.isArray(extension.extends))
         extension.extends = [extension.extends];
-      extension.extends.forEach(extensionName => {
+      extension.extends.forEach((extensionName) => {
         const inner = requireExtension(extensionName, modulePath);
-        if (inner.extension?.extends)
-          resolver(inner);
+        if (inner.extension?.extends) resolver(inner);
         meldConfigurations(outer.extension, inner.extension);
       });
     }

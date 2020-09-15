@@ -18,13 +18,11 @@ export interface FilterStateModel {
 @StateRepository()
 @State<FilterStateModel>({
   name: 'filter',
-  defaults: { 
+  defaults: {
     showInheritedRules: true
   }
 })
-
 export class FilterState extends NgxsDataRepository<FilterStateModel> {
-
   // actions
 
   @DataAction({ insideZone: true })
@@ -47,5 +45,4 @@ export class FilterState extends NgxsDataRepository<FilterStateModel> {
     const state = this.ctx.getState();
     this.ctx.patchState({ showInheritedRules: !state.showInheritedRules });
   }
-
 }

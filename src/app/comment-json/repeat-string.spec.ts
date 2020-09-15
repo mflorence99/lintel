@@ -6,7 +6,6 @@ const assert = {
 };
 
 describe('repeat', () => {
-
   test('should return an empty string when a number is not given:', () => {
     assert.equal(repeat('a'), '');
   });
@@ -29,7 +28,10 @@ describe('repeat', () => {
     assert.equal(repeat('a', 10), 'aaaaaaaaaa');
     assert.equal(repeat('b ', 10), 'b b b b b b b b b b ');
     assert.equal(repeat('a ', 10), 'a a a a a a a a a a ');
-    assert.equal(repeat('abc ', 25), 'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc ');
+    assert.equal(
+      repeat('abc ', 25),
+      'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc '
+    );
   });
 
   test('should allow the multiplier to be a string:', () => {
@@ -52,11 +54,10 @@ describe('repeat', () => {
 
   test('should throw an error when no string is given:', () => {
     assert.throws(() => {
-      repeat(10); 
+      repeat(10);
     }, /expected a string/);
     assert.throws(() => {
-      repeat(null); 
+      repeat(null);
     }, /expected a string/);
   });
-
 });

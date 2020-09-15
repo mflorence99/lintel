@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('CheckboxComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -23,7 +22,7 @@ describe('CheckboxComponent', () => {
     expect(component['onChange']).toBeTruthy();
   });
 
-  test('registerOnTouched', () =>{
+  test('registerOnTouched', () => {
     const fixture = TestBed.createComponent(CheckboxComponent);
     const component = fixture.componentInstance;
     expect(component.registerOnTouched(null)).toBeFalsy();
@@ -52,9 +51,8 @@ describe('CheckboxComponent', () => {
     const fixture = TestBed.createComponent(CheckboxComponent);
     const component = fixture.componentInstance;
     expect(component.value).toBeFalsy();
-    component.registerOnChange(value => expect(value).toBe(true));
+    component.registerOnChange((value) => expect(value).toBe(true));
     component.value = true;
     expect(component.value).toBe(true);
   });
-
 });

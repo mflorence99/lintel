@@ -2,7 +2,8 @@ import * as parser from './';
 
 const is = (received, expected): void => expect(received).toEqual(expected);
 const truthy = (received): void => expect(received).toBeTruthy();
-const deepEqual = (received, expected): void => expect(received).toEqual(expected);
+const deepEqual = (received, expected): void =>
+  expect(received).toEqual(expected);
 
 const cases = [
   {
@@ -230,7 +231,7 @@ g*/ //g2
             line: 10,
             column: 9
           }
-        },
+        }
       });
 
       const [i, j] = obj[Symbol.for('after-prop:b')];
@@ -266,8 +267,7 @@ g*/ //g2
   }
 ];
 
-cases.forEach(c => {
-
+cases.forEach((c) => {
   test(c.d, () => {
     c.e(parser.parse(c.s));
   });
@@ -288,7 +288,8 @@ const invalid = [
   ['{"a":undefined}', 1, 5]
 ];
 
-const removesPosition = (s): string => s.replace(/\s+in JSON at position.+$/, '');
+const removesPosition = (s): string =>
+  s.replace(/\s+in JSON at position.+$/, '');
 
 // ECMA262 does not define the standard of error messages.
 // However, we throw error messages the same as JSON.parse()
@@ -321,10 +322,12 @@ invalid.forEach(([i, line, col]) => {
 
 test('reviver', () => {
   is(
-    parser.parse('{"p": 5}', (key, value) =>
-      typeof value === 'number'
-        ? value * 2 // return value * 2 for numbers
-        : value     // return everything else unchanged
+    parser.parse(
+      '{"p": 5}',
+      (key, value) =>
+        typeof value === 'number'
+          ? value * 2 // return value * 2 for numbers
+          : value // return everything else unchanged
     ).p,
     10
   );

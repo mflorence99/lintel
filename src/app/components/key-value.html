@@ -1,14 +1,12 @@
-<ng-container
-  [formGroup]="keyValueForm">
-
-  <div 
+<ng-container [formGroup]="keyValueForm">
+  <div
     [ngStyle]="{'grid-template-columns': 'repeat(auto-fit, ' + columnWidth + ')'}"
-    class="keyValues">
-
+    class="keyValues"
+  >
     <div
       *ngFor="let keyValue of keyValueForm.controls.keyValues['controls']; let ix = index"
-      class="keyValue">
-
+      class="keyValue"
+    >
       <!-- key w/o key constraints -->
 
       <lintel-input
@@ -16,7 +14,8 @@
         [formControl]="keyValue['controls'][0]"
         *ngIf="!keyConstraints"
         class="key"
-        type="text">
+        type="text"
+      >
       </lintel-input>
 
       <!-- key with key constraints -->
@@ -27,35 +26,25 @@
         [options]="keyConstraints"
         *ngIf="!!keyConstraints"
         class="key"
-        placeholder=" ">
+        placeholder=" "
+      >
       </lintel-singleselector>
 
-      <div
-        class="separator">
-        :
-      </div>
+      <div class="separator">:</div>
 
       <!-- value w/o value constraints -->
 
-      <ng-container
-        [ngSwitch]="type"
-        *ngIf="!valueConstraints">
-
-        <div
-          *ngSwitchCase="'checkbox'"
-          class="suffixed value">
-
+      <ng-container [ngSwitch]="type" *ngIf="!valueConstraints">
+        <div *ngSwitchCase="'checkbox'" class="suffixed value">
           <lintel-checkbox
             [enabled]="enabled"
-            [formControl]="keyValue['controls'][1]">
+            [formControl]="keyValue['controls'][1]"
+          >
           </lintel-checkbox>
 
           <div suffix>
-            <ng-content
-              *ngTemplateOutlet="suffixTemplate">
-            </ng-content>
+            <ng-content *ngTemplateOutlet="suffixTemplate"> </ng-content>
           </div>
-
         </div>
 
         <lintel-input
@@ -66,39 +55,26 @@
           [step]="step"
           [type]="type"
           *ngSwitchDefault
-          class="value">
-
-          <div
-            *ngTemplateOutlet="suffixTemplate"
-            suffix>
-          </div>
-
+          class="value"
+        >
+          <div *ngTemplateOutlet="suffixTemplate" suffix></div>
         </lintel-input>
-        
       </ng-container>
 
       <!-- value with value constraints -->
 
-      <ng-container
-        [ngSwitch]="type"
-        *ngIf="!!valueConstraints">
-
-        <div
-          *ngSwitchCase="'multicheckbox'"
-          class="suffixed value">
-
+      <ng-container [ngSwitch]="type" *ngIf="!!valueConstraints">
+        <div *ngSwitchCase="'multicheckbox'" class="suffixed value">
           <lintel-multiselector
             [enabled]="enabled"
             [formControl]="keyValue['controls'][1]"
-            [options]="valueConstraints">
+            [options]="valueConstraints"
+          >
           </lintel-multiselector>
 
           <div suffix>
-            <ng-content
-              *ngTemplateOutlet="suffixTemplate">
-            </ng-content>
+            <ng-content *ngTemplateOutlet="suffixTemplate"> </ng-content>
           </div>
-
         </div>
 
         <lintel-singleselector
@@ -107,43 +83,34 @@
           [options]="valueConstraints"
           *ngSwitchDefault
           class="value"
-          placeholder=" ">
-
-          <div
-            *ngTemplateOutlet="suffixTemplate"
-            suffix>
-          </div>
-
+          placeholder=" "
+        >
+          <div *ngTemplateOutlet="suffixTemplate" suffix></div>
         </lintel-singleselector>
-
       </ng-container>
 
       <!-- NOTE: common suffix for different value controls -->
 
-      <ng-template
-        #suffixTemplate>
-
-        <fa-icon 
+      <ng-template #suffixTemplate>
+        <fa-icon
           (click)="removeKeyValue(ix)"
           [icon]="['fas', 'times']"
           [ngClass]="{disabled: !enabled}"
           *ngIf="keyValueForm.controls.keyValues['controls'].length > 1"
           suffix
-          title="Remove this item">
+          title="Remove this item"
+        >
         </fa-icon>
 
         <a
           (click)="addKeyValue()"
           [ngClass]="{disabled: !enabled}"
           *ngIf="ix === keyValueForm.controls.keyValues['controls'].length - 1"
-          suffix>
+          suffix
+        >
           More
         </a>
-
       </ng-template>
-
     </div>
-
   </div>
-
 </ng-container>

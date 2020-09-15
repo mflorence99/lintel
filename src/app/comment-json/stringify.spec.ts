@@ -54,28 +54,24 @@ const REPLACERS = [
   }
 ];
 
-const SPACES = [
-  1,
-  2,
-  '  ',
-  '1'
-];
+const SPACES = [1, 2, '  ', '1'];
 
 const each = (subjects, replacers, spaces, iterator): void => {
   subjects.forEach((subject, i) => {
     replacers.forEach((replacer, ii) => {
       spaces.forEach((space, iii) => {
         const desc = [subject, replacer, space]
-          .map(s =>
-            isFunction(s)
-              ? 'replacer'
-              : JSON.stringify(s)
-          )
+          .map((s) => (isFunction(s) ? 'replacer' : JSON.stringify(s)))
           .join(', ');
 
-        iterator(subject, replacer, space, desc,
+        iterator(
+          subject,
+          replacer,
+          space,
+          desc,
           // prevent title duplication
-          `${i}+${ii}+${iii}`);
+          `${i}+${ii}+${iii}`
+        );
       });
     });
   });
@@ -101,16 +97,9 @@ const OLD_CASES = [
   'single-top'
 ];
 
-OLD_CASES.forEach(name => {
-  [
-    '  ',
-    2,
-    3,
-    null
-  ].forEach((space: any) => {
-    const s = isString(space)
-      ? space.length
-      : space;
+OLD_CASES.forEach((name) => {
+  ['  ', 2, 3, null].forEach((space: any) => {
+    const s = isString(space) ? space.length : space;
 
     const fixture = path.join(__dirname, `fixtures/${name}-null-${s}.json`);
 
@@ -132,12 +121,15 @@ test('#17: has trailing comma and comment after comma', () => {
   "a": 1, // a
 }`;
 
-  is(stringify(parse(str), null, 2), `{
+  is(
+    stringify(parse(str), null, 2),
+    `{
   "b": [
     1
   ],
   "a": 1 // a
-}`);
+}`
+  );
 });
 
 test('#17: insert key between a and b', () => {
@@ -151,11 +143,14 @@ test('#17: insert key between a and b', () => {
   obj['c'] = 3;
   assign(obj, parsed, ['b']);
 
-  is(stringify(obj, null, 2), `{
+  is(
+    stringify(obj, null, 2),
+    `{
   "a": 1, // a
   "c": 3,
   "b": 2 // b
-}`);
+}`
+  );
 });
 
 test('#18: MEF extensions', () => {
@@ -165,5 +160,5 @@ test('#18: MEF extensions', () => {
 }`;
   const parsed = parse(str);
 
-  is(stringify(parsed, null, 2, '\'', false), str);
+  is(stringify(parsed, null, 2, "'", false), str);
 });

@@ -27,20 +27,20 @@ declare const lintelVSCodeAPI;
   templateUrl: 'page.html',
   styleUrls: ['page.scss']
 })
-
 export class RootPageComponent {
-
   /** ctor */
-  constructor(public configs: ConfigsState,
-              private destroy$: DestroyService,
-              public extensions: ExtensionsState,
-              public files: FilesState,
-              public filter: FilterState,
-              private host: ElementRef,
-              public params: Params,
-              public rules: RulesState,
-              public schema: SchemaState,
-              public selection: SelectionState) {
+  constructor(
+    public configs: ConfigsState,
+    private destroy$: DestroyService,
+    public extensions: ExtensionsState,
+    public files: FilesState,
+    public filter: FilterState,
+    private host: ElementRef,
+    public params: Params,
+    public rules: RulesState,
+    public schema: SchemaState,
+    public selection: SelectionState
+  ) {
     // NOTE: must do files first
     this.files.initialize();
     this.configs.initialize();
@@ -59,12 +59,9 @@ export class RootPageComponent {
   // private methods
 
   private handleSelectionState$(): void {
-    this.selection.state$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(_ => {
-        const theScroller = this.host.nativeElement.querySelector('#theScroller');
-        theScroller?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      });
+    this.selection.state$.pipe(takeUntil(this.destroy$)).subscribe((_) => {
+      const theScroller = this.host.nativeElement.querySelector('#theScroller');
+      theScroller?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    });
   }
-
 }

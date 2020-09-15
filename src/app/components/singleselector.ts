@@ -13,7 +13,10 @@ import { forwardRef } from '@angular/core';
 // -- array of encoded values
 // -- array of [encoded, decoded] values <-- PREFERRED
 
-export type SingleselectorOptions = (SingleselectorValue)[] | (SingleselectorValue)[][] | any[];
+export type SingleselectorOptions =
+  | SingleselectorValue[]
+  | SingleselectorValue[][]
+  | any[];
 
 // NOTE: values can be one of the following:
 // -- encoded value <-- PREFERRED
@@ -22,7 +25,7 @@ export type SingleselectorValue = number | string;
 
 /**
  * Singleselect values via select/options
- * 
+ *
  * NOTE: just enough to be able to match VSCode as well as possible
  *
  * @see https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
@@ -43,9 +46,7 @@ export type SingleselectorValue = number | string;
   templateUrl: 'singleselector.html',
   styleUrls: ['singleselector.scss']
 })
-
 export class SingleselectorComponent implements ControlValueAccessor {
-
   @Input() enabled = true;
   @Input() nameOfDecoded = 'value';
   @Input() nameOfEncoded = 'id';
@@ -84,25 +85,23 @@ export class SingleselectorComponent implements ControlValueAccessor {
   private origOptions: SingleselectorOptions;
 
   /** ctor  */
-  constructor(private cdf: ChangeDetectorRef) { }
+  constructor(private cdf: ChangeDetectorRef) {}
 
   /** Get an indexed decoded option value */
   getOptionDecoded(ix: number): string {
-    if (this.placeholder)
-      ix = ix - 1;
-    return (ix >= 0) ? this.options[ix][1] : null;
+    if (this.placeholder) ix = ix - 1;
+    return ix >= 0 ? this.options[ix][1] : null;
   }
 
   /** Get an indexed encoded option value */
   getOptionEncoded(ix: number): string {
-    if (this.placeholder)
-      ix = ix - 1;
-    return (ix >= 0) ? this.options[ix][0] : null;
+    if (this.placeholder) ix = ix - 1;
+    return ix >= 0 ? this.options[ix][0] : null;
   }
 
   /** Get an indexed encoded option value */
   getOptionIndex(value: SingleselectorValue): number {
-    const ix = this.options.findIndex(option => option[0] === value);
+    const ix = this.options.findIndex((option) => option[0] === value);
     return this.placeholder ? ix + 1 : ix;
   }
 
@@ -112,7 +111,7 @@ export class SingleselectorComponent implements ControlValueAccessor {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void { }
+  registerOnTouched(_): void {}
 
   /** Select an an option by its index  */
   selectByIndex(ix: number): void {
@@ -126,15 +125,16 @@ export class SingleselectorComponent implements ControlValueAccessor {
 
   // private methods
 
-  private fromSingleselectorOptions(options: SingleselectorOptions): SingleselectorValue[][] {
+  private fromSingleselectorOptions(
+    options: SingleselectorOptions
+  ): SingleselectorValue[][] {
     let normalized: SingleselectorValue[][] = [];
     // NOTE: see above for different options for supplying options
-    if (Array.isArray(options) && (options.length > 0)) {
+    if (Array.isArray(options) && options.length > 0) {
       if (Array.isArray(options[0]))
         normalized = options as SingleselectorValue[][];
-      else normalized = (options as string[]).map(option => [option, option]);
+      else normalized = (options as string[]).map((option) => [option, option]);
     }
     return normalized;
   }
-
 }

@@ -8,7 +8,6 @@ import { TestBed } from '@angular/core/testing';
 import { async } from '@angular/core/testing';
 
 describe('InputArrayComponent', () => {
-
   beforeEach(async(() => prepare()));
 
   test('Component is created', () => {
@@ -53,9 +52,13 @@ describe('InputArrayComponent', () => {
     const component = fixture.componentInstance;
     component.type = 'text';
     component.value = ['London', 'Paris', 'Rome'];
-    expect((component.inputArrayForm.controls.inputs as FormArray).length).toEqual(4);
+    expect(
+      (component.inputArrayForm.controls.inputs as FormArray).length
+    ).toEqual(4);
     component.addInput();
-    expect((component.inputArrayForm.controls.inputs as FormArray).length).toEqual(5);
+    expect(
+      (component.inputArrayForm.controls.inputs as FormArray).length
+    ).toEqual(5);
   });
 
   test('removeInput', () => {
@@ -63,18 +66,22 @@ describe('InputArrayComponent', () => {
     const component = fixture.componentInstance;
     component.type = 'number';
     component.value = [1, 2, 3];
-    expect((component.inputArrayForm.controls.inputs as FormArray).length).toEqual(4);
+    expect(
+      (component.inputArrayForm.controls.inputs as FormArray).length
+    ).toEqual(4);
     component.removeInput(1);
-    expect((component.inputArrayForm.controls.inputs as FormArray).length).toEqual(3);
+    expect(
+      (component.inputArrayForm.controls.inputs as FormArray).length
+    ).toEqual(3);
   });
 
-  test('ngOnInit', done => {
+  test('ngOnInit', (done) => {
     const fixture = TestBed.createComponent(InputArrayComponent);
     const component = fixture.componentInstance;
     component.type = 'text';
     component.uniqueItems = true;
     component.value = ['London', 'Paris', 'Paris', 'Rome'];
-    component.registerOnChange(value => {
+    component.registerOnChange((value) => {
       expect(value).toEqual(['London', 'Paris', 'Rome']);
       done();
     });
@@ -82,5 +89,4 @@ describe('InputArrayComponent', () => {
     // NOTE: trips valueChanges
     component.inputArrayForm.updateValueAndValidity({ emitEvent: true });
   });
-
 });

@@ -8,25 +8,13 @@ import { NgModule } from '@angular/core';
  * All our pipes
  */
 
-const PIPES = [
-  LinkifyPipe,
-  MarkedPipe
-];
+const PIPES = [LinkifyPipe, MarkedPipe];
 
 @NgModule({
+  declarations: [...PIPES],
 
-  declarations: [
-    ...PIPES
-  ],
+  exports: [...PIPES],
 
-  exports: [
-    ...PIPES
-  ],
-
-  imports: [
-    BarrelModule
-  ]
-
+  imports: [BarrelModule]
 })
-
-export class PipesModule { }
+export class PipesModule {}

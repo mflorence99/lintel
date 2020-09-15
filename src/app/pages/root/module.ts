@@ -10,27 +10,13 @@ import { NgModule } from '@angular/core';
  * Root page module
  */
 
-const COMPONENTS = [
-  RootPageComponent
-];
+const COMPONENTS = [RootPageComponent];
 
-const MODULES = [
-  BarrelModule,
-  ComponentsModule,
-  DirectivesModule,
-  PipesModule
-];
+const MODULES = [BarrelModule, ComponentsModule, DirectivesModule, PipesModule];
 
 @NgModule({
+  declarations: [...COMPONENTS],
 
-  declarations: [
-    ...COMPONENTS
-  ],
-
-  imports: [
-    ...MODULES
-  ]
-  
+  imports: [...MODULES]
 })
-
-export class RootPageModule { }
+export class RootPageModule {}

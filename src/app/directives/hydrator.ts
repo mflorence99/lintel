@@ -12,17 +12,15 @@ import { OnInit } from '@angular/core';
 @Directive({
   selector: '[lintelHydrator]'
 })
-
 export class HydratorDirective implements OnInit {
-
   @Input() hydratorMargin = '0px';
   @Input() hydratorTrace = false;
 
-  private hydrateables: { [uuid: string]: Hydrateable } = { };
+  private hydrateables: { [uuid: string]: Hydrateable } = {};
   private observer: IntersectionObserver;
 
   /** ctor */
-  constructor(private element: ElementRef) { }
+  constructor(private element: ElementRef) {}
 
   /** When we're ready */
   ngOnInit(): void {
@@ -45,23 +43,28 @@ export class HydratorDirective implements OnInit {
     try {
       this.observer.unobserve(hydrateable.element.nativeElement);
       delete this.hydrateables[hydrateable.lintelHydrated];
-    } catch (ignored) { }
+    } catch (ignored) {}
   }
 
   // private methods
 
-  private callback(entries: IntersectionObserverEntry[], _: IntersectionObserver): void {
-    entries.forEach(entry => {
-      const hydrateable = this.hydrateables[entry.target.getAttribute('lintelHydrated')];
+  private callback(
+    entries: IntersectionObserverEntry[],
+    _: IntersectionObserver
+  ): void {
+    entries.forEach((entry) => {
+      const hydrateable = this.hydrateables[
+        entry.target.getAttribute('lintelHydrated')
+      ];
       if (hydrateable) {
         const isNow = entry.isIntersecting;
         const was = hydrateable.isHydrated;
         if (was !== isNow) {
           if (this.hydratorTrace) {
-            const style = color => `background-color: ${color}; color: white; font-weight: bold; padding: 4px`;
+            const style = (color) =>
+              `background-color: ${color}; color: white; font-weight: bold; padding: 4px`;
             const uuid = hydrateable.lintelHydrated;
-            if (isNow)
-              console.log('%cHydrate', style('#1b5e20'), uuid);
+            if (isNow) console.log('%cHydrate', style('#1b5e20'), uuid);
             else console.log('%cDehydrate', style('#b71c1c'), uuid);
           }
           hydrateable.isHydrated = isNow;
@@ -69,5 +72,4 @@ export class HydratorDirective implements OnInit {
       }
     });
   }
-
 }

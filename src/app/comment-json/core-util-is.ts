@@ -74,7 +74,7 @@ export function isDate(d): boolean {
 
 export function isError(e): boolean {
   // hey -- didn't we say we wouldn't use instanceof ??
-  return (objectToString(e) === '[object Error]' /* || e instanceof Error */);
+  return objectToString(e) === '[object Error]' /* || e instanceof Error */;
 }
 
 export function isFunction(arg): boolean {
@@ -82,12 +82,14 @@ export function isFunction(arg): boolean {
 }
 
 export function isPrimitive(arg): boolean {
-  return arg === null ||
+  return (
+    arg === null ||
     typeof arg === 'boolean' ||
     typeof arg === 'number' ||
     typeof arg === 'string' ||
-    typeof arg === 'symbol' ||  // ES6 symbol
-    typeof arg === 'undefined';
+    typeof arg === 'symbol' || // ES6 symbol
+    typeof arg === 'undefined'
+  );
 }
 
 // exports.isBuffer = Buffer.isBuffer;
