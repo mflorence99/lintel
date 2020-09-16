@@ -1,23 +1,23 @@
-import '../../../assets/eslint-extensions.js';
-import '../../../assets/eslint-files/unit-tests.js';
-import '../../../assets/eslint-rules.js';
-import '../../../assets/eslint-schema.js';
-import '../../../assets/vscode-scripts.js';
-import '../../../assets/vscode-startup.js';
+import '../../assets/eslint-extensions.js';
+import '../../assets/eslint-files/unit-tests.js';
+import '../../assets/eslint-rules.js';
+import '../../assets/eslint-schema.js';
+import '../../assets/vscode-scripts.js';
+import '../../assets/vscode-startup.js';
 
-import { BarrelModule } from '../../barrel';
-import { ComponentsModule } from './module';
-import { ComponentsModule as CommonComponents } from '../../components/module';
-import { ConfigsState } from '../../state/configs';
-import { DirectivesModule } from '../../directives/module';
-import { ExtensionsState } from '../../state/extensions';
-import { FilesState } from '../../state/files';
-import { LintelState } from '../../state/lintel';
-import { PipesModule } from '../../pipes/module';
-import { RulesState } from '../../state/rules';
-import { SchemaState } from '../../state/schema';
+import { BarrelModule } from '../barrel';
+import { ComponentsModule } from './components/module';
+import { ComponentsModule as CommonComponents } from '../components/module';
+import { ConfigsState } from '../state/configs';
+import { DirectivesModule } from '../directives/module';
+import { ExtensionsState } from '../state/extensions';
+import { FilesState } from '../state/files';
+import { LintelState } from '../state/lintel';
+import { PipesModule } from '../pipes/module';
+import { RulesState } from '../state/rules';
+import { SchemaState } from '../state/schema';
 
-import { states } from '../../state/app';
+import { states } from '../state/app';
 
 import { ContextMenuService } from 'ngx-contextmenu';
 import { ElementRef } from '@angular/core';
@@ -52,6 +52,7 @@ export function prepare(): void {
     ]
   }).compileComponents();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   lintelVSCodeAPI = {
     getState: jest.fn(),
     postMessage: jest.fn(),

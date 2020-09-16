@@ -1,23 +1,23 @@
 import { OverridesComponent } from './overrides';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('OverridesComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: OverridesComponent;
+  let fixture: ComponentFixture<OverridesComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(OverridesComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(OverridesComponent);
+    component = fixture.componentInstance;
   });
 
   test('Override can be added', () => {
-    const fixture = TestBed.createComponent(OverridesComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
@@ -27,8 +27,6 @@ describe('OverridesComponent', () => {
   });
 
   test('Override can be deleted', () => {
-    const fixture = TestBed.createComponent(OverridesComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
@@ -38,8 +36,9 @@ describe('OverridesComponent', () => {
   });
 
   test('ngOnInit', () => {
-    const fixture = TestBed.createComponent(OverridesComponent);
-    const component = fixture.componentInstance;
+    component.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
     component.ngOnInit();
     component.overridesForm.patchValue({ files: [['*.md', '*.markdown']] });
     expect(component.configs.configuration.overrides[0].files).toEqual([

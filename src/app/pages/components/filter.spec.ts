@@ -1,23 +1,23 @@
 import { FilterComponent } from './filter';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('FilterComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: FilterComponent;
+  let fixture: ComponentFixture<FilterComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(FilterComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(FilterComponent);
+    component = fixture.componentInstance;
   });
 
   test('clearRuleNameFilter', () => {
-    const fixture = TestBed.createComponent(FilterComponent);
-    const component = fixture.componentInstance;
     component.filter.filterRuleName('xxx');
     expect(component.filter.snapshot.ruleNameFilter).toBe('xxx');
     component.clearRuleNameFilter();
@@ -25,19 +25,15 @@ describe('FilterComponent', () => {
   });
 
   test('ngOnInit', () => {
-    const fixture = TestBed.createComponent(FilterComponent);
-    const component = fixture.componentInstance;
     component.ngOnInit();
     component.filterForm.setValue({ filter: 'yyy' });
     expect(component.filter.snapshot.ruleNameFilter).toBe('yyy');
   });
 
   test('toggleInheritedRules', () => {
-    const fixture = TestBed.createComponent(FilterComponent);
-    const component = fixture.componentInstance;
     component.filter.showInheritedRules();
-    expect(component.filter.snapshot.showInheritedRules).toBe(true);
+    expect(component.filter.snapshot.showInheritedRules).toBeTrue();
     component.toggleInheritedRules();
-    expect(component.filter.snapshot.showInheritedRules).toBe(false);
+    expect(component.filter.snapshot.showInheritedRules).toBeFalse();
   });
 });

@@ -1,12 +1,12 @@
-import { ConfigsState } from '../../state/configs';
-import { DestroyService } from '../../services/destroy';
-import { ExtensionsState } from '../../state/extensions';
-import { FilesState } from '../../state/files';
-import { FilterState } from '../../state/filter';
-import { Params } from '../../services/params';
-import { RulesState } from '../../state/rules';
-import { SchemaState } from '../../state/schema';
-import { SelectionState } from '../../state/selection';
+import { ConfigsState } from '../state/configs';
+import { DestroyService } from '../services/destroy';
+import { ExtensionsState } from '../state/extensions';
+import { FilesState } from '../state/files';
+import { FilterState } from '../state/filter';
+import { Params } from '../services/params';
+import { RulesState } from '../state/rules';
+import { SchemaState } from '../state/schema';
+import { SelectionState } from '../state/selection';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -24,8 +24,8 @@ declare const lintelVSCodeAPI;
   changeDetection: ChangeDetectionStrategy.Default,
   providers: [DestroyService],
   selector: 'lintel-root',
-  templateUrl: 'page.html',
-  styleUrls: ['page.scss']
+  templateUrl: 'root.html',
+  styleUrls: ['root.scss']
 })
 export class RootPageComponent {
   /** ctor */

@@ -1,25 +1,23 @@
 import { ParserOptionsComponent } from './parser-options';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
-declare const lintelVSCodeAPI;
-
 describe('ParserOptionsComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: ParserOptionsComponent;
+  let fixture: ComponentFixture<ParserOptionsComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(ParserOptionsComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(ParserOptionsComponent);
+    component = fixture.componentInstance;
   });
 
   test('makeOptionsForSingleselector', () => {
-    const fixture = TestBed.createComponent(ParserOptionsComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
@@ -30,8 +28,6 @@ describe('ParserOptionsComponent', () => {
   });
 
   test('ngOnInit', () => {
-    const fixture = TestBed.createComponent(ParserOptionsComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });

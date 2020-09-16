@@ -1,83 +1,72 @@
 import { GeneralComponent } from './general';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-
-import { async } from '@angular/core/testing';
 
 declare const lintelVSCodeAPI;
 
 describe('GeneralComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: GeneralComponent;
+  let fixture: ComponentFixture<GeneralComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(GeneralComponent);
+    component = fixture.componentInstance;
   });
 
   test('canDoSettings', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
-    expect(component.canDoSettings()).toBe(true);
+    expect(component.canDoSettings()).toBeTrue();
     component.selection.select({
       fileName: '/home/mflorence99/el-3270/.eslintrc.js'
     });
-    expect(component.canDoSettings()).toBe(false);
+    expect(component.canDoSettings()).toBeFalse();
   });
 
   test('editFile', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
     component.editFile('/home/mflorence99/lintel/package.json');
-    const calls = lintelVSCodeAPI.postMessage.mock.calls;
-    expect(calls.length).toBeGreaterThanOrEqual(1);
-    const message = calls[calls.length - 1][0];
-    expect(message).toEqual({
+    expect(lintelVSCodeAPI.postMessage).toHaveBeenCalledWith({
       command: 'editFile',
       fileName: '/home/mflorence99/lintel/package.json'
     });
   });
 
   test('isConfigured', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
-    expect(component.isConfigured('parserOptions')).toBe(true);
-    expect(component.isConfigured('ecmaFeatures')).toBe(true);
-    expect(component.isConfigured('env')).toBe(false);
+    expect(component.isConfigured('parserOptions')).toBeTrue();
+    expect(component.isConfigured('ecmaFeatures')).toBeTrue();
+    expect(component.isConfigured('env')).toBeFalse();
     component.selection.select({
       fileName: '/home/mflorence99/lintel/src/app/.eslintrc.yaml'
     });
-    expect(component.isConfigured('parserOptions')).toBe(false);
-    expect(component.isConfigured('ecmaFeatures')).toBe(true);
+    expect(component.isConfigured('parserOptions')).toBeFalse();
+    expect(component.isConfigured('ecmaFeatures')).toBeTrue();
     component.selection.select({
       fileName: '/home/mflorence99/el-3270/.eslintrc.js'
     });
-    expect(component.isConfigured('plugins')).toBe(true);
+    expect(component.isConfigured('plugins')).toBeTrue();
   });
 
   test('isInherited', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
-    expect(component.isInherited('parserOptions')).toBe(true);
-    expect(component.isInherited('ecmaFeatures')).toBe(true);
-    expect(component.isInherited('env')).toBe(true);
-    expect(component.isInherited('parser')).toBe(true);
+    expect(component.isInherited('parserOptions')).toBeTrue();
+    expect(component.isInherited('ecmaFeatures')).toBeTrue();
+    expect(component.isInherited('env')).toBeTrue();
+    expect(component.isInherited('parser')).toBeTrue();
   });
 
   test('makeOptionsForMultiselector', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
@@ -86,8 +75,6 @@ describe('GeneralComponent', () => {
   });
 
   test('makeOptionsForSingleselector', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
@@ -98,8 +85,6 @@ describe('GeneralComponent', () => {
   });
 
   test('makeProperties', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json',
       override: null
@@ -116,8 +101,6 @@ describe('GeneralComponent', () => {
   });
 
   test('ngOnInit', () => {
-    const fixture = TestBed.createComponent(GeneralComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });

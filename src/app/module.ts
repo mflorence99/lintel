@@ -1,6 +1,6 @@
 import { BarrelModule } from './barrel';
-import { RootPageComponent } from './pages/root/page';
-import { RootPageModule } from './pages/root/module';
+import { RootPageComponent } from './pages/root';
+import { RootPageModule } from './pages/module';
 
 import { environment } from '../environments/environment';
 import { states } from './state/app';

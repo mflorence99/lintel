@@ -1,26 +1,26 @@
 import { RuleDigest } from '../../state/configs';
 import { RulesComponent } from './rules';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-
-import { async } from '@angular/core/testing';
 
 declare const lintelVSCodeAPI;
 
 describe('RulesComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: RulesComponent;
+  let fixture: ComponentFixture<RulesComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(RulesComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(RulesComponent);
+    component = fixture.componentInstance;
   });
 
   test('canExportRule - in config', () => {
-    const fixture = TestBed.createComponent(RulesComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json',
       pluginName: '@typescript-eslint'
@@ -29,12 +29,10 @@ describe('RulesComponent', () => {
       component.canExportRule({
         ruleName: '@typescript-eslint/member-ordering'
       } as RuleDigest)
-    ).toBe(true);
+    ).toBeTrue();
   });
 
   test('canExportRule - in extension', () => {
-    const fixture = TestBed.createComponent(RulesComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json',
       pluginName: 'vue'
@@ -43,12 +41,10 @@ describe('RulesComponent', () => {
       component.canExportRule({
         ruleName: 'vue/attributes-order'
       } as RuleDigest)
-    ).toBe(true);
+    ).toBeTrue();
   });
 
   test('execute deletes rule', () => {
-    const fixture = TestBed.createComponent(RulesComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json',
       pluginName: '@typescript-eslint'
@@ -60,8 +56,6 @@ describe('RulesComponent', () => {
   });
 
   test('execute exports rule', () => {
-    const fixture = TestBed.createComponent(RulesComponent);
-    const component = fixture.componentInstance;
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json',
       pluginName: '@typescript-eslint'
@@ -75,17 +69,13 @@ describe('RulesComponent', () => {
   });
 
   test('isRuleDefined', () => {
-    const fixture = TestBed.createComponent(RulesComponent);
-    const component = fixture.componentInstance;
-    expect(component.isRuleDefined({ defined: true } as RuleDigest)).toBe(true);
-    expect(component.isRuleDefined({ defined: false } as RuleDigest)).toBe(
-      false
-    );
+    expect(component.isRuleDefined({ defined: true } as RuleDigest)).toBeTrue();
+    expect(
+      component.isRuleDefined({ defined: false } as RuleDigest)
+    ).toBeFalse();
   });
 
   test('trackByRule', () => {
-    const fixture = TestBed.createComponent(RulesComponent);
-    const component = fixture.componentInstance;
     expect(component.trackByRule(null, { key: 'brace-style' })).toEqual(
       'brace-style'
     );

@@ -1,17 +1,23 @@
 import { ScrollerComponent } from './scroller';
 
-import { prepare } from './component.spec';
+import { prepare } from '../page.spec';
 
+import 'jest-extended';
+
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { async } from '@angular/core/testing';
-
 describe('ScrollerComponent', () => {
-  beforeEach(async(() => prepare()));
+  let component: ScrollerComponent;
+  let fixture: ComponentFixture<ScrollerComponent>;
 
-  test('Component is created', () => {
-    const fixture = TestBed.createComponent(ScrollerComponent);
-    const component = fixture.componentInstance;
+  beforeEach(() => {
+    prepare();
+    fixture = TestBed.createComponent(ScrollerComponent);
+    component = fixture.componentInstance;
+  });
+
+  test('ctor', () => {
     expect(component).toBeTruthy();
   });
 });
