@@ -74,7 +74,7 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
     selects.patchValue([...this.values, null], { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.values);
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   private onChange: Function;

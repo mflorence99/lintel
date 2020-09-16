@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 
+import rfdc from 'rfdc';
+
 declare const lintelSearchParams;
 
 export type DeepSearchCallback = (container: any, value: any) => void;
 
 @Injectable({ providedIn: 'root' })
 export class Utils {
+  private clone = rfdc();
+
   /** Compare two arrays for equality */
   arraysEqual(p: any[], q: any[]): boolean {
     // NOTE: works for overrides.files, but not generally
@@ -14,7 +18,7 @@ export class Utils {
 
   /** Slow but surw */
   deepCopy(obj: any): any {
-    return JSON.parse(JSON.stringify(obj));
+    return this.clone(obj);
   }
 
   /** Deep search an object for a key and optional value */
@@ -44,6 +48,13 @@ export class Utils {
     else if (typeof obj === 'string') return !!obj.length;
     else if (typeof obj === 'object') return !this.isEmptyObject(obj);
     else return true;
+  }
+
+  hasProperty(obj: any, property: string | RegExp): boolean {
+    return Object.keys(obj).some((key) => {
+      if (typeof property === 'string') return key === property;
+      else return property.test(key);
+    });
   }
 
   /** Is supplied object empty? */

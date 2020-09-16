@@ -74,7 +74,7 @@ export class SingleselectorComponent implements ControlValueAccessor {
     if (this.select?.nativeElement && this.select.nativeElement.options.length)
       this.select.nativeElement.selectedIndex = this.getOptionIndex(value);
     this.onChange?.(value);
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   // these shadow visible properties

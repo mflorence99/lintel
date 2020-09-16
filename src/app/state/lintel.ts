@@ -32,7 +32,7 @@ export class LintelState extends NgxsDataRepository<LintelStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  enable(@Payload('enable') { enabled, message }): void {
+  enable(@Payload('LintelState.enable') { enabled, message }): void {
     this.ctx.setState(patch({ enabled, message }));
   }
 

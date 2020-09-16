@@ -38,9 +38,7 @@ describe('FilterState', () => {
   });
 
   test('Inherited rules can be shown or hidden', () => {
-    bundle.filter.showInheritedRules();
-    expect(bundle.filter.snapshot.showInheritedRules).toBeTrue();
-    bundle.filter.hideInheritedRules();
+    bundle.filter.toggleInheritedRules();
     expect(bundle.filter.snapshot.showInheritedRules).toBeFalse();
     bundle.filter.toggleInheritedRules();
     expect(bundle.filter.snapshot.showInheritedRules).toBeTrue();

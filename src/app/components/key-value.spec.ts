@@ -16,6 +16,7 @@ describe('KeyValueComponent', () => {
     prepare();
     fixture = TestBed.createComponent(KeyValueComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('registerOnChange', () => {

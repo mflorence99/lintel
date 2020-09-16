@@ -15,6 +15,7 @@ describe('FilterComponent', () => {
     prepare();
     fixture = TestBed.createComponent(FilterComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('clearRuleNameFilter', () => {
@@ -31,7 +32,7 @@ describe('FilterComponent', () => {
   });
 
   test('toggleInheritedRules', () => {
-    component.filter.showInheritedRules();
+    component.filter.showInheritedRules(true);
     expect(component.filter.snapshot.showInheritedRules).toBeTrue();
     component.toggleInheritedRules();
     expect(component.filter.snapshot.showInheritedRules).toBeFalse();

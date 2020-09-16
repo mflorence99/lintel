@@ -9,6 +9,7 @@ import { Utils } from '../../services/utils';
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
@@ -25,7 +26,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'tabs.html',
   styleUrls: ['tabs.scss']
 })
-export class TabsComponent {
+export class TabsComponent implements OnInit {
   @ViewChild(SingleselectorComponent)
   set more(m: SingleselectorComponent) {
     m?.registerOnChange(this.selectPluginName.bind(this));
@@ -40,7 +41,10 @@ export class TabsComponent {
     public params: Params,
     public selection: SelectionState,
     public utils: Utils
-  ) {
+  ) {}
+
+  /** When we're ready */
+  ngOnInit(): void {
     this.handleActions$();
   }
 

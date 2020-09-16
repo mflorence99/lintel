@@ -56,9 +56,6 @@ export class OverridesComponent implements OnInit {
     this.overridesForm = this.formBuilder.group({
       files: new FormArray([])
     });
-    // NOTE: we need to rebuild on selection changes AND after certain actions
-    // because a section change IS an action, this code works for both cases
-    this.handleActions$();
   }
 
   /** Execute context menu command */
@@ -83,12 +80,10 @@ export class OverridesComponent implements OnInit {
 
   /** When we're ready */
   ngOnInit(): void {
-    this.overridesForm.valueChanges
-      .pipe(
-        filter((_) => !this.underConstruction),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((changes) => this.configs.changeOverrideFiles(changes));
+    // NOTE: we need to rebuild on selection changes AND after certain actions
+    // because a section change IS an action, this code works for both cases
+    this.handleActions$();
+    this.handleValueChanges$();
     this.rebuildControls();
   }
 
@@ -114,9 +109,19 @@ export class OverridesComponent implements OnInit {
         }),
         takeUntil(this.destroy$)
       )
-      // NOTE: deferring the rebuild until the action is complete (add or delete)
-      // is necessary becausse delete may be asynchonous if a confirm is required
+      // NOTE: deferring the rebuild until the action is complete
+      // (add or delete) is necessary because delete may be
+      // asynchonous if a confirm is required
       .subscribe((_) => this.rebuildControls());
+  }
+
+  private handleValueChanges$(): void {
+    this.overridesForm.valueChanges
+      .pipe(
+        filter((_) => !this.underConstruction),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((changes) => this.configs.changeOverrideFiles(changes));
   }
 
   private rebuildControls(): void {

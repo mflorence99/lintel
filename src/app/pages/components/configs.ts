@@ -9,6 +9,7 @@ import { Utils } from '../../services/utils';
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
@@ -24,7 +25,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'configs.html',
   styleUrls: ['configs.scss']
 })
-export class ConfigsComponent {
+export class ConfigsComponent implements OnInit {
   /** ctor */
   constructor(
     private actions$: Actions,
@@ -35,9 +36,7 @@ export class ConfigsComponent {
     public params: Params,
     public selection: SelectionState,
     public utils: Utils
-  ) {
-    this.handleActions$();
-  }
+  ) {}
 
   /** Color code a file */
   colorForFile(fileName: string): string {
@@ -54,6 +53,11 @@ export class ConfigsComponent {
     if (fileName.endsWith('package.json')) return ['fab', 'node-js'];
     else if (fileName.endsWith('.js')) return ['fab', 'js'];
     else return ['far', 'file-code'];
+  }
+
+  /** When we're ready */
+  ngOnInit(): void {
+    this.handleActions$();
   }
 
   /** Select a category */

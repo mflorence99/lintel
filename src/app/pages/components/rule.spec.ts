@@ -17,6 +17,7 @@ describe('RuleComponent', () => {
     prepare();
     fixture = TestBed.createComponent(RuleComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('breakable', () => {

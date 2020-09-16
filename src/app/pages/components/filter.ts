@@ -3,13 +3,17 @@ import { DestroyService } from '../../services/destroy';
 import { FilterState } from '../../state/filter';
 import { Params } from '../../services/params';
 import { SelectionState } from '../../state/selection';
+import { Utils } from '../../services/utils';
 
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { OnInit } from '@angular/core';
 
+import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 /**
@@ -17,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
  */
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'lintel-filter',
   templateUrl: 'filter.html',
@@ -28,12 +32,15 @@ export class FilterComponent implements OnInit {
 
   /** ctor */
   constructor(
+    private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private destroy$: DestroyService,
     public filter: FilterState,
     private formBuilder: FormBuilder,
     public params: Params,
-    public selection: SelectionState
+    public selection: SelectionState,
+    private utils: Utils
   ) {
     // create the filter form
     this.filterForm = this.formBuilder.group({
@@ -49,13 +56,36 @@ export class FilterComponent implements OnInit {
 
   /** When we're ready */
   ngOnInit(): void {
-    this.filterForm.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((filterForm) => this.filter.filterRuleName(filterForm.filter));
+    this.handleActions$();
+    this.handleValueChanges$();
   }
 
   /** Show or hide inherited rules */
   toggleInheritedRules(): void {
     this.filter.toggleInheritedRules();
+  }
+
+  // private methods
+
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ action, status }) => {
+          return (
+            this.utils.hasProperty(action, /^FilterState\./) &&
+            status === 'SUCCESSFUL'
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.cdf.markForCheck();
+      });
+  }
+
+  private handleValueChanges$(): void {
+    this.filterForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((filterForm) => this.filter.filterRuleName(filterForm.filter));
   }
 }

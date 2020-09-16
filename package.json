@@ -30,7 +30,7 @@
     "prettier": "prettier --write .",
     "publish": "npm run build && vsce publish patch",
     "rules": "ts-node --dir bin eslint-rules.ts",
-    "start": "ng serve",
+    "simulator": "ng serve",
     "test": "jest --runInBand --coverage && ts-node --dir bin coverage-icon.ts",
     "test:only": "jest --coverage=false -- %1"
   },
@@ -101,6 +101,7 @@
     "ngx-contextmenu": "^5.4.0",
     "prettier": "^2.1.1",
     "prettier-plugin-package": "^1.0.0",
+    "rfdc": "^1.1.4",
     "rimraf": "^3.0.2",
     "rxjs": "^6",
     "stylelint": "^13.3.3",
@@ -119,7 +120,7 @@
     {
       "description": "Jest Coverage",
       "href": "https://github.com/mflorence99/lintel/issues",
-      "url": "https://img.shields.io/badge/coverage-97.64%25-blue"
+      "url": "https://img.shields.io/badge/coverage-97.59%25-blue"
     },
     {
       "description": "License: MIT",

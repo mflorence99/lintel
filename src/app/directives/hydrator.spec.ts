@@ -29,8 +29,6 @@ describe('HydratorDirective', () => {
       lintelHydrated: 'xxx'
     };
 
-    hydrator = new HydratorDirective(mockElementRef);
-
     // NOTE: we want to trigger logging for the coverage report
     // but we don't want to see the actual log lines rhemselves
     logger = console.log;
@@ -50,6 +48,9 @@ describe('HydratorDirective', () => {
         unobserve: jest.fn()
       };
     });
+
+    hydrator = new HydratorDirective(mockElementRef);
+    hydrator.ngOnInit();
   });
 
   test('Directive is created', () => {

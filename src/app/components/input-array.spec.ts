@@ -16,6 +16,7 @@ describe('InputArrayComponent', () => {
     prepare();
     fixture = TestBed.createComponent(InputArrayComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('registerOnChange', () => {

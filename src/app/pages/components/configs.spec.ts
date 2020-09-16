@@ -15,6 +15,7 @@ describe('ConfigsComponent', () => {
     prepare();
     fixture = TestBed.createComponent(ConfigsComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('colorForFile', () => {

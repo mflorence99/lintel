@@ -114,7 +114,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     checkboxes.patchValue(patch, { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.value);
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   // these shadow visible properties

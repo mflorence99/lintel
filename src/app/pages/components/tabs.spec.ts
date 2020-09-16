@@ -15,6 +15,7 @@ describe('TabsComponent', () => {
     prepare();
     fixture = TestBed.createComponent(TabsComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('Plugins are filtered', (done) => {

@@ -1,6 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-97.64%25-blue)](https://github.com/mflorence99/lintel/issues) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
+[![Jest Coverage](https://img.shields.io/badge/coverage-97.59%25-blue)](https://github.com/mflorence99/lintel/issues) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 
 The Lintel VSCode extension provides a rich UI to visualize, edit and mange your ESLint configuration files. It finds and analyzes all the configurations in your workspace and loads that analysis into its sidebar, from which you can drill into individual rules and their settings.
 

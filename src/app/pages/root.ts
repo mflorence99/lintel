@@ -8,9 +8,12 @@ import { RulesState } from '../state/rules';
 import { SchemaState } from '../state/schema';
 import { SelectionState } from '../state/selection';
 
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { OnInit } from '@angular/core';
 
 import { takeUntil } from 'rxjs/operators';
 
@@ -21,15 +24,17 @@ declare const lintelVSCodeAPI;
  */
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'lintel-root',
   templateUrl: 'root.html',
   styleUrls: ['root.scss']
 })
-export class RootPageComponent {
+export class RootPageComponent implements OnInit {
   /** ctor */
   constructor(
+    private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private destroy$: DestroyService,
     public extensions: ExtensionsState,
@@ -47,8 +52,6 @@ export class RootPageComponent {
     this.extensions.initialize();
     this.rules.initialize();
     this.schema.initialize();
-    // rebuild page on selection changes
-    this.handleSelectionState$();
   }
 
   /** Edit a file */
@@ -56,7 +59,19 @@ export class RootPageComponent {
     lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
   }
 
+  ngOnInit(): void {
+    this.handleActions$();
+    this.handleSelectionState$();
+  }
+
   // private methods
+
+  private handleActions$(): void {
+    // NOTE: trigger change detection on any action
+    this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.cdf.markForCheck();
+    });
+  }
 
   private handleSelectionState$(): void {
     this.selection.state$.pipe(takeUntil(this.destroy$)).subscribe((_) => {

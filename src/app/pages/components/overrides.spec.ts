@@ -15,6 +15,7 @@ describe('OverridesComponent', () => {
     prepare();
     fixture = TestBed.createComponent(OverridesComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('Override can be added', () => {

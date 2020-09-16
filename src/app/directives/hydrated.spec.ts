@@ -16,6 +16,7 @@ describe('HydratedDirective', () => {
       unregisterHydrateable: jest.fn()
     };
     hydrated = new HydratedDirective(mockElementRef, mockHydrator);
+    hydrated.ngOnInit();
   });
 
   test('Directive is created', () => {

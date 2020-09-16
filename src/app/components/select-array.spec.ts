@@ -16,6 +16,7 @@ describe('SelectArrayComponent', () => {
     prepare();
     fixture = TestBed.createComponent(SelectArrayComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('registerOnChange', () => {

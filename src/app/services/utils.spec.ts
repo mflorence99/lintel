@@ -32,6 +32,20 @@ describe('Utils', () => {
     expect(obj1.b.c).toEqual(obj2.b.c);
   });
 
+  test('hasProperty (string)', () => {
+    const utils: Utils = TestBed.inject(Utils);
+    const obj = { a: 1, b: { c: 2 } };
+    expect(utils.hasProperty(obj, 'a')).toBeTrue();
+    expect(utils.hasProperty(obj, 'c')).toBeFalse();
+  });
+
+  test('hasProperty (regex)', () => {
+    const utils: Utils = TestBed.inject(Utils);
+    const obj = { alpha: 1, aLPHA: { gamma: 2 } };
+    expect(utils.hasProperty(obj, /^[a-z]*$/)).toBeTrue();
+    expect(utils.hasProperty(obj, /^[A-Z]*$/)).toBeFalse();
+  });
+
   test('Object can be deep searched', () => {
     const utils: Utils = TestBed.inject(Utils);
     utils.deepSearch(eslintRules, '$ref', (obj, _) => {

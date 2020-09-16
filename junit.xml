@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" time="6.748">
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-16T19:13:33" time="5.811" tests="2">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
+<testsuites name="jest tests" tests="9" failures="0" time="5.721">
+  <testsuite name="HydratorDirective" errors="0" failures="0" skipped="0" timestamp="2020-09-16T20:32:53" time="4.324" tests="5">
+    <testcase classname="HydratorDirective Directive is created" name="HydratorDirective Directive is created" time="0.006">
     </testcase>
-    <testcase classname="SelectionState Selections can be made" name="SelectionState Selections can be made" time="0.122">
+    <testcase classname="HydratorDirective ngOnInit" name="HydratorDirective ngOnInit" time="0.001">
+    </testcase>
+    <testcase classname="HydratorDirective registerHydrateable" name="HydratorDirective registerHydrateable" time="0.003">
+    </testcase>
+    <testcase classname="HydratorDirective unregisterHydrateable" name="HydratorDirective unregisterHydrateable" time="0.004">
+    </testcase>
+    <testcase classname="HydratorDirective callback" name="HydratorDirective callback" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="HydratedDirective" errors="0" failures="0" skipped="0" timestamp="2020-09-16T20:32:57" time="0.488" tests="4">
+    <testcase classname="HydratedDirective Directive is created" name="HydratedDirective Directive is created" time="0.004">
+    </testcase>
+    <testcase classname="HydratedDirective isHydrated" name="HydratedDirective isHydrated" time="0.001">
+    </testcase>
+    <testcase classname="HydratedDirective ngOnDestroy" name="HydratedDirective ngOnDestroy" time="0.001">
+    </testcase>
+    <testcase classname="HydratedDirective ngOnInit" name="HydratedDirective ngOnInit" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

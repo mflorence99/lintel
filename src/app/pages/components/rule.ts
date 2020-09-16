@@ -86,7 +86,7 @@ export class RuleComponent implements OnInit {
         .elements as FormArray;
       this.controls.forEach((control) => elements.push(control));
       this.underConstruction = false;
-      this.cdf.detectChanges();
+      this.cdf.markForCheck();
     }
   }
 
@@ -123,7 +123,7 @@ export class RuleComponent implements OnInit {
   editFile(fileName: string, ruleDigest?: RuleDigest): void {
     if (this.lintel.isEnabled)
       lintelVSCodeAPI.postMessage({ command: 'editFile', fileName });
-    if (ruleDigest)
+    if (ruleDigest?.rule?.meta?.schema)
       console.log(
         `%c${ruleDigest.ruleName}:`,
         'background-color: #00838f; color: white; font-weight: bold; padding: 4px',

@@ -15,6 +15,7 @@ describe('ParserOptionsComponent', () => {
     prepare();
     fixture = TestBed.createComponent(ParserOptionsComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('makeOptionsForSingleselector', () => {

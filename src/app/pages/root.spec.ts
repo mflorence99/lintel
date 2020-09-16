@@ -17,6 +17,7 @@ describe('RootPageComponent', () => {
     prepare();
     fixture = TestBed.createComponent(RootPageComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('editFile', () => {

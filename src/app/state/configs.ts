@@ -282,7 +282,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       this.utils.nextTick(() => {
         this.selection.select({ fileName: this.fileNames[0] });
         this.filter.filterRuleName(null);
-        this.filter.showInheritedRules();
+        this.filter.showInheritedRules(true);
       });
     }
     // listen for confirmations to remove an override

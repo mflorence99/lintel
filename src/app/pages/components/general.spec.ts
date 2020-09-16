@@ -17,6 +17,7 @@ describe('GeneralComponent', () => {
     prepare();
     fixture = TestBed.createComponent(GeneralComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('canDoSettings', () => {

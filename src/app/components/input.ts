@@ -56,7 +56,7 @@ export class InputComponent implements ControlValueAccessor {
     this._value = value;
     if (this.input?.nativeElement) this.input.nativeElement.value = value;
     this.onChange?.(this.type === 'number' ? Number(value) : value);
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   private _value: InputValueType;

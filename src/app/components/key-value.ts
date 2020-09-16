@@ -87,7 +87,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
     keyValues.patchValue(patch, { emitEvent: false });
     this.underConstruction = false;
     this.onChange?.(this.value);
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   private onChange: Function;

@@ -48,7 +48,7 @@ export class CheckboxComponent implements ControlValueAccessor {
   set value(checked: boolean) {
     this.checked = checked;
     this.onChange?.(checked);
-    this.cdf.detectChanges();
+    this.cdf.markForCheck();
   }
 
   private checked: boolean;

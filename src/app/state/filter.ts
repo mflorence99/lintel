@@ -26,23 +26,23 @@ export class FilterState extends NgxsDataRepository<FilterStateModel> {
   // actions
 
   @DataAction({ insideZone: true })
-  filterRuleName(@Payload('filterRuleName') ruleNameFilter: string): void {
+  filterRuleName(
+    @Payload('FilterState.filterRuleName') ruleNameFilter: string
+  ): void {
     this.ctx.patchState({ ruleNameFilter });
   }
 
   @DataAction({ insideZone: true })
-  hideInheritedRules(): void {
-    this.ctx.patchState({ showInheritedRules: false });
+  showInheritedRules(
+    @Payload('FilterState.showInheritedRules') state: boolean
+  ): void {
+    this.ctx.patchState({ showInheritedRules: state });
   }
 
-  @DataAction({ insideZone: true })
-  showInheritedRules(): void {
-    this.ctx.patchState({ showInheritedRules: true });
-  }
+  // public methods
 
-  @DataAction({ insideZone: true })
   toggleInheritedRules(): void {
-    const state = this.ctx.getState();
-    this.ctx.patchState({ showInheritedRules: !state.showInheritedRules });
+    const state = this.snapshot.showInheritedRules;
+    this.showInheritedRules(!state);
   }
 }
