@@ -1,6 +1,7 @@
-import { Marked } from '@ts-stack/markdown';
 import { Pipe } from '@angular/core';
 import { PipeTransform } from '@angular/core';
+
+import marked from 'marked';
 
 /**
  * @see https://markrabey.com/2019/05/31/angular-markdown-pipe/
@@ -12,7 +13,7 @@ export class MarkedPipe implements PipeTransform {
     // quick exit if empty string
     if (s == null) return dflt;
 
-    s = Marked.parse(s);
+    s = marked(s);
 
     // NOTE: special processing:
     // we need target="_blank" on links

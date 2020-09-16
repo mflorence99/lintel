@@ -50,8 +50,10 @@ export function prepare(): Bundle {
   });
 
   // mock the API
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   lintelSearchParams = '?freshStart=true';
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   lintelVSCodeAPI = {
     getState: jest.fn(),
     postMessage: jest.fn(),

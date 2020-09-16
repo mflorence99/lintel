@@ -160,5 +160,5 @@ test('#18: MEF extensions', () => {
 }`;
   const parsed = parse(str);
 
-  is(stringify(parsed, null, 2, "'", false), str);
+  is(stringify(parsed, null, 2, '\'', false), str);
 });

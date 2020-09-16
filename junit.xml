@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="0" time="5.501">
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-16T08:46:16" time="4.937" tests="4">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.17">
+<testsuites name="jest tests" tests="2" failures="0" time="4.643">
+  <testsuite name="MarkedPipe" errors="0" failures="0" skipped="0" timestamp="2020-09-16T11:48:32" time="3.977" tests="2">
+    <testcase classname="MarkedPipe null returns default" name="MarkedPipe null returns default" time="0.003">
     </testcase>
-    <testcase classname="TabsComponent Plugins are filtered" name="TabsComponent Plugins are filtered" time="0.161">
-    </testcase>
-    <testcase classname="TabsComponent Plugin can be selected" name="TabsComponent Plugin can be selected" time="0.076">
-    </testcase>
-    <testcase classname="TabsComponent Plugins are partitioned into tabs and overflow dropdown" name="TabsComponent Plugins are partitioned into tabs and overflow dropdown" time="0.066">
+    <testcase classname="MarkedPipe links are transformed" name="MarkedPipe links are transformed" time="0.022">
     </testcase>
   </testsuite>
 </testsuites>
