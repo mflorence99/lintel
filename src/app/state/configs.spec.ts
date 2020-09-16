@@ -2,6 +2,8 @@ import { Bundle } from './state.spec';
 
 import { prepare } from './state.spec';
 
+import 'jest-extended';
+
 describe('ConfigsState', () => {
   let bundle: Bundle;
 
@@ -10,42 +12,40 @@ describe('ConfigsState', () => {
   test('ConfigsState is initialized', () => {
     expect(
       bundle.configs.snapshot['/home/mflorence99/lintel/package.json']
-    ).toBeTruthy();
-    expect(bundle.configs.fileNames.length).toBeGreaterThanOrEqual(7);
-    expect(bundle.configs.fileNames[0]).toEqual(
+    ).toEqual(expect.any(Object));
+    expect(bundle.configs.fileNames).toIncludeAnyMembers([
       '/home/mflorence99/lintel/package.json'
-    );
+    ]);
   });
 
   test('fileNames are properly constructed', () => {
-    expect(bundle.configs.fileNames.length).toBeGreaterThanOrEqual(7);
-    expect(bundle.configs.fileNames[0]).toEqual(
-      '/home/mflorence99/lintel/package.json'
-    );
-    expect(bundle.configs.fileNames[1]).toEqual(
+    expect(bundle.configs.fileNames).toIncludeAnyMembers([
+      '/home/mflorence99/lintel/package.json',
       '/home/mflorence99/el-3270/.eslintrc.js'
-    );
+    ]);
   });
 
   test('shortFileNames are properly constructed', () => {
-    expect(bundle.configs.shortFileNames.length).toBeGreaterThanOrEqual(7);
-    expect(bundle.configs.shortFileNames[0]).toEqual('lintel/package.json');
-    expect(bundle.configs.shortFileNames[1]).toEqual('el-3270/.eslintrc.js');
+    expect(bundle.configs.shortFileNames).toIncludeAnyMembers([
+      'lintel/package.json',
+      'el-3270/.eslintrc.js'
+    ]);
   });
 
   test('shortFileName', () => {
     expect(
       bundle.configs.shortFileName('/home/mflorence99/el-3270/.eslintrc.js')
-    ).toEqual('el-3270/.eslintrc.js');
+    ).toBe('el-3270/.eslintrc.js');
   });
 
   test('pluginNames are properly constructed', () => {
     bundle.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
-    expect(bundle.configs.pluginNames.length).toBeGreaterThanOrEqual(5);
-    expect(bundle.configs.pluginNames[0]).toEqual(bundle.params.basePluginName);
-    expect(bundle.configs.pluginNames[1]).toEqual('@angular-eslint');
+    expect(bundle.configs.pluginNames).toIncludeAnyMembers([
+      bundle.params.basePluginName,
+      '@angular-eslint'
+    ]);
   });
 
   test('categories are properly constructed', () => {
@@ -53,14 +53,15 @@ describe('ConfigsState', () => {
       fileName: '/home/mflorence99/lintel/package.json',
       pluginName: bundle.params.basePluginName
     });
-    expect(bundle.configs.categories.length).toEqual(7);
-    expect(bundle.configs.categories[0]).toEqual('Best Practices');
-    expect(bundle.configs.categories[1]).toEqual('ECMAScript 6');
+    expect(bundle.configs.categories).toIncludeAnyMembers([
+      'Best Practices',
+      'ECMAScript 6'
+    ]);
   });
 
   test('No categories can be determined unless a pluginName is selected first', () => {
     bundle.selection.select({ fileName: null, pluginName: null });
-    expect(bundle.configs.categories.length).toEqual(0);
+    expect(bundle.configs.categories).toBeArrayOfSize(0);
   });
 
   test('activeView is properly constructed', () => {
@@ -69,7 +70,7 @@ describe('ConfigsState', () => {
       pluginName: bundle.params.basePluginName
     });
     const view = bundle.configs.activeView;
-    expect(view['space-infix-ops']).toBeTruthy();
+    expect(view['space-infix-ops']).toEqual(expect.any(Object));
   });
 
   test('activeView is really unknownView if unknownPluginName is selected', () => {
@@ -78,9 +79,9 @@ describe('ConfigsState', () => {
       pluginName: bundle.params.unknownPluginName
     });
     const view = bundle.configs.activeView;
-    expect(view['space-infix-ops']).toBeFalsy();
-    expect(view['jest/no-existential-angst']).toBeTruthy();
-    expect(view['prefer-shaken-not-stirred']).toBeTruthy();
+    expect(view['space-infix-ops']).toBeUndefined();
+    expect(view['jest/no-existential-angst']).toEqual(expect.any(Object));
+    expect(view['prefer-shaken-not-stirred']).toEqual(expect.any(Object));
   });
 
   test('categoryView is properly constructed', () => {
@@ -89,8 +90,10 @@ describe('ConfigsState', () => {
       pluginName: bundle.params.basePluginName
     });
     const view = bundle.configs.categoryView;
-    expect(view['Best Practices']['accessor-pairs']).toBeTruthy();
-    expect(view['Variables']['init-declarations']).toBeTruthy();
+    expect(view['Best Practices']['accessor-pairs']).toEqual(
+      expect.any(Object)
+    );
+    expect(view['Variables']['init-declarations']).toEqual(expect.any(Object));
   });
 
   test('unknownView is properly constructed', () => {
@@ -99,8 +102,8 @@ describe('ConfigsState', () => {
       pluginName: bundle.params.basePluginName
     });
     const view = bundle.configs.unknownView;
-    expect(view['jest/no-existential-angst']).toBeTruthy();
-    expect(view['prefer-shaken-not-stirred']).toBeTruthy();
+    expect(view['jest/no-existential-angst']).toEqual(expect.any(Object));
+    expect(view['prefer-shaken-not-stirred']).toEqual(expect.any(Object));
   });
 
   test('Extensions are properly merged', () => {
@@ -108,10 +111,12 @@ describe('ConfigsState', () => {
       fileName: '/home/mflorence99/lintel/package.json'
     });
     const extension = bundle.configs.extension;
-    expect(extension.plugins).toContain('compat');
-    expect(extension.plugins).toContain('jest');
-    expect(extension.plugins).toContain('lodash-fp');
-    expect(extension.plugins).toContain('node');
+    expect(extension.plugins).toIncludeAnyMembers([
+      'compat',
+      'jest',
+      'lodash-fp',
+      'node'
+    ]);
   });
 
   test('Overrides are properly merged', () => {
@@ -135,7 +140,7 @@ describe('ConfigsState', () => {
     const ruleName = 'brace-style';
     const rule = bundle.rules.snapshot[bundle.params.basePluginName][ruleName];
     const settings =
-      bundle.configs.snapshot['/home/mflorence99/lintel/package.json']?.rules?.[
+      bundle.configs.snapshot['/home/mflorence99/lintel/package.json'].rules[
         ruleName
       ];
     const digest = bundle.configs.makeRuleDigest(ruleName, rule, settings);
@@ -152,13 +157,13 @@ describe('ConfigsState', () => {
     bundle.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
-    expect(bundle.configs.isOverrideInherited(null)).toBe(false);
-    expect(bundle.configs.isOverrideInherited(3)).toBe(false);
-    expect(bundle.configs.isOverrideInherited(4)).toBe(true);
+    expect(bundle.configs.isOverrideInherited(null)).toBeFalse();
+    expect(bundle.configs.isOverrideInherited(3)).toBeFalse();
+    expect(bundle.configs.isOverrideInherited(4)).toBeTrue();
     bundle.selection.select({
       fileName: 'home/mflorence99/el-3270/.eslintrc.js'
     });
-    expect(bundle.configs.isOverrideInherited(0)).toBe(false);
+    expect(bundle.configs.isOverrideInherited(0)).toBeFalse();
   });
 
   test('isPluginFiltered', () => {
@@ -167,9 +172,9 @@ describe('ConfigsState', () => {
       pluginName: bundle.params.basePluginName
     });
     bundle.filter.filterRuleName('class');
-    expect(bundle.configs.isPluginFiltered('eslint')).toBe(true);
-    expect(bundle.configs.isPluginFiltered('@angular-eslint')).toBe(true);
-    expect(bundle.configs.isPluginFiltered('jest')).toBe(false);
+    expect(bundle.configs.isPluginFiltered('eslint')).toBeTrue();
+    expect(bundle.configs.isPluginFiltered('@angular-eslint')).toBeTrue();
+    expect(bundle.configs.isPluginFiltered('jest')).toBeFalse();
   });
 
   test('addOverride', () => {
@@ -238,9 +243,11 @@ describe('ConfigsState', () => {
       override: null
     });
     const ruleName = 'spaced-comment';
-    expect(bundle.configs.configuration.rules[ruleName]).toBeTruthy();
+    expect(bundle.configs.configuration.rules[ruleName]).toEqual(
+      expect.any(Object)
+    );
     bundle.configs.deleteRule({ ruleName });
-    expect(bundle.configs.configuration.rules[ruleName]).toBeFalsy();
+    expect(bundle.configs.configuration.rules[ruleName]).toBeUndefined();
   });
 
   test('deleteRule in override', () => {
@@ -249,8 +256,10 @@ describe('ConfigsState', () => {
       override: 2
     });
     const ruleName = 'node/file-extension-in-import';
-    expect(bundle.configs.configuration.rules[ruleName]).toBeTruthy();
+    expect(bundle.configs.configuration.rules[ruleName]).toEqual(
+      expect.any(Object)
+    );
     bundle.configs.deleteRule({ ruleName });
-    expect(bundle.configs.configuration.rules[ruleName]).toBeFalsy();
+    expect(bundle.configs.configuration.rules[ruleName]).toBeUndefined();
   });
 });

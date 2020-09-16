@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" time="4.643">
-  <testsuite name="MarkedPipe" errors="0" failures="0" skipped="0" timestamp="2020-09-16T11:48:32" time="3.977" tests="2">
-    <testcase classname="MarkedPipe null returns default" name="MarkedPipe null returns default" time="0.003">
+<testsuites name="jest tests" tests="2" failures="0" time="6.748">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-09-16T19:13:33" time="5.811" tests="2">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.003">
     </testcase>
-    <testcase classname="MarkedPipe links are transformed" name="MarkedPipe links are transformed" time="0.022">
+    <testcase classname="SelectionState Selections can be made" name="SelectionState Selections can be made" time="0.122">
     </testcase>
   </testsuite>
 </testsuites>

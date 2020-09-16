@@ -2,13 +2,17 @@ import { Bundle } from './state.spec';
 
 import { prepare } from './state.spec';
 
+import 'jest-extended';
+
 describe('ExtensionsState', () => {
   let bundle: Bundle;
 
   beforeEach(() => (bundle = prepare()));
 
   test('ExtensionsState is initialized', () => {
-    expect(bundle.extensions.snapshot['eslint:recommended']).toBeTruthy();
+    expect(bundle.extensions.snapshot['eslint:recommended']).toEqual(
+      expect.any(Object)
+    );
   });
 
   test('Extensions can be changed via events', () => {
@@ -23,6 +27,6 @@ describe('ExtensionsState', () => {
     window.dispatchEvent(message);
     expect(
       bundle.extensions.snapshot['xxx'].rules['jest/expect-expect']
-    ).toBeTruthy();
+    ).toEqual(expect.any(Object));
   });
 });

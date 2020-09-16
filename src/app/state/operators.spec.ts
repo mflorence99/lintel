@@ -1,6 +1,8 @@
 import { scratch } from './operators';
 import { updateItems } from './operators';
 
+import 'jest-extended';
+
 import { patch } from '@ngxs/store/operators';
 
 describe('Custom operators', () => {
@@ -25,7 +27,7 @@ describe('Custom operators', () => {
   test('delete a rule', () => {
     const rules: any = { p: ['warn', 42, true], q: ['off'] };
     const updated = scratch('q')(rules);
-    expect(updated.p).toBeTruthy();
-    expect(updated.q).toBeFalsy();
+    expect(updated.p).toEqual(['warn', 42, true]);
+    expect(updated.q).toBeUndefined();
   });
 });

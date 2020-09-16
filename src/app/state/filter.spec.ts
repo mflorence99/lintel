@@ -2,6 +2,8 @@ import { Bundle } from './state.spec';
 
 import { prepare } from './state.spec';
 
+import 'jest-extended';
+
 describe('FilterState', () => {
   let bundle: Bundle;
 
@@ -14,13 +16,13 @@ describe('FilterState', () => {
       pluginName: bundle.params.basePluginName
     });
     bundle.filter.filterRuleName('default');
-    expect(bundle.filter.snapshot.ruleNameFilter).toEqual('default');
+    expect(bundle.filter.snapshot.ruleNameFilter).toBe('default');
     expect(
       bundle.configs.categoryView['Best Practices']['default-case']
-    ).toBeTruthy();
+    ).toEqual(expect.any(Object));
     expect(
       bundle.configs.categoryView['Best Practices']['comma-spacing']
-    ).toBeFalsy();
+    ).toBeUndefined();
   });
 
   test('Empty data returned for non-matching filter', () => {
@@ -30,19 +32,17 @@ describe('FilterState', () => {
       pluginName: bundle.params.basePluginName
     });
     bundle.filter.filterRuleName('xxx');
-    expect(bundle.filter.snapshot.ruleNameFilter).toEqual('xxx');
-    expect(bundle.configs.categories.length).toEqual(0);
-    expect(
-      bundle.utils.isEmptyObject(bundle.configs.categoryView)
-    ).toBeTruthy();
+    expect(bundle.filter.snapshot.ruleNameFilter).toBe('xxx');
+    expect(bundle.configs.categories).toBeArrayOfSize(0);
+    expect(bundle.utils.isEmptyObject(bundle.configs.categoryView)).toBeTrue();
   });
 
   test('Inherited rules can be shown or hidden', () => {
     bundle.filter.showInheritedRules();
-    expect(bundle.filter.snapshot.showInheritedRules).toBe(true);
+    expect(bundle.filter.snapshot.showInheritedRules).toBeTrue();
     bundle.filter.hideInheritedRules();
-    expect(bundle.filter.snapshot.showInheritedRules).toBe(false);
+    expect(bundle.filter.snapshot.showInheritedRules).toBeFalse();
     bundle.filter.toggleInheritedRules();
-    expect(bundle.filter.snapshot.showInheritedRules).toBe(true);
+    expect(bundle.filter.snapshot.showInheritedRules).toBeTrue();
   });
 });

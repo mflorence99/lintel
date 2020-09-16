@@ -2,6 +2,8 @@ import { Bundle } from './state.spec';
 
 import { prepare } from './state.spec';
 
+import 'jest-extended';
+
 describe('SelectionState', () => {
   let bundle: Bundle;
 

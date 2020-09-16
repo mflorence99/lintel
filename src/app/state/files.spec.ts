@@ -2,6 +2,8 @@ import { Bundle } from './state.spec';
 
 import { prepare } from './state.spec';
 
+import 'jest-extended';
+
 describe('FilesState', () => {
   let bundle: Bundle;
 
@@ -15,12 +17,12 @@ describe('FilesState', () => {
 
   test('package.json is properly parsed', () => {
     const config = bundle.files.load('/home/mflorence99/lintel/package.json');
-    expect(config.extends[0]).toEqual('eslint:recommended');
+    expect(config.extends).toIncludeAnyMembers(['eslint:recommended']);
   });
 
   test('ext/.eslintrc.js is properly parsed', () => {
     const config = bundle.files.load('/home/mflorence99/el-3270/.eslintrc.js');
-    expect(config.plugins[0]).toEqual('does-not-exist');
+    expect(config.plugins).toIncludeAnyMembers(['does-not-exist']);
   });
 
   test('/home/mflorence99/el-file/.eslintrc.json is parsed without rules', () => {
@@ -34,12 +36,12 @@ describe('FilesState', () => {
     const config = bundle.files.load(
       '/home/mflorence99/lintel/src/app/.eslintrc.yaml'
     );
-    expect(config.parserOptions.ecmaFeatures.globalReturn).toBe(true);
+    expect(config.parserOptions.ecmaFeatures.globalReturn).toBeTrue();
     expect(config.rules['accessor-pairs']).toBe('warn');
-    expect(config.env.browser).toBe(true);
+    expect(config.env.browser).toBeTrue();
   });
 
-  test('completely /home/mflorence99/lintel/empty.json is properly parsed', () => {
+  test('/home/mflorence99/lintel/empty.json is properly parsed', () => {
     const config = bundle.files.load('/home/mflorence99/lintel/empty.json');
     expect(config.rules).toEqual({});
   });
@@ -65,7 +67,7 @@ describe('FilesState', () => {
       }
     });
     const config = bundle.files.load('/home/mflorence99/lintel/package.json');
-    expect(config.env.browser).toBe(false);
+    expect(config.env.browser).toBeFalse();
   });
 
   test('config can be changed in package.json override', () => {
@@ -79,7 +81,7 @@ describe('FilesState', () => {
       }
     });
     const config = bundle.files.load('/home/mflorence99/lintel/package.json');
-    expect(config.overrides[0].env.browser).toBe(true);
+    expect(config.overrides[0].env.browser).toBeTrue();
   });
 
   test('rule can be changed in package.json', () => {
@@ -115,7 +117,7 @@ describe('FilesState', () => {
       }
     });
     const config = bundle.files.load('/home/mflorence99/el-3270/.eslintrc.js');
-    expect(config.env.browser).toBe(false);
+    expect(config.env.browser).toBeFalse();
   });
 
   test('rule can be changed in ext/.eslintrc.js', () => {
@@ -142,7 +144,7 @@ describe('FilesState', () => {
     const config = bundle.files.load(
       '/home/mflorence99/el-file/.eslintrc.json'
     );
-    expect(config.env.browser).toBe(false);
+    expect(config.env.browser).toBeFalse();
   });
 
   test('rule can be changed in /home/mflorence99/el-file/.eslintrc.json', () => {
@@ -171,7 +173,7 @@ describe('FilesState', () => {
     const config = bundle.files.load(
       '/home/mflorence99/lintel/src/app/.eslintrc.yaml'
     );
-    expect(config.env.browser).toBe(false);
+    expect(config.env.browser).toBeFalse();
   });
 
   test('rule can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml', () => {
@@ -189,26 +191,26 @@ describe('FilesState', () => {
 
   test('rule can be deleted in /home/mflorence99/lintel/package.json', () => {
     let config = bundle.files.load('/home/mflorence99/lintel/package.json');
-    expect(config.rules['spaced-comment']).toBeTruthy();
+    expect(config.rules['spaced-comment']).toEqual(expect.any(Object));
     bundle.files.deleteRule({
       fileName: '/home/mflorence99/lintel/package.json',
       ix: null,
       ruleName: 'spaced-comment'
     });
     config = bundle.files.load('/home/mflorence99/lintel/package.json');
-    expect(config.rules['spaced-comment']).toBeFalsy();
+    expect(config.rules['spaced-comment']).toBeUndefined();
   });
 
   test('rule can be deleted in /home/mflorence99/lintel/package.json override', () => {
     let config = bundle.files.load('/home/mflorence99/lintel/package.json');
-    expect(config.overrides[0].rules['node/callback-return']).toBeTruthy();
+    expect(config.overrides[0].rules['node/callback-return']).toBe('error');
     bundle.files.deleteRule({
       fileName: '/home/mflorence99/lintel/package.json',
       ix: 0,
       ruleName: 'node/callback-return'
     });
     config = bundle.files.load('/home/mflorence99/lintel/package.json');
-    expect(config.overrides[0].rules['node/callback-return']).toBeFalsy();
+    expect(config.overrides[0].rules['node/callback-return']).toBeUndefined();
   });
 
   test('override can be added in /home/mflorence99/lintel/package.json', () => {
