@@ -108,19 +108,8 @@ export class RulesComponent implements OnInit {
   // private methods
 
   private handleActions$(): void {
-    this.actions$
-      .pipe(
-        // TODO: not sure what actions to check for yet
-        // filter(({ action, status }) => {
-        //   return (
-        //     this.utils.hasProperty(action, /^FilterState\./) &&
-        //     status === 'SUCCESSFUL'
-        //   );
-        // }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.cdf.markForCheck();
-      });
+    this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.cdf.markForCheck();
+    });
   }
 }

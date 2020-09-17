@@ -4,6 +4,7 @@ import { ExtensionsState } from '../../state/extensions';
 import { LintelState } from '../../state/lintel';
 import { SchemaState } from '../../state/schema';
 import { SelectionState } from '../../state/selection';
+import { Utils } from '../../services/utils';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -53,7 +54,8 @@ export class OverridesComponent implements OnInit {
     private formBuilder: FormBuilder,
     public lintel: LintelState,
     public schema: SchemaState,
-    public selection: SelectionState
+    public selection: SelectionState,
+    private utils: Utils
   ) {
     this.overridesForm = this.formBuilder.group({
       files: new FormArray([])
@@ -82,8 +84,6 @@ export class OverridesComponent implements OnInit {
 
   /** When we're ready */
   ngOnInit(): void {
-    // NOTE: we need to rebuild on selection changes AND after certain actions
-    // because a section change IS an action, this code works for both cases
     this.handleActions$();
     this.handleValueChanges$();
     this.rebuildControls();
@@ -104,7 +104,8 @@ export class OverridesComponent implements OnInit {
       .pipe(
         filter(({ action, status }) => {
           return (
-            (action['FilesState.addOverride'] ||
+            (this.utils.hasProperty(action, /^SelectionState\./) ||
+              action['FilesState.addOverride'] ||
               action['FilesState.deleteOverride']) &&
             status === 'SUCCESSFUL'
           );

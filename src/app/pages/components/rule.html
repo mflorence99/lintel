@@ -37,11 +37,7 @@
   >
   </lintel-singleselector>
 
-  <div
-    *ngIf="hydrated?.isHydrated && schemaDigest.canGUI"
-    formGroupName="root"
-    class="elements"
-  >
+  <div *ngIf="schemaDigest.canGUI" formGroupName="root" class="elements">
     <ng-container
       *ngTemplateOutlet="elementsTemplate; context: {controls: controls, elements: schemaDigest.elements}"
     >

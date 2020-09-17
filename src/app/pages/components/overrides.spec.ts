@@ -40,6 +40,7 @@ describe('OverridesComponent', () => {
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
+    // NOTE: force controls to be rebuilt
     component.ngOnInit();
     component.overridesForm.patchValue({ files: [['*.md', '*.markdown']] });
     expect(component.configs.configuration.overrides[0].files).toEqual([

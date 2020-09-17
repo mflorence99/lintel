@@ -9,7 +9,6 @@ import { BarrelModule } from '../barrel';
 import { ComponentsModule } from './components/module';
 import { ComponentsModule as CommonComponents } from '../components/module';
 import { ConfigsState } from '../state/configs';
-import { DirectivesModule } from '../directives/module';
 import { ExtensionsState } from '../state/extensions';
 import { FilesState } from '../state/files';
 import { LintelState } from '../state/lintel';
@@ -41,7 +40,6 @@ export function prepare(): void {
       BarrelModule,
       CommonComponents,
       ComponentsModule,
-      DirectivesModule,
       NgxsModule.forRoot(states),
       NgxsDataPluginModule.forRoot([NGXS_DATA_STORAGE_PLUGIN]),
       PipesModule

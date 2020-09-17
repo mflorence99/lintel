@@ -15,6 +15,7 @@ describe('MultiselectorComponent', () => {
     prepare();
     fixture = TestBed.createComponent(MultiselectorComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
   });
 
   test('registerOnChange', () => {
@@ -83,7 +84,6 @@ describe('MultiselectorComponent', () => {
       expect(value).toEqual(value);
       done();
     });
-    component.ngOnInit();
     // NOTE: trips valueChanges
     component.multiSelectorForm.controls.checkboxes.updateValueAndValidity({
       emitEvent: true

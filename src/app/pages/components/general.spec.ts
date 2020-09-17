@@ -105,6 +105,7 @@ describe('GeneralComponent', () => {
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
+    // NOTE: force controls to be rebuilt
     component.ngOnInit();
     let changes: any = { browser: false };
     component.generalForm.patchValue({ env: changes });

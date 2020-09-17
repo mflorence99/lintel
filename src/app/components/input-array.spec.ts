@@ -74,7 +74,6 @@ describe('InputArrayComponent', () => {
       expect(value).toEqual(['London', 'Paris', 'Rome']);
       done();
     });
-    component.ngOnInit();
     // NOTE: trips valueChanges
     component.inputArrayForm.updateValueAndValidity({ emitEvent: true });
   });

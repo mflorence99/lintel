@@ -1,7 +1,6 @@
 import { BarrelModule } from '../barrel';
 import { ComponentsModule } from './components/module';
 import { ComponentsModule as CommonComponentsModule } from '../components/module';
-import { DirectivesModule } from '../directives/module';
 import { PipesModule } from '../pipes/module';
 import { RootPageComponent } from './root';
 
@@ -17,7 +16,6 @@ const MODULES = [
   BarrelModule,
   CommonComponentsModule,
   ComponentsModule,
-  DirectivesModule,
   PipesModule
 ];
 

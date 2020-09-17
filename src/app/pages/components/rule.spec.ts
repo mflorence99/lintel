@@ -41,6 +41,8 @@ describe('RuleComponent', () => {
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
+    // NOTE: force controls to be rebuilt
+    component.ngOnInit();
     const rule = component.rules.snapshot['eslint']['brace-style'];
     let settings =
       component.configs.snapshot['/home/mflorence99/lintel/package.json'].rules[
@@ -55,7 +57,6 @@ describe('RuleComponent', () => {
       'brace-style',
       rule
     );
-    component.ngOnInit();
     component.ruleForm.patchValue({
       level: 'warn',
       root: { elements: ['stroustrup', { allowSingleLine: true }] }

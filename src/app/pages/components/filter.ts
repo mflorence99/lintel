@@ -13,7 +13,6 @@ import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { OnInit } from '@angular/core';
 
-import { filter } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 /**
@@ -68,19 +67,9 @@ export class FilterComponent implements OnInit {
   // private methods
 
   private handleActions$(): void {
-    this.actions$
-      .pipe(
-        filter(({ action, status }) => {
-          return (
-            this.utils.hasProperty(action, /^FilterState\./) &&
-            status === 'SUCCESSFUL'
-          );
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.cdf.markForCheck();
-      });
+    this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.cdf.markForCheck();
+    });
   }
 
   private handleValueChanges$(): void {

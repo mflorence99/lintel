@@ -74,7 +74,6 @@ describe('SelectArrayComponent', () => {
       expect(value).toEqual(['London', 'Paris', 'Rome']);
       done();
     });
-    component.ngOnInit();
     // NOTE: trips valueChanges
     component.addSelector();
   });

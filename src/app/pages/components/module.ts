@@ -1,7 +1,6 @@
 import { BarrelModule } from '../../barrel';
 import { ComponentsModule as CommonComponentsModule } from '../../components/module';
 import { ConfigsComponent } from './configs';
-import { DirectivesModule } from '../../directives/module';
 import { FilterComponent } from './filter';
 import { GeneralComponent } from './general';
 import { OverridesComponent } from './overrides';
@@ -35,6 +34,6 @@ const COMPONENTS = [
 
   exports: [...COMPONENTS],
 
-  imports: [BarrelModule, CommonComponentsModule, DirectivesModule, PipesModule]
+  imports: [BarrelModule, CommonComponentsModule, PipesModule]
 })
 export class ComponentsModule {}

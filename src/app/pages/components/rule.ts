@@ -1,12 +1,12 @@
 import { ConfigsState } from '../../state/configs';
 import { DestroyService } from '../../services/destroy';
-import { HydratedDirective } from '../../directives/hydrated';
 import { LintelState } from '../../state/lintel';
 import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
 import { SchemaDigest } from '../../state/rules';
 import { SelectionState } from '../../state/selection';
 import { Settings } from '../../state/configs';
+import { Utils } from '../../services/utils';
 
 import { AbstractControl } from '@angular/forms';
 import { Actions } from '@ngxs/store';
@@ -19,7 +19,6 @@ import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Optional } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
@@ -49,9 +48,7 @@ export class RuleComponent implements OnInit {
   }
   set ruleDigest(ruleDigest: RuleDigest) {
     this._ruleDigest = ruleDigest;
-    this.underConstruction = true;
-    this.ruleForm.patchValue({ level: ruleDigest.level }, { emitEvent: false });
-    this.underConstruction = false;
+    this.rebuildLevel();
   }
 
   @Input()
@@ -61,33 +58,7 @@ export class RuleComponent implements OnInit {
   set schemaDigest(schemaDigest: SchemaDigest) {
     if (schemaDigest && !this._schemaDigest) {
       this._schemaDigest = schemaDigest;
-      this.underConstruction = true;
-      // recursively make a group from an object element
-      const makeGroup = (element, settings): any => {
-        return element.elements.reduce((acc, element) => {
-          const setting = settings?.[element.name];
-          if (element.type === 'object')
-            acc[element.name] = this.formBuilder.group(
-              makeGroup(element, setting)
-            );
-          else acc[element.name] = [setting ?? element.default];
-          return acc;
-        }, {});
-      };
-      // create controls for each GUI element
-      this.controls = this.schemaDigest.elements.map((element, ix) => {
-        const settings = this.ruleDigest.settings?.[ix + 1];
-        if (element.type === 'object')
-          return this.formBuilder.group(
-            makeGroup(element, settings ?? element.default)
-          );
-        return new FormControl(settings);
-      });
-      const elements = this.ruleForm.controls.root['controls']
-        .elements as FormArray;
-      this.controls.forEach((control) => elements.push(control));
-      this.underConstruction = false;
-      this.cdf.markForCheck();
+      this.rebuildControls();
     }
   }
 
@@ -102,10 +73,10 @@ export class RuleComponent implements OnInit {
     public configs: ConfigsState,
     private destroy$: DestroyService,
     private formBuilder: FormBuilder,
-    @Optional() public hydrated: HydratedDirective,
     public lintel: LintelState,
     public rules: RulesState,
-    public selection: SelectionState
+    public selection: SelectionState,
+    private utils: Utils
   ) {
     this.ruleForm = this.formBuilder.group({
       level: null,
@@ -142,6 +113,8 @@ export class RuleComponent implements OnInit {
   ngOnInit(): void {
     this.handleActions$();
     this.handleValueChanges$();
+    this.rebuildControls();
+    this.rebuildLevel();
   }
 
   /** Open URL */
@@ -154,16 +127,18 @@ export class RuleComponent implements OnInit {
   private handleActions$(): void {
     this.actions$
       .pipe(
-        // TODO: not sure what actions to check for yet
-        // filter(({ action, status }) => {
-        //   return (
-        //     this.utils.hasProperty(action, /^FilterState\./) &&
-        //     status === 'SUCCESSFUL'
-        //   );
-        // }),
+        filter(({ action, status }) => {
+          return (
+            (this.utils.hasProperty(action, /^FilterState\./) ||
+              this.utils.hasProperty(action, /^SelectionState\./)) &&
+            status === 'SUCCESSFUL'
+          );
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
+        this.rebuildControls();
+        this.rebuildLevel();
         this.cdf.markForCheck();
       });
   }
@@ -181,5 +156,47 @@ export class RuleComponent implements OnInit {
           ruleName: this.ruleDigest.ruleName
         });
       });
+  }
+
+  private rebuildControls(): void {
+    if (this.schemaDigest) {
+      this.underConstruction = true;
+      // recursively make a group from an object element
+      const makeGroup = (element, settings): any => {
+        return element.elements.reduce((acc, element) => {
+          const setting = settings?.[element.name];
+          if (element.type === 'object')
+            acc[element.name] = this.formBuilder.group(
+              makeGroup(element, setting)
+            );
+          else acc[element.name] = [setting ?? element.default];
+          return acc;
+        }, {});
+      };
+      // create controls for each GUI element
+      this.controls = this.schemaDigest.elements.map((element, ix) => {
+        const settings = this.ruleDigest.settings?.[ix + 1];
+        if (element.type === 'object')
+          return this.formBuilder.group(
+            makeGroup(element, settings ?? element.default)
+          );
+        return new FormControl(settings);
+      });
+      const elements = this.ruleForm.controls.root['controls']
+        .elements as FormArray;
+      this.controls.forEach((control) => elements.push(control));
+      this.underConstruction = false;
+    }
+  }
+
+  private rebuildLevel(): void {
+    if (this.ruleDigest) {
+      this.underConstruction = true;
+      this.ruleForm.patchValue(
+        { level: this.ruleDigest.level },
+        { emitEvent: false }
+      );
+      this.underConstruction = false;
+    }
   }
 }

@@ -32,6 +32,7 @@ describe('ParserOptionsComponent', () => {
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json'
     });
+    // NOTE: force controls to be rebuilt
     component.ngOnInit();
     const changes = { ecmaVersion: 6 };
     component.parserOptionsForm.patchValue(changes);

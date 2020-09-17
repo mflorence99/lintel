@@ -40,8 +40,6 @@ declare const lintelVSCodeAPI;
 export class GeneralComponent implements OnInit {
   generalForm: FormGroup;
 
-  private emitEvent = true;
-
   private properties = [
     ['ecmaFeatures', 'specifying-parser-options'],
     ['env', 'specifying-environments'],
@@ -57,6 +55,8 @@ export class GeneralComponent implements OnInit {
     ['root', 'configuration-cascading-and-hierarchy'],
     ['settings', 'adding-shared-settings']
   ];
+
+  private underConstruction = true;
 
   /** ctor */
   constructor(
@@ -170,6 +170,7 @@ export class GeneralComponent implements OnInit {
   ngOnInit(): void {
     this.handleActions$();
     this.handleValueChanges$();
+    this.rebuildControls();
   }
 
   // private methods
@@ -186,28 +187,7 @@ export class GeneralComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
-        this.emitEvent = false;
-        this.generalForm.patchValue(
-          {
-            // NOTE: ecmaFeatures moved from the top level into parseOptions
-            ecmaFeatures:
-              this.configs.configuration.parserOptions?.ecmaFeatures ?? {},
-            env: this.configs.configuration.env ?? {},
-            extends: this.configs.configuration.extends ?? [],
-            globals: this.configs.configuration.globals ?? {},
-            ignorePatterns: this.configs.configuration.ignorePatterns ?? [],
-            noInlineConfig: this.configs.configuration.noInlineConfig ?? false,
-            parser: this.configs.configuration.parser ?? null,
-            plugins: this.configs.configuration.plugins ?? [],
-            reportUnusedDisableDirectives:
-              this.configs.configuration.reportUnusedDisableDirectives ?? false,
-            root: this.configs.configuration.root ?? false,
-            settings: this.configs.configuration.settings ?? {}
-            // TODO: we don't know why { emitEvent: false } doesn't work
-          },
-          { emitEvent: false }
-        );
-        this.emitEvent = true;
+        this.rebuildControls();
         this.cdf.markForCheck();
       });
   }
@@ -229,7 +209,7 @@ export class GeneralComponent implements OnInit {
     ];
     merge(...changes)
       .pipe(
-        filter(() => this.emitEvent),
+        filter(() => this.underConstruction),
         map(([changes, key]) => {
           // NOTE: ecmaFeatures moved from the top level into parseOptions
           if (key === 'ecmaFeatures')
@@ -251,5 +231,30 @@ export class GeneralComponent implements OnInit {
       this.generalForm.controls[key].valueChanges,
       of(key)
     ]);
+  }
+
+  private rebuildControls(): void {
+    this.underConstruction = false;
+    this.generalForm.patchValue(
+      {
+        // NOTE: ecmaFeatures moved from the top level into parseOptions
+        ecmaFeatures:
+          this.configs.configuration.parserOptions?.ecmaFeatures ?? {},
+        env: this.configs.configuration.env ?? {},
+        extends: this.configs.configuration.extends ?? [],
+        globals: this.configs.configuration.globals ?? {},
+        ignorePatterns: this.configs.configuration.ignorePatterns ?? [],
+        noInlineConfig: this.configs.configuration.noInlineConfig ?? false,
+        parser: this.configs.configuration.parser ?? null,
+        plugins: this.configs.configuration.plugins ?? [],
+        reportUnusedDisableDirectives:
+          this.configs.configuration.reportUnusedDisableDirectives ?? false,
+        root: this.configs.configuration.root ?? false,
+        settings: this.configs.configuration.settings ?? {}
+        // TODO: we don't know why { emitEvent: false } doesn't work
+      },
+      { emitEvent: false }
+    );
+    this.underConstruction = true;
   }
 }

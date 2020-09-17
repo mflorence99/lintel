@@ -34,8 +34,6 @@
       <lintel-rule
         (mouseout)="tools.style.opacity = 0"
         (mouseover)="tools.style.opacity = 1"
-        [isHydrated]="false"
-        [lintelHydrated]="ruleDigest.ruleName"
         [ruleDigest]="ruleDigest"
         [schemaDigest]="rules.makeSchemaDigest(item.key, item.value[0])"
         #rule

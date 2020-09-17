@@ -26,7 +26,6 @@ describe('FilterComponent', () => {
   });
 
   test('ngOnInit', () => {
-    component.ngOnInit();
     component.filterForm.setValue({ filter: 'yyy' });
     expect(component.filter.snapshot.ruleNameFilter).toBe('yyy');
   });

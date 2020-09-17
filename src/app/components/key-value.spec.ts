@@ -64,7 +64,6 @@ describe('KeyValueComponent', () => {
       expect(value).toEqual({ a: 1, b: 2, c: 3 });
       done();
     });
-    component.ngOnInit();
     // NOTE: trips valueChanges
     component.keyValueForm.updateValueAndValidity({ emitEvent: true });
   });
@@ -76,7 +75,6 @@ describe('KeyValueComponent', () => {
       expect(value).toEqual({ a: true, b: false, c: 3 });
       done();
     });
-    component.ngOnInit();
     // NOTE: trips valueChanges
     component.keyValueForm.updateValueAndValidity({ emitEvent: true });
   });

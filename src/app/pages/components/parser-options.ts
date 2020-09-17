@@ -33,7 +33,7 @@ import { takeUntil } from 'rxjs/operators';
 export class ParserOptionsComponent implements OnInit {
   parserOptionsForm: FormGroup;
 
-  private emitEvent = true;
+  private underConstruction = true;
 
   /** ctor */
   constructor(
@@ -64,6 +64,7 @@ export class ParserOptionsComponent implements OnInit {
   ngOnInit(): void {
     this.handleActions$();
     this.handleValueChanges$();
+    this.rebuildControls();
   }
 
   // private methods
@@ -80,18 +81,7 @@ export class ParserOptionsComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
-        this.emitEvent = false;
-        this.parserOptionsForm.patchValue(
-          {
-            ecmaVersion:
-              this.configs.configuration.parserOptions?.ecmaVersion ?? null,
-            sourceType:
-              this.configs.configuration.parserOptions?.sourceType ?? null
-            // TODO: we don't know why { emitEvent: false } doesn't work
-          },
-          { emitEvent: false }
-        );
-        this.emitEvent = true;
+        this.rebuildControls();
         this.cdf.markForCheck();
       });
   }
@@ -99,7 +89,7 @@ export class ParserOptionsComponent implements OnInit {
   private handleValueChanges$(): void {
     this.parserOptionsForm.valueChanges
       .pipe(
-        filter(() => this.emitEvent),
+        filter(() => this.underConstruction),
         takeUntil(this.destroy$)
       )
       .subscribe((changes) =>
@@ -107,5 +97,19 @@ export class ParserOptionsComponent implements OnInit {
         // set of parserOptions and we can't be sure we've built the UI for all of them
         this.configs.changeConfiguration({ parserOptions: patch(changes) })
       );
+  }
+
+  private rebuildControls(): void {
+    this.underConstruction = false;
+    this.parserOptionsForm.patchValue(
+      {
+        ecmaVersion:
+          this.configs.configuration.parserOptions?.ecmaVersion ?? null,
+        sourceType: this.configs.configuration.parserOptions?.sourceType ?? null
+        // TODO: we don't know why { emitEvent: false } doesn't work
+      },
+      { emitEvent: false }
+    );
+    this.underConstruction = true;
   }
 }
