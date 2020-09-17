@@ -23,7 +23,7 @@ describe('CheckboxComponent', () => {
   });
 
   test('registerOnTouched', () => {
-    expect(component.registerOnTouched(null)).toBeFalsy();
+    expect(component.registerOnTouched()).toBeFalsy();
   });
 
   test('toggleChecked', () => {
