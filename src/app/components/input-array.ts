@@ -110,7 +110,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
   ngOnInit(): void {
     this.inputArrayForm.valueChanges
       .pipe(
-        filter((_) => !this.underConstruction),
+        filter(() => !this.underConstruction),
         takeUntil(this.destroy$)
       )
       .subscribe((value) => {
@@ -128,7 +128,7 @@ export class InputArrayComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void {}
+  registerOnTouched(): void {}
 
   /** Remove specified input */
   removeInput(ix: number): void {

@@ -111,7 +111,7 @@ export class SingleselectorComponent implements ControlValueAccessor {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void {}
+  registerOnTouched(): void {}
 
   /** Select an an option by its index  */
   selectByIndex(ix: number): void {

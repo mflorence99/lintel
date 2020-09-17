@@ -42,9 +42,9 @@ export function activate(context: vscode.ExtensionContext): void {
 
       // watch for changes on ESLint files
       const watcher = vscode.workspace.createFileSystemWatcher(filePattern);
-      watcher.onDidChange((_) => webviewContent());
-      watcher.onDidCreate((_) => webviewContent());
-      watcher.onDidDelete((_) => webviewContent());
+      watcher.onDidChange(() => webviewContent());
+      watcher.onDidCreate(() => webviewContent());
+      watcher.onDidDelete(() => webviewContent());
 
       // clean up when we're done
       currentPanel.onDidDispose(

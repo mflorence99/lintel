@@ -138,9 +138,20 @@ export class RuleComponent implements OnInit {
 
   /** When we're ready */
   ngOnInit(): void {
+    this.handleValueChanges$();
+  }
+
+  /** Open URL */
+  openURL(url: string): void {
+    lintelVSCodeAPI.postMessage({ command: 'openFile', url });
+  }
+
+  // private methods
+
+  private handleValueChanges$(): void {
     this.ruleForm.valueChanges
       .pipe(
-        filter((_) => !this.underConstruction),
+        filter(() => !this.underConstruction),
         map((changes) => [changes.level, ...changes.root.elements]),
         takeUntil(this.destroy$)
       )
@@ -150,10 +161,5 @@ export class RuleComponent implements OnInit {
           ruleName: this.ruleDigest.ruleName
         });
       });
-  }
-
-  /** Open URL */
-  openURL(url: string): void {
-    lintelVSCodeAPI.postMessage({ command: 'openFile', url });
   }
 }

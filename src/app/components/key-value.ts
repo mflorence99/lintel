@@ -124,7 +124,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   ngOnInit(): void {
     this.keyValueForm.valueChanges
       .pipe(
-        filter((_) => !this.underConstruction),
+        filter(() => !this.underConstruction),
         takeUntil(this.destroy$)
       )
       .subscribe((value) => {
@@ -151,7 +151,7 @@ export class KeyValueComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void {}
+  registerOnTouched(): void {}
 
   /** Remove a specified key-value pair */
   removeKeyValue(ix: number): void {

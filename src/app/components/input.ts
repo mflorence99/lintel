@@ -71,7 +71,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void {}
+  registerOnTouched(): void {}
 
   /** @see ControlValueAccessor */
   writeValue(value): void {

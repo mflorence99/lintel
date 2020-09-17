@@ -63,7 +63,7 @@ export class CheckboxComponent implements ControlValueAccessor {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void {}
+  registerOnTouched(): void {}
 
   /** Toggle checkbox value */
   toggleChecked(): void {

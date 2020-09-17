@@ -102,7 +102,7 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
   ngOnInit(): void {
     this.selectArrayForm.valueChanges
       .pipe(
-        filter((_) => !this.underConstruction),
+        filter(() => !this.underConstruction),
         takeUntil(this.destroy$)
       )
       .subscribe((value) => {
@@ -118,7 +118,7 @@ export class SelectArrayComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void {}
+  registerOnTouched(): void {}
 
   /** Remove specified selector */
   removeSelector(ix: number): void {

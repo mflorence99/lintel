@@ -8,6 +8,7 @@ import { Utils } from '../../services/utils';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
@@ -20,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
  */
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'lintel-tabs',
   templateUrl: 'tabs.html',
@@ -35,6 +36,7 @@ export class TabsComponent implements OnInit {
   /** ctor */
   constructor(
     private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private destroy$: DestroyService,
     public filter: FilterState,
@@ -74,7 +76,7 @@ export class TabsComponent implements OnInit {
         filter(({ status }) => status === 'SUCCESSFUL'),
         takeUntil(this.destroy$)
       )
-      .subscribe((_) => {
+      .subscribe(() => {
         // NOTE: the base plugin is always available
         if (this.selection.pluginName !== this.params.basePluginName) {
           const pluginNames = this.configs.pluginNames.filter((pluginName) =>
@@ -84,6 +86,7 @@ export class TabsComponent implements OnInit {
           if (!pluginNames.includes(this.selection.pluginName))
             this.selection.select({ pluginName: this.params.basePluginName });
         }
+        this.cdf.markForCheck();
       });
   }
 }

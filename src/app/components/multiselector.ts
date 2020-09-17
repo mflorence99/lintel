@@ -166,7 +166,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
     const checkboxes = this.multiSelectorForm.controls.checkboxes as FormArray;
     checkboxes.valueChanges
       .pipe(
-        filter((_) => !this.underConstruction),
+        filter(() => !this.underConstruction),
         takeUntil(this.destroy$)
       )
       .subscribe((settings: boolean[]) => {
@@ -185,7 +185,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @see ControlValueAccessor */
-  registerOnTouched(_): void {}
+  registerOnTouched(): void {}
 
   /** @see ControlValueAccessor */
   writeValue(value): void {

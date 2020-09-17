@@ -112,13 +112,13 @@ export class OverridesComponent implements OnInit {
       // NOTE: deferring the rebuild until the action is complete
       // (add or delete) is necessary because delete may be
       // asynchonous if a confirm is required
-      .subscribe((_) => this.rebuildControls());
+      .subscribe(() => this.rebuildControls());
   }
 
   private handleValueChanges$(): void {
     this.overridesForm.valueChanges
       .pipe(
-        filter((_) => !this.underConstruction),
+        filter(() => !this.underConstruction),
         takeUntil(this.destroy$)
       )
       .subscribe((changes) => this.configs.changeOverrideFiles(changes));

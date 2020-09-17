@@ -8,9 +8,10 @@ import { SelectionState } from '../../state/selection';
 import { SingleselectorOptions } from '../../components/singleselector';
 import { Utils } from '../../services/utils';
 
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
-import { ElementRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -30,7 +31,7 @@ declare const lintelVSCodeAPI;
  */
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'lintel-general',
   templateUrl: 'general.html',
@@ -59,11 +60,12 @@ export class GeneralComponent implements OnInit {
 
   /** ctor */
   constructor(
+    private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private destroy$: DestroyService,
     public extensions: ExtensionsState,
     private formBuilder: FormBuilder,
-    private host: ElementRef,
     public lintel: LintelState,
     public schema: SchemaState,
     public selection: SelectionState,
@@ -82,8 +84,6 @@ export class GeneralComponent implements OnInit {
       root: null,
       settings: null
     });
-    // rebuild form on selection changes
-    this.handleSelectionState$();
   }
 
   /** We can only process if all values are string, number or boolean */
@@ -168,6 +168,51 @@ export class GeneralComponent implements OnInit {
 
   /** When we're ready */
   ngOnInit(): void {
+    this.handleActions$();
+    this.handleValueChanges$();
+  }
+
+  // private methods
+
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ action, status }) => {
+          return (
+            this.utils.hasProperty(action, /^SelectionState\./) &&
+            status === 'SUCCESSFUL'
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.emitEvent = false;
+        this.generalForm.patchValue(
+          {
+            // NOTE: ecmaFeatures moved from the top level into parseOptions
+            ecmaFeatures:
+              this.configs.configuration.parserOptions?.ecmaFeatures ?? {},
+            env: this.configs.configuration.env ?? {},
+            extends: this.configs.configuration.extends ?? [],
+            globals: this.configs.configuration.globals ?? {},
+            ignorePatterns: this.configs.configuration.ignorePatterns ?? [],
+            noInlineConfig: this.configs.configuration.noInlineConfig ?? false,
+            parser: this.configs.configuration.parser ?? null,
+            plugins: this.configs.configuration.plugins ?? [],
+            reportUnusedDisableDirectives:
+              this.configs.configuration.reportUnusedDisableDirectives ?? false,
+            root: this.configs.configuration.root ?? false,
+            settings: this.configs.configuration.settings ?? {}
+            // TODO: we don't know why { emitEvent: false } doesn't work
+          },
+          { emitEvent: false }
+        );
+        this.emitEvent = true;
+        this.cdf.markForCheck();
+      });
+  }
+
+  private handleValueChanges$(): void {
     // NOTE: subscribe to each individually so we change only minimum config
     const changes = [
       this.makeValueChanges('ecmaFeatures'),
@@ -184,7 +229,7 @@ export class GeneralComponent implements OnInit {
     ];
     merge(...changes)
       .pipe(
-        filter((_) => this.emitEvent),
+        filter(() => this.emitEvent),
         map(([changes, key]) => {
           // NOTE: ecmaFeatures moved from the top level into parseOptions
           if (key === 'ecmaFeatures')
@@ -199,35 +244,6 @@ export class GeneralComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((changes) => this.configs.changeConfiguration(changes));
-  }
-
-  // private methods
-
-  private handleSelectionState$(): void {
-    this.selection.state$.pipe(takeUntil(this.destroy$)).subscribe((_) => {
-      this.emitEvent = false;
-      this.generalForm.patchValue(
-        {
-          // NOTE: ecmaFeatures moved from the top level into parseOptions
-          ecmaFeatures:
-            this.configs.configuration.parserOptions?.ecmaFeatures ?? {},
-          env: this.configs.configuration.env ?? {},
-          extends: this.configs.configuration.extends ?? [],
-          globals: this.configs.configuration.globals ?? {},
-          ignorePatterns: this.configs.configuration.ignorePatterns ?? [],
-          noInlineConfig: this.configs.configuration.noInlineConfig ?? false,
-          parser: this.configs.configuration.parser ?? null,
-          plugins: this.configs.configuration.plugins ?? [],
-          reportUnusedDisableDirectives:
-            this.configs.configuration.reportUnusedDisableDirectives ?? false,
-          root: this.configs.configuration.root ?? false,
-          settings: this.configs.configuration.settings ?? {}
-          // TODO: we don't know why { emitEvent: false } doesn't work
-        },
-        { emitEvent: false }
-      );
-      this.emitEvent = true;
-    });
   }
 
   private makeValueChanges(key: string): Observable<[any, string]> {

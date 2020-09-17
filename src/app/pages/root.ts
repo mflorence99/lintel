@@ -74,7 +74,7 @@ export class RootPageComponent implements OnInit {
   }
 
   private handleSelectionState$(): void {
-    this.selection.state$.pipe(takeUntil(this.destroy$)).subscribe((_) => {
+    this.selection.state$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const theScroller = this.host.nativeElement.querySelector('#theScroller');
       theScroller?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     });

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
  */
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'lintel-scroller',
   templateUrl: 'scroller.html',
   styleUrls: ['scroller.scss']

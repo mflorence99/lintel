@@ -8,6 +8,7 @@ import { Utils } from '../../services/utils';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 
@@ -19,7 +20,7 @@ import { takeUntil } from 'rxjs/operators';
  */
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'lintel-configs',
   templateUrl: 'configs.html',
@@ -29,6 +30,7 @@ export class ConfigsComponent implements OnInit {
   /** ctor */
   constructor(
     private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private destroy$: DestroyService,
     public filter: FilterState,
@@ -115,7 +117,7 @@ export class ConfigsComponent implements OnInit {
         filter(({ status }) => status === 'SUCCESSFUL'),
         takeUntil(this.destroy$)
       )
-      .subscribe((_) => {
+      .subscribe(() => {
         // NOTE: general settings and active rules are always available
         if (
           this.selection.category !== this.params.generalSettings &&
@@ -133,6 +135,7 @@ export class ConfigsComponent implements OnInit {
           )
             this.selection.select({ category: this.params.activeCategory });
         }
+        this.cdf.markForCheck();
       });
   }
 }
