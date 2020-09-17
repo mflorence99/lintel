@@ -9,6 +9,7 @@ import { SelectionState } from '../../state/selection';
 import { Settings } from '../../state/configs';
 
 import { AbstractControl } from '@angular/forms';
+import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
@@ -31,7 +32,7 @@ declare const lintelVSCodeAPI;
  */
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'lintel-rule',
   templateUrl: 'rule.html',
@@ -96,6 +97,7 @@ export class RuleComponent implements OnInit {
 
   /** ctor */
   constructor(
+    private actions$: Actions,
     private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private destroy$: DestroyService,
@@ -138,6 +140,7 @@ export class RuleComponent implements OnInit {
 
   /** When we're ready */
   ngOnInit(): void {
+    this.handleActions$();
     this.handleValueChanges$();
   }
 
@@ -147,6 +150,23 @@ export class RuleComponent implements OnInit {
   }
 
   // private methods
+
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        // TODO: not sure what actions to check for yet
+        // filter(({ action, status }) => {
+        //   return (
+        //     this.utils.hasProperty(action, /^FilterState\./) &&
+        //     status === 'SUCCESSFUL'
+        //   );
+        // }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.cdf.markForCheck();
+      });
+  }
 
   private handleValueChanges$(): void {
     this.ruleForm.valueChanges

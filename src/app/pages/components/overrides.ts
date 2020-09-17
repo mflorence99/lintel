@@ -7,6 +7,7 @@ import { SelectionState } from '../../state/selection';
 
 import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { ContextMenuService } from 'ngx-contextmenu';
@@ -27,7 +28,7 @@ declare const lintelVSCodeAPI;
  */
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
   selector: 'lintel-overrides',
   templateUrl: 'overrides.html',
@@ -44,6 +45,7 @@ export class OverridesComponent implements OnInit {
   /** ctor */
   constructor(
     private actions$: Actions,
+    private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private contextMenuService: ContextMenuService,
     private destroy$: DestroyService,
@@ -112,7 +114,10 @@ export class OverridesComponent implements OnInit {
       // NOTE: deferring the rebuild until the action is complete
       // (add or delete) is necessary because delete may be
       // asynchonous if a confirm is required
-      .subscribe(() => this.rebuildControls());
+      .subscribe(() => {
+        this.rebuildControls();
+        this.cdf.markForCheck();
+      });
   }
 
   private handleValueChanges$(): void {
