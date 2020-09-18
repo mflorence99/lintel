@@ -247,25 +247,6 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       return acc;
     }, {});
     this.ctx.setState(this.normalize(configs));
-    // get the latest extensions & rules
-    Object.entries(this.snapshot)
-      .filter(([_, configuration]) => !!configuration)
-      .forEach(([fileName, configuration]) => {
-        const extensions = configuration.extends;
-        if (extensions?.length)
-          lintelVSCodeAPI.postMessage({
-            command: 'getExtensions',
-            fileName,
-            extensions
-          });
-        const plugins = configuration.plugins;
-        if (plugins?.length)
-          lintelVSCodeAPI.postMessage({
-            command: 'getRules',
-            fileName,
-            plugins
-          });
-      });
     // only override saved selection on a fresh start
     if (
       this.params.searchParams.freshStart ||
@@ -285,6 +266,25 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
         this.filter.showInheritedRules(true);
       });
     }
+    // get the latest extensions & rules
+    Object.entries(this.snapshot)
+      .filter(([_, configuration]) => !!configuration)
+      .forEach(([fileName, configuration]) => {
+        const extensions = configuration.extends;
+        if (extensions?.length)
+          lintelVSCodeAPI.postMessage({
+            command: 'getExtensions',
+            fileName,
+            extensions
+          });
+        const plugins = configuration.plugins;
+        if (plugins?.length)
+          lintelVSCodeAPI.postMessage({
+            command: 'getRules',
+            fileName,
+            plugins
+          });
+      });
     // listen for confirmations to remove an override
     window.addEventListener('message', (event) => {
       const message = event.data;
@@ -353,7 +353,13 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
   }
 
   @Computed() get configuration(): Configuration {
-    if (this.selection.override != null)
+    // NOTE: selection is persisted and the override may not work with
+    // the current file -- this is only a problem with testing with the
+    // simulator and the correct selection is always set in initialize()
+    if (
+      this.selection.override != null &&
+      this.overrides[this.selection.override]
+    )
       return this.overrides[this.selection.override];
     else return this.baseConfiguration;
   }

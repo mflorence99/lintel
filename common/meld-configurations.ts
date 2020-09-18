@@ -1,6 +1,6 @@
 /** Meld 'extends' into a base according to ESLint rules */
 
-const rfdc = require('rfdc');
+import rfdc from 'rfdc';
 
 const deepCopy: (obj: any) => any = rfdc();
 
