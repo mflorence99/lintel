@@ -1,6 +1,11 @@
 /** Meld 'extends' into a base according to ESLint rules */
 
-export function meldConfigurations(config: any, extension: any): any {
+const rfdc = require('rfdc');
+
+const deepCopy: (obj: any) => any = rfdc();
+
+export function meldConfigurations(config: any, ext: any): any {
+  const extension = deepCopy(ext);
   Object.keys(extension)
     .filter((key) => key !== 'extends')
     // NOTE: we don't try to meld 'files' as these are the keys to overrides
@@ -24,11 +29,6 @@ export function meldConfigurations(config: any, extension: any): any {
 // NOTE: works for overrides.files, but not generally
 function arraysEqual(p: any[], q: any[]): boolean {
   return p.slice(0).sort().toString() === q.slice(0).sort().toString();
-}
-
-// slow but sure and safe
-function deepCopy(obj: any): any {
-  return JSON.parse(JSON.stringify(obj));
 }
 
 // TODO: what about overrides of overrides ???

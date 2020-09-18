@@ -64,11 +64,16 @@ input::placeholder {
   color: var(--vscode-input-placeholderForeground);
 }
 
+li,
+ol,
+ul {
+  list-style: none;
+}
+
 .ngx-contextmenu.dropdown {
   ul {
     background-color: var(--vscode-settings-dropdownBackground);
     border: 1px solid var(--vscode-focusBorder);
-    list-style-type: none;
     margin: 0;
     outline: 0;
     padding: 0;

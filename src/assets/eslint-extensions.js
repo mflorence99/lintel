@@ -19,7 +19,6 @@
       "no-delete-var": "error",
       "no-dupe-args": "error",
       "no-dupe-class-members": "error",
-      "no-dupe-else-if": "error",
       "no-dupe-keys": "error",
       "no-duplicate-case": "error",
       "no-empty": "error",
@@ -31,7 +30,6 @@
       "no-fallthrough": "error",
       "no-func-assign": "error",
       "no-global-assign": "error",
-      "no-import-assign": "error",
       "no-inner-declarations": "error",
       "no-invalid-regexp": "error",
       "no-irregular-whitespace": "error",
@@ -44,7 +42,6 @@
       "no-redeclare": "error",
       "no-regex-spaces": "error",
       "no-self-assign": "error",
-      "no-setter-return": "error",
       "no-shadow-restricted-names": "error",
       "no-sparse-arrays": "error",
       "no-this-before-super": "error",
@@ -110,9 +107,6 @@
       "no-dupe-class-members": [
         "error"
       ],
-      "no-dupe-else-if": [
-        "error"
-      ],
       "no-dupe-keys": [
         "error"
       ],
@@ -144,9 +138,6 @@
         "error"
       ],
       "no-global-assign": [
-        "error"
-      ],
-      "no-import-assign": [
         "error"
       ],
       "no-inner-declarations": [
@@ -184,9 +175,6 @@
         "error"
       ],
       "no-self-assign": [
-        "error"
-      ],
-      "no-setter-return": [
         "error"
       ],
       "no-shadow-restricted-names": [

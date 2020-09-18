@@ -15,7 +15,7 @@
   },
   "main": "./dist/ext/lintel.js",
   "engines": {
-    "vscode": "^1.47.0"
+    "vscode": "^1.49.0"
   },
   "scripts": {
     "build": "rimraf dist && ng --aot --prod build && tsc -p ext/tsconfig.json",
@@ -38,8 +38,9 @@
     "eslint"
   ],
   "dependencies": {
-    "eslint": "^7",
-    "js-yaml": "^3"
+    "eslint": "^6",
+    "js-yaml": "^3",
+    "rfdc": "^1.1.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1001.2",
@@ -91,7 +92,7 @@
     "eslint-plugin-react-native": "^3",
     "eslint-plugin-react-redux": "^3",
     "eslint-plugin-sonarjs": "^0.5.0",
-    "eslint-plugin-unicorn": "^21",
+    "eslint-plugin-unicorn": "^19",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^26",
     "jest-extended": "^0.11.5",
@@ -101,7 +102,6 @@
     "ngx-contextmenu": "^5.4.0",
     "prettier": "^2",
     "prettier-plugin-package": "^1.0.0",
-    "rfdc": "^1.1.4",
     "rimraf": "^3.0.2",
     "rxjs": "^6",
     "stylelint": "^13.3.3",

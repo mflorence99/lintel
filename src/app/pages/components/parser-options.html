@@ -1,6 +1,6 @@
-<div [formGroup]="parserOptionsForm" class="parserOptions">
+<article [formGroup]="parserOptionsForm" class="parserOptions">
   <div class="option">
-    <div class="tag">.ecmaVersion</div>
+    <p class="tag">.ecmaVersion</p>
 
     <lintel-singleselector
       [enabled]="lintel.isEnabled"
@@ -10,13 +10,13 @@
     >
     </lintel-singleselector>
 
-    <div class="desc">
+    <p class="desc">
       {{ schema.properties.parserOptions.properties.ecmaVersion.description }}
-    </div>
+    </p>
   </div>
 
   <div class="option">
-    <div class="tag">.sourceType</div>
+    <p class="tag">.sourceType</p>
 
     <lintel-singleselector
       [enabled]="lintel.isEnabled"
@@ -26,8 +26,8 @@
     >
     </lintel-singleselector>
 
-    <div class="desc">
+    <p class="desc">
       {{ schema.properties.parserOptions.properties.sourceType.description }}
-    </div>
+    </p>
   </div>
-</div>
+</article>

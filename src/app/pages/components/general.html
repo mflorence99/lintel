@@ -6,10 +6,10 @@
 
 <ng-container [formGroup]="generalForm">
   <ng-container *ngFor="let property of makeProperties()">
-    <div
+    <aside
       [ngClass]="{active: isConfigured(property[0]), inherited: isInherited(property[0])}"
       class="gutter"
-    ></div>
+    ></aside>
 
     <section [ngClass]="property[0]" class="property">
       <!-- TITLE -->
@@ -170,7 +170,7 @@
 
         <!-- PARSER -->
 
-        <div *ngSwitchCase="'parser'" class="parser">
+        <article *ngSwitchCase="'parser'" class="parser">
           <lintel-input
             [enabled]="lintel.isEnabled"
             [placeholder]="configs.extension.parser || ''"
@@ -189,7 +189,7 @@
               configs.shortFileName(selection.fileName) }}</a
             >
           </p>
-        </div>
+        </article>
 
         <!-- OVERRIDES -->
 

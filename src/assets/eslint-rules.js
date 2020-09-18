@@ -5473,9 +5473,6 @@ eslintRules = {
                     },
                     "enforceForNewInMemberExpressions": {
                       "type": "boolean"
-                    },
-                    "enforceForFunctionPrototypeMethods": {
-                      "type": "boolean"
                     }
                   },
                   "additionalProperties": false
@@ -5760,7 +5757,7 @@ eslintRules = {
         },
         "schema": [],
         "messages": {
-          "noLossOfPrecision": "This number literal will lose precision at runtime."
+          "noLossOfPrecision": ""
         }
       }
     },
@@ -5789,23 +5786,11 @@ eslintRules = {
               "ignore": {
                 "type": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "string",
-                      "pattern": "^[+-]?(?:0|[1-9][0-9]*)n$"
-                    }
-                  ]
+                  "type": "number"
                 },
                 "uniqueItems": true
               },
               "ignoreArrayIndexes": {
-                "type": "boolean",
-                "default": false
-              },
-              "ignoreDefaultValues": {
                 "type": "boolean",
                 "default": false
               },
@@ -6532,8 +6517,7 @@ eslintRules = {
                   "caughtErrorsIgnorePattern": {
                     "type": "string"
                   }
-                },
-                "additionalProperties": false
+                }
               }
             ]
           }
@@ -7514,17 +7498,8 @@ eslintRules = {
                 ]
               },
               "outerIIFEBody": {
-                "oneOf": [
-                  {
-                    "type": "integer",
-                    "minimum": 0
-                  },
-                  {
-                    "enum": [
-                      "off"
-                    ]
-                  }
-                ]
+                "type": "integer",
+                "minimum": 0
               },
               "MemberExpression": {
                 "oneOf": [
@@ -7650,10 +7625,6 @@ eslintRules = {
                 ]
               },
               "flatTernaryExpressions": {
-                "type": "boolean",
-                "default": false
-              },
-              "offsetTernaryExpressions": {
                 "type": "boolean",
                 "default": false
               },
@@ -7881,7 +7852,7 @@ eslintRules = {
               },
               "enforceForClassMembers": {
                 "type": "boolean",
-                "default": true
+                "default": false
               }
             },
             "additionalProperties": false
@@ -8001,20 +7972,15 @@ eslintRules = {
               "allowImplicit": {
                 "type": "boolean",
                 "default": false
-              },
-              "checkForEach": {
-                "type": "boolean",
-                "default": false
               }
             },
             "additionalProperties": false
           }
         ],
         "messages": {
-          "expectedAtEnd": "{{arrayMethodName}}() expects a value to be returned at the end of {{name}}.",
-          "expectedInside": "{{arrayMethodName}}() expects a return value from {{name}}.",
-          "expectedReturnValue": "{{arrayMethodName}}() expects a return value from {{name}}.",
-          "expectedNoReturnValue": "{{arrayMethodName}}() expects no useless return value from {{name}}."
+          "expectedAtEnd": "Expected to return a value at the end of {{name}}.",
+          "expectedInside": "Expected to return a value in {{name}}.",
+          "expectedReturnValue": "{{name}} expected a return value."
         }
       }
     },
@@ -8028,59 +7994,35 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/array-element-newline"
         },
         "fixable": "whitespace",
-        "schema": {
-          "definitions": {
-            "basicConfig": {
-              "oneOf": [
-                {
-                  "enum": [
-                    "always",
-                    "never",
-                    "consistent"
-                  ]
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "multiline": {
-                      "type": "boolean"
-                    },
-                    "minItems": {
-                      "type": [
-                        "integer",
-                        "null"
-                      ],
-                      "minimum": 0
-                    }
+        "schema": [
+          {
+            "oneOf": [
+              {
+                "enum": [
+                  "always",
+                  "never",
+                  "consistent"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "multiline": {
+                    "type": "boolean"
                   },
-                  "additionalProperties": false
-                }
-              ]
-            }
-          },
-          "items": [
-            {
-              "oneOf": [
-                {
-                  "$ref": "#/definitions/basicConfig"
+                  "minItems": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  }
                 },
-                {
-                  "type": "object",
-                  "properties": {
-                    "ArrayExpression": {
-                      "$ref": "#/definitions/basicConfig"
-                    },
-                    "ArrayPattern": {
-                      "$ref": "#/definitions/basicConfig"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "minProperties": 1
-                }
-              ]
-            }
-          ]
-        },
+                "additionalProperties": false
+              }
+            ]
+          }
+        ],
         "messages": {
           "unexpectedLineBreak": "There should be no linebreak here.",
           "missingLineBreak": "There should be a linebreak after this element."
@@ -8294,8 +8236,6 @@ eslintRules = {
     },
     "callback-return": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "require `return` statements after callbacks",
@@ -8334,10 +8274,6 @@ eslintRules = {
                 "default": false
               },
               "ignoreImports": {
-                "type": "boolean",
-                "default": false
-              },
-              "ignoreGlobals": {
                 "type": "boolean",
                 "default": false
               },
@@ -8670,7 +8606,7 @@ eslintRules = {
             "properties": {
               "enforceForClassMembers": {
                 "type": "boolean",
-                "default": true
+                "default": false
               }
             },
             "additionalProperties": false
@@ -8829,21 +8765,6 @@ eslintRules = {
         ],
         "messages": {
           "missingDefaultCase": "Expected a default case."
-        }
-      }
-    },
-    "default-case-last": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "description": "enforce default clauses in switch statements to be last",
-          "category": "Best Practices",
-          "recommended": false,
-          "url": "https://eslint.org/docs/rules/default-case-last"
-        },
-        "schema": [],
-        "messages": {
-          "notLast": "Default clause should be the last clause."
         }
       }
     },
@@ -9063,8 +8984,7 @@ eslintRules = {
           ]
         },
         "messages": {
-          "unexpectedWhitespace": "Unexpected whitespace between function name and paren.",
-          "unexpectedNewline": "Unexpected newline between function name and paren.",
+          "unexpected": "Unexpected newline between function name and paren.",
           "missing": "Missing space between function name and paren."
         }
       }
@@ -9420,8 +9340,6 @@ eslintRules = {
     },
     "global-require": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "require `require()` calls to be placed at top-level module scope",
@@ -9476,8 +9394,6 @@ eslintRules = {
     },
     "handle-callback-err": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "require error handling in callbacks",
@@ -9497,10 +9413,6 @@ eslintRules = {
     },
     "id-blacklist": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [
-          "id-denylist"
-        ],
         "type": "suggestion",
         "docs": {
           "description": "disallow specified identifiers",
@@ -9516,28 +9428,7 @@ eslintRules = {
           "uniqueItems": true
         },
         "messages": {
-          "restricted": "Identifier '{{name}}' is restricted."
-        }
-      }
-    },
-    "id-denylist": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "description": "disallow specified identifiers",
-          "category": "Stylistic Issues",
-          "recommended": false,
-          "url": "https://eslint.org/docs/rules/id-denylist"
-        },
-        "schema": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "uniqueItems": true
-        },
-        "messages": {
-          "restricted": "Identifier '{{name}}' is restricted."
+          "blacklisted": "Identifier '{{name}}' is blacklisted."
         }
       }
     },
@@ -9562,13 +9453,6 @@ eslintRules = {
                 "type": "integer"
               },
               "exceptions": {
-                "type": "array",
-                "uniqueItems": true,
-                "items": {
-                  "type": "string"
-                }
-              },
-              "exceptionPatterns": {
                 "type": "array",
                 "uniqueItems": true,
                 "items": {
@@ -9619,8 +9503,7 @@ eslintRules = {
                 "type": "boolean",
                 "default": false
               }
-            },
-            "additionalProperties": false
+            }
           }
         ],
         "messages": {
@@ -9751,17 +9634,8 @@ eslintRules = {
                 ]
               },
               "outerIIFEBody": {
-                "oneOf": [
-                  {
-                    "type": "integer",
-                    "minimum": 0
-                  },
-                  {
-                    "enum": [
-                      "off"
-                    ]
-                  }
-                ]
+                "type": "integer",
+                "minimum": 0
               },
               "MemberExpression": {
                 "oneOf": [
@@ -9887,10 +9761,6 @@ eslintRules = {
                 ]
               },
               "flatTernaryExpressions": {
-                "type": "boolean",
-                "default": false
-              },
-              "offsetTernaryExpressions": {
                 "type": "boolean",
                 "default": false
               },
@@ -12229,8 +12099,6 @@ eslintRules = {
     },
     "no-buffer-constructor": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "problem",
         "docs": {
           "description": "disallow use of the `Buffer()` constructor",
@@ -12574,7 +12442,7 @@ eslintRules = {
         "docs": {
           "description": "disallow duplicate conditions in if-else-if chains",
           "category": "Possible Errors",
-          "recommended": true,
+          "recommended": false,
           "url": "https://eslint.org/docs/rules/no-dupe-else-if"
         },
         "schema": [],
@@ -12734,9 +12602,7 @@ eslintRules = {
                     "generatorMethods",
                     "getters",
                     "setters",
-                    "constructors",
-                    "asyncFunctions",
-                    "asyncMethods"
+                    "constructors"
                   ]
                 },
                 "uniqueItems": true
@@ -12875,18 +12741,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-extra-boolean-cast"
         },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "enforceForLogicalOperands": {
-                "type": "boolean",
-                "default": false
-              }
-            },
-            "additionalProperties": false
-          }
-        ],
+        "schema": [],
         "fixable": "code",
         "messages": {
           "unexpectedCall": "Redundant Boolean call.",
@@ -12969,9 +12824,6 @@ eslintRules = {
                       "type": "boolean"
                     },
                     "enforceForNewInMemberExpressions": {
-                      "type": "boolean"
-                    },
-                    "enforceForFunctionPrototypeMethods": {
                       "type": "boolean"
                     }
                   },
@@ -13057,10 +12909,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-func-assign"
         },
-        "schema": [],
-        "messages": {
-          "isAFunction": "'{{name}}' is a function."
-        }
+        "schema": []
       }
     },
     "no-global-assign": {
@@ -13086,10 +12935,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "globalShouldNotBeModified": "Read-only global '{{name}}' should not be modified."
-        }
+        ]
       }
     },
     "no-implicit-coercion": {
@@ -13133,10 +12979,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "useRecommendation": "use `{{recommendation}}` instead."
-        }
+        ]
       }
     },
     "no-implicit-globals": {
@@ -13178,10 +13021,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-implied-eval"
         },
-        "schema": [],
-        "messages": {
-          "impliedEval": "Implied eval. Consider passing a function instead of a string."
-        }
+        "schema": []
       }
     },
     "no-import-assign": {
@@ -13190,7 +13030,7 @@ eslintRules = {
         "docs": {
           "description": "disallow assigning to imported bindings",
           "category": "Possible Errors",
-          "recommended": true,
+          "recommended": false,
           "url": "https://eslint.org/docs/rules/no-import-assign"
         },
         "schema": [],
@@ -13209,10 +13049,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-inline-comments"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedInlineComment": "Unexpected comment inline with code."
-        }
+        "schema": []
       }
     },
     "no-inner-declarations": {
@@ -13231,10 +13068,7 @@ eslintRules = {
               "both"
             ]
           }
-        ],
-        "messages": {
-          "moveDeclToRoot": "Move {{type}} declaration to {{body}} root."
-        }
+        ]
       }
     },
     "no-invalid-regexp": {
@@ -13259,10 +13093,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "regexMessage": "{{message}}."
-        }
+        ]
       }
     },
     "no-invalid-this": {
@@ -13285,10 +13116,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedThis": "Unexpected 'this'."
-        }
+        ]
       }
     },
     "no-irregular-whitespace": {
@@ -13323,10 +13151,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "noIrregularWhitespace": "Irregular whitespace not allowed."
-        }
+        ]
       }
     },
     "no-iterator": {
@@ -13338,10 +13163,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-iterator"
         },
-        "schema": [],
-        "messages": {
-          "noIterator": "Reserved name '__iterator__'."
-        }
+        "schema": []
       }
     },
     "no-label-var": {
@@ -13353,10 +13175,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-label-var"
         },
-        "schema": [],
-        "messages": {
-          "identifierClashWithLabel": "Found identifier with same name as label."
-        }
+        "schema": []
       }
     },
     "no-labels": {
@@ -13383,12 +13202,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedLabel": "Unexpected labeled statement.",
-          "unexpectedLabelInBreak": "Unexpected label in break statement.",
-          "unexpectedLabelInContinue": "Unexpected label in continue statement."
-        }
+        ]
       }
     },
     "no-lone-blocks": {
@@ -13400,11 +13214,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-lone-blocks"
         },
-        "schema": [],
-        "messages": {
-          "redundantBlock": "Block is redundant.",
-          "redundantNestedBlock": "Nested block is redundant."
-        }
+        "schema": []
       }
     },
     "no-lonely-if": {
@@ -13417,10 +13227,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-lonely-if"
         },
         "schema": [],
-        "fixable": "code",
-        "messages": {
-          "unexpectedLonelyIf": "Unexpected if as the only statement in an else block."
-        }
+        "fixable": "code"
       }
     },
     "no-loop-func": {
@@ -13435,21 +13242,6 @@ eslintRules = {
         "schema": [],
         "messages": {
           "unsafeRefs": "Function declared in a loop contains unsafe references to variable(s) {{ varNames }}."
-        }
-      }
-    },
-    "no-loss-of-precision": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "description": "disallow literal numbers that lose precision",
-          "category": "Possible Errors",
-          "recommended": false,
-          "url": "https://eslint.org/docs/rules/no-loss-of-precision"
-        },
-        "schema": [],
-        "messages": {
-          "noLossOfPrecision": "This number literal will lose precision at runtime."
         }
       }
     },
@@ -13477,23 +13269,11 @@ eslintRules = {
               "ignore": {
                 "type": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "string",
-                      "pattern": "^[+-]?(?:0|[1-9][0-9]*)n$"
-                    }
-                  ]
+                  "type": "number"
                 },
                 "uniqueItems": true
               },
               "ignoreArrayIndexes": {
-                "type": "boolean",
-                "default": false
-              },
-              "ignoreDefaultValues": {
                 "type": "boolean",
                 "default": false
               }
@@ -13570,8 +13350,7 @@ eslintRules = {
                       "||",
                       "in",
                       "instanceof",
-                      "?:",
-                      "??"
+                      "?:"
                     ]
                   },
                   "minItems": 2,
@@ -13586,16 +13365,11 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedMixedOperator": "Unexpected mix of '{{leftOperator}}' and '{{rightOperator}}'."
-        }
+        ]
       }
     },
     "no-mixed-requires": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow `require` calls to be mixed with regular variable declarations",
@@ -13623,11 +13397,7 @@ eslintRules = {
               }
             ]
           }
-        ],
-        "messages": {
-          "noMixRequire": "Do not mix 'require' and other declarations.",
-          "noMixCoreModuleFileComputed": "Do not mix core, module, file and computed requires."
-        }
+        ]
       }
     },
     "no-mixed-spaces-and-tabs": {
@@ -13647,10 +13417,7 @@ eslintRules = {
               false
             ]
           }
-        ],
-        "messages": {
-          "mixedSpacesAndTabs": "Mixed spaces and tabs."
-        }
+        ]
       }
     },
     "no-multi-assign": {
@@ -13662,10 +13429,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-multi-assign"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedChain": "Unexpected chained assignment."
-        }
+        "schema": []
       }
     },
     "no-multi-spaces": {
@@ -13698,10 +13462,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "multipleSpaces": "Multiple spaces found before '{{displayValue}}'."
-        }
+        ]
       }
     },
     "no-multi-str": {
@@ -13713,10 +13474,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-multi-str"
         },
-        "schema": [],
-        "messages": {
-          "multilineString": "Multiline support is limited to browsers supporting ES5 only."
-        }
+        "schema": []
       }
     },
     "no-multiple-empty-lines": {
@@ -13751,12 +13509,7 @@ eslintRules = {
             ],
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "blankBeginningOfFile": "Too many blank lines at the beginning of file. Max of {{max}} allowed.",
-          "blankEndOfFile": "Too many blank lines at the end of file. Max of {{max}} allowed.",
-          "consecutiveBlank": "More than {{max}} blank {{pluralizedLines}} not allowed."
-        }
+        ]
       }
     },
     "no-native-reassign": {
@@ -13786,10 +13539,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "nativeReassign": "Read-only global '{{name}}' should not be modified."
-        }
+        ]
       }
     },
     "no-negated-condition": {
@@ -13801,10 +13551,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-negated-condition"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedNegated": "Unexpected negated condition."
-        }
+        "schema": []
       }
     },
     "no-negated-in-lhs": {
@@ -13820,10 +13567,7 @@ eslintRules = {
           "no-unsafe-negation"
         ],
         "deprecated": true,
-        "schema": [],
-        "messages": {
-          "negatedLHS": "The 'in' expression's left operand is negated."
-        }
+        "schema": []
       }
     },
     "no-nested-ternary": {
@@ -13835,10 +13579,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-nested-ternary"
         },
-        "schema": [],
-        "messages": {
-          "noNestedTernary": "Do not nest ternary expressions."
-        }
+        "schema": []
       }
     },
     "no-new": {
@@ -13850,10 +13591,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new"
         },
-        "schema": [],
-        "messages": {
-          "noNewStatement": "Do not use 'new' for side effects."
-        }
+        "schema": []
       }
     },
     "no-new-func": {
@@ -13865,10 +13603,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new-func"
         },
-        "schema": [],
-        "messages": {
-          "noFunctionConstructor": "The Function constructor is eval."
-        }
+        "schema": []
       }
     },
     "no-new-object": {
@@ -13880,16 +13615,11 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new-object"
         },
-        "schema": [],
-        "messages": {
-          "preferLiteral": "The object literal notation {} is preferrable."
-        }
+        "schema": []
       }
     },
     "no-new-require": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow `new` operators with calls to `require`",
@@ -13897,10 +13627,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new-require"
         },
-        "schema": [],
-        "messages": {
-          "noNewRequire": "Unexpected use of new with require."
-        }
+        "schema": []
       }
     },
     "no-new-symbol": {
@@ -13912,10 +13639,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-new-symbol"
         },
-        "schema": [],
-        "messages": {
-          "noNewSymbol": "`Symbol` cannot be called as a constructor."
-        }
+        "schema": []
       }
     },
     "no-new-wrappers": {
@@ -13927,10 +13651,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new-wrappers"
         },
-        "schema": [],
-        "messages": {
-          "noConstructor": "Do not use {{fn}} as a constructor."
-        }
+        "schema": []
       }
     },
     "no-obj-calls": {
@@ -13944,8 +13665,7 @@ eslintRules = {
         },
         "schema": [],
         "messages": {
-          "unexpectedCall": "'{{name}}' is not a function.",
-          "unexpectedRefCall": "'{{name}}' is reference to '{{ref}}', which is not a function."
+          "unexpectedCall": "'{{name}}' is not a function."
         }
       }
     },
@@ -13958,10 +13678,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-octal"
         },
-        "schema": [],
-        "messages": {
-          "noOcatal": "Octal literals should not be used."
-        }
+        "schema": []
       }
     },
     "no-octal-escape": {
@@ -14029,17 +13746,11 @@ eslintRules = {
               }
             ]
           }
-        ],
-        "messages": {
-          "assignmentToFunctionParam": "Assignment to function parameter '{{name}}'.",
-          "assignmentToFunctionParamProp": "Assignment to property of function parameter '{{name}}'."
-        }
+        ]
       }
     },
     "no-path-concat": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow string concatenation with `__dirname` and `__filename`",
@@ -14047,10 +13758,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-path-concat"
         },
-        "schema": [],
-        "messages": {
-          "usePathFunctions": "Use path.join() or path.resolve() instead of + to create paths."
-        }
+        "schema": []
       }
     },
     "no-plusplus": {
@@ -14073,16 +13781,11 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedUnaryOp": "Unary operator '{{operator}}' used."
-        }
+        ]
       }
     },
     "no-process-env": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow the use of `process.env`",
@@ -14090,16 +13793,11 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-process-env"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedProcessEnv": "Unexpected use of process.env."
-        }
+        "schema": []
       }
     },
     "no-process-exit": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow the use of `process.exit()`",
@@ -14107,25 +13805,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-process-exit"
         },
-        "schema": [],
-        "messages": {
-          "noProcessExit": "Don't use process.exit(); throw an error instead."
-        }
-      }
-    },
-    "no-promise-executor-return": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "description": "disallow returning values from Promise executor functions",
-          "category": "Possible Errors",
-          "recommended": false,
-          "url": "https://eslint.org/docs/rules/no-promise-executor-return"
-        },
-        "schema": [],
-        "messages": {
-          "returnsValue": "Return values from promise executor functions cannot be read."
-        }
+        "schema": []
       }
     },
     "no-proto": {
@@ -14137,10 +13817,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-proto"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedProto": "The '__proto__' property is deprecated."
-        }
+        "schema": []
       }
     },
     "no-prototype-builtins": {
@@ -14152,10 +13829,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-prototype-builtins"
         },
-        "schema": [],
-        "messages": {
-          "prototypeBuildIn": "Do not access Object.prototype method '{{prop}}' from target object."
-        }
+        "schema": []
       }
     },
     "no-redeclare": {
@@ -14196,39 +13870,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-regex-spaces"
         },
         "schema": [],
-        "fixable": "code",
-        "messages": {
-          "multipleSpaces": "Spaces are hard to count. Use {{{length}}}."
-        }
-      }
-    },
-    "no-restricted-exports": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "description": "disallow specified names in exports",
-          "category": "ECMAScript 6",
-          "recommended": false,
-          "url": "https://eslint.org/docs/rules/no-restricted-exports"
-        },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "restrictedNamedExports": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "uniqueItems": true
-              }
-            },
-            "additionalProperties": false
-          }
-        ],
-        "messages": {
-          "restrictedNamed": "'{{name}}' is restricted from being used as an exported name."
-        }
+        "fixable": "code"
       }
     },
     "no-restricted-globals": {
@@ -14266,10 +13908,6 @@ eslintRules = {
           },
           "uniqueItems": true,
           "minItems": 0
-        },
-        "messages": {
-          "defaultMessage": "Unexpected use of '{{name}}'.",
-          "customMessage": "Unexpected use of '{{name}}'. {{customMessage}}"
         }
       }
     },
@@ -14287,9 +13925,7 @@ eslintRules = {
           "pathWithCustomMessage": "'{{importSource}}' import is restricted from being used. {{customMessage}}",
           "patterns": "'{{importSource}}' import is restricted from being used by a pattern.",
           "everything": "* import is invalid because '{{importNames}}' from '{{importSource}}' is restricted.",
-          "everythingWithCustomMessage": "* import is invalid because '{{importNames}}' from '{{importSource}}' is restricted. {{customMessage}}",
-          "importName": "'{{importName}}' import from '{{importSource}}' is restricted.",
-          "importNameWithCustomMessage": "'{{importName}}' import from '{{importSource}}' is restricted. {{customMessage}}"
+          "everythingWithCustomMessage": "* import is invalid because '{{importNames}}' from '{{importSource}}' is restricted. {{customMessage}}"
         },
         "schema": {
           "anyOf": [
@@ -14384,8 +14020,6 @@ eslintRules = {
     },
     "no-restricted-modules": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow specified modules when loaded by `require`",
@@ -14467,11 +14101,6 @@ eslintRules = {
               "additionalItems": false
             }
           ]
-        },
-        "messages": {
-          "defaultMessage": "'{{name}}' module is restricted from being used.",
-          "customMessage": "'{{name}}' module is restricted from being used. {{customMessage}}",
-          "patternMessage": "'{{name}}' module is restricted from being used by a pattern."
         }
       }
     },
@@ -14527,10 +14156,6 @@ eslintRules = {
             ]
           },
           "uniqueItems": true
-        },
-        "messages": {
-          "restrictedObjectProperty": "'{{objectName}}.{{propertyName}}' is restricted from being used.{{message}}",
-          "restrictedProperty": "'{{propertyName}}' is restricted from being used.{{message}}"
         }
       }
     },
@@ -14569,9 +14194,6 @@ eslintRules = {
           },
           "uniqueItems": true,
           "minItems": 0
-        },
-        "messages": {
-          "restrictedSyntax": "{{message}}"
         }
       }
     },
@@ -14591,11 +14213,7 @@ eslintRules = {
               "always"
             ]
           }
-        ],
-        "messages": {
-          "returnAssignment": "Return statement should not contain assignment.",
-          "arrowAssignment": "Arrow function should not return assignment."
-        }
+        ]
       }
     },
     "no-return-await": {
@@ -14608,10 +14226,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-return-await"
         },
         "fixable": null,
-        "schema": [],
-        "messages": {
-          "redundantUseOfAwait": "Redundant use of `await` on a return value."
-        }
+        "schema": []
       }
     },
     "no-script-url": {
@@ -14623,10 +14238,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-script-url"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedScriptURL": "Script URL is a form of eval."
-        }
+        "schema": []
       }
     },
     "no-self-assign": {
@@ -14649,10 +14261,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "selfAssignment": "'{{name}}' is assigned to itself."
-        }
+        ]
       }
     },
     "no-self-compare": {
@@ -14664,10 +14273,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-self-compare"
         },
-        "schema": [],
-        "messages": {
-          "comparingToSelf": "Comparing to itself is potentially pointless."
-        }
+        "schema": []
       }
     },
     "no-sequences": {
@@ -14679,10 +14285,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-sequences"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedCommaExpression": "Unexpected use of comma operator."
-        }
+        "schema": []
       }
     },
     "no-setter-return": {
@@ -14691,7 +14294,7 @@ eslintRules = {
         "docs": {
           "description": "disallow returning values from setters",
           "category": "Possible Errors",
-          "recommended": true,
+          "recommended": false,
           "url": "https://eslint.org/docs/rules/no-setter-return"
         },
         "schema": [],
@@ -14734,10 +14337,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "noShadow": "'{{name}}' is already declared in the upper scope."
-        }
+        ]
       }
     },
     "no-shadow-restricted-names": {
@@ -14749,10 +14349,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-shadow-restricted-names"
         },
-        "schema": [],
-        "messages": {
-          "shadowingRestrictedName": "Shadowing of global property '{{name}}'."
-        }
+        "schema": []
       }
     },
     "no-spaced-func": {
@@ -14769,10 +14366,7 @@ eslintRules = {
           "func-call-spacing"
         ],
         "fixable": "whitespace",
-        "schema": [],
-        "messages": {
-          "noSpacedFunction": "Unexpected space between function name and paren."
-        }
+        "schema": []
       }
     },
     "no-sparse-arrays": {
@@ -14784,16 +14378,11 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-sparse-arrays"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedSparseArray": "Unexpected comma in middle of array."
-        }
+        "schema": []
       }
     },
     "no-sync": {
       "meta": {
-        "deprecated": true,
-        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow synchronous methods",
@@ -14812,10 +14401,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "noSync": "Unexpected sync method: '{{propertyName}}'."
-        }
+        ]
       }
     },
     "no-tabs": {
@@ -14838,10 +14424,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedTab": "Unexpected tab character."
-        }
+        ]
       }
     },
     "no-template-curly-in-string": {
@@ -14853,10 +14436,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-template-curly-in-string"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedTemplateExpression": "Unexpected template string expression."
-        }
+        "schema": []
       }
     },
     "no-ternary": {
@@ -14868,10 +14448,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-ternary"
         },
-        "schema": [],
-        "messages": {
-          "noTernaryOperator": "Ternary operator used."
-        }
+        "schema": []
       }
     },
     "no-this-before-super": {
@@ -14883,10 +14460,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-this-before-super"
         },
-        "schema": [],
-        "messages": {
-          "noBeforeSuper": "'{{kind}}' is not allowed before 'super()'."
-        }
+        "schema": []
       }
     },
     "no-throw-literal": {
@@ -14930,10 +14504,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "trailingSpace": "Trailing spaces not allowed."
-        }
+        ]
       }
     },
     "no-undef": {
@@ -14972,10 +14543,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-undef-init"
         },
         "schema": [],
-        "fixable": "code",
-        "messages": {
-          "unnecessaryUndefinedInit": "It's not necessary to initialize '{{name}}' to undefined."
-        }
+        "fixable": "code"
       }
     },
     "no-undefined": {
@@ -14987,10 +14555,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-undefined"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedUndefined": "Unexpected use of undefined."
-        }
+        "schema": []
       }
     },
     "no-underscore-dangle": {
@@ -15027,18 +14592,11 @@ eslintRules = {
               "enforceInMethodNames": {
                 "type": "boolean",
                 "default": false
-              },
-              "allowFunctionParams": {
-                "type": "boolean",
-                "default": true
               }
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedUnderscore": "Unexpected dangling '_' in '{{identifier}}'."
-        }
+        ]
       }
     },
     "no-unexpected-multiline": {
@@ -15068,10 +14626,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-unmodified-loop-condition"
         },
-        "schema": [],
-        "messages": {
-          "loopConditionNotModified": "'{{name}}' is not modified in this loop."
-        }
+        "schema": []
       }
     },
     "no-unneeded-ternary": {
@@ -15095,11 +14650,7 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "code",
-        "messages": {
-          "unnecessaryConditionalExpression": "Unnecessary use of boolean literals in conditional expression.",
-          "unnecessaryConditionalAssignment": "Unnecessary use of conditional expression for default assignment."
-        }
+        "fixable": "code"
       }
     },
     "no-unreachable": {
@@ -15111,45 +14662,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-unreachable"
         },
-        "schema": [],
-        "messages": {
-          "unreachableCode": "Unreachable code."
-        }
-      }
-    },
-    "no-unreachable-loop": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "description": "disallow loops with a body that allows only one iteration",
-          "category": "Possible Errors",
-          "recommended": false,
-          "url": "https://eslint.org/docs/rules/no-unreachable-loop"
-        },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "ignore": {
-                "type": "array",
-                "items": {
-                  "enum": [
-                    "WhileStatement",
-                    "DoWhileStatement",
-                    "ForStatement",
-                    "ForInStatement",
-                    "ForOfStatement"
-                  ]
-                },
-                "uniqueItems": true
-              }
-            },
-            "additionalProperties": false
-          }
-        ],
-        "messages": {
-          "invalid": "Invalid loop. Its body allows only one iteration."
-        }
+        "schema": []
       }
     },
     "no-unsafe-finally": {
@@ -15161,10 +14674,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-unsafe-finally"
         },
-        "schema": [],
-        "messages": {
-          "unsafeUsage": "Unsafe usage of {{nodeType}}."
-        }
+        "schema": []
       }
     },
     "no-unsafe-negation": {
@@ -15225,10 +14735,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unusedExpression": "Expected an assignment or function call and instead saw an expression."
-        }
+        ]
       }
     },
     "no-unused-labels": {
@@ -15299,15 +14806,11 @@ eslintRules = {
                   "caughtErrorsIgnorePattern": {
                     "type": "string"
                   }
-                },
-                "additionalProperties": false
+                }
               }
             ]
           }
-        ],
-        "messages": {
-          "unusedVar": "'{{varName}}' is {{action}} but never used{{additional}}."
-        }
+        ]
       }
     },
     "no-use-before-define": {
@@ -15344,29 +14847,7 @@ eslintRules = {
               }
             ]
           }
-        ],
-        "messages": {
-          "usedBeforeDefined": "'{{name}}' was used before it was defined."
-        }
-      }
-    },
-    "no-useless-backreference": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "description": "disallow useless backreferences in regular expressions",
-          "category": "Possible Errors",
-          "recommended": false,
-          "url": "https://eslint.org/docs/rules/no-useless-backreference"
-        },
-        "schema": [],
-        "messages": {
-          "nested": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' from within that group.",
-          "forward": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' which appears later in the pattern.",
-          "backward": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' which appears before in the same lookbehind.",
-          "disjunctive": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' which is in another alternative.",
-          "intoNegativeLookaround": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' which is in a negative lookaround."
-        }
+        ]
       }
     },
     "no-useless-call": {
@@ -15378,10 +14859,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-useless-call"
         },
-        "schema": [],
-        "messages": {
-          "unnecessaryCall": "Unnecessary '.{{name}}()'."
-        }
+        "schema": []
       }
     },
     "no-useless-catch": {
@@ -15393,11 +14871,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-useless-catch"
         },
-        "schema": [],
-        "messages": {
-          "unnecessaryCatchClause": "Unnecessary catch clause.",
-          "unnecessaryCatch": "Unnecessary try/catch wrapper."
-        }
+        "schema": []
       }
     },
     "no-useless-computed-key": {
@@ -15421,10 +14895,7 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "code",
-        "messages": {
-          "unnecessarilyComputedProperty": "Unnecessarily computed property [{{property}}] found."
-        }
+        "fixable": "code"
       }
     },
     "no-useless-concat": {
@@ -15436,10 +14907,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-useless-concat"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedConcat": "Unexpected string concatenation of literals."
-        }
+        "schema": []
       }
     },
     "no-useless-constructor": {
@@ -15451,10 +14919,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-useless-constructor"
         },
-        "schema": [],
-        "messages": {
-          "noUselessConstructor": "Useless constructor."
-        }
+        "schema": []
       }
     },
     "no-useless-escape": {
@@ -15504,10 +14969,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unnecessarilyRenamed": "{{type}} {{name}} unnecessarily renamed."
-        }
+        ]
       }
     },
     "no-useless-return": {
@@ -15520,10 +14982,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-useless-return"
         },
         "fixable": "code",
-        "schema": [],
-        "messages": {
-          "unnecessaryReturn": "Unnecessary return statement."
-        }
+        "schema": []
       }
     },
     "no-var": {
@@ -15536,10 +14995,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-var"
         },
         "schema": [],
-        "fixable": "code",
-        "messages": {
-          "unexpectedVar": "Unexpected var, use let or const instead."
-        }
+        "fixable": "code"
       }
     },
     "no-void": {
@@ -15551,21 +15007,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-void"
         },
-        "messages": {
-          "noVoid": "Expected 'undefined' and instead saw 'void'."
-        },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "allowAsStatement": {
-                "type": "boolean",
-                "default": false
-              }
-            },
-            "additionalProperties": false
-          }
-        ]
+        "schema": []
       }
     },
     "no-warning-comments": {
@@ -15596,10 +15038,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedComment": "Unexpected '{{matchedTerm}}' comment: '{{comment}}'."
-        }
+        ]
       }
     },
     "no-whitespace-before-property": {
@@ -15612,10 +15051,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-whitespace-before-property"
         },
         "fixable": "whitespace",
-        "schema": [],
-        "messages": {
-          "unexpectedWhitespace": "Unexpected whitespace before property {{propName}}."
-        }
+        "schema": []
       }
     },
     "no-with": {
@@ -15627,10 +15063,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-with"
         },
-        "schema": [],
-        "messages": {
-          "unexpectedWith": "Unexpected use of 'with' statement."
-        }
+        "schema": []
       }
     },
     "nonblock-statement-body-position": {
@@ -15696,11 +15129,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "expectNoLinebreak": "Expected no linebreak before this statement.",
-          "expectLinebreak": "Expected a linebreak before this statement."
-        }
+        ]
       }
     },
     "object-curly-newline": {
@@ -15860,13 +15289,7 @@ eslintRules = {
               }
             ]
           }
-        ],
-        "messages": {
-          "unexpectedLinebreakBeforeClosingBrace": "Unexpected line break before this closing brace.",
-          "unexpectedLinebreakAfterOpeningBrace": "Unexpected line break after this opening brace.",
-          "expectedLinebreakBeforeClosingBrace": "Expected a line break before this closing brace.",
-          "expectedLinebreakAfterOpeningBrace": "Expected a line break after this opening brace."
-        }
+        ]
       }
     },
     "object-curly-spacing": {
@@ -15898,13 +15321,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "requireSpaceBefore": "A space is required before '{{token}}'.",
-          "requireSpaceAfter": "A space is required after '{{token}}'.",
-          "unexpectedSpaceBefore": "There should be no space before '{{token}}'.",
-          "unexpectedSpaceAfter": "There should be no space after '{{token}}'."
-        }
+        ]
       }
     },
     "object-property-newline": {
@@ -15932,11 +15349,7 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "whitespace",
-        "messages": {
-          "propertiesOnNewlineAll": "Object properties must go on a new line if they aren't all on the same line.",
-          "propertiesOnNewline": "Object properties must go on a new line."
-        }
+        "fixable": "whitespace"
       }
     },
     "object-shorthand": {
@@ -16020,15 +15433,6 @@ eslintRules = {
               "maxItems": 2
             }
           ]
-        },
-        "messages": {
-          "expectedAllPropertiesShorthanded": "Expected shorthand for all properties.",
-          "expectedLiteralMethodLongform": "Expected longform method syntax for string literal keys.",
-          "expectedPropertyShorthand": "Expected property shorthand.",
-          "expectedPropertyLongform": "Expected longform property syntax.",
-          "expectedMethodShorthand": "Expected method shorthand.",
-          "expectedMethodLongform": "Expected longform method syntax.",
-          "unexpectedMix": "Unexpected mix of shorthand and non-shorthand properties."
         }
       }
     },
@@ -16104,16 +15508,7 @@ eslintRules = {
               }
             ]
           }
-        ],
-        "messages": {
-          "combineUninitialized": "Combine this with the previous '{{type}}' statement with uninitialized variables.",
-          "combineInitialized": "Combine this with the previous '{{type}}' statement with initialized variables.",
-          "splitUninitialized": "Split uninitialized '{{type}}' declarations into multiple statements.",
-          "splitInitialized": "Split initialized '{{type}}' declarations into multiple statements.",
-          "splitRequires": "Split requires to be separated into a single block.",
-          "combine": "Combine this with the previous '{{type}}' statement.",
-          "split": "Split '{{type}}' declarations into multiple statements."
-        }
+        ]
       }
     },
     "one-var-declaration-per-line": {
@@ -16133,10 +15528,7 @@ eslintRules = {
             ]
           }
         ],
-        "fixable": "whitespace",
-        "messages": {
-          "expectVarOnNewline": "Expected variable declaration to be on a new line."
-        }
+        "fixable": "whitespace"
       }
     },
     "operator-assignment": {
@@ -16186,26 +15578,23 @@ eslintRules = {
             "properties": {
               "overrides": {
                 "type": "object",
-                "additionalProperties": {
-                  "enum": [
-                    "after",
-                    "before",
-                    "none",
-                    "ignore"
-                  ]
+                "properties": {
+                  "anyOf": {
+                    "type": "string",
+                    "enum": [
+                      "after",
+                      "before",
+                      "none",
+                      "ignore"
+                    ]
+                  }
                 }
               }
             },
             "additionalProperties": false
           }
         ],
-        "fixable": "code",
-        "messages": {
-          "operatorAtBeginning": "'{{operator}}' should be placed at the beginning of the line.",
-          "operatorAtEnd": "'{{operator}}' should be placed at the end of the line.",
-          "badLinebreak": "Bad line breaking before and after '{{operator}}'.",
-          "noLinebreak": "There should be no line break before or after '{{operator}}'."
-        }
+        "fixable": "code"
       }
     },
     "padded-blocks": {
@@ -16260,14 +15649,9 @@ eslintRules = {
               "allowSingleLineBlocks": {
                 "type": "boolean"
               }
-            },
-            "additionalProperties": false
+            }
           }
-        ],
-        "messages": {
-          "alwaysPadBlock": "Block must be padded by blank lines.",
-          "neverPadBlock": "Block must not be padded by blank lines."
-        }
+        ]
       }
     },
     "padding-line-between-statements": {
@@ -16406,10 +15790,6 @@ eslintRules = {
             ]
           },
           "additionalItems": false
-        },
-        "messages": {
-          "unexpectedBlankLine": "Unexpected blank line before this statement.",
-          "expectedBlankLine": "Expected blank line before this statement."
         }
       }
     },
@@ -16438,10 +15818,7 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "code",
-        "messages": {
-          "preferArrowCallback": "Unexpected function expression."
-        }
+        "fixable": "code"
       }
     },
     "prefer-const": {
@@ -16544,10 +15921,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "preferDestructuring": "Use {{type}} destructuring."
-        }
+        ]
       }
     },
     "prefer-exponentiation-operator": {
@@ -16635,10 +16009,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "rejectAnError": "Expected the Promise rejection reason to be an Error."
-        }
+        ]
       }
     },
     "prefer-reflect": {
@@ -16677,10 +16048,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "preferReflect": "Avoid using {{existing}}, instead use {{substitute}}."
-        }
+        ]
       }
     },
     "prefer-regex-literals": {
@@ -16692,22 +16060,9 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/prefer-regex-literals"
         },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "disallowRedundantWrapping": {
-                "type": "boolean",
-                "default": false
-              }
-            },
-            "additionalProperties": false
-          }
-        ],
+        "schema": [],
         "messages": {
-          "unexpectedRegExp": "Use a regular expression literal instead of the 'RegExp' constructor.",
-          "unexpectedRedundantRegExp": "Regular expression literal is unnecessarily wrapped within a 'RegExp' constructor.",
-          "unexpectedRedundantRegExpWithFlags": "Use regular expression literal with flags instead of the 'RegExp' constructor."
+          "unexpectedRegExp": "Use a regular expression literal instead of the 'RegExp' constructor."
         }
       }
     },
@@ -16720,10 +16075,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/prefer-rest-params"
         },
-        "schema": [],
-        "messages": {
-          "preferRestParams": "Use the rest parameters instead of 'arguments'."
-        }
+        "schema": []
       }
     },
     "prefer-spread": {
@@ -16736,10 +16088,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/prefer-spread"
         },
         "schema": [],
-        "fixable": null,
-        "messages": {
-          "preferSpread": "Use the spread operator instead of '.apply()'."
-        }
+        "fixable": null
       }
     },
     "prefer-template": {
@@ -16752,10 +16101,7 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/prefer-template"
         },
         "schema": [],
-        "fixable": "code",
-        "messages": {
-          "unexpectedStringConcatenation": "Unexpected string concatenation."
-        }
+        "fixable": "code"
       }
     },
     "quote-props": {
@@ -16816,16 +16162,7 @@ eslintRules = {
             }
           ]
         },
-        "fixable": "code",
-        "messages": {
-          "requireQuotesDueToReservedWord": "Properties should be quoted as '{{property}}' is a reserved word.",
-          "inconsistentlyQuotedProperty": "Inconsistently quoted property '{{key}}' found.",
-          "unnecessarilyQuotedProperty": "Unnecessarily quoted property '{{property}}' found.",
-          "unquotedReservedProperty": "Unquoted reserved word '{{property}}' used as key.",
-          "unquotedNumericProperty": "Unquoted number literal '{{property}}' used as key.",
-          "unquotedPropertyFound": "Unquoted property '{{property}}' found.",
-          "redundantQuoting": "Properties shouldn't be quoted as all quotes are redundant."
-        }
+        "fixable": "code"
       }
     },
     "quotes": {
@@ -16867,10 +16204,7 @@ eslintRules = {
               }
             ]
           }
-        ],
-        "messages": {
-          "wrongQuotes": "Strings must use {{description}}."
-        }
+        ]
       }
     },
     "radix": {
@@ -16889,13 +16223,7 @@ eslintRules = {
               "as-needed"
             ]
           }
-        ],
-        "messages": {
-          "missingParameters": "Missing parameters.",
-          "redundantRadix": "Redundant radix parameter.",
-          "missingRadix": "Missing radix parameter.",
-          "invalidRadix": "Invalid radix parameter, must be an integer between 2 and 36."
-        }
+        ]
       }
     },
     "require-atomic-updates": {
@@ -16923,10 +16251,7 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/require-await"
         },
-        "schema": [],
-        "messages": {
-          "missingAwait": "{{name}} has no 'await' expression."
-        }
+        "schema": []
       }
     },
     "require-jsdoc": {
@@ -16974,10 +16299,7 @@ eslintRules = {
           }
         ],
         "deprecated": true,
-        "replacedBy": [],
-        "messages": {
-          "missingJSDocComment": "Missing JSDoc comment."
-        }
+        "replacedBy": []
       }
     },
     "require-unicode-regexp": {
@@ -17004,10 +16326,7 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/require-yield"
         },
-        "schema": [],
-        "messages": {
-          "missingYield": "This generator function does not have 'yield'."
-        }
+        "schema": []
       }
     },
     "rest-spread-spacing": {
@@ -17027,11 +16346,7 @@ eslintRules = {
               "never"
             ]
           }
-        ],
-        "messages": {
-          "unexpectedWhitespace": "Unexpected whitespace after {{type}} operator.",
-          "expectedWhitespace": "Expected whitespace after {{type}} operator."
-        }
+        ]
       }
     },
     "semi": {
@@ -17093,10 +16408,6 @@ eslintRules = {
               "maxItems": 2
             }
           ]
-        },
-        "messages": {
-          "missingSemi": "Missing semicolon.",
-          "extraSemi": "Extra semicolon."
         }
       }
     },
@@ -17125,13 +16436,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedWhitespaceBefore": "Unexpected whitespace before semicolon.",
-          "unexpectedWhitespaceAfter": "Unexpected whitespace after semicolon.",
-          "missingWhitespaceBefore": "Missing whitespace before semicolon.",
-          "missingWhitespaceAfter": "Missing whitespace after semicolon."
-        }
+        ]
       }
     },
     "semi-style": {
@@ -17151,10 +16456,7 @@ eslintRules = {
             ]
           }
         ],
-        "fixable": "whitespace",
-        "messages": {
-          "expectedSemiColon": "Expected this semicolon to be at {{pos}}."
-        }
+        "fixable": "whitespace"
       }
     },
     "sort-imports": {
@@ -17195,21 +16497,12 @@ eslintRules = {
               "ignoreMemberSort": {
                 "type": "boolean",
                 "default": false
-              },
-              "allowSeparatedGroups": {
-                "type": "boolean",
-                "default": false
               }
             },
             "additionalProperties": false
           }
         ],
-        "fixable": "code",
-        "messages": {
-          "sortImportsAlphabetically": "Imports should be sorted alphabetically.",
-          "sortMembersAlphabetically": "Member '{{memberName}}' of the import declaration should be sorted alphabetically.",
-          "unexpectedSyntaxOrder": "Expected '{{syntaxA}}' syntax before '{{syntaxB}}' syntax."
-        }
+        "fixable": "code"
       }
     },
     "sort-keys": {
@@ -17247,10 +16540,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "sortKeys": "Expected object keys to be in {{natural}}{{insensitive}}{{order}}ending order. '{{thisName}}' should be before '{{prevName}}'."
-        }
+        ]
       }
     },
     "sort-vars": {
@@ -17274,10 +16564,7 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "code",
-        "messages": {
-          "sortVars": "Variables within the same declaration block should be sorted alphabetically."
-        }
+        "fixable": "code"
       }
     },
     "space-before-blocks": {
@@ -17328,11 +16615,7 @@ eslintRules = {
               }
             ]
           }
-        ],
-        "messages": {
-          "unexpectedSpace": "Unexpected space before opening brace.",
-          "missingSpace": "Missing space before opening brace."
-        }
+        ]
       }
     },
     "space-before-function-paren": {
@@ -17383,11 +16666,7 @@ eslintRules = {
               }
             ]
           }
-        ],
-        "messages": {
-          "unexpectedSpace": "Unexpected space before function parentheses.",
-          "missingSpace": "Missing space before function parentheses."
-        }
+        ]
       }
     },
     "space-in-parens": {
@@ -17455,10 +16734,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "missingSpace": "Operator '{{operator}}' must be spaced."
-        }
+        ]
       }
     },
     "space-unary-ops": {
@@ -17578,15 +16854,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "unexpectedSpaceAfterMarker": "Unexpected space or tab after marker ({{refChar}}) in comment.",
-          "expectedExceptionAfter": "Expected exception block, space or tab after '{{refChar}}' in comment.",
-          "unexpectedSpaceBefore": "Unexpected space or tab before '*/' in comment.",
-          "unexpectedSpaceAfter": "Unexpected space or tab after '{{refChar}}' in comment.",
-          "expectedSpaceBefore": "Expected space or tab before '*/' in comment.",
-          "expectedSpaceAfter": "Expected space or tab after '{{refChar}}' in comment."
-        }
+        ]
       }
     },
     "strict": {
@@ -17762,7 +17030,7 @@ eslintRules = {
             "properties": {
               "enforceForSwitchCase": {
                 "type": "boolean",
-                "default": true
+                "default": false
               },
               "enforceForIndexOf": {
                 "type": "boolean",
@@ -24535,8 +23803,7 @@ eslintRules = {
           "unicorn/versionMatches": "There is a TODO match for package version: {{comparison}}. {{message}}",
           "unicorn/engineMatches": "There is a TODO match for Node.js version: {{comparison}}. {{message}}",
           "unicorn/removeWhitespaces": "Avoid using whitespaces on TODO argument. On '{{original}}' use '{{fix}}'. {{message}}",
-          "unicorn/missingAtSymbol": "Missing '@' on TODO argument. On '{{original}}' use '{{fix}}'. {{message}}",
-          "unexpectedComment": "Unexpected '{{matchedTerm}}' comment: '{{comment}}'."
+          "unicorn/missingAtSymbol": "Missing '@' on TODO argument. On '{{original}}' use '{{fix}}'. {{message}}"
         },
         "schema": [
           {
@@ -25551,10 +24818,6 @@ eslintRules = {
                 "default": false
               },
               "ignoreImports": {
-                "type": "boolean",
-                "default": false
-              },
-              "ignoreGlobals": {
                 "type": "boolean",
                 "default": false
               },
@@ -27881,9 +27144,6 @@ eslintRules = {
           },
           "uniqueItems": true,
           "minItems": 0
-        },
-        "messages": {
-          "restrictedSyntax": "{{message}}"
         }
       }
     },
@@ -28118,13 +27378,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "requireSpaceBefore": "A space is required before '{{token}}'.",
-          "requireSpaceAfter": "A space is required after '{{token}}'.",
-          "unexpectedSpaceBefore": "There should be no space before '{{token}}'.",
-          "unexpectedSpaceAfter": "There should be no space after '{{token}}'."
-        }
+        ]
       }
     },
     "vue/order-in-components": {
@@ -28487,10 +27741,7 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ],
-        "messages": {
-          "missingSpace": "Operator '{{operator}}' must be spaced."
-        }
+        ]
       }
     },
     "vue/space-unary-ops": {
