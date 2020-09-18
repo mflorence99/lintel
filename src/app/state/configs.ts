@@ -207,7 +207,7 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       replacement = this.ctx.getState()[fileName].overrides[ix].rules[ruleName];
     }
     // patch in the same changes to the source file
-    // NOTE: wse have resolved rule changes to a full replacement
+    // NOTE: we have resolved rule changes to a full replacement
     this.files.changeRule({ fileName, ix, ruleName, replacement });
   }
 

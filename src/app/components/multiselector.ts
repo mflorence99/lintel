@@ -95,6 +95,7 @@ export class MultiselectorComponent implements ControlValueAccessor, OnInit {
       );
       const checkboxes = this.multiSelectorForm.controls
         .checkboxes as FormArray;
+      checkboxes.clear();
       this.controls.forEach((control) => checkboxes.push(control));
       this.underConstruction = false;
     }

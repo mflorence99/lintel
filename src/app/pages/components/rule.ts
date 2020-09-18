@@ -113,8 +113,6 @@ export class RuleComponent implements OnInit {
   ngOnInit(): void {
     this.handleActions$();
     this.handleValueChanges$();
-    this.rebuildControls();
-    this.rebuildLevel();
   }
 
   /** Open URL */
@@ -125,22 +123,9 @@ export class RuleComponent implements OnInit {
   // private methods
 
   private handleActions$(): void {
-    this.actions$
-      .pipe(
-        filter(({ action, status }) => {
-          return (
-            (this.utils.hasProperty(action, /^FilterState\./) ||
-              this.utils.hasProperty(action, /^SelectionState\./)) &&
-            status === 'SUCCESSFUL'
-          );
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.rebuildControls();
-        this.rebuildLevel();
-        this.cdf.markForCheck();
-      });
+    this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      // this.cdf.markForCheck();
+    });
   }
 
   private handleValueChanges$(): void {
@@ -184,6 +169,7 @@ export class RuleComponent implements OnInit {
       });
       const elements = this.ruleForm.controls.root['controls']
         .elements as FormArray;
+      elements.clear();
       this.controls.forEach((control) => elements.push(control));
       this.underConstruction = false;
     }

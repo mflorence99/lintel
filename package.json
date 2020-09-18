@@ -42,12 +42,12 @@
     "js-yaml": "^3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1001.1",
+    "@angular-devkit/build-angular": "^0.1001.2",
     "@angular-eslint/builder": "0.3.0-beta.1",
     "@angular-eslint/eslint-plugin": "0.3.0-beta.1",
     "@angular-eslint/schematics": "0.3.0-beta.1",
     "@angular-eslint/template-parser": "0.3.0-beta.1",
-    "@angular/cdk": "^10.2.1",
+    "@angular/cdk": "^10",
     "@angular/cli": "^10",
     "@angular/common": "^10",
     "@angular/compiler": "^10",
@@ -99,7 +99,7 @@
     "jest-preset-angular": "^8",
     "marked": "^1.1.1",
     "ngx-contextmenu": "^5.4.0",
-    "prettier": "^2.1.1",
+    "prettier": "^2",
     "prettier-plugin-package": "^1.0.0",
     "rfdc": "^1.1.4",
     "rimraf": "^3.0.2",

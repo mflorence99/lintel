@@ -68,7 +68,7 @@ export class FilterComponent implements OnInit {
 
   private handleActions$(): void {
     this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.cdf.markForCheck();
+      // this.cdf.markForCheck();
     });
   }
 

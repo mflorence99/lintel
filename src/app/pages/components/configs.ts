@@ -89,9 +89,14 @@ export class ConfigsComponent implements OnInit {
         overrideFiles: ix != null ? this.configs.overrides[ix].files : null
       });
       // disable app when override selected that's not ours
-      if (this.configs.isOverrideInherited(ix))
-        this.lintel.enable({ enabled: false, message: this.disabledMessage() });
-      else this.lintel.enable({ enabled: true, message: null });
+      if (this.configs.isOverrideInherited(ix)) {
+        if (this.lintel.isEnabled)
+          this.lintel.enable({
+            enabled: false,
+            message: this.disabledMessage()
+          });
+      } else if (!this.lintel.isEnabled)
+        this.lintel.enable({ enabled: true, message: null });
       return true;
     } else return false;
   }
