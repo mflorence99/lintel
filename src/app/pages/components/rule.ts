@@ -6,12 +6,9 @@ import { RulesState } from '../../state/rules';
 import { SchemaDigest } from '../../state/rules';
 import { SelectionState } from '../../state/selection';
 import { Settings } from '../../state/configs';
-import { Utils } from '../../services/utils';
 
 import { AbstractControl } from '@angular/forms';
-import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -68,15 +65,12 @@ export class RuleComponent implements OnInit {
 
   /** ctor */
   constructor(
-    private actions$: Actions,
-    private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private destroy$: DestroyService,
     private formBuilder: FormBuilder,
     public lintel: LintelState,
     public rules: RulesState,
-    public selection: SelectionState,
-    private utils: Utils
+    public selection: SelectionState
   ) {
     this.ruleForm = this.formBuilder.group({
       level: null,
@@ -111,7 +105,6 @@ export class RuleComponent implements OnInit {
 
   /** When we're ready */
   ngOnInit(): void {
-    this.handleActions$();
     this.handleValueChanges$();
   }
 
@@ -121,12 +114,6 @@ export class RuleComponent implements OnInit {
   }
 
   // private methods
-
-  private handleActions$(): void {
-    this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      // this.cdf.markForCheck();
-    });
-  }
 
   private handleValueChanges$(): void {
     this.ruleForm.valueChanges

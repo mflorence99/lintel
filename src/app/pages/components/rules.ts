@@ -1,5 +1,4 @@
 import { ConfigsState } from '../../state/configs';
-import { DestroyService } from '../../services/destroy';
 import { LintelState } from '../../state/lintel';
 import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
@@ -8,17 +7,12 @@ import { Settings } from '../../state/configs';
 import { Utils } from '../../services/utils';
 import { View } from '../../state/configs';
 
-import { Actions } from '@ngxs/store';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { ContextMenuService } from 'ngx-contextmenu';
 import { Input } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
-
-import { takeUntil } from 'rxjs/operators';
 
 declare const lintelVSCodeAPI;
 
@@ -28,12 +22,11 @@ declare const lintelVSCodeAPI;
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyService],
   selector: 'lintel-rules',
   templateUrl: 'rules.html',
   styleUrls: ['rules.scss']
 })
-export class RulesComponent implements OnInit {
+export class RulesComponent {
   @ViewChild(ContextMenuComponent, { static: true })
   contextMenu: ContextMenuComponent;
 
@@ -41,11 +34,8 @@ export class RulesComponent implements OnInit {
 
   /** ctor */
   constructor(
-    private actions$: Actions,
-    private cdf: ChangeDetectorRef,
     public configs: ConfigsState,
     private contextMenuService: ContextMenuService,
-    private destroy$: DestroyService,
     public lintel: LintelState,
     public rules: RulesState,
     public selection: SelectionState,
@@ -87,11 +77,6 @@ export class RulesComponent implements OnInit {
     return ruleDigest.defined;
   }
 
-  /** When we're ready */
-  ngOnInit(): void {
-    this.handleActions$();
-  }
-
   /** Show the context menu manually (on left click) */
   showContextMenu(event: MouseEvent, ruleDigest: RuleDigest): void {
     // @see https://www.npmjs.com/package/ngx-contextmenu
@@ -103,13 +88,5 @@ export class RulesComponent implements OnInit {
   /** Track ngFor by rule name */
   trackByRule(_, item): string {
     return item.key;
-  }
-
-  // private methods
-
-  private handleActions$(): void {
-    this.actions$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      // this.cdf.markForCheck();
-    });
   }
 }
