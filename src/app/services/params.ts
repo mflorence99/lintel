@@ -10,6 +10,10 @@ export class Params {
   catchAllCategory = 'Other Rules';
   debounceTimeout = 2500;
   generalSettings = 'ESLint Config';
+  intersection = {
+    rootMargin: '24px',
+    threshold: 0
+  };
   maxNumTabs = 7;
   searchParams = {
     freshStart: false

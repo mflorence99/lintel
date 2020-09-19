@@ -18,7 +18,7 @@
   </article>
 </ng-template>
 
-<article *ngIf="ruleDigest.description" class="description">
+<article *ngIf="isHydrated && ruleDigest.description" class="description">
   <span [innerHTML]="ruleDigest.description | lintelMarked "> </span>
 
   <b *ngIf="ruleDigest.deprecated">
@@ -29,7 +29,7 @@
   </b>
 </article>
 
-<article [formGroup]="ruleForm" class="settings">
+<article [formGroup]="ruleForm" *ngIf="isHydrated" class="settings">
   <lintel-singleselector
     [enabled]="lintel.isEnabled"
     [options]="['off', 'warn', 'error']"

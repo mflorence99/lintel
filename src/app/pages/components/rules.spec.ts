@@ -20,6 +20,11 @@ describe('RulesComponent', () => {
     component = fixture.componentInstance;
   });
 
+  test('canCopyRule', () => {
+    expect(component.canCopyRule({ defined: true } as RuleDigest)).toBeTrue();
+    expect(component.canCopyRule({ defined: false } as RuleDigest)).toBeFalse();
+  });
+
   test('canExportRule - in config', () => {
     component.selection.select({
       fileName: '/home/mflorence99/lintel/package.json',
@@ -66,13 +71,6 @@ describe('RulesComponent', () => {
     expect(calls.length).toBeGreaterThanOrEqual(1);
     const message = calls[calls.length - 1][0];
     expect(message.command).toEqual('clipboardCopy');
-  });
-
-  test('isRuleDefined', () => {
-    expect(component.isRuleDefined({ defined: true } as RuleDigest)).toBeTrue();
-    expect(
-      component.isRuleDefined({ defined: false } as RuleDigest)
-    ).toBeFalse();
   });
 
   test('trackByRule', () => {

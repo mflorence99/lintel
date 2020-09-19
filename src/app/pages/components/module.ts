@@ -8,7 +8,6 @@ import { ParserOptionsComponent } from './parser-options';
 import { PipesModule } from '../../pipes/module';
 import { RuleComponent } from './rule';
 import { RulesComponent } from './rules';
-import { ScrollerComponent } from './scroller';
 import { TabsComponent } from './tabs';
 
 import { NgModule } from '@angular/core';
@@ -25,7 +24,6 @@ const COMPONENTS = [
   ParserOptionsComponent,
   RuleComponent,
   RulesComponent,
-  ScrollerComponent,
   TabsComponent
 ];
 

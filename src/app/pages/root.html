@@ -7,32 +7,21 @@
         <lintel-general
           *ngSwitchCase="params.generalSettings"
           class="general settings"
+          id="theScroller"
         >
         </lintel-general>
 
-        <div *ngSwitchDefault class="rules settings">
+        <div *ngSwitchDefault class="rule settings">
           <lintel-filter class="filter"> </lintel-filter>
 
           <lintel-tabs class="tabs"> </lintel-tabs>
 
-          <lintel-scroller
-            [ngSwitch]="selection.category"
-            class="rules"
-            id="theScroller"
-            lintelHydrator
-          >
+          <section class="rules" id="theScroller">
             <lintel-rules
-              [view]="configs.activeView"
-              *ngSwitchCase="params.activeCategory"
+              [view]="(selection.category === params.activeCategory)? configs.activeView : configs.categoryView[selection.category]"
             >
             </lintel-rules>
-
-            <lintel-rules
-              [view]="configs.categoryView[selection.category]"
-              *ngSwitchDefault
-            >
-            </lintel-rules>
-          </lintel-scroller>
+          </section>
         </div>
       </ng-container>
     </ng-container>

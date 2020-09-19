@@ -37,6 +37,8 @@ declare const lintelVSCodeAPI;
 export class RuleComponent implements OnInit {
   controls: AbstractControl[] = [];
 
+  @Input() isHydrated: boolean;
+
   ruleForm: FormGroup;
 
   @Input()

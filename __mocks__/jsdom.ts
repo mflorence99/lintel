@@ -23,3 +23,11 @@ Object.defineProperty(Element.prototype, 'scrollTo', {
 });
 
 Object.defineProperty(window, 'CSS', { value: null });
+
+Object.defineProperty(window, 'IntersectionObserver', {
+  value: class {
+    disconnect(): any {}
+    observe(): any {}
+    unobserve(): any {}
+  }
+});

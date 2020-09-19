@@ -25,7 +25,7 @@
             [contextMenu]="contextMenu"
             [contextMenuSubject]="ruleDigest"
             [icon]="['fas', 'cog']"
-            *ngIf="isRuleDefined(ruleDigest) || canExportRule(ruleDigest)"
+            *ngIf="canCopyRule(ruleDigest) || canExportRule(ruleDigest)"
           >
           </fa-icon>
         </div>
@@ -34,9 +34,11 @@
       <lintel-rule
         (mouseout)="tools.style.opacity = 0"
         (mouseover)="tools.style.opacity = 1"
+        [id]="ruleDigest.ruleName"
+        [isHydrated]="isRuleHydrated(ruleDigest)"
         [ruleDigest]="ruleDigest"
         [schemaDigest]="rules.makeSchemaDigest(item.key, item.value[0])"
-        #rule
+        class="rule"
       >
       </lintel-rule>
 
@@ -57,7 +59,7 @@
   <ng-template
     contextMenuItem
     (execute)="execute($event.item, 'delete')"
-    [enabled]="isRuleDefined.bind(this) && lintel.isEnabled"
+    [enabled]="canCopyRule.bind(this)"
   >
     <p>Remove this rule</p>
   </ng-template>

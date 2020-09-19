@@ -1,5 +1,6 @@
 import { ConfigsState } from '../../state/configs';
 import { LintelState } from '../../state/lintel';
+import { Params } from '../../services/params';
 import { RuleDigest } from '../../state/configs';
 import { RulesState } from '../../state/rules';
 import { SelectionState } from '../../state/selection';
@@ -7,11 +8,16 @@ import { Settings } from '../../state/configs';
 import { Utils } from '../../services/utils';
 import { View } from '../../state/configs';
 
+import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Component } from '@angular/core';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { ContextMenuService } from 'ngx-contextmenu';
+import { ElementRef } from '@angular/core';
 import { Input } from '@angular/core';
+import { OnDestroy } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 declare const lintelVSCodeAPI;
@@ -26,21 +32,44 @@ declare const lintelVSCodeAPI;
   templateUrl: 'rules.html',
   styleUrls: ['rules.scss']
 })
-export class RulesComponent {
+export class RulesComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild(ContextMenuComponent, { static: true })
   contextMenu: ContextMenuComponent;
 
-  @Input() view: View;
+  @Input()
+  get view(): View {
+    return this._view;
+  }
+  set view(view: View) {
+    this.unobserveRules();
+    this.hydratedRules = new Set<string>();
+    this.observedRules = new Set<string>();
+    this.utils.nextTick(() => this.observeRules());
+    this._view = view;
+  }
+
+  private _view: View;
+  private hydratedRules = new Set<string>();
+  private intersectionObserver: IntersectionObserver;
+  private observedRules = new Set<string>();
 
   /** ctor */
   constructor(
+    private cdf: ChangeDetectorRef,
+    private host: ElementRef,
     public configs: ConfigsState,
     private contextMenuService: ContextMenuService,
     public lintel: LintelState,
+    public params: Params,
     public rules: RulesState,
     public selection: SelectionState,
     public utils: Utils
   ) {}
+
+  /** Can we copy this rule? */
+  canCopyRule(ruleDigest: RuleDigest): boolean {
+    return ruleDigest.defined && this.lintel.isEnabled;
+  }
 
   /**  Can we export this rule? */
   canExportRule(ruleDigest: RuleDigest): boolean {
@@ -72,9 +101,24 @@ export class RulesComponent {
     }
   }
 
-  /** Is this rule defined? */
-  isRuleDefined(ruleDigest: RuleDigest): boolean {
-    return ruleDigest.defined;
+  /** Is the nominated rul hydrated? */
+  isRuleHydrated(ruleDigest: RuleDigest): boolean {
+    return this.hydratedRules.has(ruleDigest.ruleName);
+  }
+
+  /** When the view is complete */
+  ngAfterViewInit(): void {
+    this.observeRules();
+  }
+
+  /** When we're done */
+  ngOnDestroy(): void {
+    this.intersectionObserver?.disconnect();
+  }
+
+  /** When we're ready */
+  ngOnInit(): void {
+    this.observeIntersection();
   }
 
   /** Show the context menu manually (on left click) */
@@ -88,5 +132,64 @@ export class RulesComponent {
   /** Track ngFor by rule name */
   trackByRule(_, item): string {
     return item.key;
+  }
+
+  // private methods
+
+  private observeIntersection(): void {
+    const cb = this.observeIntersectionImpl.bind(this);
+    this.intersectionObserver = new IntersectionObserver(cb, {
+      root: document.querySelector('#theScroller'),
+      rootMargin: this.params.intersection.rootMargin,
+      threshold: this.params.intersection.threshold
+    });
+  }
+
+  private observeIntersectionImpl(entries: IntersectionObserverEntry[]): void {
+    entries.forEach((entry) => {
+      const rule = entry.target as HTMLElement;
+      const isNow = entry.isIntersecting;
+      const was = rule.classList.contains('hydrated');
+      if (was !== isNow) {
+        const colorize = (color: string): string => {
+          return `background-color: ${color}; color: white; font-weight: bold; padding: 4px`;
+        };
+        // log when hydration state changes
+        if (isNow) console.log('%cHydrate', colorize('#1b5e20'), rule.id);
+        else console.log('%cDehydrate', colorize('#b71c1c'), rule.id);
+      }
+      // make sure hydrated rows are  marked
+      if (was) {
+        rule.classList.remove('hydrated');
+        this.hydratedRules.delete(rule.id);
+      }
+      if (isNow) {
+        rule.classList.add('hydrated');
+        this.hydratedRules.add(rule.id);
+      }
+    });
+    this.cdf.markForCheck();
+  }
+
+  private observeRules(): void {
+    const newObservedRules = new Set<string>();
+    const rules = Array.from(
+      this.host.nativeElement.querySelectorAll('lintel-rule')
+    );
+    rules.forEach((rule: HTMLElement) => {
+      newObservedRules.add(rule.id);
+      if (!this.observedRules.has(rule.id))
+        this.intersectionObserver.observe(rule);
+    });
+    this.observedRules = newObservedRules;
+  }
+
+  private unobserveRules(): void {
+    const rules = Array.from(
+      this.host.nativeElement.querySelectorAll('lintel-rule')
+    );
+    rules.forEach((rule: HTMLElement) =>
+      this.intersectionObserver.unobserve(rule)
+    );
   }
 }
