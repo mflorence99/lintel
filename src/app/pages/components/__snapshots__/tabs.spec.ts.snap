@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabsComponent snapshot 1`] = `
+<lintel-tabs
+  __ngContext__={[Function LRootView]}
+  actions$={[Function Actions]}
+  cdf={[Function ViewRef]}
+  configs={[Function ConfigsState]}
+  destroy$={[Function DestroyService]}
+  filter={[Function FilterState]}
+  params={[Function Params]}
+  selection={[Function SelectionState]}
+  utils={[Function Utils]}
+>
+  <menu
+    class="tabs"
+  >
+    <li
+      class="tab selected"
+    >
+       eslint 
+    </li>
+    <li
+      class="tab"
+    >
+       @angular-eslint 
+    </li>
+    <li
+      class="tab"
+    >
+       @typescript-eslint 
+    </li>
+    <li
+      class="tab"
+    >
+       compat 
+    </li>
+    <li
+      class="tab"
+    >
+       import-splitnsort 
+    </li>
+    <li
+      class="tab"
+    >
+       jest 
+    </li>
+    <li
+      class="tab"
+    >
+       lodash-fp 
+    </li>
+    
+  </menu><lintel-singleselector
+    class="more"
+    placeholder="More..."
+  >
+    <select
+      autocomplete="off"
+      tabindex="0"
+    >
+      <option
+        value="null"
+      >
+        More...
+      </option>
+      
+      <option
+        value="node"
+      >
+         node 
+      </option>
+      <option
+        value="react"
+      >
+         react 
+      </option>
+      <option
+        value="react-hooks"
+      >
+         react-hooks 
+      </option>
+      <option
+        value="react-redux"
+      >
+         react-redux 
+      </option>
+      <option
+        value="sonarjs"
+      >
+         sonarjs 
+      </option>
+      <option
+        value="unicorn"
+      >
+         unicorn 
+      </option>
+      <option
+        value="vue"
+      >
+         vue 
+      </option>
+      <option
+        value="unknown"
+      >
+         unknown 
+      </option>
+      
+    </select>
+  </lintel-singleselector>
+</lintel-tabs>
+`;

@@ -1,4 +1,5 @@
 import { ConfigsState } from '../../state/configs';
+import { DestroyService } from '../../services/destroy';
 import { LintelState } from '../../state/lintel';
 import { Params } from '../../services/params';
 import { RuleDigest } from '../../state/configs';
@@ -8,6 +9,7 @@ import { Settings } from '../../state/configs';
 import { Utils } from '../../services/utils';
 import { View } from '../../state/configs';
 
+import { Actions } from '@ngxs/store';
 import { AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
@@ -20,6 +22,10 @@ import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
+import { delay } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+
 declare const lintelVSCodeAPI;
 
 /**
@@ -28,6 +34,7 @@ declare const lintelVSCodeAPI;
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DestroyService],
   selector: 'lintel-rules',
   templateUrl: 'rules.html',
   styleUrls: ['rules.scss']
@@ -36,29 +43,20 @@ export class RulesComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild(ContextMenuComponent, { static: true })
   contextMenu: ContextMenuComponent;
 
-  @Input()
-  get view(): View {
-    return this._view;
-  }
-  set view(view: View) {
-    this.unobserveRules();
-    this.hydratedRules = new Set<string>();
-    this.observedRules = new Set<string>();
-    this.utils.nextTick(() => this.observeRules());
-    this._view = view;
-  }
+  @Input() view: View;
 
-  private _view: View;
   private hydratedRules = new Set<string>();
   private intersectionObserver: IntersectionObserver;
   private observedRules = new Set<string>();
 
   /** ctor */
   constructor(
+    private actions$: Actions,
     private cdf: ChangeDetectorRef,
     private host: ElementRef,
     public configs: ConfigsState,
     private contextMenuService: ContextMenuService,
+    private destroy$: DestroyService,
     public lintel: LintelState,
     public params: Params,
     public rules: RulesState,
@@ -118,6 +116,7 @@ export class RulesComponent implements AfterViewInit, OnDestroy, OnInit {
 
   /** When we're ready */
   ngOnInit(): void {
+    this.handleActions$();
     this.observeIntersection();
   }
 
@@ -135,6 +134,28 @@ export class RulesComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   // private methods
+
+  private handleActions$(): void {
+    this.actions$
+      .pipe(
+        filter(({ action, status }) => {
+          return (
+            (this.utils.hasProperty(action, /^FilterState\./) ||
+              this.utils.hasProperty(action, /^SelectionState\./)) &&
+            status === 'SUCCESSFUL'
+          );
+        }),
+        // NOTE: the delay allows us to wait until we've redrawn
+        // with the new rules
+        delay(0),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(({ action }) => {
+        if (this.utils.hasProperty(action, /^SelectionState\./))
+          this.unobserveRules();
+        this.observeRules();
+      });
+  }
 
   private observeIntersection(): void {
     const cb = this.observeIntersectionImpl.bind(this);
@@ -191,5 +212,7 @@ export class RulesComponent implements AfterViewInit, OnDestroy, OnInit {
     rules.forEach((rule: HTMLElement) =>
       this.intersectionObserver.unobserve(rule)
     );
+    this.hydratedRules = new Set<string>();
+    this.observedRules = new Set<string>();
   }
 }

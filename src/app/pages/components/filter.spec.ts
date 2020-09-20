@@ -36,4 +36,15 @@ describe('FilterComponent', () => {
     component.toggleInheritedRules();
     expect(component.filter.snapshot.showInheritedRules).toBeFalse();
   });
+
+  test('snapshot', () => {
+    component.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: component.params.basePluginName,
+      category: component.params.activeCategory,
+      override: null
+    });
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 });

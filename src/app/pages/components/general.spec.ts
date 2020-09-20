@@ -119,4 +119,12 @@ describe('GeneralComponent', () => {
     component.generalForm.patchValue({ plugins: changes });
     expect(component.configs.configuration.plugins).toEqual(changes);
   });
+
+  test('snapshot', () => {
+    component.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json'
+    });
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 });

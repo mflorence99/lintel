@@ -16,7 +16,7 @@
       <aside
         (mouseout)="tools.style.opacity = 0"
         (mouseover)="tools.style.opacity = 1"
-        [ngClass]="{active: !!ruleDigest.settings, inherited: ruleDigest.inherited, unknown: !ruleDigest.rule}"
+        [ngClass]="{active: !!ruleDigest.settings, hydrated: isRuleHydrated(ruleDigest), inherited: ruleDigest.inherited, unknown: !ruleDigest.rule}"
         class="gutter"
       >
         <div #tools class="tools">

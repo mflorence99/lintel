@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ParserOptionsComponent snapshot 1`] = `
+<lintel-parser-options
+  __ngContext__={[Function LRootView]}
+  actions$={[Function Actions]}
+  cdf={[Function ViewRef]}
+  configs={[Function ConfigsState]}
+  destroy$={[Function DestroyService]}
+  extensions={[Function ExtensionsState]}
+  formBuilder={[Function FormBuilder]}
+  lintel={[Function LintelState]}
+  parserOptionsForm={[Function FormGroup]}
+  schema={[Function SchemaState]}
+  selection={[Function SelectionState]}
+  underConstruction={[Function Boolean]}
+  utils={[Function Utils]}
+>
+  <article
+    class="parserOptions ng-untouched ng-pristine ng-valid"
+  >
+    <div
+      class="option"
+    >
+      <p
+        class="tag"
+      >
+        .ecmaVersion
+      </p>
+      <lintel-singleselector
+        class="ng-untouched ng-pristine ng-valid"
+        formcontrolname="ecmaVersion"
+      >
+        <select
+          autocomplete="off"
+          tabindex="0"
+        >
+          <option
+            value="null"
+          >
+            2020
+          </option>
+          
+          <option
+            value="3"
+          >
+             3 
+          </option>
+          <option
+            value="5"
+          >
+             5 
+          </option>
+          <option
+            value="6"
+          >
+             6 
+          </option>
+          <option
+            value="2015"
+          >
+             2015 
+          </option>
+          <option
+            value="7"
+          >
+             7 
+          </option>
+          <option
+            value="2016"
+          >
+             2016 
+          </option>
+          <option
+            value="8"
+          >
+             8 
+          </option>
+          <option
+            value="2017"
+          >
+             2017 
+          </option>
+          <option
+            value="9"
+          >
+             9 
+          </option>
+          <option
+            selected="true"
+            value="2018"
+          >
+             2018 
+          </option>
+          <option
+            value="10"
+          >
+             10 
+          </option>
+          <option
+            value="2019"
+          >
+             2019 
+          </option>
+          <option
+            value="11"
+          >
+             11 
+          </option>
+          <option
+            value="2020"
+          >
+             2020 
+          </option>
+          
+        </select>
+      </lintel-singleselector>
+      <p
+        class="desc"
+      >
+         Set to 3, 5 (default), 6, 7, 8, 9, 10 or 11 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), 2019 (same as 10) or 2020 (same as 11) to use the year-based naming. 
+      </p>
+    </div>
+    <div
+      class="option"
+    >
+      <p
+        class="tag"
+      >
+        .sourceType
+      </p>
+      <lintel-singleselector
+        class="ng-untouched ng-pristine ng-valid"
+        formcontrolname="sourceType"
+      >
+        <select
+          autocomplete="off"
+          tabindex="0"
+        >
+          <option
+            value="null"
+          >
+            module
+          </option>
+          
+          <option
+            value="script"
+          >
+             script 
+          </option>
+          <option
+            selected="true"
+            value="module"
+          >
+             module 
+          </option>
+          
+        </select>
+      </lintel-singleselector>
+      <p
+        class="desc"
+      >
+         Set to "script" (default) or "module" if your code is in ECMAScript modules. 
+      </p>
+    </div>
+  </article>
+</lintel-parser-options>
+`;

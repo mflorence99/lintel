@@ -78,4 +78,16 @@ describe('RulesComponent', () => {
       'brace-style'
     );
   });
+
+  test('snapshot', () => {
+    component.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: component.params.basePluginName,
+      category: component.params.activeCategory,
+      override: null
+    });
+    component.view = component.configs.activeView;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 });

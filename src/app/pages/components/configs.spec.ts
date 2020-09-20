@@ -118,4 +118,15 @@ describe('ConfigsComponent', () => {
       component.shortenFileName('/home/mflorence99/lintel/package.json')
     ).toBe('lintel/\u200bpackage.json');
   });
+
+  test('snapshot', () => {
+    component.selection.select({
+      fileName: '/home/mflorence99/lintel/package.json',
+      pluginName: component.params.basePluginName,
+      category: component.params.activeCategory,
+      override: null
+    });
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 });

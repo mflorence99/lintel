@@ -10,10 +10,19 @@
   border-right: 2px solid transparent;
   display: flex;
   justify-content: center;
+  // NOTE: just a guess at the "normal" hydrated height so the
+  // scrollbar doesn't look too weird during hydration
+
+  min-height: 4rem;
   padding: 2px;
+  visibility: hidden;
 
   &.active {
     border-right-color: var(--vscode-editorGutter-modifiedBackground);
+  }
+
+  &.hydrated {
+    visibility: visible;
   }
 
   &.inherited {
