@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.0
+
+The Lintel code has been refactored for significantly better performance.
+
 ## 1.1.3
 
 Based on some well-considered feedback, this release adopts a much more conservative implementation of the 'show inherited rules' feature, as triggered by the 'eye' icon.
