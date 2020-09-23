@@ -44,10 +44,11 @@ exports[`GeneralComponent snapshot 1`] = `
           <code>
             extends
           </code>
-           can be overriden and 
+           are shown grayed 
+          but can be overriden
           
           
-           are shown grayed.
+          . 
         </b>
         
         
@@ -69,7 +70,6 @@ exports[`GeneralComponent snapshot 1`] = `
         >
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -98,13 +98,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               arrowFunctions
-  
+              arrowFunctions
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -133,13 +133,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               binaryLiterals
-  
+              binaryLiterals
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -168,13 +168,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               blockBindings
-  
+              blockBindings
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -203,13 +203,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               classes
-  
+              classes
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -238,13 +238,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               defaultParams
-  
+              defaultParams
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -273,13 +273,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               destructuring
-  
+              destructuring
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Enables support for the experimental object rest/spread properties (IMPORTANT: This is an experimental feature that may change significantly in the future. It’s recommended that you do not write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)."
           >
             <button
               class="checkbox"
@@ -308,13 +308,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               experimentalObjectRestSpread
-  
+              <abbr
+                title="Enables support for the experimental object rest/spread properties (IMPORTANT: This is an experimental feature that may change significantly in the future. It’s recommended that you do not write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)."
+              >
+                experimentalObjectRestSpread
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -343,13 +347,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               forOf
-  
+              forOf
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -378,13 +382,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               generators
-  
+              generators
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Allow return statements in the global scope."
           >
             <button
               class="checkbox"
@@ -413,13 +417,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               globalReturn
-  
+              <abbr
+                title="Allow return statements in the global scope."
+              >
+                globalReturn
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Enable global strict mode (if ecmaVersion is 5 or greater)."
           >
             <button
               class="checkbox"
@@ -448,13 +456,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               impliedStrict
-  
+              <abbr
+                title="Enable global strict mode (if ecmaVersion is 5 or greater)."
+              >
+                impliedStrict
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Enable JSX."
           >
             <button
               class="checkbox"
@@ -483,13 +495,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               jsx
-  
+              <abbr
+                title="Enable JSX."
+              >
+                jsx
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -518,13 +534,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               modules
-  
+              modules
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -553,13 +569,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               objectLiteralComputedProperties
-  
+              objectLiteralComputedProperties
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -588,13 +604,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               objectLiteralDuplicateProperties
-  
+              objectLiteralDuplicateProperties
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -623,13 +639,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               objectLiteralShorthandMethods
-  
+              objectLiteralShorthandMethods
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -658,13 +674,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               objectLiteralShorthandProperties
-  
+              objectLiteralShorthandProperties
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -693,13 +709,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               octalLiterals
-  
+              octalLiterals
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -728,13 +744,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               regexUFlag
-  
+              regexUFlag
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -763,13 +779,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               regexYFlag
-  
+              regexYFlag
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -798,13 +814,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               restParams
-  
+              restParams
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -833,13 +849,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               spread
-  
+              spread
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -868,13 +884,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               superInFunctions
-  
+              superInFunctions
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -903,13 +919,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               templateStrings
-  
+              templateStrings
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -938,8 +954,9 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               unicodeCodePointEscapes
-  
+              unicodeCodePointEscapes
+              
+              
             </label>
           </lintel-checkbox>
           
@@ -984,10 +1001,11 @@ exports[`GeneralComponent snapshot 1`] = `
           <code>
             extends
           </code>
-           can be overriden and 
+           are shown grayed 
+          but can be overriden
           
           
-           are shown grayed.
+          . 
         </b>
         
         
@@ -1010,7 +1028,6 @@ exports[`GeneralComponent snapshot 1`] = `
         >
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Defines require() and define() as global variables as per the amd spec."
           >
             <button
               class="checkbox"
@@ -1039,13 +1056,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               amd
-  
+              <abbr
+                title="Defines require() and define() as global variables as per the amd spec."
+              >
+                amd
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="AppleScript global variables."
           >
             <button
               class="checkbox"
@@ -1074,13 +1095,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               applescript
-  
+              <abbr
+                title="AppleScript global variables."
+              >
+                applescript
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Atom test helper globals."
           >
             <button
               class="checkbox"
@@ -1109,13 +1134,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               atomtest
-  
+              <abbr
+                title="Atom test helper globals."
+              >
+                atomtest
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Browser global variables."
           >
             <button
               class="checkbox"
@@ -1144,13 +1173,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               browser
-  
+              <abbr
+                title="Browser global variables."
+              >
+                browser
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="CommonJS global variables and CommonJS scoping (use this for browser-only code that uses Browserify/WebPack)."
           >
             <button
               class="checkbox"
@@ -1179,13 +1212,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               commonjs
-  
+              <abbr
+                title="CommonJS global variables and CommonJS scoping (use this for browser-only code that uses Browserify/WebPack)."
+              >
+                commonjs
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Ember test helper globals."
           >
             <button
               class="checkbox"
@@ -1214,13 +1251,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               embertest
-  
+              <abbr
+                title="Ember test helper globals."
+              >
+                embertest
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Adds all ECMAScript 2017 globals and automatically sets the ecmaVersion parser option to 8."
           >
             <button
               class="checkbox"
@@ -1249,13 +1290,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               es2017
-  
+              <abbr
+                title="Adds all ECMAScript 2017 globals and automatically sets the ecmaVersion parser option to 8."
+              >
+                es2017
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Adds all ECMAScript 2020 globals and automatically sets the ecmaVersion parser option to 11."
           >
             <button
               class="checkbox"
@@ -1284,13 +1329,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               es2020
-  
+              <abbr
+                title="Adds all ECMAScript 2020 globals and automatically sets the ecmaVersion parser option to 11."
+              >
+                es2020
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Enable all ECMAScript 6 features except for modules."
           >
             <button
               class="checkbox"
@@ -1319,13 +1368,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               es6
-  
+              <abbr
+                title="Enable all ECMAScript 6 features except for modules."
+              >
+                es6
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="GreaseMonkey globals."
           >
             <button
               class="checkbox"
@@ -1354,13 +1407,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               greasemonkey
-  
+              <abbr
+                title="GreaseMonkey globals."
+              >
+                greasemonkey
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Adds all of the Jasmine testing global variables for version 1.3 and 2.0."
           >
             <button
               class="checkbox"
@@ -1389,13 +1446,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               jasmine
-  
+              <abbr
+                title="Adds all of the Jasmine testing global variables for version 1.3 and 2.0."
+              >
+                jasmine
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Jest global variables."
           >
             <button
               class="checkbox"
@@ -1424,13 +1485,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               jest
-  
+              <abbr
+                title="Jest global variables."
+              >
+                jest
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title=""
           >
             <button
               class="checkbox"
@@ -1459,13 +1524,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               jest/globals
-  
+              jest/globals
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="JQuery global variables."
           >
             <button
               class="checkbox"
@@ -1494,13 +1559,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               jquery
-  
+              <abbr
+                title="JQuery global variables."
+              >
+                jquery
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Meteor global variables."
           >
             <button
               class="checkbox"
@@ -1529,13 +1598,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               meteor
-  
+              <abbr
+                title="Meteor global variables."
+              >
+                meteor
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Adds all of the Mocha test global variables."
           >
             <button
               class="checkbox"
@@ -1564,13 +1637,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               mocha
-  
+              <abbr
+                title="Adds all of the Mocha test global variables."
+              >
+                mocha
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="MongoDB global variables."
           >
             <button
               class="checkbox"
@@ -1599,13 +1676,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               mongo
-  
+              <abbr
+                title="MongoDB global variables."
+              >
+                mongo
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Java 8 Nashorn global variables."
           >
             <button
               class="checkbox"
@@ -1634,13 +1715,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               nashorn
-  
+              <abbr
+                title="Java 8 Nashorn global variables."
+              >
+                nashorn
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Node.js global variables and Node.js scoping."
           >
             <button
               class="checkbox"
@@ -1669,13 +1754,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               node
-  
+              <abbr
+                title="Node.js global variables and Node.js scoping."
+              >
+                node
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="PhantomJS global variables."
           >
             <button
               class="checkbox"
@@ -1704,13 +1793,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               phantomjs
-  
+              <abbr
+                title="PhantomJS global variables."
+              >
+                phantomjs
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Prototype.js global variables."
           >
             <button
               class="checkbox"
@@ -1739,13 +1832,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               prototypejs
-  
+              <abbr
+                title="Prototype.js global variables."
+              >
+                prototypejs
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Protractor global variables."
           >
             <button
               class="checkbox"
@@ -1774,13 +1871,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               protractor
-  
+              <abbr
+                title="Protractor global variables."
+              >
+                protractor
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="QUnit global variables."
           >
             <button
               class="checkbox"
@@ -1809,13 +1910,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               qunit
-  
+              <abbr
+                title="QUnit global variables."
+              >
+                qunit
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Service Worker global variables."
           >
             <button
               class="checkbox"
@@ -1844,13 +1949,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               serviceworker
-  
+              <abbr
+                title="Service Worker global variables."
+              >
+                serviceworker
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Globals common to both Node and Browser."
           >
             <button
               class="checkbox"
@@ -1879,13 +1988,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               shared-node-browser
-  
+              <abbr
+                title="Globals common to both Node and Browser."
+              >
+                shared-node-browser
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="ShellJS global variables."
           >
             <button
               class="checkbox"
@@ -1914,13 +2027,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               shelljs
-  
+              <abbr
+                title="ShellJS global variables."
+              >
+                shelljs
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="WebExtensions globals."
           >
             <button
               class="checkbox"
@@ -1949,13 +2066,17 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               webextensions
-  
+              <abbr
+                title="WebExtensions globals."
+              >
+                webextensions
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           <lintel-checkbox
             class="ng-untouched ng-pristine ng-valid"
-            title="Web workers global variables."
           >
             <button
               class="checkbox"
@@ -1984,8 +2105,13 @@ exports[`GeneralComponent snapshot 1`] = `
             <label
               class="label"
             >
-               worker
-  
+              <abbr
+                title="Web workers global variables."
+              >
+                worker
+              </abbr>
+              
+              
             </label>
           </lintel-checkbox>
           
@@ -2809,10 +2935,11 @@ exports[`GeneralComponent snapshot 1`] = `
           <code>
             extends
           </code>
-           can be overriden and 
+           are shown grayed 
+          but can be overriden
           
           
-           are shown grayed.
+          . 
         </b>
         
         
@@ -8014,8 +8141,9 @@ exports[`GeneralComponent snapshot 1`] = `
         <label
           class="label"
         >
-           
-  
+          
+          
+          
         </label>
       </lintel-checkbox>
       <p>
@@ -8736,10 +8864,11 @@ exports[`GeneralComponent snapshot 1`] = `
           <code>
             extends
           </code>
-           can be overriden and 
+           are shown grayed 
+          but can be overriden
           
           
-           are shown grayed.
+          . 
         </b>
         
         
@@ -8814,10 +8943,11 @@ exports[`GeneralComponent snapshot 1`] = `
           <code>
             extends
           </code>
-           can be overriden and 
+           are shown grayed 
+          but can be overriden
           
           
-           are shown grayed.
+          . 
         </b>
         
         
@@ -9016,8 +9146,9 @@ exports[`GeneralComponent snapshot 1`] = `
           <code>
             extends
           </code>
+           are shown grayed 
           
-           are shown grayed.
+          . 
         </b>
         
         
@@ -9286,8 +9417,9 @@ exports[`GeneralComponent snapshot 1`] = `
         <label
           class="label"
         >
-           
-  
+          
+          
+          
         </label>
       </lintel-checkbox>
       <p>
@@ -9360,8 +9492,9 @@ exports[`GeneralComponent snapshot 1`] = `
         <label
           class="label"
         >
-           
-  
+          
+          
+          
         </label>
       </lintel-checkbox>
       <p>

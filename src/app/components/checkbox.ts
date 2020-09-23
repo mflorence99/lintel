@@ -38,6 +38,7 @@ export class CheckboxComponent implements ControlValueAccessor {
   @Input() enabled = true;
 
   @Input() label = '';
+  @Input() title = '';
 
   touched: boolean;
 

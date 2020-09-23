@@ -8,6 +8,7 @@ exports[`CheckboxComponent snapshot 1`] = `
   checked={[Function Boolean]}
   enabled={[Function Boolean]}
   label={[Function String]}
+  title=""
 >
   <button
     class="checkbox"
@@ -35,8 +36,9 @@ exports[`CheckboxComponent snapshot 1`] = `
   </button><label
     class="label"
   >
-     A message
-  
+    A message
+    
+    
   </label>
 </lintel-checkbox>
 `;

@@ -24,7 +24,6 @@ exports[`MultiselectorComponent snapshot 1`] = `
   >
     <lintel-checkbox
       class="ng-untouched ng-pristine ng-valid"
-      title=""
     >
       <button
         class="checkbox"
@@ -53,13 +52,13 @@ exports[`MultiselectorComponent snapshot 1`] = `
       <label
         class="label"
       >
-         London
-  
+        London
+        
+        
       </label>
     </lintel-checkbox>
     <lintel-checkbox
       class="ng-untouched ng-pristine ng-valid"
-      title="City of Light"
     >
       <button
         class="checkbox"
@@ -88,13 +87,17 @@ exports[`MultiselectorComponent snapshot 1`] = `
       <label
         class="label"
       >
-         Paris
-  
+        <abbr
+          title="City of Light"
+        >
+          Paris
+        </abbr>
+        
+        
       </label>
     </lintel-checkbox>
     <lintel-checkbox
       class="ng-untouched ng-pristine ng-valid"
-      title=""
     >
       <button
         class="checkbox"
@@ -123,8 +126,9 @@ exports[`MultiselectorComponent snapshot 1`] = `
       <label
         class="label"
       >
-         Rome
-  
+        Rome
+        
+        
       </label>
     </lintel-checkbox>
     

@@ -95,12 +95,11 @@
 
             <ng-container *ngIf="isInherited(property[0])">
               <b
-                >Settings inherited from <code>extends</code>
-                <ng-container *ngIf="property[0] !== 'plugins'">
-                  can be overriden and
-                </ng-container>
-                are shown grayed.</b
-              >
+                >Settings inherited from <code>extends</code> are shown grayed
+                <ng-container *ngIf="property[0] !== 'plugins'"
+                  >but can be overriden</ng-container
+                >.
+              </b>
             </ng-container>
           </p>
         </ng-container>

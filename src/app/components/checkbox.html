@@ -7,5 +7,6 @@
 </button>
 
 <label (click)="toggleChecked()" [ngClass]="{disabled: !enabled}" class="label">
-  {{ label }}
+  <abbr [title]="title" *ngIf="title; else noTitle">{{ label }}</abbr>
+  <ng-template #noTitle>{{ label }}</ng-template>
 </label>

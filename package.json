@@ -32,6 +32,7 @@
     "rules": "ts-node --dir bin eslint-rules.ts",
     "simulator": "ng serve",
     "test": "jest --runInBand --coverage && ts-node --dir bin coverage-icon.ts",
+    "test:nosnaps": "jest --runInBand --coverage=false --updateSnapshot",
     "test:only": "jest --coverage=false -- %1"
   },
   "keywords": [
