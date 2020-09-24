@@ -22,9 +22,10 @@ export class MarkedPipe implements PipeTransform {
 
     // NOTE: special processing:
     // we need target="_blank" on links
+    // and try out <cite>...</cite>
 
-    const p = /<a href=/gim;
-    t = t.replace(p, '<a target="_blank" href=');
+    t = t.replace(/<a href=/gim, '<cite><a target="_blank" href=');
+    t = t.replace(/<\/a>/gim, '</a></cite>');
 
     cache[s] = t;
 

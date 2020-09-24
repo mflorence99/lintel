@@ -16,7 +16,7 @@ export function meldConfigurations(config: any, ext: any): any {
       else if (key === 'rules') meldConfigurationsRules(config, extension);
       else if (Array.isArray(extension[key]))
         config[key] = Array.from(
-          new Set([...(config[key] || []), ...extension[key]])
+          new Set([...(config[key] ?? []), ...extension[key]])
         );
       else if (typeof extension[key] === 'object')
         config[key] = Object.assign(config[key] || {}, extension[key]);
@@ -48,14 +48,14 @@ export function meldConfigurationsOverrides(config: any, extension: any): void {
 // NOTE: plugins need to be deduplicated
 export function meldConfigurationsPlugins(config: any, extension: any): void {
   config['plugins'] = Array.from(
-    new Set([...(config.plugins || []), ...extension.plugins])
+    new Set([...(config.plugins ?? []), ...extension.plugins])
   );
 }
 
 // NOTE: rules can override only the level, leaving other settings intact
 // @see https://eslint.org/docs/user-guide/configuring
 export function meldConfigurationsRules(config: any, extension: any): void {
-  config['rules'] = config.rules || {};
+  config['rules'] ??= {};
   Object.entries(extension.rules)
     .map(
       ([ruleName, rule]) =>

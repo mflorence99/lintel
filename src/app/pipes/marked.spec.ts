@@ -5,7 +5,7 @@ import 'jest-extended';
 const before = 'Blah blah [Google](https://www.google.com) blah blah';
 
 const after =
-  'Blah blah <a target="_blank" href="https://www.google.com">Google</a> blah blah';
+  'Blah blah <cite><a target="_blank" href="https://www.google.com">Google</a></cite> blah blah';
 
 describe('MarkedPipe', () => {
   test('null returns default', () => {

@@ -45,11 +45,11 @@
     "tslib": "^2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1001.2",
-    "@angular-eslint/builder": "0.4.0-beta.1",
-    "@angular-eslint/eslint-plugin": "0.4.0-beta.1",
-    "@angular-eslint/schematics": "0.4.0-beta.1",
-    "@angular-eslint/template-parser": "0.4.0-beta.1",
+    "@angular-devkit/build-angular": "^0.1001.3",
+    "@angular-eslint/builder": "0.4.0-beta.2",
+    "@angular-eslint/eslint-plugin": "0.4.0-beta.2",
+    "@angular-eslint/schematics": "0.4.0-beta.2",
+    "@angular-eslint/template-parser": "0.4.0-beta.2",
     "@angular/cdk": "^10",
     "@angular/cli": "^10",
     "@angular/common": "^10",
