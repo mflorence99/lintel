@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.1
+
+Improved use of semantic tags, especially `<abbr>` and `<cite>`.
+
 ## 1.2.0
 
 The Lintel code has been refactored for significantly better performance.
