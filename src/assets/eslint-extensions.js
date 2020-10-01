@@ -19,6 +19,7 @@
       "no-delete-var": "error",
       "no-dupe-args": "error",
       "no-dupe-class-members": "error",
+      "no-dupe-else-if": "error",
       "no-dupe-keys": "error",
       "no-duplicate-case": "error",
       "no-empty": "error",
@@ -30,6 +31,7 @@
       "no-fallthrough": "error",
       "no-func-assign": "error",
       "no-global-assign": "error",
+      "no-import-assign": "error",
       "no-inner-declarations": "error",
       "no-invalid-regexp": "error",
       "no-irregular-whitespace": "error",
@@ -42,6 +44,7 @@
       "no-redeclare": "error",
       "no-regex-spaces": "error",
       "no-self-assign": "error",
+      "no-setter-return": "error",
       "no-shadow-restricted-names": "error",
       "no-sparse-arrays": "error",
       "no-this-before-super": "error",
@@ -107,6 +110,9 @@
       "no-dupe-class-members": [
         "error"
       ],
+      "no-dupe-else-if": [
+        "error"
+      ],
       "no-dupe-keys": [
         "error"
       ],
@@ -138,6 +144,9 @@
         "error"
       ],
       "no-global-assign": [
+        "error"
+      ],
+      "no-import-assign": [
         "error"
       ],
       "no-inner-declarations": [
@@ -175,6 +184,9 @@
         "error"
       ],
       "no-self-assign": [
+        "error"
+      ],
+      "no-setter-return": [
         "error"
       ],
       "no-shadow-restricted-names": [
@@ -1827,122 +1839,49 @@
       "react-redux/prefer-separate-component-file": 1
     }
   },
-  "plugin:sonarjs/recommended": {
-    "plugins": [
-      "sonarjs"
-    ],
-    "rules": {
-      "sonarjs/cognitive-complexity": "error",
-      "sonarjs/max-switch-cases": "error",
-      "sonarjs/no-all-duplicated-branches": "error",
-      "sonarjs/no-collapsible-if": "error",
-      "sonarjs/no-collection-size-mischeck": "error",
-      "sonarjs/no-duplicate-string": "error",
-      "sonarjs/no-duplicated-branches": "error",
-      "sonarjs/no-element-overwrite": "error",
-      "sonarjs/no-extra-arguments": "error",
-      "sonarjs/no-identical-conditions": "error",
-      "sonarjs/no-identical-functions": "error",
-      "sonarjs/no-identical-expressions": "error",
-      "sonarjs/no-inverted-boolean-check": "error",
-      "sonarjs/no-one-iteration-loop": "error",
-      "sonarjs/no-redundant-boolean": "error",
-      "sonarjs/no-redundant-jump": "error",
-      "sonarjs/no-same-line-conditional": "error",
-      "sonarjs/no-small-switch": "error",
-      "sonarjs/no-unused-collection": "error",
-      "sonarjs/no-use-of-empty-return-value": "error",
-      "sonarjs/no-useless-catch": "error",
-      "sonarjs/prefer-immediate-return": "error",
-      "sonarjs/prefer-object-literal": "error",
-      "sonarjs/prefer-single-boolean-return": "error",
-      "sonarjs/prefer-while": "error"
-    }
-  },
-  "plugin:unicorn/recommended": {
-    "env": {
-      "es6": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 2020,
-      "sourceType": "module"
-    },
-    "plugins": [
-      "unicorn"
-    ],
-    "rules": {
-      "unicorn/better-regex": "error",
-      "unicorn/catch-error-name": "error",
-      "unicorn/consistent-function-scoping": "error",
-      "unicorn/custom-error-definition": "off",
-      "unicorn/error-message": "error",
-      "unicorn/escape-case": "error",
-      "unicorn/expiring-todo-comments": "error",
-      "unicorn/explicit-length-check": "error",
-      "unicorn/filename-case": "error",
-      "unicorn/import-index": "error",
-      "unicorn/new-for-builtins": "error",
-      "unicorn/no-abusive-eslint-disable": "error",
-      "unicorn/no-array-instanceof": "error",
-      "unicorn/no-console-spaces": "error",
-      "unicorn/no-fn-reference-in-iterator": "error",
-      "unicorn/no-for-loop": "error",
-      "unicorn/no-hex-escape": "error",
-      "unicorn/no-keyword-prefix": "off",
-      "no-nested-ternary": "off",
-      "unicorn/no-nested-ternary": "error",
-      "unicorn/no-new-buffer": "error",
-      "unicorn/no-null": "error",
-      "unicorn/no-process-exit": "error",
-      "unicorn/no-unreadable-array-destructuring": "error",
-      "unicorn/no-unsafe-regex": "off",
-      "unicorn/no-unused-properties": "off",
-      "unicorn/no-zero-fractions": "error",
-      "unicorn/number-literal-case": "error",
-      "unicorn/prefer-add-event-listener": "error",
-      "unicorn/prefer-dataset": "error",
-      "unicorn/prefer-event-key": "error",
-      "unicorn/prefer-flat-map": "error",
-      "unicorn/prefer-includes": "error",
-      "unicorn/prefer-modern-dom-apis": "error",
-      "unicorn/prefer-negative-index": "error",
-      "unicorn/prefer-node-append": "error",
-      "unicorn/prefer-node-remove": "error",
-      "unicorn/prefer-number-properties": "error",
-      "unicorn/prefer-query-selector": "error",
-      "unicorn/prefer-reflect-apply": "error",
-      "unicorn/prefer-replace-all": "off",
-      "unicorn/prefer-set-has": "error",
-      "unicorn/prefer-spread": "error",
-      "unicorn/prefer-starts-ends-with": "error",
-      "unicorn/prefer-string-slice": "error",
-      "unicorn/prefer-text-content": "error",
-      "unicorn/prefer-trim-start-end": "error",
-      "unicorn/prefer-type-error": "error",
-      "unicorn/prevent-abbreviations": "error",
-      "unicorn/string-content": "off",
-      "unicorn/throw-new-error": "error"
-    }
-  },
   "plugin:vue/recommended": {
     "rules": {
       "vue/attributes-order": "warn",
+      "vue/component-tags-order": "warn",
+      "vue/no-lone-template": "warn",
+      "vue/no-multiple-slot-args": "warn",
       "vue/no-v-html": "warn",
       "vue/order-in-components": "warn",
       "vue/this-in-template": "warn",
       "vue/comment-directive": [
         "error"
       ],
+      "vue/experimental-script-setup-vars": [
+        "error"
+      ],
       "vue/jsx-uses-vars": [
+        "error"
+      ],
+      "vue/custom-event-name-casing": [
+        "error"
+      ],
+      "vue/no-arrow-functions-in-watch": [
         "error"
       ],
       "vue/no-async-in-computed-properties": [
         "error"
       ],
+      "vue/no-custom-modifiers-on-v-model": [
+        "error"
+      ],
       "vue/no-dupe-keys": [
         "error"
       ],
+      "vue/no-dupe-v-else-if": [
+        "error"
+      ],
       "vue/no-duplicate-attributes": [
+        "error"
+      ],
+      "vue/no-multiple-template-root": [
+        "error"
+      ],
+      "vue/no-mutating-props": [
         "error"
       ],
       "vue/no-parsing-error": [
@@ -1972,6 +1911,12 @@
       "vue/no-use-v-if-with-v-for": [
         "error"
       ],
+      "vue/no-v-for-template-key": [
+        "error"
+      ],
+      "vue/no-v-model-argument": [
+        "error"
+      ],
       "vue/require-component-is": [
         "error"
       ],
@@ -1994,6 +1939,9 @@
         "error"
       ],
       "vue/valid-template-root": [
+        "error"
+      ],
+      "vue/valid-v-bind-sync": [
         "error"
       ],
       "vue/valid-v-bind": [
@@ -2032,10 +1980,16 @@
       "vue/valid-v-show": [
         "error"
       ],
+      "vue/valid-v-slot": [
+        "error"
+      ],
       "vue/valid-v-text": [
         "error"
       ],
       "vue/attribute-hyphenation": [
+        "warn"
+      ],
+      "vue/component-definition-name-casing": [
         "warn"
       ],
       "vue/html-closing-bracket-newline": [
@@ -2065,9 +2019,6 @@
       "vue/mustache-interpolation-spacing": [
         "warn"
       ],
-      "vue/name-property-casing": [
-        "warn"
-      ],
       "vue/no-multi-spaces": [
         "warn"
       ],
@@ -2075,6 +2026,9 @@
         "warn"
       ],
       "vue/no-template-shadow": [
+        "warn"
+      ],
+      "vue/one-component-per-file": [
         "warn"
       ],
       "vue/prop-name-casing": [
@@ -2094,15 +2048,15 @@
       ],
       "vue/v-on-style": [
         "warn"
+      ],
+      "vue/v-slot-style": [
+        "warn"
       ]
     },
     "parser": "/home/mflo/mflorence99/lintel/node_modules/vue-eslint-parser/index.js",
     "parserOptions": {
-      "ecmaVersion": 2018,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
+      "ecmaVersion": 2020,
+      "sourceType": "module"
     },
     "env": {
       "browser": true,

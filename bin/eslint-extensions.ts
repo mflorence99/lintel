@@ -15,8 +15,6 @@ const extensions = [
   'plugin:react/recommended',
   'plugin:react-hooks/recommended',
   'plugin:react-redux/recommended',
-  'plugin:sonarjs/recommended',
-  'plugin:unicorn/recommended',
   'plugin:vue/recommended',
   'plugin:@angular-eslint/recommended',
   'plugin:@typescript-eslint/eslint-recommended',

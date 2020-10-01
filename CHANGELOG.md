@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3.0
+
+Upgraded to ESLint v7, now that the Vue plugin has removed its peer dependency on v6. This release closes issue #13.
+
 ## 1.2.1
 
 Improved use of semantic tags, especially `<abbr>` and `<cite>`.

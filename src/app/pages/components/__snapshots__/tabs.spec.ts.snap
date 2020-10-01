@@ -86,16 +86,6 @@ exports[`TabsComponent snapshot 1`] = `
          react-redux 
       </option>
       <option
-        value="sonarjs"
-      >
-         sonarjs 
-      </option>
-      <option
-        value="unicorn"
-      >
-         unicorn 
-      </option>
-      <option
         value="vue"
       >
          vue 

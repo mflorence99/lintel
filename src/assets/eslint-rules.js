@@ -5551,6 +5551,9 @@ eslintRules = {
                     },
                     "enforceForNewInMemberExpressions": {
                       "type": "boolean"
+                    },
+                    "enforceForFunctionPrototypeMethods": {
+                      "type": "boolean"
                     }
                   },
                   "additionalProperties": false
@@ -5840,7 +5843,7 @@ eslintRules = {
         },
         "schema": [],
         "messages": {
-          "noLossOfPrecision": ""
+          "noLossOfPrecision": "This number literal will lose precision at runtime."
         }
       }
     },
@@ -5869,11 +5872,23 @@ eslintRules = {
               "ignore": {
                 "type": "array",
                 "items": {
-                  "type": "number"
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^[+-]?(?:0|[1-9][0-9]*)n$"
+                    }
+                  ]
                 },
                 "uniqueItems": true
               },
               "ignoreArrayIndexes": {
+                "type": "boolean",
+                "default": false
+              },
+              "ignoreDefaultValues": {
                 "type": "boolean",
                 "default": false
               },
@@ -6600,7 +6615,8 @@ eslintRules = {
                   "caughtErrorsIgnorePattern": {
                     "type": "string"
                   }
-                }
+                },
+                "additionalProperties": false
               }
             ]
           }
@@ -7581,8 +7597,17 @@ eslintRules = {
                 ]
               },
               "outerIIFEBody": {
-                "type": "integer",
-                "minimum": 0
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "off"
+                    ]
+                  }
+                ]
               },
               "MemberExpression": {
                 "oneOf": [
@@ -7708,6 +7733,10 @@ eslintRules = {
                 ]
               },
               "flatTernaryExpressions": {
+                "type": "boolean",
+                "default": false
+              },
+              "offsetTernaryExpressions": {
                 "type": "boolean",
                 "default": false
               },
@@ -7935,7 +7964,7 @@ eslintRules = {
               },
               "enforceForClassMembers": {
                 "type": "boolean",
-                "default": false
+                "default": true
               }
             },
             "additionalProperties": false
@@ -8055,15 +8084,20 @@ eslintRules = {
               "allowImplicit": {
                 "type": "boolean",
                 "default": false
+              },
+              "checkForEach": {
+                "type": "boolean",
+                "default": false
               }
             },
             "additionalProperties": false
           }
         ],
         "messages": {
-          "expectedAtEnd": "Expected to return a value at the end of {{name}}.",
-          "expectedInside": "Expected to return a value in {{name}}.",
-          "expectedReturnValue": "{{name}} expected a return value."
+          "expectedAtEnd": "{{arrayMethodName}}() expects a value to be returned at the end of {{name}}.",
+          "expectedInside": "{{arrayMethodName}}() expects a return value from {{name}}.",
+          "expectedReturnValue": "{{arrayMethodName}}() expects a return value from {{name}}.",
+          "expectedNoReturnValue": "{{arrayMethodName}}() expects no useless return value from {{name}}."
         }
       }
     },
@@ -8077,35 +8111,59 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/array-element-newline"
         },
         "fixable": "whitespace",
-        "schema": [
-          {
-            "oneOf": [
-              {
-                "enum": [
-                  "always",
-                  "never",
-                  "consistent"
-                ]
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "multiline": {
-                    "type": "boolean"
-                  },
-                  "minItems": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ],
-                    "minimum": 0
-                  }
+        "schema": {
+          "definitions": {
+            "basicConfig": {
+              "oneOf": [
+                {
+                  "enum": [
+                    "always",
+                    "never",
+                    "consistent"
+                  ]
                 },
-                "additionalProperties": false
-              }
-            ]
-          }
-        ],
+                {
+                  "type": "object",
+                  "properties": {
+                    "multiline": {
+                      "type": "boolean"
+                    },
+                    "minItems": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 0
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "items": [
+            {
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/basicConfig"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "ArrayExpression": {
+                      "$ref": "#/definitions/basicConfig"
+                    },
+                    "ArrayPattern": {
+                      "$ref": "#/definitions/basicConfig"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "minProperties": 1
+                }
+              ]
+            }
+          ]
+        },
         "messages": {
           "unexpectedLineBreak": "There should be no linebreak here.",
           "missingLineBreak": "There should be a linebreak after this element."
@@ -8319,6 +8377,8 @@ eslintRules = {
     },
     "callback-return": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "require `return` statements after callbacks",
@@ -8357,6 +8417,10 @@ eslintRules = {
                 "default": false
               },
               "ignoreImports": {
+                "type": "boolean",
+                "default": false
+              },
+              "ignoreGlobals": {
                 "type": "boolean",
                 "default": false
               },
@@ -8689,7 +8753,7 @@ eslintRules = {
             "properties": {
               "enforceForClassMembers": {
                 "type": "boolean",
-                "default": false
+                "default": true
               }
             },
             "additionalProperties": false
@@ -8848,6 +8912,21 @@ eslintRules = {
         ],
         "messages": {
           "missingDefaultCase": "Expected a default case."
+        }
+      }
+    },
+    "default-case-last": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce default clauses in switch statements to be last",
+          "category": "Best Practices",
+          "recommended": false,
+          "url": "https://eslint.org/docs/rules/default-case-last"
+        },
+        "schema": [],
+        "messages": {
+          "notLast": "Default clause should be the last clause."
         }
       }
     },
@@ -9067,7 +9146,8 @@ eslintRules = {
           ]
         },
         "messages": {
-          "unexpected": "Unexpected newline between function name and paren.",
+          "unexpectedWhitespace": "Unexpected whitespace between function name and paren.",
+          "unexpectedNewline": "Unexpected newline between function name and paren.",
           "missing": "Missing space between function name and paren."
         }
       }
@@ -9423,6 +9503,8 @@ eslintRules = {
     },
     "global-require": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "require `require()` calls to be placed at top-level module scope",
@@ -9477,6 +9559,8 @@ eslintRules = {
     },
     "handle-callback-err": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "require error handling in callbacks",
@@ -9496,6 +9580,10 @@ eslintRules = {
     },
     "id-blacklist": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [
+          "id-denylist"
+        ],
         "type": "suggestion",
         "docs": {
           "description": "disallow specified identifiers",
@@ -9511,7 +9599,28 @@ eslintRules = {
           "uniqueItems": true
         },
         "messages": {
-          "blacklisted": "Identifier '{{name}}' is blacklisted."
+          "restricted": "Identifier '{{name}}' is restricted."
+        }
+      }
+    },
+    "id-denylist": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow specified identifiers",
+          "category": "Stylistic Issues",
+          "recommended": false,
+          "url": "https://eslint.org/docs/rules/id-denylist"
+        },
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "messages": {
+          "restricted": "Identifier '{{name}}' is restricted."
         }
       }
     },
@@ -9536,6 +9645,13 @@ eslintRules = {
                 "type": "integer"
               },
               "exceptions": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "exceptionPatterns": {
                 "type": "array",
                 "uniqueItems": true,
                 "items": {
@@ -9586,7 +9702,8 @@ eslintRules = {
                 "type": "boolean",
                 "default": false
               }
-            }
+            },
+            "additionalProperties": false
           }
         ],
         "messages": {
@@ -9717,8 +9834,17 @@ eslintRules = {
                 ]
               },
               "outerIIFEBody": {
-                "type": "integer",
-                "minimum": 0
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "enum": [
+                      "off"
+                    ]
+                  }
+                ]
               },
               "MemberExpression": {
                 "oneOf": [
@@ -9844,6 +9970,10 @@ eslintRules = {
                 ]
               },
               "flatTernaryExpressions": {
+                "type": "boolean",
+                "default": false
+              },
+              "offsetTernaryExpressions": {
                 "type": "boolean",
                 "default": false
               },
@@ -12182,6 +12312,8 @@ eslintRules = {
     },
     "no-buffer-constructor": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "problem",
         "docs": {
           "description": "disallow use of the `Buffer()` constructor",
@@ -12525,7 +12657,7 @@ eslintRules = {
         "docs": {
           "description": "disallow duplicate conditions in if-else-if chains",
           "category": "Possible Errors",
-          "recommended": false,
+          "recommended": true,
           "url": "https://eslint.org/docs/rules/no-dupe-else-if"
         },
         "schema": [],
@@ -12685,7 +12817,9 @@ eslintRules = {
                     "generatorMethods",
                     "getters",
                     "setters",
-                    "constructors"
+                    "constructors",
+                    "asyncFunctions",
+                    "asyncMethods"
                   ]
                 },
                 "uniqueItems": true
@@ -12824,7 +12958,18 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-extra-boolean-cast"
         },
-        "schema": [],
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "enforceForLogicalOperands": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
         "fixable": "code",
         "messages": {
           "unexpectedCall": "Redundant Boolean call.",
@@ -12907,6 +13052,9 @@ eslintRules = {
                       "type": "boolean"
                     },
                     "enforceForNewInMemberExpressions": {
+                      "type": "boolean"
+                    },
+                    "enforceForFunctionPrototypeMethods": {
                       "type": "boolean"
                     }
                   },
@@ -12992,7 +13140,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-func-assign"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "isAFunction": "'{{name}}' is a function."
+        }
       }
     },
     "no-global-assign": {
@@ -13018,7 +13169,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "globalShouldNotBeModified": "Read-only global '{{name}}' should not be modified."
+        }
       }
     },
     "no-implicit-coercion": {
@@ -13062,7 +13216,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "useRecommendation": "use `{{recommendation}}` instead."
+        }
       }
     },
     "no-implicit-globals": {
@@ -13104,7 +13261,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-implied-eval"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "impliedEval": "Implied eval. Consider passing a function instead of a string."
+        }
       }
     },
     "no-import-assign": {
@@ -13113,7 +13273,7 @@ eslintRules = {
         "docs": {
           "description": "disallow assigning to imported bindings",
           "category": "Possible Errors",
-          "recommended": false,
+          "recommended": true,
           "url": "https://eslint.org/docs/rules/no-import-assign"
         },
         "schema": [],
@@ -13132,7 +13292,20 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-inline-comments"
         },
-        "schema": []
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignorePattern": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unexpectedInlineComment": "Unexpected comment inline with code."
+        }
       }
     },
     "no-inner-declarations": {
@@ -13151,7 +13324,10 @@ eslintRules = {
               "both"
             ]
           }
-        ]
+        ],
+        "messages": {
+          "moveDeclToRoot": "Move {{type}} declaration to {{body}} root."
+        }
       }
     },
     "no-invalid-regexp": {
@@ -13176,7 +13352,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "regexMessage": "{{message}}."
+        }
       }
     },
     "no-invalid-this": {
@@ -13199,7 +13378,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedThis": "Unexpected 'this'."
+        }
       }
     },
     "no-irregular-whitespace": {
@@ -13234,7 +13416,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "noIrregularWhitespace": "Irregular whitespace not allowed."
+        }
       }
     },
     "no-iterator": {
@@ -13246,7 +13431,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-iterator"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noIterator": "Reserved name '__iterator__'."
+        }
       }
     },
     "no-label-var": {
@@ -13258,7 +13446,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-label-var"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "identifierClashWithLabel": "Found identifier with same name as label."
+        }
       }
     },
     "no-labels": {
@@ -13285,7 +13476,12 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedLabel": "Unexpected labeled statement.",
+          "unexpectedLabelInBreak": "Unexpected label in break statement.",
+          "unexpectedLabelInContinue": "Unexpected label in continue statement."
+        }
       }
     },
     "no-lone-blocks": {
@@ -13297,7 +13493,11 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-lone-blocks"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "redundantBlock": "Block is redundant.",
+          "redundantNestedBlock": "Nested block is redundant."
+        }
       }
     },
     "no-lonely-if": {
@@ -13310,7 +13510,10 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-lonely-if"
         },
         "schema": [],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "unexpectedLonelyIf": "Unexpected if as the only statement in an else block."
+        }
       }
     },
     "no-loop-func": {
@@ -13325,6 +13528,21 @@ eslintRules = {
         "schema": [],
         "messages": {
           "unsafeRefs": "Function declared in a loop contains unsafe references to variable(s) {{ varNames }}."
+        }
+      }
+    },
+    "no-loss-of-precision": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow literal numbers that lose precision",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://eslint.org/docs/rules/no-loss-of-precision"
+        },
+        "schema": [],
+        "messages": {
+          "noLossOfPrecision": "This number literal will lose precision at runtime."
         }
       }
     },
@@ -13352,11 +13570,23 @@ eslintRules = {
               "ignore": {
                 "type": "array",
                 "items": {
-                  "type": "number"
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^[+-]?(?:0|[1-9][0-9]*)n$"
+                    }
+                  ]
                 },
                 "uniqueItems": true
               },
               "ignoreArrayIndexes": {
+                "type": "boolean",
+                "default": false
+              },
+              "ignoreDefaultValues": {
                 "type": "boolean",
                 "default": false
               }
@@ -13433,7 +13663,8 @@ eslintRules = {
                       "||",
                       "in",
                       "instanceof",
-                      "?:"
+                      "?:",
+                      "??"
                     ]
                   },
                   "minItems": 2,
@@ -13448,11 +13679,16 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedMixedOperator": "Unexpected mix of '{{leftOperator}}' and '{{rightOperator}}'."
+        }
       }
     },
     "no-mixed-requires": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow `require` calls to be mixed with regular variable declarations",
@@ -13480,7 +13716,11 @@ eslintRules = {
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "noMixRequire": "Do not mix 'require' and other declarations.",
+          "noMixCoreModuleFileComputed": "Do not mix core, module, file and computed requires."
+        }
       }
     },
     "no-mixed-spaces-and-tabs": {
@@ -13500,7 +13740,10 @@ eslintRules = {
               false
             ]
           }
-        ]
+        ],
+        "messages": {
+          "mixedSpacesAndTabs": "Mixed spaces and tabs."
+        }
       }
     },
     "no-multi-assign": {
@@ -13512,7 +13755,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-multi-assign"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedChain": "Unexpected chained assignment."
+        }
       }
     },
     "no-multi-spaces": {
@@ -13545,7 +13791,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "multipleSpaces": "Multiple spaces found before '{{displayValue}}'."
+        }
       }
     },
     "no-multi-str": {
@@ -13557,7 +13806,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-multi-str"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "multilineString": "Multiline support is limited to browsers supporting ES5 only."
+        }
       }
     },
     "no-multiple-empty-lines": {
@@ -13592,7 +13844,12 @@ eslintRules = {
             ],
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "blankBeginningOfFile": "Too many blank lines at the beginning of file. Max of {{max}} allowed.",
+          "blankEndOfFile": "Too many blank lines at the end of file. Max of {{max}} allowed.",
+          "consecutiveBlank": "More than {{max}} blank {{pluralizedLines}} not allowed."
+        }
       }
     },
     "no-native-reassign": {
@@ -13622,7 +13879,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "nativeReassign": "Read-only global '{{name}}' should not be modified."
+        }
       }
     },
     "no-negated-condition": {
@@ -13634,7 +13894,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-negated-condition"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedNegated": "Unexpected negated condition."
+        }
       }
     },
     "no-negated-in-lhs": {
@@ -13650,7 +13913,10 @@ eslintRules = {
           "no-unsafe-negation"
         ],
         "deprecated": true,
-        "schema": []
+        "schema": [],
+        "messages": {
+          "negatedLHS": "The 'in' expression's left operand is negated."
+        }
       }
     },
     "no-nested-ternary": {
@@ -13662,7 +13928,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-nested-ternary"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noNestedTernary": "Do not nest ternary expressions."
+        }
       }
     },
     "no-new": {
@@ -13674,7 +13943,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noNewStatement": "Do not use 'new' for side effects."
+        }
       }
     },
     "no-new-func": {
@@ -13686,7 +13958,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new-func"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noFunctionConstructor": "The Function constructor is eval."
+        }
       }
     },
     "no-new-object": {
@@ -13698,11 +13973,16 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new-object"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "preferLiteral": "The object literal notation {} is preferrable."
+        }
       }
     },
     "no-new-require": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow `new` operators with calls to `require`",
@@ -13710,7 +13990,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new-require"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noNewRequire": "Unexpected use of new with require."
+        }
       }
     },
     "no-new-symbol": {
@@ -13722,7 +14005,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-new-symbol"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noNewSymbol": "`Symbol` cannot be called as a constructor."
+        }
       }
     },
     "no-new-wrappers": {
@@ -13734,7 +14020,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-new-wrappers"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noConstructor": "Do not use {{fn}} as a constructor."
+        }
       }
     },
     "no-obj-calls": {
@@ -13748,7 +14037,8 @@ eslintRules = {
         },
         "schema": [],
         "messages": {
-          "unexpectedCall": "'{{name}}' is not a function."
+          "unexpectedCall": "'{{name}}' is not a function.",
+          "unexpectedRefCall": "'{{name}}' is reference to '{{ref}}', which is not a function."
         }
       }
     },
@@ -13761,7 +14051,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-octal"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noOcatal": "Octal literals should not be used."
+        }
       }
     },
     "no-octal-escape": {
@@ -13829,11 +14122,17 @@ eslintRules = {
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "assignmentToFunctionParam": "Assignment to function parameter '{{name}}'.",
+          "assignmentToFunctionParamProp": "Assignment to property of function parameter '{{name}}'."
+        }
       }
     },
     "no-path-concat": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow string concatenation with `__dirname` and `__filename`",
@@ -13841,7 +14140,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-path-concat"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "usePathFunctions": "Use path.join() or path.resolve() instead of + to create paths."
+        }
       }
     },
     "no-plusplus": {
@@ -13864,11 +14166,16 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedUnaryOp": "Unary operator '{{operator}}' used."
+        }
       }
     },
     "no-process-env": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow the use of `process.env`",
@@ -13876,11 +14183,16 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-process-env"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedProcessEnv": "Unexpected use of process.env."
+        }
       }
     },
     "no-process-exit": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow the use of `process.exit()`",
@@ -13888,7 +14200,25 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-process-exit"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noProcessExit": "Don't use process.exit(); throw an error instead."
+        }
+      }
+    },
+    "no-promise-executor-return": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow returning values from Promise executor functions",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://eslint.org/docs/rules/no-promise-executor-return"
+        },
+        "schema": [],
+        "messages": {
+          "returnsValue": "Return values from promise executor functions cannot be read."
+        }
       }
     },
     "no-proto": {
@@ -13900,7 +14230,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-proto"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedProto": "The '__proto__' property is deprecated."
+        }
       }
     },
     "no-prototype-builtins": {
@@ -13912,7 +14245,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-prototype-builtins"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "prototypeBuildIn": "Do not access Object.prototype method '{{prop}}' from target object."
+        }
       }
     },
     "no-redeclare": {
@@ -13953,7 +14289,39 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-regex-spaces"
         },
         "schema": [],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "multipleSpaces": "Spaces are hard to count. Use {{{length}}}."
+        }
+      }
+    },
+    "no-restricted-exports": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow specified names in exports",
+          "category": "ECMAScript 6",
+          "recommended": false,
+          "url": "https://eslint.org/docs/rules/no-restricted-exports"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "restrictedNamedExports": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "restrictedNamed": "'{{name}}' is restricted from being used as an exported name."
+        }
       }
     },
     "no-restricted-globals": {
@@ -13991,6 +14359,10 @@ eslintRules = {
           },
           "uniqueItems": true,
           "minItems": 0
+        },
+        "messages": {
+          "defaultMessage": "Unexpected use of '{{name}}'.",
+          "customMessage": "Unexpected use of '{{name}}'. {{customMessage}}"
         }
       }
     },
@@ -14008,7 +14380,9 @@ eslintRules = {
           "pathWithCustomMessage": "'{{importSource}}' import is restricted from being used. {{customMessage}}",
           "patterns": "'{{importSource}}' import is restricted from being used by a pattern.",
           "everything": "* import is invalid because '{{importNames}}' from '{{importSource}}' is restricted.",
-          "everythingWithCustomMessage": "* import is invalid because '{{importNames}}' from '{{importSource}}' is restricted. {{customMessage}}"
+          "everythingWithCustomMessage": "* import is invalid because '{{importNames}}' from '{{importSource}}' is restricted. {{customMessage}}",
+          "importName": "'{{importName}}' import from '{{importSource}}' is restricted.",
+          "importNameWithCustomMessage": "'{{importName}}' import from '{{importSource}}' is restricted. {{customMessage}}"
         },
         "schema": {
           "anyOf": [
@@ -14103,6 +14477,8 @@ eslintRules = {
     },
     "no-restricted-modules": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow specified modules when loaded by `require`",
@@ -14184,6 +14560,11 @@ eslintRules = {
               "additionalItems": false
             }
           ]
+        },
+        "messages": {
+          "defaultMessage": "'{{name}}' module is restricted from being used.",
+          "customMessage": "'{{name}}' module is restricted from being used. {{customMessage}}",
+          "patternMessage": "'{{name}}' module is restricted from being used by a pattern."
         }
       }
     },
@@ -14239,6 +14620,10 @@ eslintRules = {
             ]
           },
           "uniqueItems": true
+        },
+        "messages": {
+          "restrictedObjectProperty": "'{{objectName}}.{{propertyName}}' is restricted from being used.{{message}}",
+          "restrictedProperty": "'{{propertyName}}' is restricted from being used.{{message}}"
         }
       }
     },
@@ -14277,6 +14662,9 @@ eslintRules = {
           },
           "uniqueItems": true,
           "minItems": 0
+        },
+        "messages": {
+          "restrictedSyntax": "{{message}}"
         }
       }
     },
@@ -14296,7 +14684,11 @@ eslintRules = {
               "always"
             ]
           }
-        ]
+        ],
+        "messages": {
+          "returnAssignment": "Return statement should not contain assignment.",
+          "arrowAssignment": "Arrow function should not return assignment."
+        }
       }
     },
     "no-return-await": {
@@ -14309,7 +14701,10 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-return-await"
         },
         "fixable": null,
-        "schema": []
+        "schema": [],
+        "messages": {
+          "redundantUseOfAwait": "Redundant use of `await` on a return value."
+        }
       }
     },
     "no-script-url": {
@@ -14321,7 +14716,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-script-url"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedScriptURL": "Script URL is a form of eval."
+        }
       }
     },
     "no-self-assign": {
@@ -14344,7 +14742,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "selfAssignment": "'{{name}}' is assigned to itself."
+        }
       }
     },
     "no-self-compare": {
@@ -14356,7 +14757,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-self-compare"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "comparingToSelf": "Comparing to itself is potentially pointless."
+        }
       }
     },
     "no-sequences": {
@@ -14368,7 +14772,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-sequences"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedCommaExpression": "Unexpected use of comma operator."
+        }
       }
     },
     "no-setter-return": {
@@ -14377,7 +14784,7 @@ eslintRules = {
         "docs": {
           "description": "disallow returning values from setters",
           "category": "Possible Errors",
-          "recommended": false,
+          "recommended": true,
           "url": "https://eslint.org/docs/rules/no-setter-return"
         },
         "schema": [],
@@ -14420,7 +14827,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "noShadow": "'{{name}}' is already declared in the upper scope."
+        }
       }
     },
     "no-shadow-restricted-names": {
@@ -14432,7 +14842,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-shadow-restricted-names"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "shadowingRestrictedName": "Shadowing of global property '{{name}}'."
+        }
       }
     },
     "no-spaced-func": {
@@ -14449,7 +14862,10 @@ eslintRules = {
           "func-call-spacing"
         ],
         "fixable": "whitespace",
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noSpacedFunction": "Unexpected space between function name and paren."
+        }
       }
     },
     "no-sparse-arrays": {
@@ -14461,11 +14877,16 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-sparse-arrays"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedSparseArray": "Unexpected comma in middle of array."
+        }
       }
     },
     "no-sync": {
       "meta": {
+        "deprecated": true,
+        "replacedBy": [],
         "type": "suggestion",
         "docs": {
           "description": "disallow synchronous methods",
@@ -14484,7 +14905,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "noSync": "Unexpected sync method: '{{propertyName}}'."
+        }
       }
     },
     "no-tabs": {
@@ -14507,7 +14931,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedTab": "Unexpected tab character."
+        }
       }
     },
     "no-template-curly-in-string": {
@@ -14519,7 +14946,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-template-curly-in-string"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedTemplateExpression": "Unexpected template string expression."
+        }
       }
     },
     "no-ternary": {
@@ -14531,7 +14961,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-ternary"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noTernaryOperator": "Ternary operator used."
+        }
       }
     },
     "no-this-before-super": {
@@ -14543,7 +14976,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-this-before-super"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noBeforeSuper": "'{{kind}}' is not allowed before 'super()'."
+        }
       }
     },
     "no-throw-literal": {
@@ -14587,7 +15023,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "trailingSpace": "Trailing spaces not allowed."
+        }
       }
     },
     "no-undef": {
@@ -14626,7 +15065,10 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-undef-init"
         },
         "schema": [],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "unnecessaryUndefinedInit": "It's not necessary to initialize '{{name}}' to undefined."
+        }
       }
     },
     "no-undefined": {
@@ -14638,7 +15080,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-undefined"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedUndefined": "Unexpected use of undefined."
+        }
       }
     },
     "no-underscore-dangle": {
@@ -14675,11 +15120,18 @@ eslintRules = {
               "enforceInMethodNames": {
                 "type": "boolean",
                 "default": false
+              },
+              "allowFunctionParams": {
+                "type": "boolean",
+                "default": true
               }
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedUnderscore": "Unexpected dangling '_' in '{{identifier}}'."
+        }
       }
     },
     "no-unexpected-multiline": {
@@ -14709,7 +15161,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-unmodified-loop-condition"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "loopConditionNotModified": "'{{name}}' is not modified in this loop."
+        }
       }
     },
     "no-unneeded-ternary": {
@@ -14733,7 +15188,11 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "unnecessaryConditionalExpression": "Unnecessary use of boolean literals in conditional expression.",
+          "unnecessaryConditionalAssignment": "Unnecessary use of conditional expression for default assignment."
+        }
       }
     },
     "no-unreachable": {
@@ -14745,7 +15204,45 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-unreachable"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unreachableCode": "Unreachable code."
+        }
+      }
+    },
+    "no-unreachable-loop": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow loops with a body that allows only one iteration",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://eslint.org/docs/rules/no-unreachable-loop"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignore": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "WhileStatement",
+                    "DoWhileStatement",
+                    "ForStatement",
+                    "ForInStatement",
+                    "ForOfStatement"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "invalid": "Invalid loop. Its body allows only one iteration."
+        }
       }
     },
     "no-unsafe-finally": {
@@ -14757,7 +15254,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-unsafe-finally"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unsafeUsage": "Unsafe usage of {{nodeType}}."
+        }
       }
     },
     "no-unsafe-negation": {
@@ -14818,7 +15318,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unusedExpression": "Expected an assignment or function call and instead saw an expression."
+        }
       }
     },
     "no-unused-labels": {
@@ -14889,11 +15392,15 @@ eslintRules = {
                   "caughtErrorsIgnorePattern": {
                     "type": "string"
                   }
-                }
+                },
+                "additionalProperties": false
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "unusedVar": "'{{varName}}' is {{action}} but never used{{additional}}."
+        }
       }
     },
     "no-use-before-define": {
@@ -14930,7 +15437,29 @@ eslintRules = {
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "usedBeforeDefined": "'{{name}}' was used before it was defined."
+        }
+      }
+    },
+    "no-useless-backreference": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow useless backreferences in regular expressions",
+          "category": "Possible Errors",
+          "recommended": false,
+          "url": "https://eslint.org/docs/rules/no-useless-backreference"
+        },
+        "schema": [],
+        "messages": {
+          "nested": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' from within that group.",
+          "forward": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' which appears later in the pattern.",
+          "backward": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' which appears before in the same lookbehind.",
+          "disjunctive": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' which is in another alternative.",
+          "intoNegativeLookaround": "Backreference '{{ bref }}' will be ignored. It references group '{{ group }}' which is in a negative lookaround."
+        }
       }
     },
     "no-useless-call": {
@@ -14942,7 +15471,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-useless-call"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unnecessaryCall": "Unnecessary '.{{name}}()'."
+        }
       }
     },
     "no-useless-catch": {
@@ -14954,7 +15486,11 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-useless-catch"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unnecessaryCatchClause": "Unnecessary catch clause.",
+          "unnecessaryCatch": "Unnecessary try/catch wrapper."
+        }
       }
     },
     "no-useless-computed-key": {
@@ -14978,7 +15514,10 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "unnecessarilyComputedProperty": "Unnecessarily computed property [{{property}}] found."
+        }
       }
     },
     "no-useless-concat": {
@@ -14990,7 +15529,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-useless-concat"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedConcat": "Unexpected string concatenation of literals."
+        }
       }
     },
     "no-useless-constructor": {
@@ -15002,7 +15544,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-useless-constructor"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "noUselessConstructor": "Useless constructor."
+        }
       }
     },
     "no-useless-escape": {
@@ -15052,7 +15597,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unnecessarilyRenamed": "{{type}} {{name}} unnecessarily renamed."
+        }
       }
     },
     "no-useless-return": {
@@ -15065,7 +15613,10 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-useless-return"
         },
         "fixable": "code",
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unnecessaryReturn": "Unnecessary return statement."
+        }
       }
     },
     "no-var": {
@@ -15078,7 +15629,10 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-var"
         },
         "schema": [],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "unexpectedVar": "Unexpected var, use let or const instead."
+        }
       }
     },
     "no-void": {
@@ -15090,7 +15644,21 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/no-void"
         },
-        "schema": []
+        "messages": {
+          "noVoid": "Expected 'undefined' and instead saw 'void'."
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowAsStatement": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
       }
     },
     "no-warning-comments": {
@@ -15121,7 +15689,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedComment": "Unexpected '{{matchedTerm}}' comment: '{{comment}}'."
+        }
       }
     },
     "no-whitespace-before-property": {
@@ -15134,7 +15705,10 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/no-whitespace-before-property"
         },
         "fixable": "whitespace",
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedWhitespace": "Unexpected whitespace before property {{propName}}."
+        }
       }
     },
     "no-with": {
@@ -15146,7 +15720,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/no-with"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedWith": "Unexpected use of 'with' statement."
+        }
       }
     },
     "nonblock-statement-body-position": {
@@ -15212,7 +15789,11 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "expectNoLinebreak": "Expected no linebreak before this statement.",
+          "expectLinebreak": "Expected a linebreak before this statement."
+        }
       }
     },
     "object-curly-newline": {
@@ -15372,7 +15953,13 @@ eslintRules = {
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedLinebreakBeforeClosingBrace": "Unexpected line break before this closing brace.",
+          "unexpectedLinebreakAfterOpeningBrace": "Unexpected line break after this opening brace.",
+          "expectedLinebreakBeforeClosingBrace": "Expected a line break before this closing brace.",
+          "expectedLinebreakAfterOpeningBrace": "Expected a line break after this opening brace."
+        }
       }
     },
     "object-curly-spacing": {
@@ -15404,7 +15991,13 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "requireSpaceBefore": "A space is required before '{{token}}'.",
+          "requireSpaceAfter": "A space is required after '{{token}}'.",
+          "unexpectedSpaceBefore": "There should be no space before '{{token}}'.",
+          "unexpectedSpaceAfter": "There should be no space after '{{token}}'."
+        }
       }
     },
     "object-property-newline": {
@@ -15432,7 +16025,11 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "whitespace"
+        "fixable": "whitespace",
+        "messages": {
+          "propertiesOnNewlineAll": "Object properties must go on a new line if they aren't all on the same line.",
+          "propertiesOnNewline": "Object properties must go on a new line."
+        }
       }
     },
     "object-shorthand": {
@@ -15516,6 +16113,15 @@ eslintRules = {
               "maxItems": 2
             }
           ]
+        },
+        "messages": {
+          "expectedAllPropertiesShorthanded": "Expected shorthand for all properties.",
+          "expectedLiteralMethodLongform": "Expected longform method syntax for string literal keys.",
+          "expectedPropertyShorthand": "Expected property shorthand.",
+          "expectedPropertyLongform": "Expected longform property syntax.",
+          "expectedMethodShorthand": "Expected method shorthand.",
+          "expectedMethodLongform": "Expected longform method syntax.",
+          "unexpectedMix": "Unexpected mix of shorthand and non-shorthand properties."
         }
       }
     },
@@ -15591,7 +16197,16 @@ eslintRules = {
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "combineUninitialized": "Combine this with the previous '{{type}}' statement with uninitialized variables.",
+          "combineInitialized": "Combine this with the previous '{{type}}' statement with initialized variables.",
+          "splitUninitialized": "Split uninitialized '{{type}}' declarations into multiple statements.",
+          "splitInitialized": "Split initialized '{{type}}' declarations into multiple statements.",
+          "splitRequires": "Split requires to be separated into a single block.",
+          "combine": "Combine this with the previous '{{type}}' statement.",
+          "split": "Split '{{type}}' declarations into multiple statements."
+        }
       }
     },
     "one-var-declaration-per-line": {
@@ -15611,7 +16226,10 @@ eslintRules = {
             ]
           }
         ],
-        "fixable": "whitespace"
+        "fixable": "whitespace",
+        "messages": {
+          "expectVarOnNewline": "Expected variable declaration to be on a new line."
+        }
       }
     },
     "operator-assignment": {
@@ -15661,23 +16279,26 @@ eslintRules = {
             "properties": {
               "overrides": {
                 "type": "object",
-                "properties": {
-                  "anyOf": {
-                    "type": "string",
-                    "enum": [
-                      "after",
-                      "before",
-                      "none",
-                      "ignore"
-                    ]
-                  }
+                "additionalProperties": {
+                  "enum": [
+                    "after",
+                    "before",
+                    "none",
+                    "ignore"
+                  ]
                 }
               }
             },
             "additionalProperties": false
           }
         ],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "operatorAtBeginning": "'{{operator}}' should be placed at the beginning of the line.",
+          "operatorAtEnd": "'{{operator}}' should be placed at the end of the line.",
+          "badLinebreak": "Bad line breaking before and after '{{operator}}'.",
+          "noLinebreak": "There should be no line break before or after '{{operator}}'."
+        }
       }
     },
     "padded-blocks": {
@@ -15732,9 +16353,14 @@ eslintRules = {
               "allowSingleLineBlocks": {
                 "type": "boolean"
               }
-            }
+            },
+            "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "alwaysPadBlock": "Block must be padded by blank lines.",
+          "neverPadBlock": "Block must not be padded by blank lines."
+        }
       }
     },
     "padding-line-between-statements": {
@@ -15873,6 +16499,10 @@ eslintRules = {
             ]
           },
           "additionalItems": false
+        },
+        "messages": {
+          "unexpectedBlankLine": "Unexpected blank line before this statement.",
+          "expectedBlankLine": "Expected blank line before this statement."
         }
       }
     },
@@ -15901,7 +16531,10 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "preferArrowCallback": "Unexpected function expression."
+        }
       }
     },
     "prefer-const": {
@@ -16004,7 +16637,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "preferDestructuring": "Use {{type}} destructuring."
+        }
       }
     },
     "prefer-exponentiation-operator": {
@@ -16092,7 +16728,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "rejectAnError": "Expected the Promise rejection reason to be an Error."
+        }
       }
     },
     "prefer-reflect": {
@@ -16131,7 +16770,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "preferReflect": "Avoid using {{existing}}, instead use {{substitute}}."
+        }
       }
     },
     "prefer-regex-literals": {
@@ -16143,9 +16785,22 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/prefer-regex-literals"
         },
-        "schema": [],
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "disallowRedundantWrapping": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
         "messages": {
-          "unexpectedRegExp": "Use a regular expression literal instead of the 'RegExp' constructor."
+          "unexpectedRegExp": "Use a regular expression literal instead of the 'RegExp' constructor.",
+          "unexpectedRedundantRegExp": "Regular expression literal is unnecessarily wrapped within a 'RegExp' constructor.",
+          "unexpectedRedundantRegExpWithFlags": "Use regular expression literal with flags instead of the 'RegExp' constructor."
         }
       }
     },
@@ -16158,7 +16813,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/prefer-rest-params"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "preferRestParams": "Use the rest parameters instead of 'arguments'."
+        }
       }
     },
     "prefer-spread": {
@@ -16171,7 +16829,10 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/prefer-spread"
         },
         "schema": [],
-        "fixable": null
+        "fixable": null,
+        "messages": {
+          "preferSpread": "Use the spread operator instead of '.apply()'."
+        }
       }
     },
     "prefer-template": {
@@ -16184,7 +16845,10 @@ eslintRules = {
           "url": "https://eslint.org/docs/rules/prefer-template"
         },
         "schema": [],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "unexpectedStringConcatenation": "Unexpected string concatenation."
+        }
       }
     },
     "quote-props": {
@@ -16245,7 +16909,16 @@ eslintRules = {
             }
           ]
         },
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "requireQuotesDueToReservedWord": "Properties should be quoted as '{{property}}' is a reserved word.",
+          "inconsistentlyQuotedProperty": "Inconsistently quoted property '{{key}}' found.",
+          "unnecessarilyQuotedProperty": "Unnecessarily quoted property '{{property}}' found.",
+          "unquotedReservedProperty": "Unquoted reserved word '{{property}}' used as key.",
+          "unquotedNumericProperty": "Unquoted number literal '{{property}}' used as key.",
+          "unquotedPropertyFound": "Unquoted property '{{property}}' found.",
+          "redundantQuoting": "Properties shouldn't be quoted as all quotes are redundant."
+        }
       }
     },
     "quotes": {
@@ -16287,7 +16960,10 @@ eslintRules = {
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "wrongQuotes": "Strings must use {{description}}."
+        }
       }
     },
     "radix": {
@@ -16306,7 +16982,13 @@ eslintRules = {
               "as-needed"
             ]
           }
-        ]
+        ],
+        "messages": {
+          "missingParameters": "Missing parameters.",
+          "redundantRadix": "Redundant radix parameter.",
+          "missingRadix": "Missing radix parameter.",
+          "invalidRadix": "Invalid radix parameter, must be an integer between 2 and 36."
+        }
       }
     },
     "require-atomic-updates": {
@@ -16334,7 +17016,10 @@ eslintRules = {
           "recommended": false,
           "url": "https://eslint.org/docs/rules/require-await"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "missingAwait": "{{name}} has no 'await' expression."
+        }
       }
     },
     "require-jsdoc": {
@@ -16382,7 +17067,10 @@ eslintRules = {
           }
         ],
         "deprecated": true,
-        "replacedBy": []
+        "replacedBy": [],
+        "messages": {
+          "missingJSDocComment": "Missing JSDoc comment."
+        }
       }
     },
     "require-unicode-regexp": {
@@ -16409,7 +17097,10 @@ eslintRules = {
           "recommended": true,
           "url": "https://eslint.org/docs/rules/require-yield"
         },
-        "schema": []
+        "schema": [],
+        "messages": {
+          "missingYield": "This generator function does not have 'yield'."
+        }
       }
     },
     "rest-spread-spacing": {
@@ -16429,7 +17120,11 @@ eslintRules = {
               "never"
             ]
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedWhitespace": "Unexpected whitespace after {{type}} operator.",
+          "expectedWhitespace": "Expected whitespace after {{type}} operator."
+        }
       }
     },
     "semi": {
@@ -16491,6 +17186,10 @@ eslintRules = {
               "maxItems": 2
             }
           ]
+        },
+        "messages": {
+          "missingSemi": "Missing semicolon.",
+          "extraSemi": "Extra semicolon."
         }
       }
     },
@@ -16519,7 +17218,13 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedWhitespaceBefore": "Unexpected whitespace before semicolon.",
+          "unexpectedWhitespaceAfter": "Unexpected whitespace after semicolon.",
+          "missingWhitespaceBefore": "Missing whitespace before semicolon.",
+          "missingWhitespaceAfter": "Missing whitespace after semicolon."
+        }
       }
     },
     "semi-style": {
@@ -16539,7 +17244,10 @@ eslintRules = {
             ]
           }
         ],
-        "fixable": "whitespace"
+        "fixable": "whitespace",
+        "messages": {
+          "expectedSemiColon": "Expected this semicolon to be at {{pos}}."
+        }
       }
     },
     "sort-imports": {
@@ -16580,12 +17288,21 @@ eslintRules = {
               "ignoreMemberSort": {
                 "type": "boolean",
                 "default": false
+              },
+              "allowSeparatedGroups": {
+                "type": "boolean",
+                "default": false
               }
             },
             "additionalProperties": false
           }
         ],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "sortImportsAlphabetically": "Imports should be sorted alphabetically.",
+          "sortMembersAlphabetically": "Member '{{memberName}}' of the import declaration should be sorted alphabetically.",
+          "unexpectedSyntaxOrder": "Expected '{{syntaxA}}' syntax before '{{syntaxB}}' syntax."
+        }
       }
     },
     "sort-keys": {
@@ -16623,7 +17340,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "sortKeys": "Expected object keys to be in {{natural}}{{insensitive}}{{order}}ending order. '{{thisName}}' should be before '{{prevName}}'."
+        }
       }
     },
     "sort-vars": {
@@ -16647,7 +17367,10 @@ eslintRules = {
             "additionalProperties": false
           }
         ],
-        "fixable": "code"
+        "fixable": "code",
+        "messages": {
+          "sortVars": "Variables within the same declaration block should be sorted alphabetically."
+        }
       }
     },
     "space-before-blocks": {
@@ -16698,7 +17421,11 @@ eslintRules = {
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedSpace": "Unexpected space before opening brace.",
+          "missingSpace": "Missing space before opening brace."
+        }
       }
     },
     "space-before-function-paren": {
@@ -16749,7 +17476,11 @@ eslintRules = {
               }
             ]
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedSpace": "Unexpected space before function parentheses.",
+          "missingSpace": "Missing space before function parentheses."
+        }
       }
     },
     "space-in-parens": {
@@ -16817,7 +17548,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "missingSpace": "Operator '{{operator}}' must be spaced."
+        }
       }
     },
     "space-unary-ops": {
@@ -16937,7 +17671,15 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "unexpectedSpaceAfterMarker": "Unexpected space or tab after marker ({{refChar}}) in comment.",
+          "expectedExceptionAfter": "Expected exception block, space or tab after '{{refChar}}' in comment.",
+          "unexpectedSpaceBefore": "Unexpected space or tab before '*/' in comment.",
+          "unexpectedSpaceAfter": "Unexpected space or tab after '{{refChar}}' in comment.",
+          "expectedSpaceBefore": "Expected space or tab before '*/' in comment.",
+          "expectedSpaceAfter": "Expected space or tab after '{{refChar}}' in comment."
+        }
       }
     },
     "strict": {
@@ -17113,7 +17855,7 @@ eslintRules = {
             "properties": {
               "enforceForSwitchCase": {
                 "type": "boolean",
-                "default": false
+                "default": true
               },
               "enforceForIndexOf": {
                 "type": "boolean",
@@ -23666,980 +24408,17 @@ eslintRules = {
     },
     "react-redux/prefer-separate-component-file": {}
   },
-  "sonarjs": {
-    "sonarjs/cognitive-complexity": {
-      "meta": {
-        "schema": [
-          {
-            "type": "integer",
-            "minimum": 0
-          },
-          {
-            "enum": [
-              "sonar-runtime",
-              "metric"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/max-switch-cases": {
-      "meta": {
-        "schema": [
-          {
-            "type": "integer",
-            "minimum": 0
-          }
-        ]
-      }
-    },
-    "sonarjs/no-all-duplicated-branches": {},
-    "sonarjs/no-collapsible-if": {
-      "meta": {
-        "schema": [
-          {
-            "enum": [
-              "sonar-runtime"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/no-collection-size-mischeck": {},
-    "sonarjs/no-duplicate-string": {
-      "meta": {
-        "schema": [
-          {
-            "type": "integer",
-            "minimum": 2
-          }
-        ]
-      }
-    },
-    "sonarjs/no-duplicated-branches": {
-      "meta": {
-        "schema": [
-          {
-            "enum": [
-              "sonar-runtime"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/no-element-overwrite": {
-      "meta": {
-        "schema": [
-          {
-            "enum": [
-              "sonar-runtime"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/no-extra-arguments": {
-      "meta": {
-        "schema": [
-          {
-            "enum": [
-              "sonar-runtime"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/no-identical-conditions": {
-      "meta": {
-        "schema": [
-          {
-            "enum": [
-              "sonar-runtime"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/no-identical-functions": {
-      "meta": {
-        "schema": [
-          {
-            "enum": [
-              "sonar-runtime"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/no-identical-expressions": {
-      "meta": {
-        "schema": [
-          {
-            "enum": [
-              "sonar-runtime"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/no-inverted-boolean-check": {},
-    "sonarjs/no-one-iteration-loop": {},
-    "sonarjs/no-redundant-boolean": {},
-    "sonarjs/no-redundant-jump": {},
-    "sonarjs/no-same-line-conditional": {
-      "meta": {
-        "schema": [
-          {
-            "enum": [
-              "sonar-runtime"
-            ]
-          }
-        ]
-      }
-    },
-    "sonarjs/no-small-switch": {},
-    "sonarjs/no-unused-collection": {},
-    "sonarjs/no-use-of-empty-return-value": {},
-    "sonarjs/no-useless-catch": {},
-    "sonarjs/prefer-immediate-return": {
-      "meta": {
-        "fixable": "code"
-      }
-    },
-    "sonarjs/prefer-object-literal": {},
-    "sonarjs/prefer-single-boolean-return": {},
-    "sonarjs/prefer-while": {}
-  },
-  "unicorn": {
-    "unicorn/better-regex": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/better-regex.md"
-        },
-        "fixable": "code",
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "sortCharacterClasses": {
-                "type": "boolean",
-                "default": true
-              }
-            }
-          }
-        ]
-      }
-    },
-    "unicorn/catch-error-name": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/catch-error-name.md"
-        },
-        "fixable": "code",
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "ignore": {
-                "type": "array",
-                "uniqueItems": true
-              }
-            }
-          }
-        ],
-        "messages": {
-          "error": "The catch parameter `{{originalName}}` should be named `{{fixedName}}`."
-        }
-      }
-    },
-    "unicorn/consistent-function-scoping": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/consistent-function-scoping.md"
-        },
-        "messages": {
-          "named": "Move {{functionType}} `{{functionName}}` to the outer scope.",
-          "anonymous": "Move {{functionType}} to the outer scope."
-        }
-      }
-    },
-    "unicorn/custom-error-definition": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/custom-error-definition.md"
-        },
-        "fixable": "code",
-        "messages": {
-          "invalidExport": "Exported error name should match error class"
-        }
-      }
-    },
-    "unicorn/error-message": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/error-message.md"
-        }
-      }
-    },
-    "unicorn/escape-case": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/escape-case.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/expiring-todo-comments": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/expiring-todo-comments.md"
-        },
-        "messages": {
-          "unicorn/avoidMultipleDates": "Avoid using multiple expiration dates in TODO: {{expirationDates}}. {{message}}",
-          "unicorn/expiredTodo": "There is a TODO that is past due date: {{expirationDate}}. {{message}}",
-          "unicorn/reachedPackageVersion": "There is a TODO that is past due package version: {{comparison}}. {{message}}",
-          "unicorn/avoidMultiplePackageVersions": "Avoid using multiple package versions in TODO: {{versions}}. {{message}}",
-          "unicorn/havePackage": "There is a TODO that is deprecated since you installed: {{package}}. {{message}}",
-          "unicorn/dontHavePackage": "There is a TODO that is deprecated since you uninstalled: {{package}}. {{message}}",
-          "unicorn/versionMatches": "There is a TODO match for package version: {{comparison}}. {{message}}",
-          "unicorn/engineMatches": "There is a TODO match for Node.js version: {{comparison}}. {{message}}",
-          "unicorn/removeWhitespaces": "Avoid using whitespaces on TODO argument. On '{{original}}' use '{{fix}}'. {{message}}",
-          "unicorn/missingAtSymbol": "Missing '@' on TODO argument. On '{{original}}' use '{{fix}}'. {{message}}"
-        },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "terms": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "ignore": {
-                "type": "array",
-                "uniqueItems": true
-              },
-              "ignoreDatesOnPullRequests": {
-                "type": "boolean",
-                "default": true
-              },
-              "allowWarningComments": {
-                "type": "boolean",
-                "default": false
-              }
-            },
-            "additionalProperties": false
-          }
-        ]
-      }
-    },
-    "unicorn/explicit-length-check": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/explicit-length-check.md"
-        },
-        "fixable": "code",
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "non-zero": {
-                "enum": [
-                  "not-equal",
-                  "greater-than",
-                  "greater-than-or-equal"
-                ]
-              }
-            }
-          }
-        ]
-      }
-    },
-    "unicorn/filename-case": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/filename-case.md"
-        },
-        "schema": [
-          {
-            "oneOf": [
-              {
-                "properties": {
-                  "case": {
-                    "enum": [
-                      "camelCase",
-                      "snakeCase",
-                      "kebabCase",
-                      "pascalCase"
-                    ]
-                  },
-                  "ignore": {
-                    "type": "array",
-                    "uniqueItems": true
-                  }
-                },
-                "additionalProperties": false
-              },
-              {
-                "properties": {
-                  "cases": {
-                    "properties": {
-                      "camelCase": {
-                        "type": "boolean"
-                      },
-                      "snakeCase": {
-                        "type": "boolean"
-                      },
-                      "kebabCase": {
-                        "type": "boolean"
-                      },
-                      "pascalCase": {
-                        "type": "boolean"
-                      }
-                    },
-                    "additionalProperties": false
-                  },
-                  "ignore": {
-                    "type": "array",
-                    "uniqueItems": true
-                  }
-                },
-                "additionalProperties": false
-              }
-            ]
-          }
-        ],
-        "messages": {
-          "renameToCase": "Filename is not in {{chosenCases}}. Rename it to {{renamedFilenames}}.",
-          "renameToCases": "Filename is not in {{chosenCases}}. Rename it to {{renamedFilenames}}."
-        }
-      }
-    },
-    "unicorn/import-index": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/import-index.md"
-        },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "ignoreImports": {
-                "type": "boolean",
-                "default": false
-              }
-            },
-            "additionalProperties": false
-          }
-        ],
-        "fixable": "code"
-      }
-    },
-    "unicorn/new-for-builtins": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/new-for-builtins.md"
-        },
-        "fixable": "code",
-        "messages": {
-          "enforce": "Use `new {{name}}()` instead of `{{name}}()`.",
-          "disallow": "Use `{{name}}()` instead of `new {{name}}()`."
-        }
-      }
-    },
-    "unicorn/no-abusive-eslint-disable": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-abusive-eslint-disable.md"
-        }
-      }
-    },
-    "unicorn/no-array-instanceof": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-array-instanceof.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/no-console-spaces": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-console-spaces.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/no-fn-reference-in-iterator": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-fn-reference-in-iterator.md"
-        },
-        "messages": {
-          "error-with-name": "Do not pass function `{{name}}` directly to `.{{method}}(…)`.",
-          "error-without-name": "Do not pass function directly to `.{{method}}(…)`.",
-          "replace-with-name": "Replace function `{{name}}` with `… => {{name}}({{parameters}})`.",
-          "replace-without-name": "Replace function with `… => …({{parameters}})`."
-        }
-      }
-    },
-    "unicorn/no-for-loop": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-for-loop.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/no-hex-escape": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-hex-escape.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/no-keyword-prefix": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-keyword-prefix.md"
-        },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "blacklist": {
-                "type": "array",
-                "items": [
-                  {
-                    "type": "string"
-                  }
-                ],
-                "minItems": 0,
-                "uniqueItems": true
-              },
-              "checkProperties": {
-                "type": "boolean"
-              },
-              "onlyCamelCase": {
-                "type": "boolean"
-              }
-            },
-            "additionalProperties": false
-          }
-        ],
-        "messages": {
-          "noKeywordPrefix": "Do not prefix identifiers with keyword `{{keyword}}`."
-        }
-      }
-    },
-    "unicorn/no-nested-ternary": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-nested-ternary.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/no-new-buffer": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-new-buffer.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/no-null": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-null.md"
-        },
-        "messages": {
-          "error": "Use `undefined` instead of `null`.",
-          "replace": "Replace `null` with `undefined`.",
-          "remove": "Remove `null`."
-        },
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "checkStrictEquality": {
-                "type": "boolean",
-                "default": false
-              }
-            },
-            "additionalProperties": false
-          }
-        ],
-        "fixable": "code"
-      }
-    },
-    "unicorn/no-process-exit": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-process-exit.md"
-        }
-      }
-    },
-    "unicorn/no-unreadable-array-destructuring": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-unreadable-array-destructuring.md"
-        }
-      }
-    },
-    "unicorn/no-unsafe-regex": {
-      "meta": {
-        "type": "problem",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-unsafe-regex.md"
-        }
-      }
-    },
-    "unicorn/no-unused-properties": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-unused-properties.md"
-        }
-      }
-    },
-    "unicorn/no-zero-fractions": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/no-zero-fractions.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/number-literal-case": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/number-literal-case.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-add-event-listener": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-add-event-listener.md"
-        },
-        "fixable": "code",
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "excludedPackages": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "uniqueItems": true
-              }
-            },
-            "additionalProperties": false
-          }
-        ]
-      }
-    },
-    "unicorn/prefer-dataset": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-dataset.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-event-key": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-event-key.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-exponentiation-operator": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-exponentiation-operator.md"
-        },
-        "fixable": "code"
-      },
-      "deprecated": true,
-      "replacedBy": [
-        "prefer-exponentiation-operator"
-      ]
-    },
-    "unicorn/prefer-flat-map": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-flat-map.md"
-        },
-        "fixable": "code",
-        "messages": {
-          "flat-map": "Prefer `.flatMap(…)` over `.map(…).flat()`.",
-          "spread": "Prefer `.flatMap(…)` over `[].concat(...foo.map(…))`."
-        }
-      }
-    },
-    "unicorn/prefer-includes": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-includes.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-modern-dom-apis": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-modern-dom-apis.md"
-        },
-        "fixable": "code",
-        "messages": {
-          "replaceChildOrInsertBefore": "Prefer `{{oldChildNode}}.{{preferredMethod}}({{newChildNode}})` over `{{parentNode}}.{{method}}({{newChildNode}}, {{oldChildNode}})`.",
-          "insertAdjacentTextOrInsertAdjacentElement": "Prefer `{{reference}}.{{preferredMethod}}({{content}})` over `{{reference}}.{{method}}({{position}}, {{content}})`."
-        }
-      }
-    },
-    "unicorn/prefer-negative-index": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-negative-index.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-node-append": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-node-append.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-node-remove": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-node-remove.md"
-        },
-        "fixable": "code",
-        "messages": {
-          "error": "Prefer `childNode.remove()` over `parentNode.removeChild(childNode)`.",
-          "suggestion": "Replace `parentNode.removeChild(childNode)` with `childNode.remove()`."
-        }
-      }
-    },
-    "unicorn/prefer-number-properties": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-number-properties.md"
-        },
-        "fixable": "code",
-        "messages": {
-          "method-error": "Prefer `Number.{{name}}()` over `{{name}}()`.",
-          "method-suggestion": "Replace `{{name}}()` with `Number.{{name}}()`.",
-          "property-error": "Prefer `Number.{{name}}` over `{{name}}`."
-        }
-      }
-    },
-    "unicorn/prefer-query-selector": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-query-selector.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-reflect-apply": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-reflect-apply.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-replace-all": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-replace-all.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-set-has": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-set-has.md"
-        },
-        "fixable": "code",
-        "messages": {
-          "preferSetHas": "`{{name}}` should be a `Set`, and use `{{name}}.has()` to check existence or non-existence."
-        }
-      }
-    },
-    "unicorn/prefer-spread": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-spread.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-starts-ends-with": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-starts-ends-with.md"
-        }
-      }
-    },
-    "unicorn/prefer-string-slice": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-string-slice.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-text-content": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-text-content.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prefer-trim-start-end": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-trim-start-end.md"
-        },
-        "fixable": "code",
-        "messages": {
-          "trimLeft": "Prefer `String#trimLeft()` over `String#trimStart()`.",
-          "trimRight": "Prefer `String#trimRight()` over `String#trimEnd()`."
-        }
-      }
-    },
-    "unicorn/prefer-type-error": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prefer-type-error.md"
-        },
-        "fixable": "code"
-      }
-    },
-    "unicorn/prevent-abbreviations": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/prevent-abbreviations.md"
-        },
-        "fixable": "code",
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "checkProperties": {
-                "type": "boolean"
-              },
-              "checkVariables": {
-                "type": "boolean"
-              },
-              "checkDefaultAndNamespaceImports": {
-                "type": [
-                  "boolean",
-                  "string"
-                ],
-                "pattern": "internal"
-              },
-              "checkShorthandImports": {
-                "type": [
-                  "boolean",
-                  "string"
-                ],
-                "pattern": "internal"
-              },
-              "checkShorthandProperties": {
-                "type": "boolean"
-              },
-              "checkFilenames": {
-                "type": "boolean"
-              },
-              "extendDefaultReplacements": {
-                "type": "boolean"
-              },
-              "replacements": {
-                "$ref": "#/items/0/definitions/abbreviations"
-              },
-              "extendDefaultWhitelist": {
-                "type": "boolean"
-              },
-              "whitelist": {
-                "$ref": "#/items/0/definitions/booleanObject"
-              }
-            },
-            "additionalProperties": false,
-            "definitions": {
-              "abbreviations": {
-                "type": "object",
-                "additionalProperties": {
-                  "$ref": "#/items/0/definitions/replacements"
-                }
-              },
-              "replacements": {
-                "anyOf": [
-                  {
-                    "enum": [
-                      false
-                    ]
-                  },
-                  {
-                    "$ref": "#/items/0/definitions/booleanObject"
-                  }
-                ]
-              },
-              "booleanObject": {
-                "type": "object",
-                "additionalProperties": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        ]
-      }
-    },
-    "unicorn/regex-shorthand": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/regex-shorthand.md"
-        },
-        "fixable": "code"
-      },
-      "deprecated": true,
-      "replacedBy": [
-        "unicorn/better-regex"
-      ]
-    },
-    "unicorn/string-content": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/string-content.md"
-        },
-        "fixable": "code",
-        "schema": [
-          {
-            "type": "object",
-            "properties": {
-              "patterns": {
-                "type": "object",
-                "additionalProperties": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "object",
-                      "required": [
-                        "suggest"
-                      ],
-                      "properties": {
-                        "suggest": {
-                          "type": "string"
-                        },
-                        "fix": {
-                          "type": "boolean"
-                        },
-                        "message": {
-                          "type": "string"
-                        }
-                      },
-                      "additionalProperties": false
-                    }
-                  ]
-                }
-              }
-            },
-            "additionalProperties": false
-          }
-        ],
-        "messages": {
-          "replace": "Replace `{{match}}` with `{{suggest}}`."
-        }
-      }
-    },
-    "unicorn/throw-new-error": {
-      "meta": {
-        "type": "suggestion",
-        "docs": {
-          "url": "https://github.com/sindresorhus/eslint-plugin-unicorn/blob/v19.0.1/docs/rules/throw-new-error.md"
-        },
-        "fixable": "code"
-      }
-    }
-  },
   "vue": {
     "vue/array-bracket-spacing": {
       "meta": {
         "type": "layout",
         "docs": {
           "description": "enforce consistent spacing inside array brackets",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/array-bracket-spacing.html"
+          "url": "https://eslint.vuejs.org/rules/array-bracket-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/array-bracket-spacing"
         },
         "fixable": "whitespace",
         "schema": [
@@ -24678,8 +24457,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce consistent spacing before and after the arrow in arrow functions",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/arrow-spacing.html"
+          "url": "https://eslint.vuejs.org/rules/arrow-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/arrow-spacing"
         },
         "fixable": "whitespace",
         "schema": [
@@ -24711,7 +24493,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce attribute naming style on custom components in template",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/attribute-hyphenation.html"
         },
         "fixable": "code",
@@ -24760,7 +24545,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce order of attributes",
-          "category": "recommended",
+          "categories": [
+            "vue3-recommended",
+            "recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/attributes-order.html"
         },
         "fixable": "code",
@@ -24783,8 +24571,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "disallow or enforce spaces inside of blocks after opening block and before closing block",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/block-spacing.html"
+          "url": "https://eslint.vuejs.org/rules/block-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/block-spacing"
         },
         "fixable": "whitespace",
         "schema": [
@@ -24806,8 +24597,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce consistent brace style for blocks",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/brace-style.html"
+          "url": "https://eslint.vuejs.org/rules/brace-style.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/brace-style"
         },
         "schema": [
           {
@@ -24844,8 +24638,11 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce camelcase naming convention",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/camelcase.html"
+          "url": "https://eslint.vuejs.org/rules/camelcase.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/camelcase"
         },
         "schema": [
           {
@@ -24856,6 +24653,10 @@ eslintRules = {
                 "default": false
               },
               "ignoreImports": {
+                "type": "boolean",
+                "default": false
+              },
+              "ignoreGlobals": {
                 "type": "boolean",
                 "default": false
               },
@@ -24889,8 +24690,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "require or disallow trailing commas",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/comma-dangle.html"
+          "url": "https://eslint.vuejs.org/rules/comma-dangle.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/comma-dangle"
         },
         "fixable": "code",
         "schema": {
@@ -24951,15 +24755,113 @@ eslintRules = {
         }
       }
     },
+    "vue/comma-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent spacing before and after commas",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/comma-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/comma-spacing"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "before": {
+                "type": "boolean",
+                "default": false
+              },
+              "after": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "missing": "A space is required {{loc}} ','.",
+          "unexpected": "There should be no space {{loc}} ','."
+        }
+      }
+    },
+    "vue/comma-style": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent comma style",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/comma-style.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/comma-style"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "first",
+              "last"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "exceptions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unexpectedLineBeforeAndAfterComma": "Bad line breaking before and after ','.",
+          "expectedCommaFirst": "',' should be placed first.",
+          "expectedCommaLast": "',' should be placed last."
+        }
+      }
+    },
     "vue/comment-directive": {
       "meta": {
         "type": "problem",
         "docs": {
           "description": "support comment-directives in `<template>`",
-          "category": "base",
+          "categories": [
+            "base"
+          ],
           "url": "https://eslint.vuejs.org/rules/comment-directive.html"
         },
-        "schema": []
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "reportUnusedDisableDirectives": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "disableBlock": "--block {{key}}",
+          "enableBlock": "++block",
+          "disableLine": "--line {{key}}",
+          "enableLine": "++line",
+          "disableBlockRule": "-block {{rule}} {{key}}",
+          "enableBlockRule": "+block {{rule}}",
+          "disableLineRule": "-line {{rule}} {{key}}",
+          "enableLineRule": "+line {{rule}}",
+          "clear": "clear",
+          "unused": "Unused {{kind}} directive (no problems were reported).",
+          "unusedRule": "Unused {{kind}} directive (no problems were reported from '{{rule}}')."
+        }
       }
     },
     "vue/component-definition-name-casing": {
@@ -24967,6 +24869,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce specific casing for component definition name",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/component-definition-name-casing.html"
         },
         "fixable": "code",
@@ -25020,19 +24926,59 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce order of component top-level elements",
+          "categories": [
+            "vue3-recommended",
+            "recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/component-tags-order.html"
         },
         "fixable": null,
-        "schema": {
-          "type": "array",
-          "properties": {
-            "order": {
-              "type": "array"
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "order": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "uniqueItems": true
+                    }
+                  ]
+                },
+                "uniqueItems": true,
+                "additionalItems": false
+              }
             }
           }
-        },
+        ],
         "messages": {
           "unexpected": "The <{{name}}> should be above the <{{firstUnorderedName}}> on line {{line}}."
+        }
+      }
+    },
+    "vue/custom-event-name-casing": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce custom event names always use \"kebab-case\"",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/custom-event-name-casing.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "Custom event name '{{name}}' must be kebab-case."
         }
       }
     },
@@ -25041,8 +24987,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce consistent newlines before and after dots",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/dot-location.html"
+          "url": "https://eslint.vuejs.org/rules/dot-location.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/dot-location"
         },
         "schema": [
           {
@@ -25059,13 +25008,50 @@ eslintRules = {
         }
       }
     },
+    "vue/dot-notation": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce dot notation whenever possible",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/dot-notation.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/dot-notation"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowKeywords": {
+                "type": "boolean",
+                "default": true
+              },
+              "allowPattern": {
+                "type": "string",
+                "default": ""
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "fixable": "code",
+        "messages": {
+          "useDot": "[{{key}}] is better written in dot notation.",
+          "useBrackets": ".{{key}} is a syntax error."
+        }
+      }
+    },
     "vue/eqeqeq": {
       "meta": {
         "type": "suggestion",
         "docs": {
           "description": "require the use of `===` and `!==`",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/eqeqeq.html"
+          "url": "https://eslint.vuejs.org/rules/eqeqeq.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/eqeqeq"
         },
         "schema": {
           "anyOf": [
@@ -25113,12 +25099,84 @@ eslintRules = {
         }
       }
     },
+    "vue/experimental-script-setup-vars": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "prevent variables defined in `<script setup>` to be marked as undefined",
+          "categories": [
+            "base"
+          ],
+          "url": "https://eslint.vuejs.org/rules/experimental-script-setup-vars.html"
+        },
+        "schema": []
+      }
+    },
+    "vue/func-call-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require or disallow spacing between function identifiers and their invocations",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/func-call-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/func-call-spacing"
+        },
+        "fixable": "whitespace",
+        "schema": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "never"
+                  ]
+                }
+              ],
+              "minItems": 0,
+              "maxItems": 1
+            },
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "always"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "allowNewlines": {
+                      "type": "boolean"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "minItems": 0,
+              "maxItems": 2
+            }
+          ]
+        },
+        "messages": {
+          "unexpectedWhitespace": "Unexpected whitespace between function name and paren.",
+          "unexpectedNewline": "Unexpected newline between function name and paren.",
+          "missing": "Missing space between function name and paren."
+        }
+      }
+    },
     "vue/html-closing-bracket-newline": {
       "meta": {
         "type": "layout",
         "docs": {
           "description": "require or disallow a line break before tag's closing brackets",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/html-closing-bracket-newline.html"
         },
         "fixable": "whitespace",
@@ -25149,7 +25207,10 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "require or disallow a space before tag's closing brackets",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/html-closing-bracket-spacing.html"
         },
         "schema": [
@@ -25181,12 +25242,147 @@ eslintRules = {
         "fixable": "whitespace"
       }
     },
+    "vue/html-comment-content-newline": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce unified line brake in HTML comments",
+          "url": "https://eslint.vuejs.org/rules/html-comment-content-newline.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "anyOf": [
+              {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "singleline": {
+                    "enum": [
+                      "always",
+                      "never",
+                      "ignore"
+                    ]
+                  },
+                  "multiline": {
+                    "enum": [
+                      "always",
+                      "never",
+                      "ignore"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "expectedAfterHTMLCommentOpen": "Expected line break after '<!--'.",
+          "expectedBeforeHTMLCommentOpen": "Expected line break before '-->'.",
+          "expectedAfterExceptionBlock": "Expected line break after exception block.",
+          "expectedBeforeExceptionBlock": "Expected line break before exception block.",
+          "unexpectedAfterHTMLCommentOpen": "Unexpected line breaks after '<!--'.",
+          "unexpectedBeforeHTMLCommentOpen": "Unexpected line breaks before '-->'."
+        }
+      }
+    },
+    "vue/html-comment-content-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce unified spacing in HTML comments",
+          "url": "https://eslint.vuejs.org/rules/html-comment-content-spacing.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "expectedAfterHTMLCommentOpen": "Expected space after '<!--'.",
+          "expectedBeforeHTMLCommentOpen": "Expected space before '-->'.",
+          "expectedAfterExceptionBlock": "Expected space after exception block.",
+          "expectedBeforeExceptionBlock": "Expected space before exception block.",
+          "unexpectedAfterHTMLCommentOpen": "Unexpected space after '<!--'.",
+          "unexpectedBeforeHTMLCommentOpen": "Unexpected space before '-->'."
+        }
+      }
+    },
+    "vue/html-comment-indent": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent indentation in HTML comments",
+          "url": "https://eslint.vuejs.org/rules/html-comment-indent.html"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "enum": [
+                  "tab"
+                ]
+              }
+            ]
+          }
+        ],
+        "messages": {
+          "unexpectedBaseIndentation": "Expected base point indentation of {{expected}}, but found {{actual}}.",
+          "missingBaseIndentation": "Expected base point indentation of {{expected}}, but not found.",
+          "unexpectedIndentationCharacter": "Expected {{expected}} character, but found {{actual}} character.",
+          "unexpectedIndentation": "Expected indentation of {{expected}} but found {{actual}}.",
+          "unexpectedRelativeIndentation": "Expected relative indentation of {{expected}} but found {{actual}}."
+        }
+      }
+    },
     "vue/html-end-tags": {
       "meta": {
         "type": "suggestion",
         "docs": {
           "description": "enforce end tag style",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/html-end-tags.html"
         },
         "fixable": "code",
@@ -25198,7 +25394,10 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce consistent indentation in `<template>`",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/html-indent.html"
         },
         "fixable": "whitespace",
@@ -25228,8 +25427,30 @@ eslintRules = {
                 "minimum": 0
               },
               "closeBracket": {
-                "type": "integer",
-                "minimum": 0
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "startTag": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "endTag": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "selfClosingTag": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
               },
               "switchCase": {
                 "type": "integer",
@@ -25273,7 +25494,10 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce quotes style of HTML attributes",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/html-quotes.html"
         },
         "fixable": "code",
@@ -25301,7 +25525,10 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce self-closing style",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/html-self-closing.html"
         },
         "fixable": "code",
@@ -25354,7 +25581,9 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "prevent variables used in JSX to be marked as unused",
-          "category": "base",
+          "categories": [
+            "base"
+          ],
           "url": "https://eslint.vuejs.org/rules/jsx-uses-vars.html"
         },
         "schema": []
@@ -25365,8 +25594,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce consistent spacing between keys and values in object literal properties",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/key-spacing.html"
+          "url": "https://eslint.vuejs.org/rules/key-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/key-spacing"
         },
         "fixable": "whitespace",
         "schema": [
@@ -25582,8 +25814,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce consistent spacing before and after keywords",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/keyword-spacing.html"
+          "url": "https://eslint.vuejs.org/rules/keyword-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/keyword-spacing"
         },
         "fixable": "whitespace",
         "schema": [
@@ -26466,7 +26701,10 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce the maximum number of attributes per line",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/max-attributes-per-line.html"
         },
         "fixable": "whitespace",
@@ -26523,7 +26761,9 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce a maximum line length",
-          "url": "https://eslint.vuejs.org/rules/max-len.html"
+          "url": "https://eslint.vuejs.org/rules/max-len.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/max-len"
         },
         "schema": [
           {
@@ -26701,7 +26941,10 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "require a line break before and after the contents of a multiline element",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/multiline-html-element-content-newline.html"
         },
         "fixable": "whitespace",
@@ -26738,7 +26981,10 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce unified spacing in mustache interpolations",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/mustache-interpolation-spacing.html"
         },
         "fixable": "whitespace",
@@ -26757,9 +27003,16 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce specific casing for the name property in Vue components",
-          "category": "strongly-recommended",
-          "url": "https://eslint.vuejs.org/rules/name-property-casing.html"
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
+          "url": "https://eslint.vuejs.org/rules/name-property-casing.html",
+          "replacedBy": [
+            "component-definition-name-casing"
+          ]
         },
+        "deprecated": true,
         "fixable": "code",
         "schema": [
           {
@@ -26771,16 +27024,82 @@ eslintRules = {
         ]
       }
     },
+    "vue/no-arrow-functions-in-watch": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using arrow functions to define watcher",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-arrow-functions-in-watch.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
     "vue/no-async-in-computed-properties": {
       "meta": {
         "type": "problem",
         "docs": {
           "description": "disallow asynchronous actions in computed properties",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-async-in-computed-properties.html"
         },
         "fixable": null,
         "schema": []
+      }
+    },
+    "vue/no-bare-strings-in-template": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow the use of bare strings in `<template>`",
+          "url": "https://eslint.vuejs.org/rules/no-bare-strings-in-template.html"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowlist": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              },
+              "attributes": {
+                "type": "object",
+                "patternProperties": {
+                  "^(?:\\S+|/.*/[a-z]*)$": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              "directives": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^v-"
+                },
+                "uniqueItems": true
+              }
+            }
+          }
+        ],
+        "messages": {
+          "unexpected": "Unexpected non-translated string used.",
+          "unexpectedInAttr": "Unexpected non-translated string used in `{{attr}}`."
+        }
       }
     },
     "vue/no-boolean-default": {
@@ -26806,7 +27125,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "disallow confusing `v-for` and `v-if` on the same element",
-          "category": "recommended",
+          "categories": [
+            "vue3-recommended",
+            "recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-confusing-v-for-v-if.html",
           "replacedBy": [
             "no-use-v-if-with-v-for"
@@ -26817,11 +27139,204 @@ eslintRules = {
         "schema": []
       }
     },
+    "vue/no-custom-modifiers-on-v-model": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow custom modifiers on v-model used on the component",
+          "categories": [
+            "essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-custom-modifiers-on-v-model.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "notSupportedModifier": "'v-model' directives don't support the modifier '{{name}}'."
+        }
+      }
+    },
+    "vue/no-deprecated-data-object-declaration": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated object declaration on data (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-data-object-declaration.html"
+        },
+        "fixable": "code",
+        "schema": [],
+        "messages": {
+          "objectDeclarationIsDeprecated": "Object declaration on 'data' property is deprecated. Using function declaration instead."
+        }
+      }
+    },
+    "vue/no-deprecated-destroyed-lifecycle": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated `destroyed` and `beforeDestroy` lifecycle hooks (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-destroyed-lifecycle.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "deprecatedDestroyed": "The `destroyed` lifecycle hook is deprecated. Use `unmounted` instead.",
+          "deprecatedBeforeDestroy": "The `beforeDestroy` lifecycle hook is deprecated. Use `beforeUnmount` instead.",
+          "insteadUnmounted": "Instead, change to `unmounted`.",
+          "insteadBeforeUnmount": "Instead, change to `beforeUnmount`."
+        }
+      }
+    },
+    "vue/no-deprecated-dollar-listeners-api": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated `$listeners` (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-dollar-listeners-api.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "deprecated": "The `$listeners` is deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-dollar-scopedslots-api": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated `$scopedSlots` (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-dollar-scopedslots-api.html"
+        },
+        "fixable": "code",
+        "schema": [],
+        "messages": {
+          "deprecated": "The `$scopedSlots` is deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-events-api": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated events api (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-events-api.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "noDeprecatedEventsApi": "The Events api `$on`, `$off` `$once` is deprecated. Using external library instead, for example mitt."
+        }
+      }
+    },
+    "vue/no-deprecated-filter": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated filters syntax (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-filter.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "noDeprecatedFilter": "Filters are deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-functional-template": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated the `functional` template (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-functional-template.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "The `functional` template are deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-html-element-is": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated the `is` attribute on HTML elements (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-html-element-is.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "The `is` attribute on HTML element are deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-inline-template": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated `inline-template` attribute (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-inline-template.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "`inline-template` are deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-props-default-this": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow props default function `this` access",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-props-default-this.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "deprecated": "Props default value factory functions no longer have access to `this`."
+        }
+      }
+    },
     "vue/no-deprecated-scope-attribute": {
       "meta": {
         "type": "suggestion",
         "docs": {
           "description": "disallow deprecated `scope` attribute (in Vue.js 2.5.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-deprecated-scope-attribute.html"
         },
         "fixable": "code",
@@ -26836,6 +27351,9 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "disallow deprecated `slot` attribute (in Vue.js 2.6.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-deprecated-slot-attribute.html"
         },
         "fixable": "code",
@@ -26850,6 +27368,9 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "disallow deprecated `slot-scope` attribute (in Vue.js 2.6.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-deprecated-slot-scope-attribute.html"
         },
         "fixable": "code",
@@ -26859,12 +27380,83 @@ eslintRules = {
         }
       }
     },
+    "vue/no-deprecated-v-bind-sync": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow use of deprecated `.sync` modifier on `v-bind` directive (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-v-bind-sync.html"
+        },
+        "fixable": "code",
+        "schema": [],
+        "messages": {
+          "syncModifierIsDeprecated": "'.sync' modifier on 'v-bind' directive is deprecated. Use 'v-model:propName' instead."
+        }
+      }
+    },
+    "vue/no-deprecated-v-on-native-modifier": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated `.native` modifiers (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-v-on-native-modifier.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "deprecated": "'.native' modifier on 'v-on' directive is deprecated."
+        }
+      }
+    },
+    "vue/no-deprecated-v-on-number-modifiers": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated number (keycode) modifiers (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-v-on-number-modifiers.html"
+        },
+        "fixable": "code",
+        "schema": [],
+        "messages": {
+          "numberModifierIsDeprecated": "'KeyboardEvent.keyCode' modifier on 'v-on' directive is deprecated. Using 'KeyboardEvent.key' instead."
+        }
+      }
+    },
+    "vue/no-deprecated-vue-config-keycodes": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow using deprecated `Vue.config.keyCodes` (in Vue.js 3.0.0+)",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-deprecated-vue-config-keycodes.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "`Vue.config.keyCodes` are deprecated."
+        }
+      }
+    },
     "vue/no-dupe-keys": {
       "meta": {
         "type": "problem",
         "docs": {
           "description": "disallow duplication of field names",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-dupe-keys.html"
         },
         "fixable": null,
@@ -26881,12 +27473,45 @@ eslintRules = {
         ]
       }
     },
+    "vue/no-dupe-v-else-if": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow duplicate conditions in `v-if` / `v-else-if` chains",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-dupe-v-else-if.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "This branch can never execute. Its condition is a duplicate or covered by previous conditions in the `v-if` / `v-else-if` chain."
+        }
+      }
+    },
+    "vue/no-duplicate-attr-inheritance": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce `inheritAttrs` to be set to `false` when using `v-bind=\"$attrs\"`",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/no-duplicate-attr-inheritance.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
     "vue/no-duplicate-attributes": {
       "meta": {
         "type": "problem",
         "docs": {
           "description": "disallow duplication of attributes",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-duplicate-attributes.html"
         },
         "fixable": null,
@@ -26905,17 +27530,114 @@ eslintRules = {
         ]
       }
     },
+    "vue/no-empty-component-block": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow the `<template>` `<script>` `<style>` block to be empty",
+          "url": "https://eslint.vuejs.org/rules/no-empty-component-block.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "`<{{ blockName }}>` is empty. Empty block is not allowed."
+        }
+      }
+    },
     "vue/no-empty-pattern": {
       "meta": {
         "type": "problem",
         "docs": {
           "description": "disallow empty destructuring patterns",
+          "category": null,
           "recommended": true,
-          "url": "https://eslint.vuejs.org/rules/no-empty-pattern.html"
+          "url": "https://eslint.vuejs.org/rules/no-empty-pattern.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/no-empty-pattern"
         },
         "schema": [],
         "messages": {
           "unexpected": "Unexpected empty {{type}} pattern."
+        }
+      }
+    },
+    "vue/no-extra-parens": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "disallow unnecessary parentheses",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/no-extra-parens.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/no-extra-parens"
+        },
+        "fixable": "code",
+        "schema": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "functions"
+                  ]
+                }
+              ],
+              "minItems": 0,
+              "maxItems": 1
+            },
+            {
+              "type": "array",
+              "items": [
+                {
+                  "enum": [
+                    "all"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "conditionalAssign": {
+                      "type": "boolean"
+                    },
+                    "nestedBinaryExpressions": {
+                      "type": "boolean"
+                    },
+                    "returnAssign": {
+                      "type": "boolean"
+                    },
+                    "ignoreJSX": {
+                      "enum": [
+                        "none",
+                        "all",
+                        "single-line",
+                        "multi-line"
+                      ]
+                    },
+                    "enforceForArrowConditionals": {
+                      "type": "boolean"
+                    },
+                    "enforceForSequenceExpressions": {
+                      "type": "boolean"
+                    },
+                    "enforceForNewInMemberExpressions": {
+                      "type": "boolean"
+                    },
+                    "enforceForFunctionPrototypeMethods": {
+                      "type": "boolean"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "minItems": 0,
+              "maxItems": 2
+            }
+          ]
+        },
+        "messages": {
+          "unexpected": "Unnecessary parentheses around expression."
         }
       }
     },
@@ -26924,7 +27646,9 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "disallow irregular whitespace",
-          "url": "https://eslint.vuejs.org/rules/no-irregular-whitespace.html"
+          "url": "https://eslint.vuejs.org/rules/no-irregular-whitespace.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/no-irregular-whitespace"
         },
         "schema": [
           {
@@ -26963,12 +27687,60 @@ eslintRules = {
         }
       }
     },
+    "vue/no-lifecycle-after-await": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow asynchronously registered lifecycle hooks",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-lifecycle-after-await.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "forbidden": "The lifecycle hooks after `await` expression are forbidden."
+        }
+      }
+    },
+    "vue/no-lone-template": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow unnecessary `<template>`",
+          "categories": [
+            "vue3-recommended",
+            "recommended"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-lone-template.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreAccessible": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "requireDirective": "`<template>` require directive."
+        }
+      }
+    },
     "vue/no-multi-spaces": {
       "meta": {
         "type": "layout",
         "docs": {
           "description": "disallow multiple spaces",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-multi-spaces.html"
         },
         "fixable": "whitespace",
@@ -26985,12 +27757,77 @@ eslintRules = {
         ]
       }
     },
+    "vue/no-multiple-objects-in-class": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow to pass multiple objects into array to class",
+          "url": "https://eslint.vuejs.org/rules/no-multiple-objects-in-class.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "Unexpected multiple objects. Merge objects."
+        }
+      }
+    },
+    "vue/no-multiple-slot-args": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow to pass multiple arguments to scoped slots",
+          "categories": [
+            "vue3-recommended",
+            "recommended"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-multiple-slot-args.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "Unexpected multiple arguments.",
+          "unexpectedSpread": "Unexpected spread argument."
+        }
+      }
+    },
+    "vue/no-multiple-template-root": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow adding multiple root nodes to the template",
+          "categories": [
+            "essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-multiple-template-root.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
+    "vue/no-mutating-props": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow mutation of component props",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-mutating-props.html"
+        },
+        "fixable": null,
+        "schema": []
+      }
+    },
     "vue/no-parsing-error": {
       "meta": {
         "type": "problem",
         "docs": {
           "description": "disallow parsing errors in `<template>`",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-parsing-error.html"
         },
         "fixable": null,
@@ -27112,6 +27949,67 @@ eslintRules = {
         ]
       }
     },
+    "vue/no-potential-component-option-typo": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow a potential typo in your component property",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/no-potential-component-option-typo.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "presets": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "all",
+                    "vue",
+                    "vue-router",
+                    "nuxt"
+                  ]
+                },
+                "uniqueItems": true,
+                "minItems": 0
+              },
+              "custom": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              },
+              "threshold": {
+                "type": "number",
+                "minimum": 1
+              }
+            }
+          }
+        ]
+      }
+    },
+    "vue/no-ref-as-operand": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow use of value wrapped by `ref()` (Composition API) as an operand",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-ref-as-operand.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "requireDotValue": "Must use `.value` to read or write the value wrapped by `{{method}}()`."
+        }
+      }
+    },
     "vue/no-reserved-component-names": {
       "meta": {
         "type": "suggestion",
@@ -27120,7 +28018,25 @@ eslintRules = {
           "url": "https://eslint.vuejs.org/rules/no-reserved-component-names.html"
         },
         "fixable": null,
-        "schema": []
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "disallowVueBuiltInComponents": {
+                "type": "boolean"
+              },
+              "disallowVue3BuiltInComponents": {
+                "type": "boolean"
+              }
+            }
+          }
+        ],
+        "messages": {
+          "reserved": "Name \"{{name}}\" is reserved.",
+          "reservedInHtml": "Name \"{{name}}\" is reserved in HTML.",
+          "reservedInVue": "Name \"{{name}}\" is reserved in Vue.js.",
+          "reservedInVue3": "Name \"{{name}}\" is reserved in Vue.js 3.x."
+        }
       }
     },
     "vue/no-reserved-keys": {
@@ -27128,7 +28044,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "disallow overwriting reserved keys",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-reserved-keys.html"
         },
         "fixable": null,
@@ -27148,13 +28067,129 @@ eslintRules = {
         ]
       }
     },
+    "vue/no-restricted-component-options": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow specific component option",
+          "url": "https://eslint.vuejs.org/rules/no-restricted-component-options.html"
+        },
+        "fixable": null,
+        "schema": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 0
+        },
+        "messages": {
+          "restrictedOption": "{{message}}"
+        }
+      }
+    },
+    "vue/no-restricted-static-attribute": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow specific attribute",
+          "url": "https://eslint.vuejs.org/rules/no-restricted-static-attribute.html"
+        },
+        "fixable": null,
+        "schema": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "enum": [
+                          true
+                        ]
+                      }
+                    ]
+                  },
+                  "element": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "key"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 0
+        },
+        "messages": {
+          "restrictedAttr": "{{message}}"
+        }
+      }
+    },
     "vue/no-restricted-syntax": {
       "meta": {
         "type": "suggestion",
         "docs": {
           "description": "disallow specified syntax",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/no-restricted-syntax.html"
+          "url": "https://eslint.vuejs.org/rules/no-restricted-syntax.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/no-restricted-syntax"
         },
         "schema": {
           "type": "array",
@@ -27182,6 +28217,89 @@ eslintRules = {
           },
           "uniqueItems": true,
           "minItems": 0
+        },
+        "messages": {
+          "restrictedSyntax": "{{message}}"
+        }
+      }
+    },
+    "vue/no-restricted-v-bind": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow specific argument in `v-bind`",
+          "url": "https://eslint.vuejs.org/rules/no-restricted-v-bind.html"
+        },
+        "fixable": null,
+        "schema": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "argument": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "modifiers": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "prop",
+                        "camel",
+                        "sync"
+                      ]
+                    },
+                    "uniqueItems": true
+                  },
+                  "element": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "argument"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 0
+        },
+        "messages": {
+          "restrictedVBind": "{{message}}"
+        }
+      }
+    },
+    "vue/no-setup-props-destructure": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow destructuring of `props` passed to `setup`",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-setup-props-destructure.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "destructuring": "Destructuring the `props` will cause the value to lose reactivity.",
+          "getProperty": "Getting a value from the `props` in root scope of `setup()` will cause the value to lose reactivity."
         }
       }
     },
@@ -27190,7 +28308,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce component's data property to be a function",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-shared-component-data.html"
         },
         "fixable": "code",
@@ -27202,7 +28323,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "disallow side effects in computed properties",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-side-effects-in-computed-properties.html"
         },
         "fixable": null,
@@ -27214,11 +28338,31 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "disallow spaces around equal signs in attribute",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-spaces-around-equal-signs-in-attribute.html"
         },
         "fixable": "whitespace",
         "schema": []
+      }
+    },
+    "vue/no-sparse-arrays": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow sparse arrays",
+          "category": null,
+          "recommended": true,
+          "url": "https://eslint.vuejs.org/rules/no-sparse-arrays.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/no-sparse-arrays"
+        },
+        "schema": [],
+        "messages": {
+          "unexpectedSparseArray": "Unexpected comma in middle of array."
+        }
       }
     },
     "vue/no-static-inline-styles": {
@@ -27251,11 +28395,17 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "disallow `key` attribute on `<template>`",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-template-key.html"
         },
         "fixable": null,
-        "schema": []
+        "schema": [],
+        "messages": {
+          "disallow": "'<template>' cannot be keyed. Place the key on real elements instead."
+        }
       }
     },
     "vue/no-template-shadow": {
@@ -27263,11 +28413,40 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "disallow variable declarations from shadowing variables declared in the outer scope",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-template-shadow.html"
         },
         "fixable": null,
         "schema": []
+      }
+    },
+    "vue/no-template-target-blank": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow target=\"_blank\" attribute without rel=\"noopener noreferrer\"",
+          "url": "https://eslint.vuejs.org/rules/no-template-target-blank.html"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowReferrer": {
+                "type": "boolean"
+              },
+              "enforceDynamicLinks": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
       }
     },
     "vue/no-textarea-mustache": {
@@ -27275,11 +28454,37 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "disallow mustaches in `<textarea>`",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-textarea-mustache.html"
         },
         "fixable": null,
         "schema": []
+      }
+    },
+    "vue/no-unregistered-components": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow using components that are not registered inside templates",
+          "categories": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/no-unregistered-components.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignorePatterns": {
+                "type": "array"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
       }
     },
     "vue/no-unsupported-features": {
@@ -27304,7 +28509,10 @@ eslintRules = {
                     "slot-scope-attribute",
                     "dynamic-directive-arguments",
                     "v-slot",
-                    "v-bind-prop-modifier-shorthand"
+                    "v-bind-prop-modifier-shorthand",
+                    "v-model-argument",
+                    "v-model-custom-modifiers",
+                    "v-is"
                   ]
                 },
                 "uniqueItems": true
@@ -27314,10 +28522,13 @@ eslintRules = {
           }
         ],
         "messages": {
-          "forbiddenSlotScopeAttribute": "`slot-scope` are not supported until Vue.js \"2.5.0\".",
+          "forbiddenSlotScopeAttribute": "`slot-scope` are not supported except Vue.js \">=2.5.0 <3.0.0\".",
           "forbiddenDynamicDirectiveArguments": "Dynamic arguments are not supported until Vue.js \"2.6.0\".",
           "forbiddenVSlot": "`v-slot` are not supported until Vue.js \"2.6.0\".",
-          "forbiddenVBindPropModifierShorthand": "`.prop` shorthand are not supported except Vue.js \">=2.6.0-beta.1 <=2.6.0-beta.3\"."
+          "forbiddenVBindPropModifierShorthand": "`.prop` shorthand are not supported except Vue.js \">=2.6.0-beta.1 <=2.6.0-beta.3\".",
+          "forbiddenVModelArgument": "Argument on `v-model` is not supported until Vue.js \"3.0.0\".",
+          "forbiddenVModelCustomModifiers": "Custom modifiers on `v-model` are not supported until Vue.js \"3.0.0\".",
+          "forbiddenVIs": "`v-is` are not supported until Vue.js \"3.0.0\"."
         }
       }
     },
@@ -27326,7 +28537,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "disallow registering components that are not used inside templates",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-unused-components.html"
         },
         "fixable": null,
@@ -27343,16 +28557,64 @@ eslintRules = {
         ]
       }
     },
+    "vue/no-unused-properties": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow unused properties",
+          "url": "https://eslint.vuejs.org/rules/no-unused-properties.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "groups": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "props",
+                    "data",
+                    "computed",
+                    "methods",
+                    "setup"
+                  ]
+                },
+                "additionalItems": false,
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "unused": "'{{name}}' of {{group}} found, but never used."
+        }
+      }
+    },
     "vue/no-unused-vars": {
       "meta": {
         "type": "suggestion",
         "docs": {
           "description": "disallow unused variable definitions of v-for directives or scope attributes",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-unused-vars.html"
         },
         "fixable": null,
-        "schema": []
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignorePattern": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
       }
     },
     "vue/no-use-v-if-with-v-for": {
@@ -27360,7 +28622,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "disallow use v-if on the same element as v-for",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-use-v-if-with-v-for.html"
         },
         "fixable": null,
@@ -27376,16 +28641,324 @@ eslintRules = {
         ]
       }
     },
+    "vue/no-useless-concat": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow unnecessary concatenation of literals or template literals",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/no-useless-concat.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/no-useless-concat"
+        },
+        "schema": [],
+        "messages": {
+          "unexpectedConcat": "Unexpected string concatenation of literals."
+        }
+      }
+    },
+    "vue/no-useless-mustaches": {
+      "meta": {
+        "docs": {
+          "description": "disallow unnecessary mustache interpolations",
+          "url": "https://eslint.vuejs.org/rules/no-useless-mustaches.html"
+        },
+        "fixable": "code",
+        "messages": {
+          "unexpected": "Unexpected mustache interpolation with a string literal value."
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreIncludesComment": {
+                "type": "boolean"
+              },
+              "ignoreStringEscape": {
+                "type": "boolean"
+              }
+            }
+          }
+        ],
+        "type": "suggestion"
+      }
+    },
+    "vue/no-useless-v-bind": {
+      "meta": {
+        "docs": {
+          "description": "disallow unnecessary `v-bind` directives",
+          "url": "https://eslint.vuejs.org/rules/no-useless-v-bind.html"
+        },
+        "fixable": "code",
+        "messages": {
+          "unexpected": "Unexpected `v-bind` with a string literal value."
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "ignoreIncludesComment": {
+                "type": "boolean"
+              },
+              "ignoreStringEscape": {
+                "type": "boolean"
+              }
+            }
+          }
+        ],
+        "type": "suggestion"
+      }
+    },
+    "vue/no-v-for-template-key-on-child": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow key of `<template v-for>` placed on child elements",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-v-for-template-key-on-child.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "vForTemplateKeyPlacement": "`<template v-for>` key should be placed on the `<template>` tag."
+        }
+      }
+    },
+    "vue/no-v-for-template-key": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow `key` attribute on `<template v-for>`",
+          "categories": [
+            "essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-v-for-template-key.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "disallow": "'<template v-for>' cannot be keyed. Place the key on real elements instead."
+        }
+      }
+    },
     "vue/no-v-html": {
       "meta": {
         "type": "suggestion",
         "docs": {
           "description": "disallow use of v-html to prevent XSS attack",
-          "category": "recommended",
+          "categories": [
+            "vue3-recommended",
+            "recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/no-v-html.html"
         },
         "fixable": null,
         "schema": []
+      }
+    },
+    "vue/no-v-model-argument": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "disallow adding an argument to `v-model` used in custom component",
+          "categories": [
+            "essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-v-model-argument.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "vModelRequireNoArgument": "'v-model' directives require no argument."
+        }
+      }
+    },
+    "vue/no-watch-after-await": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "disallow asynchronously registered `watch`",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/no-watch-after-await.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "forbidden": "The `watch` after `await` expression are forbidden."
+        }
+      }
+    },
+    "vue/object-curly-newline": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent line breaks inside braces",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/object-curly-newline.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/object-curly-newline"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "oneOf": [
+              {
+                "oneOf": [
+                  {
+                    "enum": [
+                      "always",
+                      "never"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "multiline": {
+                        "type": "boolean"
+                      },
+                      "minProperties": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "consistent": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  }
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ObjectExpression": {
+                    "oneOf": [
+                      {
+                        "enum": [
+                          "always",
+                          "never"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "multiline": {
+                            "type": "boolean"
+                          },
+                          "minProperties": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "consistent": {
+                            "type": "boolean"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "minProperties": 1
+                      }
+                    ]
+                  },
+                  "ObjectPattern": {
+                    "oneOf": [
+                      {
+                        "enum": [
+                          "always",
+                          "never"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "multiline": {
+                            "type": "boolean"
+                          },
+                          "minProperties": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "consistent": {
+                            "type": "boolean"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "minProperties": 1
+                      }
+                    ]
+                  },
+                  "ImportDeclaration": {
+                    "oneOf": [
+                      {
+                        "enum": [
+                          "always",
+                          "never"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "multiline": {
+                            "type": "boolean"
+                          },
+                          "minProperties": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "consistent": {
+                            "type": "boolean"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "minProperties": 1
+                      }
+                    ]
+                  },
+                  "ExportDeclaration": {
+                    "oneOf": [
+                      {
+                        "enum": [
+                          "always",
+                          "never"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "multiline": {
+                            "type": "boolean"
+                          },
+                          "minProperties": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "consistent": {
+                            "type": "boolean"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "minProperties": 1
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false,
+                "minProperties": 1
+              }
+            ]
+          }
+        ],
+        "messages": {
+          "unexpectedLinebreakBeforeClosingBrace": "Unexpected line break before this closing brace.",
+          "unexpectedLinebreakAfterOpeningBrace": "Unexpected line break after this opening brace.",
+          "expectedLinebreakBeforeClosingBrace": "Expected a line break before this closing brace.",
+          "expectedLinebreakAfterOpeningBrace": "Expected a line break after this opening brace."
+        }
       }
     },
     "vue/object-curly-spacing": {
@@ -27393,8 +28966,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce consistent spacing inside braces",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/object-curly-spacing.html"
+          "url": "https://eslint.vuejs.org/rules/object-curly-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/object-curly-spacing"
         },
         "fixable": "whitespace",
         "schema": [
@@ -27416,7 +28992,112 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "requireSpaceBefore": "A space is required before '{{token}}'.",
+          "requireSpaceAfter": "A space is required after '{{token}}'.",
+          "unexpectedSpaceBefore": "There should be no space before '{{token}}'.",
+          "unexpectedSpaceAfter": "There should be no space after '{{token}}'."
+        }
+      }
+    },
+    "vue/object-property-newline": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce placing object properties on separate lines",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/object-property-newline.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/object-property-newline"
+        },
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowAllPropertiesOnSameLine": {
+                "type": "boolean",
+                "default": false
+              },
+              "allowMultiplePropertiesPerLine": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "fixable": "whitespace",
+        "messages": {
+          "propertiesOnNewlineAll": "Object properties must go on a new line if they aren't all on the same line.",
+          "propertiesOnNewline": "Object properties must go on a new line."
+        }
+      }
+    },
+    "vue/one-component-per-file": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "enforce that each component should be in its own file",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
+          "url": "https://eslint.vuejs.org/rules/one-component-per-file.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "toManyComponents": "There is more than one component in this file."
+        }
+      }
+    },
+    "vue/operator-linebreak": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent linebreak style for operators",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/operator-linebreak.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/operator-linebreak"
+        },
+        "schema": [
+          {
+            "enum": [
+              "after",
+              "before",
+              "none",
+              null
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "overrides": {
+                "type": "object",
+                "additionalProperties": {
+                  "enum": [
+                    "after",
+                    "before",
+                    "none",
+                    "ignore"
+                  ]
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "fixable": "code",
+        "messages": {
+          "operatorAtBeginning": "'{{operator}}' should be placed at the beginning of the line.",
+          "operatorAtEnd": "'{{operator}}' should be placed at the end of the line.",
+          "badLinebreak": "Bad line breaking before and after '{{operator}}'.",
+          "noLinebreak": "There should be no line break before or after '{{operator}}'."
+        }
       }
     },
     "vue/order-in-components": {
@@ -27424,7 +29105,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce order of properties in components",
-          "category": "recommended",
+          "categories": [
+            "vue3-recommended",
+            "recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/order-in-components.html"
         },
         "fixable": "code",
@@ -27463,12 +29147,33 @@ eslintRules = {
         }
       }
     },
+    "vue/prefer-template": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require template literals instead of string concatenation",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/prefer-template.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/prefer-template"
+        },
+        "schema": [],
+        "fixable": "code",
+        "messages": {
+          "unexpectedStringConcatenation": "Unexpected string concatenation."
+        }
+      }
+    },
     "vue/prop-name-casing": {
       "meta": {
         "type": "suggestion",
         "docs": {
           "description": "enforce specific casing for the Prop name in Vue components",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/prop-name-casing.html"
         },
         "fixable": null,
@@ -27487,7 +29192,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "require `v-bind:is` of `<component>` elements",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/require-component-is.html"
         },
         "fixable": null,
@@ -27499,7 +29207,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "require default value for props",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/require-default-prop.html"
         },
         "fixable": null,
@@ -27514,7 +29225,47 @@ eslintRules = {
           "url": "https://eslint.vuejs.org/rules/require-direct-export.html"
         },
         "fixable": null,
-        "schema": []
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "disallowFunctionalComponentFunction": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "vue/require-explicit-emits": {
+      "meta": {
+        "type": "suggestion",
+        "docs": {
+          "description": "require `emits` option with name triggered by `$emit()`",
+          "categories": [
+            "vue3-strongly-recommended"
+          ],
+          "url": "https://eslint.vuejs.org/rules/require-explicit-emits.html"
+        },
+        "fixable": null,
+        "schema": [
+          {
+            "type": "object",
+            "properties": {
+              "allowProps": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "missing": "The \"{{name}}\" event has been triggered but not declared on `emits` option.",
+          "addOneOption": "Add the \"{{name}}\" to `emits` option.",
+          "addArrayEmitsOption": "Add the `emits` option with array syntax and define \"{{name}}\" event.",
+          "addObjectEmitsOption": "Add the `emits` option with object syntax and define \"{{name}}\" event."
+        }
       }
     },
     "vue/require-name-property": {
@@ -27533,7 +29284,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "require prop type to be a constructor",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/require-prop-type-constructor.html"
         },
         "fixable": "code",
@@ -27545,7 +29299,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "require type definitions in props",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/require-prop-types.html"
         },
         "fixable": null,
@@ -27557,11 +29314,48 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce render function to always return value",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/require-render-return.html"
         },
         "fixable": null,
         "schema": []
+      }
+    },
+    "vue/require-slots-as-functions": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce properties of `$slots` to be used as a function",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/require-slots-as-functions.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpected": "Property in `$slots` should be used as function."
+        }
+      }
+    },
+    "vue/require-toggle-inside-transition": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "require control the display of the content inside `<transition>`",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/require-toggle-inside-transition.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "expected": "The element inside `<transition>` is expected to have a `v-if` or `v-show` directive."
+        }
       }
     },
     "vue/require-v-for-key": {
@@ -27569,7 +29363,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "require `v-bind:key` with `v-for` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/require-v-for-key.html"
         },
         "fixable": null,
@@ -27581,7 +29378,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce props default values to be valid",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/require-valid-default-prop.html"
         },
         "fixable": null,
@@ -27593,7 +29393,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce that a return statement is present in computed property",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/return-in-computed-property.html"
         },
         "fixable": null,
@@ -27608,6 +29411,20 @@ eslintRules = {
             "additionalProperties": false
           }
         ]
+      }
+    },
+    "vue/return-in-emits-validator": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce that a return statement is present in emits validator",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/return-in-emits-validator.html"
+        },
+        "fixable": null,
+        "schema": []
       }
     },
     "vue/script-indent": {
@@ -27678,7 +29495,10 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "require a line break before and after the contents of a singleline element",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/singleline-html-element-content-newline.html"
         },
         "fixable": "whitespace",
@@ -27715,7 +29535,7 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce sort-keys in a manner that is compatible with order-in-components",
-          "category": null,
+          "categories": null,
           "recommended": false,
           "url": "https://eslint.vuejs.org/rules/sort-keys.html"
         },
@@ -27756,7 +29576,56 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "sortKeys": "Expected object keys to be in {{natural}}{{insensitive}}{{order}}ending order. '{{thisName}}' should be before '{{prevName}}'."
+        }
+      }
+    },
+    "vue/space-in-parens": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce consistent spacing inside parentheses",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/space-in-parens.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/space-in-parens"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "{}",
+                    "[]",
+                    "()",
+                    "empty"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ],
+        "messages": {
+          "missingOpeningSpace": "There must be a space after this paren.",
+          "missingClosingSpace": "There must be a space before this paren.",
+          "rejectedOpeningSpace": "There should be no space after this paren.",
+          "rejectedClosingSpace": "There should be no space before this paren."
+        }
       }
     },
     "vue/space-infix-ops": {
@@ -27764,8 +29633,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "require spacing around infix operators",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/space-infix-ops.html"
+          "url": "https://eslint.vuejs.org/rules/space-infix-ops.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/space-infix-ops"
         },
         "fixable": "whitespace",
         "schema": [
@@ -27779,7 +29651,10 @@ eslintRules = {
             },
             "additionalProperties": false
           }
-        ]
+        ],
+        "messages": {
+          "missingSpace": "Operator '{{operator}}' must be spaced."
+        }
       }
     },
     "vue/space-unary-ops": {
@@ -27787,8 +29662,11 @@ eslintRules = {
         "type": "layout",
         "docs": {
           "description": "enforce consistent spacing before or after unary operators",
+          "category": null,
           "recommended": false,
-          "url": "https://eslint.vuejs.org/rules/space-unary-ops.html"
+          "url": "https://eslint.vuejs.org/rules/space-unary-ops.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/space-unary-ops"
         },
         "fixable": "whitespace",
         "schema": [
@@ -27834,12 +29712,43 @@ eslintRules = {
         "schema": []
       }
     },
+    "vue/template-curly-spacing": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "require or disallow spacing around embedded expressions of template strings",
+          "category": null,
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/template-curly-spacing.html",
+          "extensionRule": true,
+          "coreRuleUrl": "https://eslint.org/docs/rules/template-curly-spacing"
+        },
+        "fixable": "whitespace",
+        "schema": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        ],
+        "messages": {
+          "expectedBefore": "Expected space(s) before '}'.",
+          "expectedAfter": "Expected space(s) after '${'.",
+          "unexpectedBefore": "Unexpected space(s) before '}'.",
+          "unexpectedAfter": "Unexpected space(s) after '${'."
+        }
+      }
+    },
     "vue/this-in-template": {
       "meta": {
         "type": "suggestion",
         "docs": {
           "description": "disallow usage of `this` in template",
-          "category": "recommended",
+          "categories": [
+            "vue3-recommended",
+            "recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/this-in-template.html"
         },
         "fixable": null,
@@ -27858,7 +29767,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce usage of `exact` modifier on `v-on`",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/use-v-on-exact.html"
         },
         "fixable": null,
@@ -27870,7 +29782,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce `v-bind` directive style",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/v-bind-style.html"
         },
         "fixable": "code",
@@ -27879,6 +29794,25 @@ eslintRules = {
             "enum": [
               "shorthand",
               "longform"
+            ]
+          }
+        ]
+      }
+    },
+    "vue/v-for-delimiter-style": {
+      "meta": {
+        "type": "layout",
+        "docs": {
+          "description": "enforce `v-for` directive's delimiter style",
+          "recommended": false,
+          "url": "https://eslint.vuejs.org/rules/v-for-delimiter-style.html"
+        },
+        "fixable": "code",
+        "schema": [
+          {
+            "enum": [
+              "in",
+              "of"
             ]
           }
         ]
@@ -27898,6 +29832,15 @@ eslintRules = {
               "always",
               "never"
             ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ignoreIncludesComment": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
           }
         ]
       }
@@ -27907,7 +29850,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce `v-on` directive style",
-          "category": "strongly-recommended",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/v-on-style.html"
         },
         "fixable": "code",
@@ -27926,6 +29872,10 @@ eslintRules = {
         "type": "suggestion",
         "docs": {
           "description": "enforce `v-slot` directive style",
+          "categories": [
+            "vue3-strongly-recommended",
+            "strongly-recommended"
+          ],
           "url": "https://eslint.vuejs.org/rules/v-slot-style.html"
         },
         "fixable": "code",
@@ -27979,7 +29929,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid template root",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-template-root.html"
         },
         "fixable": null,
@@ -27991,13 +29944,18 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `.sync` modifier on `v-bind` directives",
+          "categories": [
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-bind-sync.html"
         },
         "fixable": null,
         "schema": [],
         "messages": {
           "unexpectedInvalidElement": "'.sync' modifiers aren't supported on <{{name}}> non Vue-components.",
+          "unexpectedOptionalChaining": "Optional chaining cannot appear in 'v-bind' with '.sync' modifiers.",
           "unexpectedNonLhsExpression": "'.sync' modifiers require the attribute value which is valid as LHS.",
+          "unexpectedNullObject": "'.sync' modifier has potential null object property access.",
           "unexpectedUpdateIterationVariable": "'.sync' modifiers cannot update the iteration variable '{{varName}}' itself."
         }
       }
@@ -28007,7 +29965,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-bind` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-bind.html"
         },
         "fixable": null,
@@ -28019,7 +29980,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-cloak` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-cloak.html"
         },
         "fixable": null,
@@ -28031,7 +29995,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-else-if` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-else-if.html"
         },
         "fixable": null,
@@ -28043,7 +30010,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-else` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-else.html"
         },
         "fixable": null,
@@ -28055,7 +30025,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-for` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-for.html"
         },
         "fixable": null,
@@ -28067,7 +30040,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-html` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-html.html"
         },
         "fixable": null,
@@ -28079,11 +30055,34 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-if` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-if.html"
         },
         "fixable": null,
         "schema": []
+      }
+    },
+    "vue/valid-v-is": {
+      "meta": {
+        "type": "problem",
+        "docs": {
+          "description": "enforce valid `v-is` directives",
+          "categories": [
+            "vue3-essential"
+          ],
+          "url": "https://eslint.vuejs.org/rules/valid-v-is.html"
+        },
+        "fixable": null,
+        "schema": [],
+        "messages": {
+          "unexpectedArgument": "'v-is' directives require no argument.",
+          "unexpectedModifier": "'v-is' directives require no modifier.",
+          "expectedValue": "'v-is' directives require that attribute value.",
+          "ownerMustBeHTMLElement": "'v-is' directive must be owned by a native HTML element, but '{{name}}' is not."
+        }
       }
     },
     "vue/valid-v-model": {
@@ -28091,11 +30090,25 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-model` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-model.html"
         },
         "fixable": null,
-        "schema": []
+        "schema": [],
+        "messages": {
+          "unexpectedInvalidElement": "'v-model' directives aren't supported on <{{name}}> elements.",
+          "unexpectedInputFile": "'v-model' directives don't support 'file' input type.",
+          "unexpectedArgument": "'v-model' directives require no argument.",
+          "unexpectedModifier": "'v-model' directives don't support the modifier '{{name}}'.",
+          "missingValue": "'v-model' directives require that attribute value.",
+          "unexpectedOptionalChaining": "Optional chaining cannot appear in 'v-model' directives.",
+          "unexpectedNonLhsExpression": "'v-model' directives require the attribute value which is valid as LHS.",
+          "unexpectedNullObject": "'v-model' directive has potential null object property access.",
+          "unexpectedUpdateIterationVariable": "'v-model' directives cannot update the iteration variable '{{varName}}' itself."
+        }
       }
     },
     "vue/valid-v-on": {
@@ -28103,7 +30116,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-on` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-on.html"
         },
         "fixable": null,
@@ -28125,7 +30141,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-once` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-once.html"
         },
         "fixable": null,
@@ -28137,7 +30156,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-pre` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-pre.html"
         },
         "fixable": null,
@@ -28149,7 +30171,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-show` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-show.html"
         },
         "fixable": null,
@@ -28161,6 +30186,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-slot` directives",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-slot.html"
         },
         "fixable": null,
@@ -28182,7 +30211,10 @@ eslintRules = {
         "type": "problem",
         "docs": {
           "description": "enforce valid `v-text` directives",
-          "category": "essential",
+          "categories": [
+            "vue3-essential",
+            "essential"
+          ],
           "url": "https://eslint.vuejs.org/rules/valid-v-text.html"
         },
         "fixable": null,

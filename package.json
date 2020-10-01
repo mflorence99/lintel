@@ -1,6 +1,6 @@
 {
   "name": "lintel",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "VSCode extension to visualize ESLint configurations",
   "license": "MIT",
   "repository": {
@@ -39,7 +39,7 @@
     "eslint"
   ],
   "dependencies": {
-    "eslint": "^6",
+    "eslint": "^7",
     "js-yaml": "^3",
     "rfdc": "^1.1.4",
     "tslib": "^2"
@@ -61,10 +61,10 @@
     "@angular/platform-browser": "^10",
     "@angular/platform-browser-dynamic": "^10",
     "@fortawesome/angular-fontawesome": "^0.7.0",
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-brands-svg-icons": "^5.14.0",
-    "@fortawesome/free-regular-svg-icons": "^5.14.0",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/fontawesome-svg-core": "^1",
+    "@fortawesome/free-brands-svg-icons": "^5",
+    "@fortawesome/free-regular-svg-icons": "^5",
+    "@fortawesome/free-solid-svg-icons": "^5",
     "@ngxs-labs/data": "^3",
     "@ngxs/logger-plugin": "^3",
     "@ngxs/store": "^3",
@@ -93,9 +93,7 @@
     "eslint-plugin-react-hooks": "^4",
     "eslint-plugin-react-native": "^3",
     "eslint-plugin-react-redux": "^3",
-    "eslint-plugin-sonarjs": "^0.5.0",
-    "eslint-plugin-unicorn": "^19",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-vue": "^7",
     "jest": "^26",
     "jest-extended": "^0.11.5",
     "jest-junit": "^11",
@@ -103,7 +101,7 @@
     "marked": "^1",
     "ngx-contextmenu": "^5.4.0",
     "prettier": "^2",
-    "prettier-plugin-package": "^1.0.0",
+    "prettier-plugin-package": "^1",
     "rimraf": "^3.0.2",
     "rxjs": "^6",
     "stylelint": "^13",

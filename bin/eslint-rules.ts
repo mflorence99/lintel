@@ -16,8 +16,6 @@ const plugins = [
   'react-hooks',
   'react-native',
   'react-redux',
-  'sonarjs',
-  'unicorn',
   'vue'
 ];
 
