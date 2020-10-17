@@ -15,7 +15,7 @@
   },
   "main": "./dist/ext/lintel.js",
   "engines": {
-    "vscode": "^1.49.0"
+    "vscode": "^1.50.0"
   },
   "scripts": {
     "build": "rimraf dist && ng --aot --prod build && tsc -p ext/tsconfig.json",
@@ -45,11 +45,11 @@
     "tslib": "^2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1001.3",
-    "@angular-eslint/builder": "0.4.0-beta.2",
-    "@angular-eslint/eslint-plugin": "0.4.0-beta.2",
-    "@angular-eslint/schematics": "0.4.0-beta.2",
-    "@angular-eslint/template-parser": "0.4.0-beta.2",
+    "@angular-devkit/build-angular": "^0.1001.6",
+    "@angular-eslint/builder": "0.5.0-beta.4",
+    "@angular-eslint/eslint-plugin": "0.5.0-beta.4",
+    "@angular-eslint/schematics": "0.5.0-beta.4",
+    "@angular-eslint/template-parser": "0.5.0-beta.4",
     "@angular/cdk": "^10",
     "@angular/cli": "^10",
     "@angular/common": "^10",
@@ -75,7 +75,7 @@
     "@types/js-yaml": "^3.12.5",
     "@types/json5": "0.0.30",
     "@types/node": "^14",
-    "@types/vscode": "^1.49.0",
+    "@types/vscode": "^1.50.0",
     "@typescript-eslint/eslint-plugin": "^4",
     "@typescript-eslint/parser": "^4",
     "angular2-uuid": "^1.1.1",
@@ -96,7 +96,7 @@
     "eslint-plugin-vue": "^7",
     "jest": "^26",
     "jest-extended": "^0.11.5",
-    "jest-junit": "^11",
+    "jest-junit": "^12",
     "jest-preset-angular": "^8",
     "marked": "^1",
     "ngx-contextmenu": "^5.4.0",
@@ -110,7 +110,7 @@
     "stylelint-scss": "^3",
     "ts-node": "^9",
     "typescript": "^4",
-    "zone.js": "~0.11.1"
+    "zone.js": "^0.11.2"
   },
   "activationEvents": [
     "onCommand:lintel.start"
