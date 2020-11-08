@@ -2,7 +2,7 @@
 
 ## 1.3.1
 
-Thanks to @jerone, fixes to #24 and #25.
+Thanks to @jerone, fixes to #23 and #25.
 
 ## 1.3.0
 
