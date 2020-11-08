@@ -349,6 +349,178 @@ eslintFiles = {
       curly: 0 + 1
     }
   };`,
+  '/home/mflorence99/issue-24/.eslintrc.json': `/**
+ * -----------------------------------------------------
+ * NOTES ON CONFIGURATION STRUCTURE
+ * -----------------------------------------------------
+ *
+ * Out of the box, ESLint does not support TypeScript or HTML. Naturally those are the two
+ * main file types we care about in Angular projects, so we have to do a little extra work
+ * to configure ESLint exactly how we need to.
+ *
+ * Fortunately, ESLint gives us an "overrides" configuration option which allows us to set
+ * different lint tooling (parser, plugins, rules etc) for different file types, which is
+ * critical because our .ts files require a different parser and different rules to our
+ * .html (and our inline Component) templates.
+ */
+{
+	"root": true,
+	"overrides": [
+		/**
+		 * -----------------------------------------------------
+		 * TYPESCRIPT FILES (COMPONENTS, SERVICES ETC) (.ts)
+		 * -----------------------------------------------------
+		 * The 'parser'-property is defined in 'plugin:@angular-eslint/recommended'.
+		 */
+		{
+			"files": ["*.ts"],
+			"parserOptions": {
+				"project": ["**/tsconfig.*?.json"],
+				"createDefaultProgram": true
+			},
+			"extends": [
+				// Uses the recommended rules for TypeScript and Angular.
+				// https://github.com/angular-eslint/angular-eslint#rules-list
+				// https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin/src/configs
+				"plugin:@angular-eslint/recommended",
+
+				// Uses eslint-config-prettier to disable ESLint rules that would conflict with prettier.
+				"prettier/@typescript-eslint",
+
+				// Enables eslint-plugin-prettier and eslint-config-prettier.
+				// This will display prettier errors as ESLint errors.
+				// Make sure this is always the last configuration in the extends array.
+				"plugin:prettier/recommended"
+			],
+			"rules": {
+				/**
+				 * Any TypeScript related rules you wish to use/reconfigure over and above the
+				 * recommended set provided by the @angular-eslint project would go here.
+				 */
+
+				// Prettier has 'printWidth' set to a lower number, which is the preferred *readable* line length.
+				// But Prettier doesn't enforce this on all lines, e.g. single imports.
+				// This setting just ensures that we never have too long lines.
+				"max-len": ["error", { "code": 140, "ignoreUrls": true }],
+
+				// Require explicit accessibility modifiers on class properties and methods.
+				"@typescript-eslint/explicit-member-accessibility": ["error"],
+
+				// Disallows explicit type declarations on parameters, variables and properties.
+				// TODO: find rule to enforce explicit type declarations.
+				"@typescript-eslint/no-inferrable-types": ["off"],
+
+				// Disallow the use of console.
+				"no-console": ["warn", { "allow": ["error"] }],
+
+				// Use generic array 'Array<T>'.
+				"@typescript-eslint/array-type": ["error", { "default": "generic" }],
+
+				// TypeScript suggests never prefixing interfaces with "I".
+				// https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
+				"@typescript-eslint/naming-convention": [
+					"error",
+					{
+						"selector": "interface",
+						"format": ["PascalCase"],
+						"custom": {
+							"regex": "^I[A-Z]",
+							"match": false
+						}
+					}
+				],
+
+				// Only one class per file.
+				"max-classes-per-file": ["error", 1],
+
+				// Use TypeScript import syntax.
+				"@typescript-eslint/no-var-requires": ["error"],
+
+				// Use dot notation 'foo.bar' over square-bracket notation 'foo["bar"]'.
+				"dot-notation": ["error"],
+
+				// Disallow unused variables & declarations.
+				"no-unused-vars": "off", // Disable the base rule as it can report incorrect errors.
+				"@typescript-eslint/no-unused-vars": ["error"],
+
+				// Remove useless constructor.
+				"no-useless-constructor": "off", // Disable the base rule as it can report incorrect errors.
+				"@typescript-eslint/no-useless-constructor": ["error"],
+
+				// This rule enforces not using parameter properties.
+				// Actually, this rule should be inversed and 'private readonly' should be enforced.
+				// But for now no parameter properties are allowed, but 'private readonly' is preferred.
+				// TODO: find solution to inverse this rule and enforce 'private readonly'. See https://github.com/typescript-eslint/typescript-eslint/issues/103
+				"@typescript-eslint/no-parameter-properties": [
+					"error",
+					{ "allows": ["private readonly"] }
+				],
+
+				// Disallow reassignment of parameters.
+				"no-param-reassign": ["error"]
+
+				// "@typescript-eslint/strict-boolean-expressions": ["error"]
+			}
+		},
+
+		/**
+		 * -----------------------------------------------------
+		 * COMPONENT TEMPLATES
+		 * -----------------------------------------------------
+		 *
+		 * If you use inline templates, make sure you read the notes on the configuration
+		 * object after this one to understand how they relate to this configuration directly
+		 * below.
+		 */
+		{
+			"files": ["*.component.html"],
+			"extends": [
+				// HTML specific rules.
+				// https://github.com/angular-eslint/angular-eslint/tree/master/packages/eslint-plugin-template/src/configs
+				"plugin:@angular-eslint/template/recommended"
+			],
+			"rules": {
+				// No 'autofocus'-attribute in HTML.
+				"@angular-eslint/template/no-autofocus": "error",
+
+				// No positive 'tabindex'-attribute in HTML.
+				"@angular-eslint/template/no-positive-tabindex": "error"
+			}
+		},
+
+		/**
+		 * -----------------------------------------------------
+		 * EXTRACT INLINE TEMPLATES (from within .component.ts)
+		 * -----------------------------------------------------
+		 *
+		 * This extra piece of configuration is necessary to extract inline
+		 * templates from within Component metadata, e.g.:
+		 *
+		 * @Component({
+		 *  template: '<h1>Hello, World!</h1>'
+		 * })
+		 * ...
+		 *
+		 * It works by extracting the template part of the file and treating it as
+		 * if it were a full .html file, and it will therefore match the configuration
+		 * specific for *.component.html above when it comes to actual rules etc.
+		 *
+		 * NOTE: This processor will skip a lot of work when it runs if you don't use
+		 * inline templates in your \`projects\` currently, so there is no great benefit
+		 * in removing it, but you can if you want to.
+		 *
+		 * You won't specify any rules here. As noted above, the rules that are relevant
+		 * to inline templates are the same as the ones defined for *.component.html.
+		 */
+		{
+			"files": ["*.component.ts"],
+			"extends": [
+				// https://github.com/angular-eslint/angular-eslint/blob/master/packages/eslint-plugin-template/src/configs/process-inline-templates.json
+				"plugin:@angular-eslint/template/process-inline-templates"
+			]
+		}
+	]
+}`,
   '/home/mflorence99/el-file/.eslintrc.json': `{
     "extends": "eslint:recommended",
     "plugins": [
