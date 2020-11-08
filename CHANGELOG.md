@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3.1
+
+Thanks to @jerone, fixes to #24 and #25.
+
 ## 1.3.0
 
 Upgraded to ESLint v7, now that the Vue plugin has removed its peer dependency on v6. This release closes issue #13.

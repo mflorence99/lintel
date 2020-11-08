@@ -50,13 +50,13 @@ export function webviewContentFactory(
 
           // convert the files into a script that Lintel can process
           const eslintScript = Object.keys(eslintFiles)
-            .map(
-              (fileName) =>
-                `"${fileName}": \`${eslintFiles[fileName].replace(
-                  /`/g,
-                  '\\`'
-                )}\``
-            )
+            .map((fileName) => {
+              // #25: must escape embedded \
+              const key = fileName.replace(/\\/g, '\\\\');
+              // #24: must escape embedded `
+              const value = eslintFiles[fileName].replace(/`/g, '\\`');
+              return `"${key}": \`${value}\``;
+            })
             .join(',');
 
           // munge the Angular app's index.html
