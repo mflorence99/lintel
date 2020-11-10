@@ -14,7 +14,7 @@ import { patch } from '@ngxs/store/operators';
 export interface SelectionStateModel {
   category?: string;
   fileName?: string;
-  override?: number;
+  override?: number | null;
   overrideFiles?: string[];
   pluginName?: string;
 }

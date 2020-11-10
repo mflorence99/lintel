@@ -349,7 +349,7 @@ eslintFiles = {
       curly: 0 + 1
     }
   };`,
-  '/home/mflorence99/issue-24/.eslintrc.json': `/**
+  '/home/mflorence99/issue-28/.eslintrc.json': `/**
  * -----------------------------------------------------
  * NOTES ON CONFIGURATION STRUCTURE
  * -----------------------------------------------------

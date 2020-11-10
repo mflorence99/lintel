@@ -47,14 +47,14 @@ const assign_comments = (
 };
 
 // Assign keys and comments
-const assign_key_comments = (target, source, keys) => {
+const assign_key_comments = (target, source, keys, recurse = false) => {
   keys.forEach((key) => {
     if (!hasOwnProperty(source, key)) {
       return;
     }
 
     // MEF 6/8/2020
-    if (!isArray(source[key]) && isObject(source[key])) {
+    if (recurse && !isArray(source[key]) && isObject(source[key])) {
       if (!target[key]) target[key] = {};
       return assign_key_comments(
         target[key],
@@ -294,7 +294,8 @@ export class CommentArray extends Array {
 export function assign(
   target = UNDEFINED,
   source = UNDEFINED,
-  keys = UNDEFINED
+  keys = UNDEFINED,
+  recurse = false
 ) {
   if (!isObject(target)) {
     throw new TypeError('Cannot convert undefined or null to object');
@@ -310,5 +311,5 @@ export function assign(
     throw new TypeError('keys must be array or undefined');
   }
 
-  return assign_key_comments(target, source, keys);
+  return assign_key_comments(target, source, keys, recurse);
 }

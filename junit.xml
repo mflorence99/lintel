@@ -1,403 +1,373 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="516" failures="0" errors="0" time="28.304">
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:31" time="3.769" tests="10">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.222">
+<testsuites name="jest tests" tests="516" failures="0" errors="0" time="29.696">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:02" time="2.483" tests="9">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.261">
     </testcase>
-    <testcase classname="GeneralComponent canDoSettings" name="GeneralComponent canDoSettings" time="0.147">
+    <testcase classname="ConfigsComponent colorForFile" name="ConfigsComponent colorForFile" time="0.189">
     </testcase>
-    <testcase classname="GeneralComponent editFile" name="GeneralComponent editFile" time="0.066">
+    <testcase classname="ConfigsComponent iconForFile" name="ConfigsComponent iconForFile" time="0.09">
     </testcase>
-    <testcase classname="GeneralComponent isConfigured" name="GeneralComponent isConfigured" time="0.055">
+    <testcase classname="ConfigsComponent Categories are filtered" name="ConfigsComponent Categories are filtered" time="0.091">
     </testcase>
-    <testcase classname="GeneralComponent isInherited" name="GeneralComponent isInherited" time="0.059">
+    <testcase classname="ConfigsComponent selectCategory" name="ConfigsComponent selectCategory" time="0.091">
     </testcase>
-    <testcase classname="GeneralComponent makeOptionsForMultiselector" name="GeneralComponent makeOptionsForMultiselector" time="0.051">
+    <testcase classname="ConfigsComponent selectOverride" name="ConfigsComponent selectOverride" time="0.085">
     </testcase>
-    <testcase classname="GeneralComponent makeOptionsForSingleselector" name="GeneralComponent makeOptionsForSingleselector" time="0.043">
+    <testcase classname="ConfigsComponent selectFileName" name="ConfigsComponent selectFileName" time="0.056">
     </testcase>
-    <testcase classname="GeneralComponent makeProperties" name="GeneralComponent makeProperties" time="0.05">
+    <testcase classname="ConfigsComponent shortenFileName" name="ConfigsComponent shortenFileName" time="0.061">
     </testcase>
-    <testcase classname="GeneralComponent ngOnInit" name="GeneralComponent ngOnInit" time="0.052">
-    </testcase>
-    <testcase classname="GeneralComponent snapshot" name="GeneralComponent snapshot" time="1.514">
+    <testcase classname="ConfigsComponent snapshot" name="ConfigsComponent snapshot" time="0.346">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:35" time="0.678" tests="4">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.141">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:04" time="2.539" tests="10">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.148">
     </testcase>
-    <testcase classname="ParserOptionsComponent makeOptionsForSingleselector" name="ParserOptionsComponent makeOptionsForSingleselector" time="0.096">
+    <testcase classname="GeneralComponent canDoSettings" name="GeneralComponent canDoSettings" time="0.093">
     </testcase>
-    <testcase classname="ParserOptionsComponent ngOnInit" name="ParserOptionsComponent ngOnInit" time="0.081">
+    <testcase classname="GeneralComponent editFile" name="GeneralComponent editFile" time="0.075">
     </testcase>
-    <testcase classname="ParserOptionsComponent snapshot" name="ParserOptionsComponent snapshot" time="0.083">
+    <testcase classname="GeneralComponent isConfigured" name="GeneralComponent isConfigured" time="0.087">
+    </testcase>
+    <testcase classname="GeneralComponent isInherited" name="GeneralComponent isInherited" time="0.099">
+    </testcase>
+    <testcase classname="GeneralComponent makeOptionsForMultiselector" name="GeneralComponent makeOptionsForMultiselector" time="0.082">
+    </testcase>
+    <testcase classname="GeneralComponent makeOptionsForSingleselector" name="GeneralComponent makeOptionsForSingleselector" time="0.071">
+    </testcase>
+    <testcase classname="GeneralComponent makeProperties" name="GeneralComponent makeProperties" time="0.082">
+    </testcase>
+    <testcase classname="GeneralComponent ngOnInit" name="GeneralComponent ngOnInit" time="0.081">
+    </testcase>
+    <testcase classname="GeneralComponent snapshot" name="GeneralComponent snapshot" time="1.414">
     </testcase>
   </testsuite>
-  <testsuite name="VSCode extension" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:36" time="0.777" tests="4">
-    <testcase classname="VSCode extension Smoke test" name="VSCode extension Smoke test" time="0.005">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:07" time="1.491" tests="8">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.136">
     </testcase>
-    <testcase classname="VSCode extension Correct HTML is produced at launch" name="VSCode extension Correct HTML is produced at launch" time="0.002">
+    <testcase classname="RulesComponent canCopyRule" name="RulesComponent canCopyRule" time="0.086">
     </testcase>
-    <testcase classname="VSCode extension Extension reacts to messages from webview" name="VSCode extension Extension reacts to messages from webview" time="0.396">
+    <testcase classname="RulesComponent canExportRule - in config" name="RulesComponent canExportRule - in config" time="0.066">
     </testcase>
-    <testcase classname="VSCode extension Extension can be disposed" name="VSCode extension Extension can be disposed" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:37" time="1.522" tests="8">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.156">
-    </testcase>
-    <testcase classname="RulesComponent canCopyRule" name="RulesComponent canCopyRule" time="0.084">
-    </testcase>
-    <testcase classname="RulesComponent canExportRule - in config" name="RulesComponent canExportRule - in config" time="0.065">
-    </testcase>
-    <testcase classname="RulesComponent canExportRule - in extension" name="RulesComponent canExportRule - in extension" time="0.06">
+    <testcase classname="RulesComponent canExportRule - in extension" name="RulesComponent canExportRule - in extension" time="0.059">
     </testcase>
     <testcase classname="RulesComponent execute deletes rule" name="RulesComponent execute deletes rule" time="0.058">
     </testcase>
-    <testcase classname="RulesComponent execute exports rule" name="RulesComponent execute exports rule" time="0.05">
+    <testcase classname="RulesComponent execute exports rule" name="RulesComponent execute exports rule" time="0.046">
     </testcase>
-    <testcase classname="RulesComponent trackByRule" name="RulesComponent trackByRule" time="0.045">
+    <testcase classname="RulesComponent trackByRule" name="RulesComponent trackByRule" time="0.049">
     </testcase>
-    <testcase classname="RulesComponent snapshot" name="RulesComponent snapshot" time="0.713">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:38" time="1.584" tests="25">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.002">
-    </testcase>
-    <testcase classname="ConfigsState ConfigsState is initialized" name="ConfigsState ConfigsState is initialized" time="0.128">
-    </testcase>
-    <testcase classname="ConfigsState fileNames are properly constructed" name="ConfigsState fileNames are properly constructed" time="0.104">
-    </testcase>
-    <testcase classname="ConfigsState shortFileNames are properly constructed" name="ConfigsState shortFileNames are properly constructed" time="0.073">
-    </testcase>
-    <testcase classname="ConfigsState shortFileName" name="ConfigsState shortFileName" time="0.068">
-    </testcase>
-    <testcase classname="ConfigsState pluginNames are properly constructed" name="ConfigsState pluginNames are properly constructed" time="0.079">
-    </testcase>
-    <testcase classname="ConfigsState categories are properly constructed" name="ConfigsState categories are properly constructed" time="0.072">
-    </testcase>
-    <testcase classname="ConfigsState No categories can be determined unless a pluginName is selected first" name="ConfigsState No categories can be determined unless a pluginName is selected first" time="0.055">
-    </testcase>
-    <testcase classname="ConfigsState activeView is properly constructed" name="ConfigsState activeView is properly constructed" time="0.054">
-    </testcase>
-    <testcase classname="ConfigsState activeView is really unknownView if unknownPluginName is selected" name="ConfigsState activeView is really unknownView if unknownPluginName is selected" time="0.051">
-    </testcase>
-    <testcase classname="ConfigsState categoryView is properly constructed" name="ConfigsState categoryView is properly constructed" time="0.051">
-    </testcase>
-    <testcase classname="ConfigsState unknownView is properly constructed" name="ConfigsState unknownView is properly constructed" time="0.053">
-    </testcase>
-    <testcase classname="ConfigsState Extensions are properly merged" name="ConfigsState Extensions are properly merged" time="0.042">
-    </testcase>
-    <testcase classname="ConfigsState Overrides are properly merged" name="ConfigsState Overrides are properly merged" time="0.039">
-    </testcase>
-    <testcase classname="ConfigsState Rule digest is properly constructed" name="ConfigsState Rule digest is properly constructed" time="0.052">
-    </testcase>
-    <testcase classname="ConfigsState isOverrideInherited" name="ConfigsState isOverrideInherited" time="0.036">
-    </testcase>
-    <testcase classname="ConfigsState isPluginFiltered" name="ConfigsState isPluginFiltered" time="0.055">
-    </testcase>
-    <testcase classname="ConfigsState addOverride" name="ConfigsState addOverride" time="0.047">
-    </testcase>
-    <testcase classname="ConfigsState changeConfiguration in base configutation" name="ConfigsState changeConfiguration in base configutation" time="0.041">
-    </testcase>
-    <testcase classname="ConfigsState changeConfiguration in override" name="ConfigsState changeConfiguration in override" time="0.039">
-    </testcase>
-    <testcase classname="ConfigsState changeRule in base configuration" name="ConfigsState changeRule in base configuration" time="0.043">
-    </testcase>
-    <testcase classname="ConfigsState changeRule in override" name="ConfigsState changeRule in override" time="0.043">
-    </testcase>
-    <testcase classname="ConfigsState deleteOverride" name="ConfigsState deleteOverride" time="0.04">
-    </testcase>
-    <testcase classname="ConfigsState deleteRule in base configuration" name="ConfigsState deleteRule in base configuration" time="0.037">
-    </testcase>
-    <testcase classname="ConfigsState deleteRule in override" name="ConfigsState deleteRule in override" time="0.039">
+    <testcase classname="RulesComponent snapshot" name="RulesComponent snapshot" time="0.726">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:40" time="1.266" tests="21">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0">
-    </testcase>
-    <testcase classname="RulesState RulesState is initialized" name="RulesState RulesState is initialized" time="0.099">
-    </testcase>
-    <testcase classname="RulesState Rules can be changed via events" name="RulesState Rules can be changed via events" time="0.071">
-    </testcase>
-    <testcase classname="RulesState no-mixed-operators cannot be processed" name="RulesState no-mixed-operators cannot be processed" time="0.061">
-    </testcase>
-    <testcase classname="RulesState react/jsx-no-script-url cannot be processed" name="RulesState react/jsx-no-script-url cannot be processed" time="0.057">
-    </testcase>
-    <testcase classname="RulesState Rules with &quot;oneOf&quot; cannot be processed" name="RulesState Rules with &quot;oneOf&quot; cannot be processed" time="0.05">
-    </testcase>
-    <testcase classname="RulesState Rules with &quot;anyOf&quot; cannot be processed" name="RulesState Rules with &quot;anyOf&quot; cannot be processed" time="0.046">
-    </testcase>
-    <testcase classname="RulesState Rules with &quot;allOf&quot; cannot be processed" name="RulesState Rules with &quot;allOf&quot; cannot be processed" time="0.056">
-    </testcase>
-    <testcase classname="RulesState Make rules with an object schema into an array schema" name="RulesState Make rules with an object schema into an array schema" time="0.049">
-    </testcase>
-    <testcase classname="RulesState Make rules with an object schema into an array schema" name="RulesState Make rules with an object schema into an array schema" time="0.045">
-    </testcase>
-    <testcase classname="RulesState Rules with type: boolean produce a checkbox" name="RulesState Rules with type: boolean produce a checkbox" time="0.046">
-    </testcase>
-    <testcase classname="RulesState Rules with additional boolean properties produce a key-value/checkbox" name="RulesState Rules with additional boolean properties produce a key-value/checkbox" time="0.061">
-    </testcase>
-    <testcase classname="RulesState Rules with additional string properties produce a key-value/text" name="RulesState Rules with additional string properties produce a key-value/text" time="0.048">
-    </testcase>
-    <testcase classname="RulesState Rules with an object that itself consists of an all-boolean object produce a key-value/multicheckbox" name="RulesState Rules with an object that itself consists of an all-boolean object produce a key-value/multicheckbox" time="0.045">
-    </testcase>
-    <testcase classname="RulesState Rules with an all-boolean object produce a multiselect" name="RulesState Rules with an all-boolean object produce a multiselect" time="0.044">
-    </testcase>
-    <testcase classname="RulesState Rules with an empty object as the schema are a noop" name="RulesState Rules with an empty object as the schema are a noop" time="0.047">
-    </testcase>
-    <testcase classname="RulesState Rules with type: integer produce a number-input" name="RulesState Rules with type: integer produce a number-input" time="0.045">
-    </testcase>
-    <testcase classname="RulesState Rules with type: array of enums produce a select-array" name="RulesState Rules with type: array of enums produce a select-array" time="0.049">
-    </testcase>
-    <testcase classname="RulesState Rules with enum produce a singleselect" name="RulesState Rules with enum produce a singleselect" time="0.045">
-    </testcase>
-    <testcase classname="RulesState Rules with type: array of strings produce a string-array" name="RulesState Rules with type: array of strings produce a string-array" time="0.043">
-    </testcase>
-    <testcase classname="RulesState Rules with type: string produce a string-input" name="RulesState Rules with type: string produce a string-input" time="0.044">
-    </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:41" time="1.166" tests="9">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.176">
-    </testcase>
-    <testcase classname="ConfigsComponent colorForFile" name="ConfigsComponent colorForFile" time="0.141">
-    </testcase>
-    <testcase classname="ConfigsComponent iconForFile" name="ConfigsComponent iconForFile" time="0.098">
-    </testcase>
-    <testcase classname="ConfigsComponent Categories are filtered" name="ConfigsComponent Categories are filtered" time="0.11">
-    </testcase>
-    <testcase classname="ConfigsComponent selectCategory" name="ConfigsComponent selectCategory" time="0.092">
-    </testcase>
-    <testcase classname="ConfigsComponent selectOverride" name="ConfigsComponent selectOverride" time="0.087">
-    </testcase>
-    <testcase classname="ConfigsComponent selectFileName" name="ConfigsComponent selectFileName" time="0.05">
-    </testcase>
-    <testcase classname="ConfigsComponent shortenFileName" name="ConfigsComponent shortenFileName" time="0.046">
-    </testcase>
-    <testcase classname="ConfigsComponent snapshot" name="ConfigsComponent snapshot" time="0.147">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:42" time="1.154" tests="23">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:08" time="1.534" tests="25">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
     </testcase>
-    <testcase classname="FilesState FilesState is initialized" name="FilesState FilesState is initialized" time="0.089">
+    <testcase classname="ConfigsState ConfigsState is initialized" name="ConfigsState ConfigsState is initialized" time="0.087">
     </testcase>
-    <testcase classname="FilesState package.json is properly parsed" name="FilesState package.json is properly parsed" time="0.059">
+    <testcase classname="ConfigsState fileNames are properly constructed" name="ConfigsState fileNames are properly constructed" time="0.062">
+    </testcase>
+    <testcase classname="ConfigsState shortFileNames are properly constructed" name="ConfigsState shortFileNames are properly constructed" time="0.072">
+    </testcase>
+    <testcase classname="ConfigsState shortFileName" name="ConfigsState shortFileName" time="0.073">
+    </testcase>
+    <testcase classname="ConfigsState pluginNames are properly constructed" name="ConfigsState pluginNames are properly constructed" time="0.092">
+    </testcase>
+    <testcase classname="ConfigsState categories are properly constructed" name="ConfigsState categories are properly constructed" time="0.075">
+    </testcase>
+    <testcase classname="ConfigsState No categories can be determined unless a pluginName is selected first" name="ConfigsState No categories can be determined unless a pluginName is selected first" time="0.067">
+    </testcase>
+    <testcase classname="ConfigsState activeView is properly constructed" name="ConfigsState activeView is properly constructed" time="0.066">
+    </testcase>
+    <testcase classname="ConfigsState activeView is really unknownView if unknownPluginName is selected" name="ConfigsState activeView is really unknownView if unknownPluginName is selected" time="0.064">
+    </testcase>
+    <testcase classname="ConfigsState categoryView is properly constructed" name="ConfigsState categoryView is properly constructed" time="0.06">
+    </testcase>
+    <testcase classname="ConfigsState unknownView is properly constructed" name="ConfigsState unknownView is properly constructed" time="0.06">
+    </testcase>
+    <testcase classname="ConfigsState Extensions are properly merged" name="ConfigsState Extensions are properly merged" time="0.04">
+    </testcase>
+    <testcase classname="ConfigsState Overrides are properly merged" name="ConfigsState Overrides are properly merged" time="0.038">
+    </testcase>
+    <testcase classname="ConfigsState Rule digest is properly constructed" name="ConfigsState Rule digest is properly constructed" time="0.051">
+    </testcase>
+    <testcase classname="ConfigsState isOverrideInherited" name="ConfigsState isOverrideInherited" time="0.039">
+    </testcase>
+    <testcase classname="ConfigsState isPluginFiltered" name="ConfigsState isPluginFiltered" time="0.052">
+    </testcase>
+    <testcase classname="ConfigsState addOverride" name="ConfigsState addOverride" time="0.042">
+    </testcase>
+    <testcase classname="ConfigsState changeConfiguration in base configutation" name="ConfigsState changeConfiguration in base configutation" time="0.034">
+    </testcase>
+    <testcase classname="ConfigsState changeConfiguration in override" name="ConfigsState changeConfiguration in override" time="0.04">
+    </testcase>
+    <testcase classname="ConfigsState changeRule in base configuration" name="ConfigsState changeRule in base configuration" time="0.038">
+    </testcase>
+    <testcase classname="ConfigsState changeRule in override" name="ConfigsState changeRule in override" time="0.038">
+    </testcase>
+    <testcase classname="ConfigsState deleteOverride" name="ConfigsState deleteOverride" time="0.038">
+    </testcase>
+    <testcase classname="ConfigsState deleteRule in base configuration" name="ConfigsState deleteRule in base configuration" time="0.035">
+    </testcase>
+    <testcase classname="ConfigsState deleteRule in override" name="ConfigsState deleteRule in override" time="0.038">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:10" time="1.17" tests="23">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
+    </testcase>
+    <testcase classname="FilesState FilesState is initialized" name="FilesState FilesState is initialized" time="0.083">
+    </testcase>
+    <testcase classname="FilesState package.json is properly parsed" name="FilesState package.json is properly parsed" time="0.058">
     </testcase>
     <testcase classname="FilesState ext/.eslintrc.js is properly parsed" name="FilesState ext/.eslintrc.js is properly parsed" time="0.046">
     </testcase>
-    <testcase classname="FilesState /home/mflorence99/el-file/.eslintrc.json is parsed without rules" name="FilesState /home/mflorence99/el-file/.eslintrc.json is parsed without rules" time="0.046">
+    <testcase classname="FilesState /home/mflorence99/el-file/.eslintrc.json is parsed without rules" name="FilesState /home/mflorence99/el-file/.eslintrc.json is parsed without rules" time="0.048">
     </testcase>
-    <testcase classname="FilesState /home/mflorence99/lintel/src/app/.eslintrc.yaml is properly parsed" name="FilesState /home/mflorence99/lintel/src/app/.eslintrc.yaml is properly parsed" time="0.036">
+    <testcase classname="FilesState /home/mflorence99/lintel/src/app/.eslintrc.yaml is properly parsed" name="FilesState /home/mflorence99/lintel/src/app/.eslintrc.yaml is properly parsed" time="0.046">
     </testcase>
-    <testcase classname="FilesState /home/mflorence99/lintel/empty.json is properly parsed" name="FilesState /home/mflorence99/lintel/empty.json is properly parsed" time="0.039">
+    <testcase classname="FilesState /home/mflorence99/lintel/empty.json is properly parsed" name="FilesState /home/mflorence99/lintel/empty.json is properly parsed" time="0.034">
     </testcase>
-    <testcase classname="FilesState /home/mflorence99/lintel/common-js.cjs is parsed but the config is empty" name="FilesState /home/mflorence99/lintel/common-js.cjs is parsed but the config is empty" time="0.039">
+    <testcase classname="FilesState /home/mflorence99/lintel/common-js.cjs is parsed but the config is empty" name="FilesState /home/mflorence99/lintel/common-js.cjs is parsed but the config is empty" time="0.037">
     </testcase>
     <testcase classname="FilesState /home/mflorence99/lintel/invalid.json is parsed but the config is null" name="FilesState /home/mflorence99/lintel/invalid.json is parsed but the config is null" time="0.036">
     </testcase>
-    <testcase classname="FilesState config can be changed in package.json" name="FilesState config can be changed in package.json" time="0.034">
+    <testcase classname="FilesState config can be changed in package.json" name="FilesState config can be changed in package.json" time="0.04">
     </testcase>
-    <testcase classname="FilesState config can be changed in package.json override" name="FilesState config can be changed in package.json override" time="0.038">
+    <testcase classname="FilesState config can be changed in package.json override" name="FilesState config can be changed in package.json override" time="0.044">
     </testcase>
-    <testcase classname="FilesState rule can be changed in package.json" name="FilesState rule can be changed in package.json" time="0.04">
+    <testcase classname="FilesState rule can be changed in package.json" name="FilesState rule can be changed in package.json" time="0.046">
     </testcase>
-    <testcase classname="FilesState rule can be changed in package.json override" name="FilesState rule can be changed in package.json override" time="0.041">
+    <testcase classname="FilesState rule can be changed in package.json override" name="FilesState rule can be changed in package.json override" time="0.039">
     </testcase>
     <testcase classname="FilesState config can be changed in /home/mflorence99/el-3270/.eslintrc.js" name="FilesState config can be changed in /home/mflorence99/el-3270/.eslintrc.js" time="0.039">
     </testcase>
-    <testcase classname="FilesState rule can be changed in ext/.eslintrc.js" name="FilesState rule can be changed in ext/.eslintrc.js" time="0.035">
+    <testcase classname="FilesState rule can be changed in ext/.eslintrc.js" name="FilesState rule can be changed in ext/.eslintrc.js" time="0.048">
     </testcase>
-    <testcase classname="FilesState config can be changed in /home/mflorence99/el-file/.eslintrc.json" name="FilesState config can be changed in /home/mflorence99/el-file/.eslintrc.json" time="0.04">
+    <testcase classname="FilesState config can be changed in /home/mflorence99/el-file/.eslintrc.json" name="FilesState config can be changed in /home/mflorence99/el-file/.eslintrc.json" time="0.043">
     </testcase>
-    <testcase classname="FilesState rule can be changed in /home/mflorence99/el-file/.eslintrc.json" name="FilesState rule can be changed in /home/mflorence99/el-file/.eslintrc.json" time="0.04">
+    <testcase classname="FilesState rule can be changed in /home/mflorence99/el-file/.eslintrc.json" name="FilesState rule can be changed in /home/mflorence99/el-file/.eslintrc.json" time="0.036">
     </testcase>
     <testcase classname="FilesState config can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml" name="FilesState config can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml" time="0.041">
     </testcase>
-    <testcase classname="FilesState rule can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml" name="FilesState rule can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml" time="0.033">
+    <testcase classname="FilesState rule can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml" name="FilesState rule can be changed in /home/mflorence99/lintel/src/app/.eslintrc.yaml" time="0.035">
     </testcase>
-    <testcase classname="FilesState rule can be deleted in /home/mflorence99/lintel/package.json" name="FilesState rule can be deleted in /home/mflorence99/lintel/package.json" time="0.036">
+    <testcase classname="FilesState rule can be deleted in /home/mflorence99/lintel/package.json" name="FilesState rule can be deleted in /home/mflorence99/lintel/package.json" time="0.035">
     </testcase>
-    <testcase classname="FilesState rule can be deleted in /home/mflorence99/lintel/package.json override" name="FilesState rule can be deleted in /home/mflorence99/lintel/package.json override" time="0.037">
+    <testcase classname="FilesState rule can be deleted in /home/mflorence99/lintel/package.json override" name="FilesState rule can be deleted in /home/mflorence99/lintel/package.json override" time="0.035">
     </testcase>
-    <testcase classname="FilesState override can be added in /home/mflorence99/lintel/package.json" name="FilesState override can be added in /home/mflorence99/lintel/package.json" time="0.045">
+    <testcase classname="FilesState override can be added in /home/mflorence99/lintel/package.json" name="FilesState override can be added in /home/mflorence99/lintel/package.json" time="0.046">
     </testcase>
-    <testcase classname="FilesState override can be deleted in /home/mflorence99/lintel/package.json" name="FilesState override can be deleted in /home/mflorence99/lintel/package.json" time="0.055">
-    </testcase>
-  </testsuite>
-  <testsuite name="resolve-extends" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:44" time="1.137" tests="3">
-    <testcase classname="resolve-extends Extension names are normalized" name="resolve-extends Extension names are normalized" time="0.002">
-    </testcase>
-    <testcase classname="resolve-extends Extension can be required" name="resolve-extends Extension can be required" time="0.096">
-    </testcase>
-    <testcase classname="resolve-extends Extension can be fully resolved" name="resolve-extends Extension can be fully resolved" time="0.845">
+    <testcase classname="FilesState override can be deleted in /home/mflorence99/lintel/package.json" name="FilesState override can be deleted in /home/mflorence99/lintel/package.json" time="0.04">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:45" time="0.706" tests="5">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.148">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:11" time="1.269" tests="21">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
     </testcase>
-    <testcase classname="FilterComponent clearRuleNameFilter" name="FilterComponent clearRuleNameFilter" time="0.087">
+    <testcase classname="RulesState RulesState is initialized" name="RulesState RulesState is initialized" time="0.093">
     </testcase>
-    <testcase classname="FilterComponent ngOnInit" name="FilterComponent ngOnInit" time="0.071">
+    <testcase classname="RulesState Rules can be changed via events" name="RulesState Rules can be changed via events" time="0.072">
     </testcase>
-    <testcase classname="FilterComponent toggleInheritedRules" name="FilterComponent toggleInheritedRules" time="0.058">
+    <testcase classname="RulesState no-mixed-operators cannot be processed" name="RulesState no-mixed-operators cannot be processed" time="0.06">
     </testcase>
-    <testcase classname="FilterComponent snapshot" name="FilterComponent snapshot" time="0.072">
+    <testcase classname="RulesState react/jsx-no-script-url cannot be processed" name="RulesState react/jsx-no-script-url cannot be processed" time="0.064">
+    </testcase>
+    <testcase classname="RulesState Rules with &quot;oneOf&quot; cannot be processed" name="RulesState Rules with &quot;oneOf&quot; cannot be processed" time="0.05">
+    </testcase>
+    <testcase classname="RulesState Rules with &quot;anyOf&quot; cannot be processed" name="RulesState Rules with &quot;anyOf&quot; cannot be processed" time="0.045">
+    </testcase>
+    <testcase classname="RulesState Rules with &quot;allOf&quot; cannot be processed" name="RulesState Rules with &quot;allOf&quot; cannot be processed" time="0.056">
+    </testcase>
+    <testcase classname="RulesState Make rules with an object schema into an array schema" name="RulesState Make rules with an object schema into an array schema" time="0.051">
+    </testcase>
+    <testcase classname="RulesState Make rules with an object schema into an array schema" name="RulesState Make rules with an object schema into an array schema" time="0.043">
+    </testcase>
+    <testcase classname="RulesState Rules with type: boolean produce a checkbox" name="RulesState Rules with type: boolean produce a checkbox" time="0.041">
+    </testcase>
+    <testcase classname="RulesState Rules with additional boolean properties produce a key-value/checkbox" name="RulesState Rules with additional boolean properties produce a key-value/checkbox" time="0.058">
+    </testcase>
+    <testcase classname="RulesState Rules with additional string properties produce a key-value/text" name="RulesState Rules with additional string properties produce a key-value/text" time="0.048">
+    </testcase>
+    <testcase classname="RulesState Rules with an object that itself consists of an all-boolean object produce a key-value/multicheckbox" name="RulesState Rules with an object that itself consists of an all-boolean object produce a key-value/multicheckbox" time="0.048">
+    </testcase>
+    <testcase classname="RulesState Rules with an all-boolean object produce a multiselect" name="RulesState Rules with an all-boolean object produce a multiselect" time="0.045">
+    </testcase>
+    <testcase classname="RulesState Rules with an empty object as the schema are a noop" name="RulesState Rules with an empty object as the schema are a noop" time="0.049">
+    </testcase>
+    <testcase classname="RulesState Rules with type: integer produce a number-input" name="RulesState Rules with type: integer produce a number-input" time="0.048">
+    </testcase>
+    <testcase classname="RulesState Rules with type: array of enums produce a select-array" name="RulesState Rules with type: array of enums produce a select-array" time="0.048">
+    </testcase>
+    <testcase classname="RulesState Rules with enum produce a singleselect" name="RulesState Rules with enum produce a singleselect" time="0.044">
+    </testcase>
+    <testcase classname="RulesState Rules with type: array of strings produce a string-array" name="RulesState Rules with type: array of strings produce a string-array" time="0.044">
+    </testcase>
+    <testcase classname="RulesState Rules with type: string produce a string-input" name="RulesState Rules with type: string produce a string-input" time="0.046">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:46" time="0.811" tests="6">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.182">
+  <testsuite name="resolve-extends" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:13" time="1.186" tests="3">
+    <testcase classname="resolve-extends Extension names are normalized" name="resolve-extends Extension names are normalized" time="0.003">
     </testcase>
-    <testcase classname="RuleComponent breakable" name="RuleComponent breakable" time="0.089">
+    <testcase classname="resolve-extends Extension can be required" name="resolve-extends Extension can be required" time="0.281">
     </testcase>
-    <testcase classname="RuleComponent editFile" name="RuleComponent editFile" time="0.068">
-    </testcase>
-    <testcase classname="RuleComponent formGroupControls" name="RuleComponent formGroupControls" time="0.056">
-    </testcase>
-    <testcase classname="RuleComponent ngOnInit" name="RuleComponent ngOnInit" time="0.077">
-    </testcase>
-    <testcase classname="RuleComponent openFile" name="RuleComponent openFile" time="0.047">
+    <testcase classname="resolve-extends Extension can be fully resolved" name="resolve-extends Extension can be fully resolved" time="0.738">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:46" time="0.888" tests="5">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.2">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:14" time="0.884" tests="5">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.198">
     </testcase>
-    <testcase classname="OverridesComponent Override can be added" name="OverridesComponent Override can be added" time="0.125">
+    <testcase classname="OverridesComponent Override can be added" name="OverridesComponent Override can be added" time="0.134">
     </testcase>
-    <testcase classname="OverridesComponent Override can be deleted" name="OverridesComponent Override can be deleted" time="0.082">
+    <testcase classname="OverridesComponent Override can be deleted" name="OverridesComponent Override can be deleted" time="0.093">
     </testcase>
     <testcase classname="OverridesComponent ngOnInit" name="OverridesComponent ngOnInit" time="0.063">
     </testcase>
-    <testcase classname="OverridesComponent snapshot" name="OverridesComponent snapshot" time="0.145">
+    <testcase classname="OverridesComponent snapshot" name="OverridesComponent snapshot" time="0.14">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:47" time="0.874" tests="5">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.212">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:15" time="0.837" tests="5">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.172">
     </testcase>
-    <testcase classname="TabsComponent Plugins are filtered" name="TabsComponent Plugins are filtered" time="0.141">
+    <testcase classname="TabsComponent Plugins are filtered" name="TabsComponent Plugins are filtered" time="0.113">
     </testcase>
-    <testcase classname="TabsComponent Plugin can be selected" name="TabsComponent Plugin can be selected" time="0.1">
+    <testcase classname="TabsComponent Plugin can be selected" name="TabsComponent Plugin can be selected" time="0.129">
     </testcase>
-    <testcase classname="TabsComponent Plugins are partitioned into tabs and overflow dropdown" name="TabsComponent Plugins are partitioned into tabs and overflow dropdown" time="0.075">
+    <testcase classname="TabsComponent Plugins are partitioned into tabs and overflow dropdown" name="TabsComponent Plugins are partitioned into tabs and overflow dropdown" time="0.083">
     </testcase>
-    <testcase classname="TabsComponent snapshot" name="TabsComponent snapshot" time="0.092">
-    </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:48" time="0.521" tests="2">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.155">
-    </testcase>
-    <testcase classname="RootPageComponent editFile" name="RootPageComponent editFile" time="0.152">
+    <testcase classname="TabsComponent snapshot" name="TabsComponent snapshot" time="0.103">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:49" time="0.42" tests="4">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:16" time="0.883" tests="5">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.199">
     </testcase>
-    <testcase classname="FilterState Rule name filter can be set" name="FilterState Rule name filter can be set" time="0.108">
+    <testcase classname="FilterComponent clearRuleNameFilter" name="FilterComponent clearRuleNameFilter" time="0.136">
     </testcase>
-    <testcase classname="FilterState Empty data returned for non-matching filter" name="FilterState Empty data returned for non-matching filter" time="0.076">
+    <testcase classname="FilterComponent ngOnInit" name="FilterComponent ngOnInit" time="0.106">
     </testcase>
-    <testcase classname="FilterState Inherited rules can be shown or hidden" name="FilterState Inherited rules can be shown or hidden" time="0.052">
+    <testcase classname="FilterComponent toggleInheritedRules" name="FilterComponent toggleInheritedRules" time="0.094">
     </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:49" time="0.489" tests="13">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.094">
-    </testcase>
-    <testcase classname="SingleselectorComponent registerOnChange" name="SingleselectorComponent registerOnChange" time="0.025">
-    </testcase>
-    <testcase classname="SingleselectorComponent registerOnTouched" name="SingleselectorComponent registerOnTouched" time="0.016">
-    </testcase>
-    <testcase classname="SingleselectorComponent writeValue" name="SingleselectorComponent writeValue" time="0.016">
-    </testcase>
-    <testcase classname="SingleselectorComponent number options, not decoded, no placeholder" name="SingleselectorComponent number options, not decoded, no placeholder" time="0.013">
-    </testcase>
-    <testcase classname="SingleselectorComponent number options, decoded, no placeholder" name="SingleselectorComponent number options, decoded, no placeholder" time="0.013">
-    </testcase>
-    <testcase classname="SingleselectorComponent number options, not decoded, with placeholder" name="SingleselectorComponent number options, not decoded, with placeholder" time="0.017">
-    </testcase>
-    <testcase classname="SingleselectorComponent string options, not decoded, no placeholder" name="SingleselectorComponent string options, not decoded, no placeholder" time="0.018">
-    </testcase>
-    <testcase classname="SingleselectorComponent string options, decoded, no placeholder" name="SingleselectorComponent string options, decoded, no placeholder" time="0.015">
-    </testcase>
-    <testcase classname="SingleselectorComponent string options, not decoded, with placeholder" name="SingleselectorComponent string options, not decoded, with placeholder" time="0.015">
-    </testcase>
-    <testcase classname="SingleselectorComponent set number value" name="SingleselectorComponent set number value" time="0.012">
-    </testcase>
-    <testcase classname="SingleselectorComponent set string value" name="SingleselectorComponent set string value" time="0.008">
-    </testcase>
-    <testcase classname="SingleselectorComponent snapshot" name="SingleselectorComponent snapshot" time="0.013">
+    <testcase classname="FilterComponent snapshot" name="FilterComponent snapshot" time="0.104">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:50" time="0.364" tests="1">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.142">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:16" time="0.884" tests="6">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.167">
+    </testcase>
+    <testcase classname="RuleComponent breakable" name="RuleComponent breakable" time="0.143">
+    </testcase>
+    <testcase classname="RuleComponent editFile" name="RuleComponent editFile" time="0.099">
+    </testcase>
+    <testcase classname="RuleComponent formGroupControls" name="RuleComponent formGroupControls" time="0.075">
+    </testcase>
+    <testcase classname="RuleComponent ngOnInit" name="RuleComponent ngOnInit" time="0.104">
+    </testcase>
+    <testcase classname="RuleComponent openFile" name="RuleComponent openFile" time="0.065">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:50" time="0.387" tests="11">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.069">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:17" time="0.974" tests="4">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.353">
     </testcase>
-    <testcase classname="MultiselectorComponent registerOnChange" name="MultiselectorComponent registerOnChange" time="0.013">
+    <testcase classname="ParserOptionsComponent makeOptionsForSingleselector" name="ParserOptionsComponent makeOptionsForSingleselector" time="0.142">
     </testcase>
-    <testcase classname="MultiselectorComponent registerOnTouched" name="MultiselectorComponent registerOnTouched" time="0.015">
+    <testcase classname="ParserOptionsComponent ngOnInit" name="ParserOptionsComponent ngOnInit" time="0.118">
     </testcase>
-    <testcase classname="MultiselectorComponent writeValue of array" name="MultiselectorComponent writeValue of array" time="0.01">
-    </testcase>
-    <testcase classname="MultiselectorComponent writeValue of object" name="MultiselectorComponent writeValue of object" time="0.009">
-    </testcase>
-    <testcase classname="MultiselectorComponent test options as encoded array" name="MultiselectorComponent test options as encoded array" time="0.009">
-    </testcase>
-    <testcase classname="MultiselectorComponent test options as encoded/decoded array" name="MultiselectorComponent test options as encoded/decoded array" time="0.01">
-    </testcase>
-    <testcase classname="MultiselectorComponent test options as array of objects" name="MultiselectorComponent test options as array of objects" time="0.009">
-    </testcase>
-    <testcase classname="MultiselectorComponent a null value is interpreted as all values missing" name="MultiselectorComponent a null value is interpreted as all values missing" time="0.009">
-    </testcase>
-    <testcase classname="MultiselectorComponent ngOnInit" name="MultiselectorComponent ngOnInit" time="0.008">
-    </testcase>
-    <testcase classname="MultiselectorComponent snapshot" name="MultiselectorComponent snapshot" time="0.042">
+    <testcase classname="ParserOptionsComponent snapshot" name="ParserOptionsComponent snapshot" time="0.109">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:51" time="0.302" tests="7">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.054">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:18" time="0.411" tests="13">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.06">
     </testcase>
-    <testcase classname="CheckboxComponent registerOnChange" name="CheckboxComponent registerOnChange" time="0.016">
+    <testcase classname="SingleselectorComponent registerOnChange" name="SingleselectorComponent registerOnChange" time="0.017">
     </testcase>
-    <testcase classname="CheckboxComponent registerOnTouched" name="CheckboxComponent registerOnTouched" time="0.01">
+    <testcase classname="SingleselectorComponent registerOnTouched" name="SingleselectorComponent registerOnTouched" time="0.01">
     </testcase>
-    <testcase classname="CheckboxComponent toggleChecked" name="CheckboxComponent toggleChecked" time="0.01">
+    <testcase classname="SingleselectorComponent writeValue" name="SingleselectorComponent writeValue" time="0.009">
     </testcase>
-    <testcase classname="CheckboxComponent writeValue" name="CheckboxComponent writeValue" time="0.009">
+    <testcase classname="SingleselectorComponent number options, not decoded, no placeholder" name="SingleselectorComponent number options, not decoded, no placeholder" time="0.01">
     </testcase>
-    <testcase classname="CheckboxComponent set value" name="CheckboxComponent set value" time="0.009">
+    <testcase classname="SingleselectorComponent number options, decoded, no placeholder" name="SingleselectorComponent number options, decoded, no placeholder" time="0.009">
     </testcase>
-    <testcase classname="CheckboxComponent snapshot" name="CheckboxComponent snapshot" time="0.015">
+    <testcase classname="SingleselectorComponent number options, not decoded, with placeholder" name="SingleselectorComponent number options, not decoded, with placeholder" time="0.009">
     </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:51" time="0.37" tests="9">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.069">
+    <testcase classname="SingleselectorComponent string options, not decoded, no placeholder" name="SingleselectorComponent string options, not decoded, no placeholder" time="0.011">
     </testcase>
-    <testcase classname="KeyValueComponent registerOnChange" name="KeyValueComponent registerOnChange" time="0.012">
+    <testcase classname="SingleselectorComponent string options, decoded, no placeholder" name="SingleselectorComponent string options, decoded, no placeholder" time="0.01">
     </testcase>
-    <testcase classname="KeyValueComponent registerOnTouched" name="KeyValueComponent registerOnTouched" time="0.009">
+    <testcase classname="SingleselectorComponent string options, not decoded, with placeholder" name="SingleselectorComponent string options, not decoded, with placeholder" time="0.008">
     </testcase>
-    <testcase classname="KeyValueComponent writeValue" name="KeyValueComponent writeValue" time="0.009">
+    <testcase classname="SingleselectorComponent set number value" name="SingleselectorComponent set number value" time="0.008">
     </testcase>
-    <testcase classname="KeyValueComponent addKeyValue" name="KeyValueComponent addKeyValue" time="0.015">
+    <testcase classname="SingleselectorComponent set string value" name="SingleselectorComponent set string value" time="0.014">
     </testcase>
-    <testcase classname="KeyValueComponent removeKeyValue" name="KeyValueComponent removeKeyValue" time="0.009">
-    </testcase>
-    <testcase classname="KeyValueComponent ngOnInit for numbers" name="KeyValueComponent ngOnInit for numbers" time="0.009">
-    </testcase>
-    <testcase classname="KeyValueComponent ngOnInit for text" name="KeyValueComponent ngOnInit for text" time="0.009">
-    </testcase>
-    <testcase classname="KeyValueComponent snapshot" name="KeyValueComponent snapshot" time="0.054">
+    <testcase classname="SingleselectorComponent snapshot" name="SingleselectorComponent snapshot" time="0.022">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:51" time="0.391" tests="9">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.065">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:19" time="0.646" tests="2">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.185">
     </testcase>
-    <testcase classname="SelectArrayComponent registerOnChange" name="SelectArrayComponent registerOnChange" time="0.016">
+    <testcase classname="RootPageComponent editFile" name="RootPageComponent editFile" time="0.153">
     </testcase>
-    <testcase classname="SelectArrayComponent registerOnTouched" name="SelectArrayComponent registerOnTouched" time="0.009">
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:20" time="0.511" tests="9">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.1">
     </testcase>
-    <testcase classname="SelectArrayComponent writeValue of number" name="SelectArrayComponent writeValue of number" time="0.014">
+    <testcase classname="KeyValueComponent registerOnChange" name="KeyValueComponent registerOnChange" time="0.021">
+    </testcase>
+    <testcase classname="KeyValueComponent registerOnTouched" name="KeyValueComponent registerOnTouched" time="0.017">
+    </testcase>
+    <testcase classname="KeyValueComponent writeValue" name="KeyValueComponent writeValue" time="0.018">
+    </testcase>
+    <testcase classname="KeyValueComponent addKeyValue" name="KeyValueComponent addKeyValue" time="0.019">
+    </testcase>
+    <testcase classname="KeyValueComponent removeKeyValue" name="KeyValueComponent removeKeyValue" time="0.014">
+    </testcase>
+    <testcase classname="KeyValueComponent ngOnInit for numbers" name="KeyValueComponent ngOnInit for numbers" time="0.012">
+    </testcase>
+    <testcase classname="KeyValueComponent ngOnInit for text" name="KeyValueComponent ngOnInit for text" time="0.012">
+    </testcase>
+    <testcase classname="KeyValueComponent snapshot" name="KeyValueComponent snapshot" time="0.092">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:20" time="0.567" tests="11">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.105">
+    </testcase>
+    <testcase classname="MultiselectorComponent registerOnChange" name="MultiselectorComponent registerOnChange" time="0.022">
+    </testcase>
+    <testcase classname="MultiselectorComponent registerOnTouched" name="MultiselectorComponent registerOnTouched" time="0.03">
+    </testcase>
+    <testcase classname="MultiselectorComponent writeValue of array" name="MultiselectorComponent writeValue of array" time="0.024">
+    </testcase>
+    <testcase classname="MultiselectorComponent writeValue of object" name="MultiselectorComponent writeValue of object" time="0.012">
+    </testcase>
+    <testcase classname="MultiselectorComponent test options as encoded array" name="MultiselectorComponent test options as encoded array" time="0.022">
+    </testcase>
+    <testcase classname="MultiselectorComponent test options as encoded/decoded array" name="MultiselectorComponent test options as encoded/decoded array" time="0.016">
+    </testcase>
+    <testcase classname="MultiselectorComponent test options as array of objects" name="MultiselectorComponent test options as array of objects" time="0.019">
+    </testcase>
+    <testcase classname="MultiselectorComponent a null value is interpreted as all values missing" name="MultiselectorComponent a null value is interpreted as all values missing" time="0.015">
+    </testcase>
+    <testcase classname="MultiselectorComponent ngOnInit" name="MultiselectorComponent ngOnInit" time="0.027">
+    </testcase>
+    <testcase classname="MultiselectorComponent snapshot" name="MultiselectorComponent snapshot" time="0.066">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:21" time="0.686" tests="4">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
+    </testcase>
+    <testcase classname="FilterState Rule name filter can be set" name="FilterState Rule name filter can be set" time="0.163">
+    </testcase>
+    <testcase classname="FilterState Empty data returned for non-matching filter" name="FilterState Empty data returned for non-matching filter" time="0.102">
+    </testcase>
+    <testcase classname="FilterState Inherited rules can be shown or hidden" name="FilterState Inherited rules can be shown or hidden" time="0.062">
+    </testcase>
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:21" time="0.374" tests="9">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.064">
+    </testcase>
+    <testcase classname="SelectArrayComponent registerOnChange" name="SelectArrayComponent registerOnChange" time="0.013">
+    </testcase>
+    <testcase classname="SelectArrayComponent registerOnTouched" name="SelectArrayComponent registerOnTouched" time="0.008">
+    </testcase>
+    <testcase classname="SelectArrayComponent writeValue of number" name="SelectArrayComponent writeValue of number" time="0.015">
     </testcase>
     <testcase classname="SelectArrayComponent writeValue of string" name="SelectArrayComponent writeValue of string" time="0.009">
     </testcase>
@@ -407,15 +377,19 @@
     </testcase>
     <testcase classname="SelectArrayComponent ngOnInit" name="SelectArrayComponent ngOnInit" time="0.008">
     </testcase>
-    <testcase classname="SelectArrayComponent snapshot" name="SelectArrayComponent snapshot" time="0.051">
+    <testcase classname="SelectArrayComponent snapshot" name="SelectArrayComponent snapshot" time="0.058">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:52" time="0.36" tests="9">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.059">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:22" time="0.481" tests="1">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.203">
     </testcase>
-    <testcase classname="InputArrayComponent registerOnChange" name="InputArrayComponent registerOnChange" time="0.012">
+  </testsuite>
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:22" time="0.364" tests="9">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.056">
     </testcase>
-    <testcase classname="InputArrayComponent registerOnTouched" name="InputArrayComponent registerOnTouched" time="0.015">
+    <testcase classname="InputArrayComponent registerOnChange" name="InputArrayComponent registerOnChange" time="0.022">
+    </testcase>
+    <testcase classname="InputArrayComponent registerOnTouched" name="InputArrayComponent registerOnTouched" time="0.011">
     </testcase>
     <testcase classname="InputArrayComponent writeValue of number" name="InputArrayComponent writeValue of number" time="0.01">
     </testcase>
@@ -427,19 +401,53 @@
     </testcase>
     <testcase classname="InputArrayComponent ngOnInit" name="InputArrayComponent ngOnInit" time="0.009">
     </testcase>
-    <testcase classname="InputArrayComponent snapshot" name="InputArrayComponent snapshot" time="0.046">
+    <testcase classname="InputArrayComponent snapshot" name="InputArrayComponent snapshot" time="0.048">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:52" time="0.351" tests="3">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:23" time="0.461" tests="3">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0">
+    </testcase>
+    <testcase classname="ExtensionsState ExtensionsState is initialized" name="ExtensionsState ExtensionsState is initialized" time="0.134">
+    </testcase>
+    <testcase classname="ExtensionsState Extensions can be changed via events" name="ExtensionsState Extensions can be changed via events" time="0.096">
+    </testcase>
+  </testsuite>
+  <testsuite name="VSCode extension" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:23" time="0.381" tests="4">
+    <testcase classname="VSCode extension Smoke test" name="VSCode extension Smoke test" time="0.001">
+    </testcase>
+    <testcase classname="VSCode extension Correct HTML is produced at launch" name="VSCode extension Correct HTML is produced at launch" time="0.002">
+    </testcase>
+    <testcase classname="VSCode extension Extension reacts to messages from webview" name="VSCode extension Extension reacts to messages from webview" time="0.136">
+    </testcase>
+    <testcase classname="VSCode extension Extension can be disposed" name="VSCode extension Extension can be disposed" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:24" time="0.464" tests="3">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
     </testcase>
-    <testcase classname="LintelState Lintel can be enabled and disabled" name="LintelState Lintel can be enabled and disabled" time="0.091">
+    <testcase classname="LintelState Lintel can be enabled and disabled" name="LintelState Lintel can be enabled and disabled" time="0.139">
     </testcase>
-    <testcase classname="LintelState Lintel can compute a locally unique number" name="LintelState Lintel can compute a locally unique number" time="0.067">
+    <testcase classname="LintelState Lintel can compute a locally unique number" name="LintelState Lintel can compute a locally unique number" time="0.106">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:53" time="0.336" tests="163">
-    <testcase classname=" 0+0+0: stringify: &quot;abc&quot;, null, 1" name=" 0+0+0: stringify: &quot;abc&quot;, null, 1" time="0.001">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:24" time="0.344" tests="7">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.068">
+    </testcase>
+    <testcase classname="CheckboxComponent registerOnChange" name="CheckboxComponent registerOnChange" time="0.013">
+    </testcase>
+    <testcase classname="CheckboxComponent registerOnTouched" name="CheckboxComponent registerOnTouched" time="0.009">
+    </testcase>
+    <testcase classname="CheckboxComponent toggleChecked" name="CheckboxComponent toggleChecked" time="0.01">
+    </testcase>
+    <testcase classname="CheckboxComponent writeValue" name="CheckboxComponent writeValue" time="0.01">
+    </testcase>
+    <testcase classname="CheckboxComponent set value" name="CheckboxComponent set value" time="0.015">
+    </testcase>
+    <testcase classname="CheckboxComponent snapshot" name="CheckboxComponent snapshot" time="0.018">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:25" time="0.395" tests="163">
+    <testcase classname=" 0+0+0: stringify: &quot;abc&quot;, null, 1" name=" 0+0+0: stringify: &quot;abc&quot;, null, 1" time="0.003">
     </testcase>
     <testcase classname=" 0+0+1: stringify: &quot;abc&quot;, null, 2" name=" 0+0+1: stringify: &quot;abc&quot;, null, 2" time="0.001">
     </testcase>
@@ -449,9 +457,9 @@
     </testcase>
     <testcase classname=" 0+1+0: stringify: &quot;abc&quot;, replacer, 1" name=" 0+1+0: stringify: &quot;abc&quot;, replacer, 1" time="0">
     </testcase>
-    <testcase classname=" 0+1+1: stringify: &quot;abc&quot;, replacer, 2" name=" 0+1+1: stringify: &quot;abc&quot;, replacer, 2" time="0">
+    <testcase classname=" 0+1+1: stringify: &quot;abc&quot;, replacer, 2" name=" 0+1+1: stringify: &quot;abc&quot;, replacer, 2" time="0.001">
     </testcase>
-    <testcase classname=" 0+1+2: stringify: &quot;abc&quot;, replacer, &quot;  &quot;" name=" 0+1+2: stringify: &quot;abc&quot;, replacer, &quot;  &quot;" time="0.001">
+    <testcase classname=" 0+1+2: stringify: &quot;abc&quot;, replacer, &quot;  &quot;" name=" 0+1+2: stringify: &quot;abc&quot;, replacer, &quot;  &quot;" time="0">
     </testcase>
     <testcase classname=" 0+1+3: stringify: &quot;abc&quot;, replacer, &quot;1&quot;" name=" 0+1+3: stringify: &quot;abc&quot;, replacer, &quot;1&quot;" time="0">
     </testcase>
@@ -463,13 +471,13 @@
     </testcase>
     <testcase classname=" 1+0+3: stringify: 1, null, &quot;1&quot;" name=" 1+0+3: stringify: 1, null, &quot;1&quot;" time="0.001">
     </testcase>
-    <testcase classname=" 1+1+0: stringify: 1, replacer, 1" name=" 1+1+0: stringify: 1, replacer, 1" time="0">
+    <testcase classname=" 1+1+0: stringify: 1, replacer, 1" name=" 1+1+0: stringify: 1, replacer, 1" time="0.001">
     </testcase>
-    <testcase classname=" 1+1+1: stringify: 1, replacer, 2" name=" 1+1+1: stringify: 1, replacer, 2" time="0">
+    <testcase classname=" 1+1+1: stringify: 1, replacer, 2" name=" 1+1+1: stringify: 1, replacer, 2" time="0.001">
     </testcase>
     <testcase classname=" 1+1+2: stringify: 1, replacer, &quot;  &quot;" name=" 1+1+2: stringify: 1, replacer, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 1+1+3: stringify: 1, replacer, &quot;1&quot;" name=" 1+1+3: stringify: 1, replacer, &quot;1&quot;" time="0.001">
+    <testcase classname=" 1+1+3: stringify: 1, replacer, &quot;1&quot;" name=" 1+1+3: stringify: 1, replacer, &quot;1&quot;" time="0">
     </testcase>
     <testcase classname=" 2+0+0: stringify: true, null, 1" name=" 2+0+0: stringify: true, null, 1" time="0">
     </testcase>
@@ -479,31 +487,31 @@
     </testcase>
     <testcase classname=" 2+0+3: stringify: true, null, &quot;1&quot;" name=" 2+0+3: stringify: true, null, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 2+1+0: stringify: true, replacer, 1" name=" 2+1+0: stringify: true, replacer, 1" time="0">
+    <testcase classname=" 2+1+0: stringify: true, replacer, 1" name=" 2+1+0: stringify: true, replacer, 1" time="0.001">
     </testcase>
-    <testcase classname=" 2+1+1: stringify: true, replacer, 2" name=" 2+1+1: stringify: true, replacer, 2" time="0.001">
+    <testcase classname=" 2+1+1: stringify: true, replacer, 2" name=" 2+1+1: stringify: true, replacer, 2" time="0">
     </testcase>
     <testcase classname=" 2+1+2: stringify: true, replacer, &quot;  &quot;" name=" 2+1+2: stringify: true, replacer, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 2+1+3: stringify: true, replacer, &quot;1&quot;" name=" 2+1+3: stringify: true, replacer, &quot;1&quot;" time="0">
+    <testcase classname=" 2+1+3: stringify: true, replacer, &quot;1&quot;" name=" 2+1+3: stringify: true, replacer, &quot;1&quot;" time="0.001">
     </testcase>
-    <testcase classname=" 3+0+0: stringify: false, null, 1" name=" 3+0+0: stringify: false, null, 1" time="0.001">
+    <testcase classname=" 3+0+0: stringify: false, null, 1" name=" 3+0+0: stringify: false, null, 1" time="0">
     </testcase>
-    <testcase classname=" 3+0+1: stringify: false, null, 2" name=" 3+0+1: stringify: false, null, 2" time="0">
+    <testcase classname=" 3+0+1: stringify: false, null, 2" name=" 3+0+1: stringify: false, null, 2" time="0.001">
     </testcase>
     <testcase classname=" 3+0+2: stringify: false, null, &quot;  &quot;" name=" 3+0+2: stringify: false, null, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 3+0+3: stringify: false, null, &quot;1&quot;" name=" 3+0+3: stringify: false, null, &quot;1&quot;" time="0.001">
+    <testcase classname=" 3+0+3: stringify: false, null, &quot;1&quot;" name=" 3+0+3: stringify: false, null, &quot;1&quot;" time="0">
     </testcase>
     <testcase classname=" 3+1+0: stringify: false, replacer, 1" name=" 3+1+0: stringify: false, replacer, 1" time="0">
     </testcase>
-    <testcase classname=" 3+1+1: stringify: false, replacer, 2" name=" 3+1+1: stringify: false, replacer, 2" time="0">
+    <testcase classname=" 3+1+1: stringify: false, replacer, 2" name=" 3+1+1: stringify: false, replacer, 2" time="0.001">
     </testcase>
     <testcase classname=" 3+1+2: stringify: false, replacer, &quot;  &quot;" name=" 3+1+2: stringify: false, replacer, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 3+1+3: stringify: false, replacer, &quot;1&quot;" name=" 3+1+3: stringify: false, replacer, &quot;1&quot;" time="0.001">
+    <testcase classname=" 3+1+3: stringify: false, replacer, &quot;1&quot;" name=" 3+1+3: stringify: false, replacer, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 4+0+0: stringify: null, null, 1" name=" 4+0+0: stringify: null, null, 1" time="0">
+    <testcase classname=" 4+0+0: stringify: null, null, 1" name=" 4+0+0: stringify: null, null, 1" time="0.001">
     </testcase>
     <testcase classname=" 4+0+1: stringify: null, null, 2" name=" 4+0+1: stringify: null, null, 2" time="0">
     </testcase>
@@ -513,21 +521,21 @@
     </testcase>
     <testcase classname=" 4+1+0: stringify: null, replacer, 1" name=" 4+1+0: stringify: null, replacer, 1" time="0">
     </testcase>
-    <testcase classname=" 4+1+1: stringify: null, replacer, 2" name=" 4+1+1: stringify: null, replacer, 2" time="0">
+    <testcase classname=" 4+1+1: stringify: null, replacer, 2" name=" 4+1+1: stringify: null, replacer, 2" time="0.006">
     </testcase>
-    <testcase classname=" 4+1+2: stringify: null, replacer, &quot;  &quot;" name=" 4+1+2: stringify: null, replacer, &quot;  &quot;" time="0">
+    <testcase classname=" 4+1+2: stringify: null, replacer, &quot;  &quot;" name=" 4+1+2: stringify: null, replacer, &quot;  &quot;" time="0.001">
     </testcase>
-    <testcase classname=" 4+1+3: stringify: null, replacer, &quot;1&quot;" name=" 4+1+3: stringify: null, replacer, &quot;1&quot;" time="0.001">
+    <testcase classname=" 4+1+3: stringify: null, replacer, &quot;1&quot;" name=" 4+1+3: stringify: null, replacer, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 5+0+0: stringify: , null, 1" name=" 5+0+0: stringify: , null, 1" time="0">
+    <testcase classname=" 5+0+0: stringify: , null, 1" name=" 5+0+0: stringify: , null, 1" time="0.001">
     </testcase>
     <testcase classname=" 5+0+1: stringify: , null, 2" name=" 5+0+1: stringify: , null, 2" time="0">
     </testcase>
     <testcase classname=" 5+0+2: stringify: , null, &quot;  &quot;" name=" 5+0+2: stringify: , null, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 5+0+3: stringify: , null, &quot;1&quot;" name=" 5+0+3: stringify: , null, &quot;1&quot;" time="0.001">
+    <testcase classname=" 5+0+3: stringify: , null, &quot;1&quot;" name=" 5+0+3: stringify: , null, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 5+1+0: stringify: , replacer, 1" name=" 5+1+0: stringify: , replacer, 1" time="0">
+    <testcase classname=" 5+1+0: stringify: , replacer, 1" name=" 5+1+0: stringify: , replacer, 1" time="0.001">
     </testcase>
     <testcase classname=" 5+1+1: stringify: , replacer, 2" name=" 5+1+1: stringify: , replacer, 2" time="0">
     </testcase>
@@ -539,13 +547,13 @@
     </testcase>
     <testcase classname=" 6+0+1: stringify: [], null, 2" name=" 6+0+1: stringify: [], null, 2" time="0">
     </testcase>
-    <testcase classname=" 6+0+2: stringify: [], null, &quot;  &quot;" name=" 6+0+2: stringify: [], null, &quot;  &quot;" time="0">
+    <testcase classname=" 6+0+2: stringify: [], null, &quot;  &quot;" name=" 6+0+2: stringify: [], null, &quot;  &quot;" time="0.001">
     </testcase>
-    <testcase classname=" 6+0+3: stringify: [], null, &quot;1&quot;" name=" 6+0+3: stringify: [], null, &quot;1&quot;" time="0.001">
+    <testcase classname=" 6+0+3: stringify: [], null, &quot;1&quot;" name=" 6+0+3: stringify: [], null, &quot;1&quot;" time="0">
     </testcase>
     <testcase classname=" 6+1+0: stringify: [], replacer, 1" name=" 6+1+0: stringify: [], replacer, 1" time="0">
     </testcase>
-    <testcase classname=" 6+1+1: stringify: [], replacer, 2" name=" 6+1+1: stringify: [], replacer, 2" time="0">
+    <testcase classname=" 6+1+1: stringify: [], replacer, 2" name=" 6+1+1: stringify: [], replacer, 2" time="0.001">
     </testcase>
     <testcase classname=" 6+1+2: stringify: [], replacer, &quot;  &quot;" name=" 6+1+2: stringify: [], replacer, &quot;  &quot;" time="0">
     </testcase>
@@ -555,29 +563,29 @@
     </testcase>
     <testcase classname=" 7+0+1: stringify: {}, null, 2" name=" 7+0+1: stringify: {}, null, 2" time="0">
     </testcase>
-    <testcase classname=" 7+0+2: stringify: {}, null, &quot;  &quot;" name=" 7+0+2: stringify: {}, null, &quot;  &quot;" time="0">
+    <testcase classname=" 7+0+2: stringify: {}, null, &quot;  &quot;" name=" 7+0+2: stringify: {}, null, &quot;  &quot;" time="0.001">
     </testcase>
     <testcase classname=" 7+0+3: stringify: {}, null, &quot;1&quot;" name=" 7+0+3: stringify: {}, null, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 7+1+0: stringify: {}, replacer, 1" name=" 7+1+0: stringify: {}, replacer, 1" time="0">
+    <testcase classname=" 7+1+0: stringify: {}, replacer, 1" name=" 7+1+0: stringify: {}, replacer, 1" time="0.001">
     </testcase>
     <testcase classname=" 7+1+1: stringify: {}, replacer, 2" name=" 7+1+1: stringify: {}, replacer, 2" time="0">
     </testcase>
     <testcase classname=" 7+1+2: stringify: {}, replacer, &quot;  &quot;" name=" 7+1+2: stringify: {}, replacer, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 7+1+3: stringify: {}, replacer, &quot;1&quot;" name=" 7+1+3: stringify: {}, replacer, &quot;1&quot;" time="0">
+    <testcase classname=" 7+1+3: stringify: {}, replacer, &quot;1&quot;" name=" 7+1+3: stringify: {}, replacer, &quot;1&quot;" time="0.001">
     </testcase>
-    <testcase classname=" 8+0+0: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, 1" name=" 8+0+0: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, 1" time="0.001">
+    <testcase classname=" 8+0+0: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, 1" name=" 8+0+0: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, 1" time="0">
     </testcase>
-    <testcase classname=" 8+0+1: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, 2" name=" 8+0+1: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, 2" time="0">
+    <testcase classname=" 8+0+1: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, 2" name=" 8+0+1: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, 2" time="0.001">
     </testcase>
     <testcase classname=" 8+0+2: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, &quot;  &quot;" name=" 8+0+2: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 8+0+3: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, &quot;1&quot;" name=" 8+0+3: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, &quot;1&quot;" time="0.001">
+    <testcase classname=" 8+0+3: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, &quot;1&quot;" name=" 8+0+3: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, null, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 8+1+0: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, 1" name=" 8+1+0: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, 1" time="0">
+    <testcase classname=" 8+1+0: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, 1" name=" 8+1+0: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, 1" time="0.001">
     </testcase>
-    <testcase classname=" 8+1+1: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, 2" name=" 8+1+1: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, 2" time="0.004">
+    <testcase classname=" 8+1+1: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, 2" name=" 8+1+1: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, 2" time="0">
     </testcase>
     <testcase classname=" 8+1+2: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, &quot;  &quot;" name=" 8+1+2: stringify: {&quot;a&quot;:1,&quot;b&quot;:null}, replacer, &quot;  &quot;" time="0.001">
     </testcase>
@@ -585,9 +593,9 @@
     </testcase>
     <testcase classname=" 9+0+0: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, 1" name=" 9+0+0: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, 1" time="0.001">
     </testcase>
-    <testcase classname=" 9+0+1: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, 2" name=" 9+0+1: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, 2" time="0">
+    <testcase classname=" 9+0+1: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, 2" name=" 9+0+1: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, 2" time="0.001">
     </testcase>
-    <testcase classname=" 9+0+2: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, &quot;  &quot;" name=" 9+0+2: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, &quot;  &quot;" time="0">
+    <testcase classname=" 9+0+2: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, &quot;  &quot;" name=" 9+0+2: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, &quot;  &quot;" time="0.001">
     </testcase>
     <testcase classname=" 9+0+3: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, &quot;1&quot;" name=" 9+0+3: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], null, &quot;1&quot;" time="0">
     </testcase>
@@ -597,9 +605,9 @@
     </testcase>
     <testcase classname=" 9+1+2: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], replacer, &quot;  &quot;" name=" 9+1+2: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], replacer, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 9+1+3: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], replacer, &quot;1&quot;" name=" 9+1+3: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], replacer, &quot;1&quot;" time="0.001">
+    <testcase classname=" 9+1+3: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], replacer, &quot;1&quot;" name=" 9+1+3: stringify: [&quot;abc&quot;,1,{&quot;a&quot;:1}], replacer, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 10+0+0: stringify: [null,1,&quot;abc&quot;], null, 1" name=" 10+0+0: stringify: [null,1,&quot;abc&quot;], null, 1" time="0">
+    <testcase classname=" 10+0+0: stringify: [null,1,&quot;abc&quot;], null, 1" name=" 10+0+0: stringify: [null,1,&quot;abc&quot;], null, 1" time="0.001">
     </testcase>
     <testcase classname=" 10+0+1: stringify: [null,1,&quot;abc&quot;], null, 2" name=" 10+0+1: stringify: [null,1,&quot;abc&quot;], null, 2" time="0">
     </testcase>
@@ -609,17 +617,17 @@
     </testcase>
     <testcase classname=" 10+1+0: stringify: [null,1,&quot;abc&quot;], replacer, 1" name=" 10+1+0: stringify: [null,1,&quot;abc&quot;], replacer, 1" time="0">
     </testcase>
-    <testcase classname=" 10+1+1: stringify: [null,1,&quot;abc&quot;], replacer, 2" name=" 10+1+1: stringify: [null,1,&quot;abc&quot;], replacer, 2" time="0">
+    <testcase classname=" 10+1+1: stringify: [null,1,&quot;abc&quot;], replacer, 2" name=" 10+1+1: stringify: [null,1,&quot;abc&quot;], replacer, 2" time="0.001">
     </testcase>
-    <testcase classname=" 10+1+2: stringify: [null,1,&quot;abc&quot;], replacer, &quot;  &quot;" name=" 10+1+2: stringify: [null,1,&quot;abc&quot;], replacer, &quot;  &quot;" time="0.001">
+    <testcase classname=" 10+1+2: stringify: [null,1,&quot;abc&quot;], replacer, &quot;  &quot;" name=" 10+1+2: stringify: [null,1,&quot;abc&quot;], replacer, &quot;  &quot;" time="0">
     </testcase>
     <testcase classname=" 10+1+3: stringify: [null,1,&quot;abc&quot;], replacer, &quot;1&quot;" name=" 10+1+3: stringify: [null,1,&quot;abc&quot;], replacer, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 11+0+0: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, 1" name=" 11+0+0: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, 1" time="0">
+    <testcase classname=" 11+0+0: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, 1" name=" 11+0+0: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, 1" time="0.001">
     </testcase>
-    <testcase classname=" 11+0+1: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, 2" name=" 11+0+1: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, 2" time="0.001">
+    <testcase classname=" 11+0+1: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, 2" name=" 11+0+1: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, 2" time="0">
     </testcase>
-    <testcase classname=" 11+0+2: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, &quot;  &quot;" name=" 11+0+2: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, &quot;  &quot;" time="0">
+    <testcase classname=" 11+0+2: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, &quot;  &quot;" name=" 11+0+2: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, &quot;  &quot;" time="0.001">
     </testcase>
     <testcase classname=" 11+0+3: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, &quot;1&quot;" name=" 11+0+3: stringify: {&quot;b&quot;:false,&quot;c&quot;:[1,&quot;1&quot;],&quot;d&quot;:&quot;bar&quot;}, null, &quot;1&quot;" time="0">
     </testcase>
@@ -633,51 +641,51 @@
     </testcase>
     <testcase classname=" 12+0+0: stringify: null, null, 1" name=" 12+0+0: stringify: null, null, 1" time="0">
     </testcase>
-    <testcase classname=" 12+0+1: stringify: null, null, 2" name=" 12+0+1: stringify: null, null, 2" time="0">
+    <testcase classname=" 12+0+1: stringify: null, null, 2" name=" 12+0+1: stringify: null, null, 2" time="0.001">
     </testcase>
     <testcase classname=" 12+0+2: stringify: null, null, &quot;  &quot;" name=" 12+0+2: stringify: null, null, &quot;  &quot;" time="0">
     </testcase>
     <testcase classname=" 12+0+3: stringify: null, null, &quot;1&quot;" name=" 12+0+3: stringify: null, null, &quot;1&quot;" time="0.001">
     </testcase>
-    <testcase classname=" 12+1+0: stringify: null, replacer, 1" name=" 12+1+0: stringify: null, replacer, 1" time="0">
+    <testcase classname=" 12+1+0: stringify: null, replacer, 1" name=" 12+1+0: stringify: null, replacer, 1" time="0.001">
     </testcase>
-    <testcase classname=" 12+1+1: stringify: null, replacer, 2" name=" 12+1+1: stringify: null, replacer, 2" time="0">
+    <testcase classname=" 12+1+1: stringify: null, replacer, 2" name=" 12+1+1: stringify: null, replacer, 2" time="0.002">
     </testcase>
-    <testcase classname=" 12+1+2: stringify: null, replacer, &quot;  &quot;" name=" 12+1+2: stringify: null, replacer, &quot;  &quot;" time="0">
+    <testcase classname=" 12+1+2: stringify: null, replacer, &quot;  &quot;" name=" 12+1+2: stringify: null, replacer, &quot;  &quot;" time="0.001">
     </testcase>
-    <testcase classname=" 12+1+3: stringify: null, replacer, &quot;1&quot;" name=" 12+1+3: stringify: null, replacer, &quot;1&quot;" time="0">
+    <testcase classname=" 12+1+3: stringify: null, replacer, &quot;1&quot;" name=" 12+1+3: stringify: null, replacer, &quot;1&quot;" time="0.001">
     </testcase>
-    <testcase classname=" 13+0+0: stringify: null, null, 1" name=" 13+0+0: stringify: null, null, 1" time="0.001">
+    <testcase classname=" 13+0+0: stringify: null, null, 1" name=" 13+0+0: stringify: null, null, 1" time="0">
     </testcase>
-    <testcase classname=" 13+0+1: stringify: null, null, 2" name=" 13+0+1: stringify: null, null, 2" time="0">
+    <testcase classname=" 13+0+1: stringify: null, null, 2" name=" 13+0+1: stringify: null, null, 2" time="0.001">
     </testcase>
-    <testcase classname=" 13+0+2: stringify: null, null, &quot;  &quot;" name=" 13+0+2: stringify: null, null, &quot;  &quot;" time="0">
+    <testcase classname=" 13+0+2: stringify: null, null, &quot;  &quot;" name=" 13+0+2: stringify: null, null, &quot;  &quot;" time="0.001">
     </testcase>
-    <testcase classname=" 13+0+3: stringify: null, null, &quot;1&quot;" name=" 13+0+3: stringify: null, null, &quot;1&quot;" time="0">
+    <testcase classname=" 13+0+3: stringify: null, null, &quot;1&quot;" name=" 13+0+3: stringify: null, null, &quot;1&quot;" time="0.001">
     </testcase>
     <testcase classname=" 13+1+0: stringify: null, replacer, 1" name=" 13+1+0: stringify: null, replacer, 1" time="0.001">
     </testcase>
-    <testcase classname=" 13+1+1: stringify: null, replacer, 2" name=" 13+1+1: stringify: null, replacer, 2" time="0">
+    <testcase classname=" 13+1+1: stringify: null, replacer, 2" name=" 13+1+1: stringify: null, replacer, 2" time="0.001">
     </testcase>
     <testcase classname=" 13+1+2: stringify: null, replacer, &quot;  &quot;" name=" 13+1+2: stringify: null, replacer, &quot;  &quot;" time="0">
     </testcase>
     <testcase classname=" 13+1+3: stringify: null, replacer, &quot;1&quot;" name=" 13+1+3: stringify: null, replacer, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 14+0+0: stringify: {&quot;foo&quot;:1}, null, 1" name=" 14+0+0: stringify: {&quot;foo&quot;:1}, null, 1" time="0">
+    <testcase classname=" 14+0+0: stringify: {&quot;foo&quot;:1}, null, 1" name=" 14+0+0: stringify: {&quot;foo&quot;:1}, null, 1" time="0.001">
     </testcase>
-    <testcase classname=" 14+0+1: stringify: {&quot;foo&quot;:1}, null, 2" name=" 14+0+1: stringify: {&quot;foo&quot;:1}, null, 2" time="0.001">
+    <testcase classname=" 14+0+1: stringify: {&quot;foo&quot;:1}, null, 2" name=" 14+0+1: stringify: {&quot;foo&quot;:1}, null, 2" time="0">
     </testcase>
-    <testcase classname=" 14+0+2: stringify: {&quot;foo&quot;:1}, null, &quot;  &quot;" name=" 14+0+2: stringify: {&quot;foo&quot;:1}, null, &quot;  &quot;" time="0">
+    <testcase classname=" 14+0+2: stringify: {&quot;foo&quot;:1}, null, &quot;  &quot;" name=" 14+0+2: stringify: {&quot;foo&quot;:1}, null, &quot;  &quot;" time="0.001">
     </testcase>
     <testcase classname=" 14+0+3: stringify: {&quot;foo&quot;:1}, null, &quot;1&quot;" name=" 14+0+3: stringify: {&quot;foo&quot;:1}, null, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 14+1+0: stringify: {&quot;foo&quot;:1}, replacer, 1" name=" 14+1+0: stringify: {&quot;foo&quot;:1}, replacer, 1" time="0">
+    <testcase classname=" 14+1+0: stringify: {&quot;foo&quot;:1}, replacer, 1" name=" 14+1+0: stringify: {&quot;foo&quot;:1}, replacer, 1" time="0.001">
     </testcase>
-    <testcase classname=" 14+1+1: stringify: {&quot;foo&quot;:1}, replacer, 2" name=" 14+1+1: stringify: {&quot;foo&quot;:1}, replacer, 2" time="0.001">
+    <testcase classname=" 14+1+1: stringify: {&quot;foo&quot;:1}, replacer, 2" name=" 14+1+1: stringify: {&quot;foo&quot;:1}, replacer, 2" time="0">
     </testcase>
     <testcase classname=" 14+1+2: stringify: {&quot;foo&quot;:1}, replacer, &quot;  &quot;" name=" 14+1+2: stringify: {&quot;foo&quot;:1}, replacer, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 14+1+3: stringify: {&quot;foo&quot;:1}, replacer, &quot;1&quot;" name=" 14+1+3: stringify: {&quot;foo&quot;:1}, replacer, &quot;1&quot;" time="0">
+    <testcase classname=" 14+1+3: stringify: {&quot;foo&quot;:1}, replacer, &quot;1&quot;" name=" 14+1+3: stringify: {&quot;foo&quot;:1}, replacer, &quot;1&quot;" time="0.008">
     </testcase>
     <testcase classname=" 15+0+0: stringify: &quot;\&quot;&quot;, null, 1" name=" 15+0+0: stringify: &quot;\&quot;&quot;, null, 1" time="0.001">
     </testcase>
@@ -685,23 +693,23 @@
     </testcase>
     <testcase classname=" 15+0+2: stringify: &quot;\&quot;&quot;, null, &quot;  &quot;" name=" 15+0+2: stringify: &quot;\&quot;&quot;, null, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 15+0+3: stringify: &quot;\&quot;&quot;, null, &quot;1&quot;" name=" 15+0+3: stringify: &quot;\&quot;&quot;, null, &quot;1&quot;" time="0">
+    <testcase classname=" 15+0+3: stringify: &quot;\&quot;&quot;, null, &quot;1&quot;" name=" 15+0+3: stringify: &quot;\&quot;&quot;, null, &quot;1&quot;" time="0.001">
     </testcase>
     <testcase classname=" 15+1+0: stringify: &quot;\&quot;&quot;, replacer, 1" name=" 15+1+0: stringify: &quot;\&quot;&quot;, replacer, 1" time="0">
     </testcase>
-    <testcase classname=" 15+1+1: stringify: &quot;\&quot;&quot;, replacer, 2" name=" 15+1+1: stringify: &quot;\&quot;&quot;, replacer, 2" time="0.001">
+    <testcase classname=" 15+1+1: stringify: &quot;\&quot;&quot;, replacer, 2" name=" 15+1+1: stringify: &quot;\&quot;&quot;, replacer, 2" time="0">
     </testcase>
-    <testcase classname=" 15+1+2: stringify: &quot;\&quot;&quot;, replacer, &quot;  &quot;" name=" 15+1+2: stringify: &quot;\&quot;&quot;, replacer, &quot;  &quot;" time="0">
+    <testcase classname=" 15+1+2: stringify: &quot;\&quot;&quot;, replacer, &quot;  &quot;" name=" 15+1+2: stringify: &quot;\&quot;&quot;, replacer, &quot;  &quot;" time="0.001">
     </testcase>
     <testcase classname=" 15+1+3: stringify: &quot;\&quot;&quot;, replacer, &quot;1&quot;" name=" 15+1+3: stringify: &quot;\&quot;&quot;, replacer, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" 16+0+0: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, 1" name=" 16+0+0: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, 1" time="0">
+    <testcase classname=" 16+0+0: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, 1" name=" 16+0+0: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, 1" time="0.001">
     </testcase>
-    <testcase classname=" 16+0+1: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, 2" name=" 16+0+1: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, 2" time="0.001">
+    <testcase classname=" 16+0+1: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, 2" name=" 16+0+1: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, 2" time="0">
     </testcase>
     <testcase classname=" 16+0+2: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, &quot;  &quot;" name=" 16+0+2: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, &quot;  &quot;" time="0">
     </testcase>
-    <testcase classname=" 16+0+3: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, &quot;1&quot;" name=" 16+0+3: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, &quot;1&quot;" time="0">
+    <testcase classname=" 16+0+3: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, &quot;1&quot;" name=" 16+0+3: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, null, &quot;1&quot;" time="0.001">
     </testcase>
     <testcase classname=" 16+1+0: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, replacer, 1" name=" 16+1+0: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, replacer, 1" time="0">
     </testcase>
@@ -711,41 +719,41 @@
     </testcase>
     <testcase classname=" 16+1+3: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, replacer, &quot;1&quot;" name=" 16+1+3: stringify: {&quot;foo&quot;:&quot;\&quot;&quot;,&quot;bar&quot;:&quot;\b&quot;}, replacer, &quot;1&quot;" time="0">
     </testcase>
-    <testcase classname=" deep, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-2.json" name=" deep, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-2.json" time="0.001">
+    <testcase classname=" deep, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-2.json" name=" deep, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-2.json" time="0.002">
     </testcase>
     <testcase classname=" deep, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-2.json" name=" deep, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-2.json" time="0.001">
     </testcase>
-    <testcase classname=" deep, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-3.json" name=" deep, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-3.json" time="0.001">
+    <testcase classname=" deep, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-3.json" name=" deep, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-3.json" time="0.003">
     </testcase>
-    <testcase classname=" deep, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-null.json" name=" deep, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-null.json" time="0">
+    <testcase classname=" deep, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-null.json" name=" deep, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/deep-null-null.json" time="0.003">
     </testcase>
     <testcase classname=" duplex, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-2.json" name=" duplex, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-2.json" time="0.001">
     </testcase>
-    <testcase classname=" duplex, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-2.json" name=" duplex, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-2.json" time="0">
+    <testcase classname=" duplex, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-2.json" name=" duplex, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-2.json" time="0.003">
     </testcase>
-    <testcase classname=" duplex, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-3.json" name=" duplex, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-3.json" time="0.001">
+    <testcase classname=" duplex, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-3.json" name=" duplex, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-3.json" time="0.003">
     </testcase>
-    <testcase classname=" duplex, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-null.json" name=" duplex, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-null.json" time="0">
+    <testcase classname=" duplex, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-null.json" name=" duplex, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/duplex-null-null.json" time="0.001">
     </testcase>
-    <testcase classname=" indent, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-2.json" name=" indent, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-2.json" time="0">
+    <testcase classname=" indent, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-2.json" name=" indent, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-2.json" time="0.001">
     </testcase>
-    <testcase classname=" indent, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-2.json" name=" indent, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-2.json" time="0">
+    <testcase classname=" indent, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-2.json" name=" indent, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-2.json" time="0.001">
     </testcase>
-    <testcase classname=" indent, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-3.json" name=" indent, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-3.json" time="0">
+    <testcase classname=" indent, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-3.json" name=" indent, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-3.json" time="0.001">
     </testcase>
-    <testcase classname=" indent, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-null.json" name=" indent, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-null.json" time="0.001">
+    <testcase classname=" indent, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-null.json" name=" indent, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/indent-null-null.json" time="0">
     </testcase>
-    <testcase classname=" simple, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-2.json" name=" simple, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-2.json" time="0">
+    <testcase classname=" simple, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-2.json" name=" simple, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-2.json" time="0.001">
     </testcase>
-    <testcase classname=" simple, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-2.json" name=" simple, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-2.json" time="0">
+    <testcase classname=" simple, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-2.json" name=" simple, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-2.json" time="0.001">
     </testcase>
     <testcase classname=" simple, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-3.json" name=" simple, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-3.json" time="0.001">
     </testcase>
-    <testcase classname=" simple, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-null.json" name=" simple, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-null.json" time="0">
+    <testcase classname=" simple, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-null.json" name=" simple, space: null (null): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/simple-null-null.json" time="0.001">
     </testcase>
-    <testcase classname=" single-right, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-2.json" name=" single-right, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-2.json" time="0.001">
+    <testcase classname=" single-right, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-2.json" name=" single-right, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-2.json" time="0">
     </testcase>
-    <testcase classname=" single-right, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-2.json" name=" single-right, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-2.json" time="0.003">
+    <testcase classname=" single-right, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-2.json" name=" single-right, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-2.json" time="0">
     </testcase>
     <testcase classname=" single-right, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-3.json" name=" single-right, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-right-null-3.json" time="0.001">
     </testcase>
@@ -753,7 +761,7 @@
     </testcase>
     <testcase classname=" single-top, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-top-null-2.json" name=" single-top, space: 2 (  ): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-top-null-2.json" time="0.001">
     </testcase>
-    <testcase classname=" single-top, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-top-null-2.json" name=" single-top, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-top-null-2.json" time="0">
+    <testcase classname=" single-top, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-top-null-2.json" name=" single-top, space: 2 (2): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-top-null-2.json" time="0.001">
     </testcase>
     <testcase classname=" single-top, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-top-null-3.json" name=" single-top, space: 3 (3): /home/mflo/mflorence99/lintel/src/app/comment-json/fixtures/single-top-null-3.json" time="0.001">
     </testcase>
@@ -761,37 +769,45 @@
     </testcase>
     <testcase classname=" #17: has trailing comma and comment after comma" name=" #17: has trailing comma and comment after comma" time="0.001">
     </testcase>
-    <testcase classname=" #17: insert key between a and b" name=" #17: insert key between a and b" time="0">
+    <testcase classname=" #17: insert key between a and b" name=" #17: insert key between a and b" time="0.002">
     </testcase>
-    <testcase classname=" #18: MEF extensions" name=" #18: MEF extensions" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:53" time="0.361" tests="3">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
-    </testcase>
-    <testcase classname="ExtensionsState ExtensionsState is initialized" name="ExtensionsState ExtensionsState is initialized" time="0.092">
-    </testcase>
-    <testcase classname="ExtensionsState Extensions can be changed via events" name="ExtensionsState Extensions can be changed via events" time="0.07">
+    <testcase classname=" #18: MEF extensions" name=" #18: MEF extensions" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="Service tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:53" time="0.304" tests="20">
-    <testcase classname="Service tests helpers Dummy test" name="Service tests helpers Dummy test" time="0">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:25" time="0.547" tests="7">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.126">
     </testcase>
-    <testcase classname="Utils two arrays can be compared for equality" name="Utils two arrays can be compared for equality" time="0.005">
+    <testcase classname="InputComponent registerOnChange" name="InputComponent registerOnChange" time="0.024">
     </testcase>
-    <testcase classname="Utils Object can be deep copied" name="Utils Object can be deep copied" time="0.003">
+    <testcase classname="InputComponent registerOnTouched" name="InputComponent registerOnTouched" time="0.016">
+    </testcase>
+    <testcase classname="InputComponent writeValue" name="InputComponent writeValue" time="0.022">
+    </testcase>
+    <testcase classname="InputComponent set number value" name="InputComponent set number value" time="0.012">
+    </testcase>
+    <testcase classname="InputComponent set string value" name="InputComponent set string value" time="0.019">
+    </testcase>
+    <testcase classname="InputComponent snapshot" name="InputComponent snapshot" time="0.019">
+    </testcase>
+  </testsuite>
+  <testsuite name="Service tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:26" time="0.413" tests="20">
+    <testcase classname="Service tests helpers Dummy test" name="Service tests helpers Dummy test" time="0.001">
+    </testcase>
+    <testcase classname="Utils two arrays can be compared for equality" name="Utils two arrays can be compared for equality" time="0.013">
+    </testcase>
+    <testcase classname="Utils Object can be deep copied" name="Utils Object can be deep copied" time="0.004">
     </testcase>
     <testcase classname="Utils hasProperty (string)" name="Utils hasProperty (string)" time="0.003">
     </testcase>
-    <testcase classname="Utils hasProperty (regex)" name="Utils hasProperty (regex)" time="0.003">
+    <testcase classname="Utils hasProperty (regex)" name="Utils hasProperty (regex)" time="0.002">
     </testcase>
-    <testcase classname="Utils Object can be deep searched" name="Utils Object can be deep searched" time="0.04">
+    <testcase classname="Utils Object can be deep searched" name="Utils Object can be deep searched" time="0.042">
     </testcase>
-    <testcase classname="Utils Object can be deep searched" name="Utils Object can be deep searched" time="0.024">
+    <testcase classname="Utils Object can be deep searched" name="Utils Object can be deep searched" time="0.022">
     </testcase>
     <testcase classname="Utils two arrays can be diffed" name="Utils two arrays can be diffed" time="0.003">
     </testcase>
-    <testcase classname="Utils Object exists" name="Utils Object exists" time="0.004">
+    <testcase classname="Utils Object exists" name="Utils Object exists" time="0.003">
     </testcase>
     <testcase classname="Utils Object is empty" name="Utils Object is empty" time="0.002">
     </testcase>
@@ -801,90 +817,38 @@
     </testcase>
     <testcase classname="Utils longestCommonPrefix" name="Utils longestCommonPrefix" time="0.002">
     </testcase>
-    <testcase classname="Utils longestCommonPrefix" name="Utils longestCommonPrefix" time="0.002">
+    <testcase classname="Utils longestCommonPrefix" name="Utils longestCommonPrefix" time="0.001">
     </testcase>
-    <testcase classname="Utils longestCommonPrefix" name="Utils longestCommonPrefix" time="0.002">
+    <testcase classname="Utils longestCommonPrefix" name="Utils longestCommonPrefix" time="0.003">
     </testcase>
-    <testcase classname="Utils longestCommonPrefix" name="Utils longestCommonPrefix" time="0.002">
+    <testcase classname="Utils longestCommonPrefix" name="Utils longestCommonPrefix" time="0.001">
     </testcase>
     <testcase classname="Utils nextTick works asynchronously" name="Utils nextTick works asynchronously" time="0.002">
     </testcase>
     <testcase classname="Utils parseInitialSearchParams analyzes normal query string" name="Utils parseInitialSearchParams analyzes normal query string" time="0.003">
     </testcase>
-    <testcase classname="Utils parseInitialSearchParams analyzes empty query string" name="Utils parseInitialSearchParams analyzes empty query string" time="0.003">
+    <testcase classname="Utils parseInitialSearchParams analyzes empty query string" name="Utils parseInitialSearchParams analyzes empty query string" time="0.002">
     </testcase>
-    <testcase classname="Utils safeEval" name="Utils safeEval" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:54" time="0.308" tests="7">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.058">
-    </testcase>
-    <testcase classname="InputComponent registerOnChange" name="InputComponent registerOnChange" time="0.018">
-    </testcase>
-    <testcase classname="InputComponent registerOnTouched" name="InputComponent registerOnTouched" time="0.009">
-    </testcase>
-    <testcase classname="InputComponent writeValue" name="InputComponent writeValue" time="0.008">
-    </testcase>
-    <testcase classname="InputComponent set number value" name="InputComponent set number value" time="0.009">
-    </testcase>
-    <testcase classname="InputComponent set string value" name="InputComponent set string value" time="0.007">
-    </testcase>
-    <testcase classname="InputComponent snapshot" name="InputComponent snapshot" time="0.01">
+    <testcase classname="Utils safeEval" name="Utils safeEval" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:54" time="0.289" tests="2">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:26" time="0.312" tests="2">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
     </testcase>
-    <testcase classname="SelectionState Selections can be made" name="SelectionState Selections can be made" time="0.095">
+    <testcase classname="SchemaState SchemaState is initialized" name="SchemaState SchemaState is initialized" time="0.129">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:54" time="0.303" tests="2">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:26" time="0.364" tests="2">
     <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0">
     </testcase>
-    <testcase classname="SchemaState SchemaState is initialized" name="SchemaState SchemaState is initialized" time="0.102">
+    <testcase classname="SelectionState Selections can be made" name="SelectionState Selections can be made" time="0.105">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:55" time="0.207" tests="19">
-    <testcase classname=" splice(0, 1)" name=" splice(0, 1)" time="0.001">
-    </testcase>
-    <testcase classname=" splice(0)" name=" splice(0)" time="0">
-    </testcase>
-    <testcase classname=" splice(- 3, 1)" name=" splice(- 3, 1)" time="0.001">
-    </testcase>
-    <testcase classname=" #16: splice(1, 0, 3)" name=" #16: splice(1, 0, 3)" time="0.001">
-    </testcase>
-    <testcase classname=" invalid: splice(0, undefined)" name=" invalid: splice(0, undefined)" time="0.001">
-    </testcase>
-    <testcase classname=" slice(0)" name=" slice(0)" time="0.001">
-    </testcase>
-    <testcase classname=" slice(-1)" name=" slice(-1)" time="0.001">
-    </testcase>
-    <testcase classname=" slice(3)" name=" slice(3)" time="0.001">
-    </testcase>
-    <testcase classname=" slice(undefined, undefined)" name=" slice(undefined, undefined)" time="0.001">
-    </testcase>
-    <testcase classname=" slice(0, - 2)" name=" slice(0, - 2)" time="0.001">
-    </testcase>
-    <testcase classname=" slice(0, 1)" name=" slice(0, 1)" time="0.001">
-    </testcase>
-    <testcase classname=" unshift()" name=" unshift()" time="0">
-    </testcase>
-    <testcase classname=" unshift(- 1)" name=" unshift(- 1)" time="0.001">
-    </testcase>
-    <testcase classname=" shift" name=" shift" time="0.001">
-    </testcase>
-    <testcase classname=" reverse" name=" reverse" time="0">
-    </testcase>
-    <testcase classname=" pop" name=" pop" time="0.001">
-    </testcase>
-    <testcase classname=" assign" name=" assign" time="0.017">
-    </testcase>
-    <testcase classname=" assign -- MEF extensions" name=" assign -- MEF extensions" time="0.002">
-    </testcase>
-    <testcase classname=" concat" name=" concat" time="0.001">
+  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:27" time="0.296" tests="1">
+    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.09">
     </testcase>
   </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:55" time="0.243" tests="39">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:27" time="0.281" tests="39">
     <testcase classname=" #17: after-comma comment, with trailing comma" name=" #17: after-comma comment, with trailing comma" time="0.002">
     </testcase>
     <testcase classname=" #17: after-comma comment, with trailing comma, removes comments" name=" #17: after-comma comment, with trailing comma, removes comments" time="0.001">
@@ -909,13 +873,13 @@
     </testcase>
     <testcase classname=" comment at the bottom, removes comments" name=" comment at the bottom, removes comments" time="0">
     </testcase>
-    <testcase classname=" multiple comments at the bottom, both line and block" name=" multiple comments at the bottom, both line and block" time="0.001">
+    <testcase classname=" multiple comments at the bottom, both line and block" name=" multiple comments at the bottom, both line and block" time="0.002">
     </testcase>
     <testcase classname=" multiple comments at the bottom, both line and block, removes comments" name=" multiple comments at the bottom, both line and block, removes comments" time="0.001">
     </testcase>
     <testcase classname=" comment for properties" name=" comment for properties" time="0">
     </testcase>
-    <testcase classname=" comment for properties, removes comments" name=" comment for properties, removes comments" time="0.001">
+    <testcase classname=" comment for properties, removes comments" name=" comment for properties, removes comments" time="0">
     </testcase>
     <testcase classname=" comment for properties, multiple at the top" name=" comment for properties, multiple at the top" time="0.001">
     </testcase>
@@ -931,15 +895,15 @@
     </testcase>
     <testcase classname=" inline comment after prop" name=" inline comment after prop" time="0.001">
     </testcase>
-    <testcase classname=" inline comment after prop, removes comments" name=" inline comment after prop, removes comments" time="0">
+    <testcase classname=" inline comment after prop, removes comments" name=" inline comment after prop, removes comments" time="0.005">
     </testcase>
     <testcase classname=" inline comment after comma" name=" inline comment after comma" time="0.001">
     </testcase>
-    <testcase classname=" inline comment after comma, removes comments" name=" inline comment after comma, removes comments" time="0">
+    <testcase classname=" inline comment after comma, removes comments" name=" inline comment after comma, removes comments" time="0.001">
     </testcase>
-    <testcase classname=" array" name=" array" time="0.008">
+    <testcase classname=" array" name=" array" time="0.002">
     </testcase>
-    <testcase classname=" array, removes comments" name=" array, removes comments" time="0">
+    <testcase classname=" array, removes comments" name=" array, removes comments" time="0.001">
     </testcase>
     <testcase classname=" error message:{" name=" error message:{" time="0.001">
     </testcase>
@@ -949,73 +913,109 @@
     </testcase>
     <testcase classname=" error message:" name=" error message:" time="0">
     </testcase>
-    <testcase classname=" error message:{&quot;a&quot;:a}" name=" error message:{&quot;a&quot;:a}" time="0">
+    <testcase classname=" error message:{&quot;a&quot;:a}" name=" error message:{&quot;a&quot;:a}" time="0.001">
     </testcase>
     <testcase classname=" error message:{&quot;a&quot;:undefined}" name=" error message:{&quot;a&quot;:undefined}" time="0.001">
     </testcase>
     <testcase classname=" reviver" name=" reviver" time="0">
     </testcase>
-    <testcase classname=" special: null" name=" special: null" time="0.001">
+    <testcase classname=" special: null" name=" special: null" time="0">
     </testcase>
-    <testcase classname=" special: 1" name=" special: 1" time="0">
+    <testcase classname=" special: 1" name=" special: 1" time="0.001">
     </testcase>
     <testcase classname=" special: &quot;foo&quot;" name=" special: &quot;foo&quot;" time="0.001">
     </testcase>
-    <testcase classname=" special: true" name=" special: true" time="0.001">
+    <testcase classname=" special: true" name=" special: true" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Components tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:55" time="0.324" tests="1">
-    <testcase classname="Components tests helpers Dummy test" name="Components tests helpers Dummy test" time="0.128">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:27" time="0.202" tests="19">
+    <testcase classname=" splice(0, 1)" name=" splice(0, 1)" time="0.002">
+    </testcase>
+    <testcase classname=" splice(0)" name=" splice(0)" time="0.001">
+    </testcase>
+    <testcase classname=" splice(- 3, 1)" name=" splice(- 3, 1)" time="0.001">
+    </testcase>
+    <testcase classname=" #16: splice(1, 0, 3)" name=" #16: splice(1, 0, 3)" time="0.001">
+    </testcase>
+    <testcase classname=" invalid: splice(0, undefined)" name=" invalid: splice(0, undefined)" time="0.001">
+    </testcase>
+    <testcase classname=" slice(0)" name=" slice(0)" time="0.001">
+    </testcase>
+    <testcase classname=" slice(-1)" name=" slice(-1)" time="0.001">
+    </testcase>
+    <testcase classname=" slice(3)" name=" slice(3)" time="0.001">
+    </testcase>
+    <testcase classname=" slice(undefined, undefined)" name=" slice(undefined, undefined)" time="0.001">
+    </testcase>
+    <testcase classname=" slice(0, - 2)" name=" slice(0, - 2)" time="0.001">
+    </testcase>
+    <testcase classname=" slice(0, 1)" name=" slice(0, 1)" time="0.001">
+    </testcase>
+    <testcase classname=" unshift()" name=" unshift()" time="0.001">
+    </testcase>
+    <testcase classname=" unshift(- 1)" name=" unshift(- 1)" time="0">
+    </testcase>
+    <testcase classname=" shift" name=" shift" time="0.001">
+    </testcase>
+    <testcase classname=" reverse" name=" reverse" time="0.001">
+    </testcase>
+    <testcase classname=" pop" name=" pop" time="0.001">
+    </testcase>
+    <testcase classname=" assign" name=" assign" time="0.019">
+    </testcase>
+    <testcase classname=" assign -- MEF extensions" name=" assign -- MEF extensions" time="0.001">
+    </testcase>
+    <testcase classname=" concat" name=" concat" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="core-util-is" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:56" time="0.305" tests="14">
-    <testcase classname="core-util-is isArray" name="core-util-is isArray" time="0.002">
+  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:28" time="0.202" tests="1">
+    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="core-util-is" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:28" time="0.177" tests="14">
+    <testcase classname="core-util-is isArray" name="core-util-is isArray" time="0.001">
     </testcase>
     <testcase classname="core-util-is isBoolean" name="core-util-is isBoolean" time="0.001">
     </testcase>
     <testcase classname="core-util-is isNull" name="core-util-is isNull" time="0.001">
     </testcase>
-    <testcase classname="core-util-is isNullOrUndefined" name="core-util-is isNullOrUndefined" time="0.002">
+    <testcase classname="core-util-is isNullOrUndefined" name="core-util-is isNullOrUndefined" time="0.001">
     </testcase>
-    <testcase classname="core-util-is isNumber" name="core-util-is isNumber" time="0.004">
+    <testcase classname="core-util-is isNumber" name="core-util-is isNumber" time="0.002">
     </testcase>
-    <testcase classname="core-util-is isString" name="core-util-is isString" time="0.003">
+    <testcase classname="core-util-is isString" name="core-util-is isString" time="0.001">
     </testcase>
-    <testcase classname="core-util-is isSymbol" name="core-util-is isSymbol" time="0.003">
+    <testcase classname="core-util-is isSymbol" name="core-util-is isSymbol" time="0.001">
     </testcase>
-    <testcase classname="core-util-is isUndefined" name="core-util-is isUndefined" time="0.003">
+    <testcase classname="core-util-is isUndefined" name="core-util-is isUndefined" time="0.001">
     </testcase>
-    <testcase classname="core-util-is isRegExp" name="core-util-is isRegExp" time="0.001">
+    <testcase classname="core-util-is isRegExp" name="core-util-is isRegExp" time="0.002">
     </testcase>
     <testcase classname="core-util-is isObject" name="core-util-is isObject" time="0">
     </testcase>
     <testcase classname="core-util-is isDate" name="core-util-is isDate" time="0.001">
     </testcase>
-    <testcase classname="core-util-is isError" name="core-util-is isError" time="0.009">
+    <testcase classname="core-util-is isError" name="core-util-is isError" time="0.001">
     </testcase>
-    <testcase classname="core-util-is isFunction" name="core-util-is isFunction" time="0.001">
+    <testcase classname="core-util-is isFunction" name="core-util-is isFunction" time="0">
     </testcase>
     <testcase classname="core-util-is isPrimitive" name="core-util-is isPrimitive" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="State tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:56" time="0.301" tests="1">
-    <testcase classname="State tests helpers Dummy test" name="State tests helpers Dummy test" time="0.001">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:28" time="0.189" tests="17">
+    <testcase classname=" detect the indent of a file with space indent" name=" detect the indent of a file with space indent" time="0.001">
     </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:56" time="0.193" tests="17">
-    <testcase classname=" detect the indent of a file with space indent" name=" detect the indent of a file with space indent" time="0.002">
+    <testcase classname=" return indentation stats for spaces" name=" return indentation stats for spaces" time="0.001">
     </testcase>
-    <testcase classname=" return indentation stats for spaces" name=" return indentation stats for spaces" time="0">
-    </testcase>
-    <testcase classname=" return indentation stats for multiple tabs" name=" return indentation stats for multiple tabs" time="0.001">
+    <testcase classname=" return indentation stats for multiple tabs" name=" return indentation stats for multiple tabs" time="0">
     </testcase>
     <testcase classname=" detect the indent of a file with tab indent" name=" detect the indent of a file with tab indent" time="0.001">
     </testcase>
-    <testcase classname=" return indentation stats for tabs" name=" return indentation stats for tabs" time="0">
+    <testcase classname=" return indentation stats for tabs" name=" return indentation stats for tabs" time="0.001">
     </testcase>
-    <testcase classname=" detect the indent of a file with equal tabs and spaces" name=" detect the indent of a file with equal tabs and spaces" time="0.001">
+    <testcase classname=" detect the indent of a file with equal tabs and spaces" name=" detect the indent of a file with equal tabs and spaces" time="0">
     </testcase>
-    <testcase classname=" return indentation stats for equal tabs and spaces" name=" return indentation stats for equal tabs and spaces" time="0">
+    <testcase classname=" return indentation stats for equal tabs and spaces" name=" return indentation stats for equal tabs and spaces" time="0.001">
     </testcase>
     <testcase classname=" detect the indent of a file with mostly spaces" name=" detect the indent of a file with mostly spaces" time="0">
     </testcase>
@@ -1038,17 +1038,47 @@
     <testcase classname=" throw TypeError if not passed a string" name=" throw TypeError if not passed a string" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="Custom operators" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:57" time="0.177" tests="4">
-    <testcase classname="Custom operators update simple rule" name="Custom operators update simple rule" time="0.001">
+  <testsuite name="repeat" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:28" time="0.177" tests="6">
+    <testcase classname="repeat should return an empty string when a number is not given:" name="repeat should return an empty string when a number is not given:" time="0.001">
     </testcase>
-    <testcase classname="Custom operators update only parts supplied" name="Custom operators update only parts supplied" time="0.001">
+    <testcase classname="repeat should return an empty string when zero or null is given as the number:" name="repeat should return an empty string when zero or null is given as the number:" time="0.001">
     </testcase>
-    <testcase classname="Custom operators create a rule that did not already exist" name="Custom operators create a rule that did not already exist" time="0.009">
+    <testcase classname="repeat should repeat the given string n times" name="repeat should repeat the given string n times" time="0.003">
     </testcase>
-    <testcase classname="Custom operators delete a rule" name="Custom operators delete a rule" time="0.001">
+    <testcase classname="repeat should allow the multiplier to be a string:" name="repeat should allow the multiplier to be a string:" time="0.001">
+    </testcase>
+    <testcase classname="repeat should cache strings until the string changes:" name="repeat should cache strings until the string changes:" time="0.001">
+    </testcase>
+    <testcase classname="repeat should throw an error when no string is given:" name="repeat should throw an error when no string is given:" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="meld-configurations" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:57" time="0.167" tests="6">
+  <testsuite name="MarkedPipe" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:28" time="0.177" tests="2">
+    <testcase classname="MarkedPipe null returns default" name="MarkedPipe null returns default" time="0.001">
+    </testcase>
+    <testcase classname="MarkedPipe links are transformed" name="MarkedPipe links are transformed" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="Service tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:29" time="0.202" tests="5">
+    <testcase classname="Service tests helpers Dummy test" name="Service tests helpers Dummy test" time="0">
+    </testcase>
+    <testcase classname="StorageService setItem/getItem" name="StorageService setItem/getItem" time="0.006">
+    </testcase>
+    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.003">
+    </testcase>
+    <testcase classname="StorageService clear" name="StorageService clear" time="0.004">
+    </testcase>
+    <testcase classname="StorageService key" name="StorageService key" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="Service tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:29" time="0.221" tests="3">
+    <testcase classname="Service tests helpers Dummy test" name="Service tests helpers Dummy test" time="0.001">
+    </testcase>
+    <testcase classname="Params Params are set as expected" name="Params Params are set as expected" time="0.006">
+    </testcase>
+    <testcase classname="Params searchParams are initialized correctly" name="Params searchParams are initialized correctly" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="meld-configurations" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:29" time="0.212" tests="6">
     <testcase classname="meld-configurations smoke test" name="meld-configurations smoke test" time="0.001">
     </testcase>
     <testcase classname="meld-configurations configurations can be normalized" name="meld-configurations configurations can be normalized" time="0.001">
@@ -1057,68 +1087,38 @@
     </testcase>
     <testcase classname="meld-configurations overrides can be melded" name="meld-configurations overrides can be melded" time="0.001">
     </testcase>
-    <testcase classname="meld-configurations plugins can be melded and deduplicated" name="meld-configurations plugins can be melded and deduplicated" time="0">
+    <testcase classname="meld-configurations plugins can be melded and deduplicated" name="meld-configurations plugins can be melded and deduplicated" time="0.001">
     </testcase>
     <testcase classname="meld-configurations rules can be melded" name="meld-configurations rules can be melded" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Service tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:57" time="0.166" tests="3">
-    <testcase classname="Service tests helpers Dummy test" name="Service tests helpers Dummy test" time="0.001">
+  <testsuite name="LinkifyPipe" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:29" time="0.153" tests="3">
+    <testcase classname="LinkifyPipe null returns default" name="LinkifyPipe null returns default" time="0.001">
     </testcase>
-    <testcase classname="Params Params are set as expected" name="Params Params are set as expected" time="0.013">
+    <testcase classname="LinkifyPipe links are not transformed again" name="LinkifyPipe links are not transformed again" time="0.001">
     </testcase>
-    <testcase classname="Params searchParams are initialized correctly" name="Params searchParams are initialized correctly" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="Service tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:57" time="0.151" tests="1">
-    <testcase classname="Service tests helpers Dummy test" name="Service tests helpers Dummy test" time="0">
+    <testcase classname="LinkifyPipe links are transformed" name="LinkifyPipe links are transformed" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="repeat" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:57" time="0.181" tests="6">
-    <testcase classname="repeat should return an empty string when a number is not given:" name="repeat should return an empty string when a number is not given:" time="0">
+  <testsuite name="Custom operators" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:30" time="0.158" tests="4">
+    <testcase classname="Custom operators update simple rule" name="Custom operators update simple rule" time="0.001">
     </testcase>
-    <testcase classname="repeat should return an empty string when zero or null is given as the number:" name="repeat should return an empty string when zero or null is given as the number:" time="0.001">
+    <testcase classname="Custom operators update only parts supplied" name="Custom operators update only parts supplied" time="0">
     </testcase>
-    <testcase classname="repeat should repeat the given string n times" name="repeat should repeat the given string n times" time="0.003">
+    <testcase classname="Custom operators create a rule that did not already exist" name="Custom operators create a rule that did not already exist" time="0.001">
     </testcase>
-    <testcase classname="repeat should allow the multiplier to be a string:" name="repeat should allow the multiplier to be a string:" time="0.01">
-    </testcase>
-    <testcase classname="repeat should cache strings until the string changes:" name="repeat should cache strings until the string changes:" time="0.001">
-    </testcase>
-    <testcase classname="repeat should throw an error when no string is given:" name="repeat should throw an error when no string is given:" time="0.004">
+    <testcase classname="Custom operators delete a rule" name="Custom operators delete a rule" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="Service tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:57" time="0.204" tests="5">
-    <testcase classname="Service tests helpers Dummy test" name="Service tests helpers Dummy test" time="0.001">
-    </testcase>
-    <testcase classname="StorageService setItem/getItem" name="StorageService setItem/getItem" time="0.006">
-    </testcase>
-    <testcase classname="StorageService removeItem" name="StorageService removeItem" time="0.007">
-    </testcase>
-    <testcase classname="StorageService clear" name="StorageService clear" time="0.005">
-    </testcase>
-    <testcase classname="StorageService key" name="StorageService key" time="0.004">
-    </testcase>
-  </testsuite>
-  <testsuite name="DestroyService" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:58" time="0.204" tests="1">
+  <testsuite name="DestroyService" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:30" time="0.162" tests="1">
     <testcase classname="DestroyService destroy$ will complete a stream" name="DestroyService destroy$ will complete a stream" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="MarkedPipe" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:58" time="0.179" tests="2">
-    <testcase classname="MarkedPipe null returns default" name="MarkedPipe null returns default" time="0.001">
-    </testcase>
-    <testcase classname="MarkedPipe links are transformed" name="MarkedPipe links are transformed" time="0.014">
+  <testsuite name="Service tests helpers" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:30" time="0.151" tests="1">
+    <testcase classname="Service tests helpers Dummy test" name="Service tests helpers Dummy test" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="LinkifyPipe" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:58" time="0.155" tests="3">
-    <testcase classname="LinkifyPipe null returns default" name="LinkifyPipe null returns default" time="0.001">
-    </testcase>
-    <testcase classname="LinkifyPipe links are not transformed again" name="LinkifyPipe links are not transformed again" time="0">
-    </testcase>
-    <testcase classname="LinkifyPipe links are transformed" name="LinkifyPipe links are transformed" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T09:56:58" time="0.154" tests="1">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2020-11-10T21:15:30" time="0.153" tests="1">
     <testcase classname=" hasOwnProperty" name=" hasOwnProperty" time="0.001">
     </testcase>
   </testsuite>

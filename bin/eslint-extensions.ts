@@ -17,6 +17,7 @@ const extensions = [
   'plugin:react-redux/recommended',
   'plugin:vue/recommended',
   'plugin:@angular-eslint/recommended',
+  'plugin:@angular-eslint/template/recommended',
   'plugin:@typescript-eslint/eslint-recommended',
   'plugin:@typescript-eslint/recommended',
   'plugin:@typescript-eslint/recommended-requiring-type-checking'

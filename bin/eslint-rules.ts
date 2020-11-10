@@ -4,6 +4,7 @@ const cliEngine = require('eslint').CLIEngine;
 
 const plugins = [
   '@angular-eslint',
+  '@angular-eslint/template',
   '@typescript-eslint',
   'compat',
   'eslint',

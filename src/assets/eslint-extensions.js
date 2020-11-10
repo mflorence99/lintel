@@ -2126,7 +2126,10 @@
       "sort-keys": "off",
       "quotes": [
         "error",
-        "single"
+        "single",
+        {
+          "allowTemplateLiterals": true
+        }
       ],
       "comma-dangle": "off",
       "@angular-eslint/component-class-suffix": "error",
@@ -2152,6 +2155,16 @@
     "plugins": [
       "@typescript-eslint",
       "@angular-eslint"
+    ]
+  },
+  "plugin:@angular-eslint/template/recommended": {
+    "rules": {
+      "@angular-eslint/template/banana-in-box": "error",
+      "@angular-eslint/template/no-negated-async": "error"
+    },
+    "parser": "@angular-eslint/template-parser",
+    "plugins": [
+      "@angular-eslint/template"
     ]
   },
   "plugin:@typescript-eslint/eslint-recommended": {

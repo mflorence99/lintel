@@ -270,7 +270,10 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     Object.entries(this.snapshot)
       .filter(([_, configuration]) => !!configuration)
       .forEach(([fileName, configuration]) => {
-        const extensions = configuration.extends;
+        const extensions = [...(configuration.extends ?? [])];
+        (configuration.overrides ?? []).forEach((override) =>
+          extensions.push(...(override.extends ?? []))
+        );
         if (extensions?.length)
           lintelVSCodeAPI.postMessage({
             command: 'getExtensions',
@@ -370,8 +373,12 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
     // meld all the extensions of the base, in order
     // NOTE: the extends of every extension have already been
     // resolved at load time
-    const extensionNames = this.baseConfiguration.extends ?? [];
-    let extension = extensionNames
+    const extensionNames =
+      ix == null
+        ? this.baseConfiguration.extends
+        : this.baseConfiguration.overrides[ix]?.extends ??
+          this.baseConfiguration.extends;
+    let extension = (extensionNames ?? [])
       .map((extensionName) => this.extensions.snapshot[extensionName])
       .filter((extension) => !!extension)
       .reduce((acc, extension) => {
@@ -502,9 +509,9 @@ export class ConfigsState extends NgxsDataRepository<ConfigsStateModel> {
       .filter((ruleName) => this.isRuleFiltered(ruleName))
       .sort()
       .map((ruleName) => {
-        const parts = ruleName.split('/');
-        return parts.length === 2
-          ? [parts[0], ruleName]
+        const ix = ruleName.lastIndexOf('/');
+        return ix !== -1
+          ? [ruleName.substring(0, ix), ruleName]
           : [this.params.basePluginName, ruleName];
       })
       .filter(
