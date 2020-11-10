@@ -106,7 +106,7 @@ export function messageHandlerFactory(
         break;
 
       case 'editFile':
-        vscode.window.showTextDocument(vscode.Uri.parse(message.fileName), {
+        vscode.window.showTextDocument(vscode.Uri.file(message.fileName), {
           viewColumn: vscode.ViewColumn.Beside
         });
         break;

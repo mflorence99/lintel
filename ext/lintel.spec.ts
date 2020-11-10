@@ -86,7 +86,7 @@ describe('VSCode extension', () => {
 
       handleMessage({ command: 'editFile', fileName: 'xxx' });
       expect(vscode.window.showTextDocument).toHaveBeenCalledWith(
-        vscode.Uri.parse('xxx'),
+        vscode.Uri.file('xxx'),
         expect.any(Object)
       );
 

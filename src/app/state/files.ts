@@ -36,8 +36,8 @@ interface ESLintFile {
 }
 
 // NOTE: we only keep a write-only copy of the store for logging purposes
-// the real data is help in "indents" and "objects" below because we don't want to
-// deal with immutability
+// the real data is help in "indents" and "objects" below because
+// we don't want to deal with immutability
 export interface FilesStateModel {
   indents: Record<string, Indent>;
   objects: Record<string, any>;
@@ -66,7 +66,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
 
   // @see https://stackoverflow.com/questions/32494174
 
-  // ////////////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////
 
   private jsFile = new (class implements ESLintFile {
     private prefix: Record<string, string> = {};
@@ -134,7 +134,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
   })(this);
 
-  // ////////////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////
 
   private jsonFile = new (class implements ESLintFile {
     constructor(private superThis: FilesState) {}
@@ -177,7 +177,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
   })(this);
 
-  // ////////////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////
 
   private packageJSONFile = new (class implements ESLintFile {
     constructor(private superThis: FilesState) {}
@@ -223,7 +223,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
   })(this);
 
-  // ////////////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////
 
   private yamlFile = new (class implements ESLintFile {
     constructor(private superThis: FilesState) {}
@@ -268,7 +268,7 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
   })(this);
 
-  // ////////////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////
 
   /* eslint-enable @typescript-eslint/member-ordering */
 

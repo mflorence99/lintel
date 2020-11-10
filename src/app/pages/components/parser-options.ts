@@ -16,7 +16,6 @@ import { FormGroup } from '@angular/forms';
 import { OnInit } from '@angular/core';
 
 import { filter } from 'rxjs/operators';
-import { patch } from '@ngxs/store/operators';
 import { takeUntil } from 'rxjs/operators';
 
 /**
@@ -92,11 +91,9 @@ export class ParserOptionsComponent implements OnInit {
         filter(() => this.underConstruction),
         takeUntil(this.destroy$)
       )
-      .subscribe((changes) =>
-        // NOTE: we're patching these changes because each parser can define its own
-        // set of parserOptions and we can't be sure we've built the UI for all of them
-        this.configs.changeConfiguration({ parserOptions: patch(changes) })
-      );
+      .subscribe((changes) => {
+        this.configs.changeConfiguration({ parserOptions: changes });
+      });
   }
 
   private rebuildControls(): void {

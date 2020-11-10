@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3.2
+
+Change `Ui.parse` to `Uri.file` in an attempt to fix #27. Each works differently under Windows, identically under Linux and Mac.
+
 ## 1.3.1
 
 Thanks to @jerone, fixes to #23 and #25.
