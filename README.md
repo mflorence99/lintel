@@ -1,6 +1,6 @@
 # Lintel: ESLint Configuration File Visualizer
 
-[![Jest Coverage](https://img.shields.io/badge/coverage-96.81%25-blue)](https://github.com/mflorence99/lintel/issues) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
+[![Jest Coverage](https://img.shields.io/badge/coverage-96.94%25-blue)](https://github.com/mflorence99/lintel/issues) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CircleCI](https://circleci.com/gh/mflorence99/lintel.svg?style=shield)](https://circleci.com/gh/mflorence99/lintel)
 
 - [Lintel: ESLint Configuration File Visualizer](#lintel-eslint-configuration-file-visualizer)
   - [Getting Started](#getting-started)
