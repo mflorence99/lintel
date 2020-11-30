@@ -25,7 +25,6 @@ import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { TestBed } from '@angular/core/testing';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare let lintelVSCodeAPI;
 
 // @see https://stackoverflow.com/questions/38623065
@@ -38,7 +37,7 @@ export class MockElementRef extends ElementRef {
 // NOTE: correct for dynamically-generated <fa-icon> ids
 expect.addSnapshotSerializer({
   test: (val) => typeof val === 'string',
-  print: (val: string): string => {
+  print: (val: any): string => {
     val = val.replace(/^svg-inline--fa-title-.*$/, 'svg-inline--fa-title-xxx');
     return `"${val}"`;
   }
@@ -60,6 +59,7 @@ export function prepare(): void {
     ]
   }).compileComponents();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   lintelVSCodeAPI = {
     getState: jest.fn(),
     postMessage: jest.fn(),

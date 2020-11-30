@@ -12,11 +12,11 @@ exports[`RulesComponent snapshot 1`] = `
   host={[Function ElementRef]}
   hydratedRules={[Function Set]}
   intersectionObserver={[Function value]}
-  lintel={[Function LintelState]}
+  lintel={[Function class_1]}
   observedRules={[Function Set]}
   params={[Function Params]}
   rules={[Function RulesState]}
-  selection={[Function SelectionState]}
+  selection={[Function class_1]}
   utils={[Function Utils]}
   view={[Function Object]}
 >

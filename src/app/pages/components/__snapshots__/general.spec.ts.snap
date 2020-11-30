@@ -10,10 +10,10 @@ exports[`GeneralComponent snapshot 1`] = `
   extensions={[Function ExtensionsState]}
   formBuilder={[Function FormBuilder]}
   generalForm={[Function FormGroup]}
-  lintel={[Function LintelState]}
+  lintel={[Function class_1]}
   properties={[Function Array]}
   schema={[Function SchemaState]}
-  selection={[Function SelectionState]}
+  selection={[Function class_1]}
   underConstruction={[Function Boolean]}
   utils={[Function Utils]}
 >

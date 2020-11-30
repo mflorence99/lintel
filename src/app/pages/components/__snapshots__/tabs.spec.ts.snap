@@ -7,9 +7,9 @@ exports[`TabsComponent snapshot 1`] = `
   cdf={[Function ViewRef]}
   configs={[Function ConfigsState]}
   destroy$={[Function DestroyService]}
-  filter={[Function FilterState]}
+  filter={[Function class_1]}
   params={[Function Params]}
-  selection={[Function SelectionState]}
+  selection={[Function class_1]}
   utils={[Function Utils]}
 >
   <menu

@@ -5,11 +5,11 @@ exports[`FilterComponent snapshot 1`] = `
   __ngContext__={[Function LRootView]}
   configs={[Function ConfigsState]}
   destroy$={[Function DestroyService]}
-  filter={[Function FilterState]}
+  filter={[Function class_1]}
   filterForm={[Function FormGroup]}
   formBuilder={[Function FormBuilder]}
   params={[Function Params]}
-  selection={[Function SelectionState]}
+  selection={[Function class_1]}
 >
   <lintel-input
     class="ng-untouched ng-pristine ng-valid"

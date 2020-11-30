@@ -1,6 +1,7 @@
 {
   "allowJs": true,
   "angularCompilerOptions": {
+    "disableTypeScriptVersionCheck": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   },
@@ -13,7 +14,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "lib": ["es2019", "dom"],
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "node",
     "outDir": "../dist/lintel",
     "sourceMap": true,

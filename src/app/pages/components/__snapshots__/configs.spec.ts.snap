@@ -7,10 +7,10 @@ exports[`ConfigsComponent snapshot 1`] = `
   cdf={[Function ViewRef]}
   configs={[Function ConfigsState]}
   destroy$={[Function DestroyService]}
-  filter={[Function FilterState]}
-  lintel={[Function LintelState]}
+  filter={[Function class_1]}
+  lintel={[Function class_1]}
   params={[Function Params]}
-  selection={[Function SelectionState]}
+  selection={[Function class_1]}
   utils={[Function Utils]}
 >
   <header

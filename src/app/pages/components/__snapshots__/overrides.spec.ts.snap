@@ -11,10 +11,10 @@ exports[`OverridesComponent snapshot 1`] = `
   destroy$={[Function DestroyService]}
   extensions={[Function ExtensionsState]}
   formBuilder={[Function FormBuilder]}
-  lintel={[Function LintelState]}
+  lintel={[Function class_1]}
   overridesForm={[Function FormGroup]}
   schema={[Function SchemaState]}
-  selection={[Function SelectionState]}
+  selection={[Function class_1]}
   underConstruction="false"
   utils={[Function Utils]}
 >

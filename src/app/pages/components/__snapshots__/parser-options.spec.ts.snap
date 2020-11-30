@@ -9,10 +9,10 @@ exports[`ParserOptionsComponent snapshot 1`] = `
   destroy$={[Function DestroyService]}
   extensions={[Function ExtensionsState]}
   formBuilder={[Function FormBuilder]}
-  lintel={[Function LintelState]}
+  lintel={[Function class_1]}
   parserOptionsForm={[Function FormGroup]}
   schema={[Function SchemaState]}
-  selection={[Function SelectionState]}
+  selection={[Function class_1]}
   underConstruction={[Function Boolean]}
   utils={[Function Utils]}
 >
