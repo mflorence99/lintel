@@ -20,7 +20,7 @@ const patches: Patches = {
     // @see https://github.com/ngxs-labs/data/issues/622
     {
       from: toRegExp('var _this = _super.apply(this, __spread(args)) || this;'),
-      to: 'var _this = this;'
+      to: 'var _this = args.length ? new _super(...args) : this;'
     }
   ]
 };
