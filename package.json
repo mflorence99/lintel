@@ -100,7 +100,7 @@
     "jest-extended": "^0.11.5",
     "jest-junit": "^12",
     "jest-preset-angular": "^8",
-    "marked": "^1",
+    "marked": "^2",
     "ngx-contextmenu": "^5.4.0",
     "prettier": "^2",
     "prettier-plugin-package": "^1",
