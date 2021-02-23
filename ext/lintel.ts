@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
       // eslint files to process
       const filePattern =
-        '**/{package.json,.eslintrc,.eslintrc.cjs,.eslintrc.js,.eslintrc.json,.eslintrc.yaml}';
+        '**/{package.json,.eslintrc,.eslintrc.cjs,.eslintrc.js,.eslintrc.json,.eslintrc.yml,.eslintrc.yaml}';
 
       // handlers
       const messageHandler = messageHandlerFactory(currentPanel, fileCache);
