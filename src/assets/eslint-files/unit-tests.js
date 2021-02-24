@@ -531,6 +531,15 @@ eslintFiles = {
   '/home/mflorence99/lintel/empty.json': '{ /* empty */ }',
   '/home/mflorence99/lintel/invalid.json': 'blah blah',
   '/home/mflorence99/lintel/common-js.cjs': 'module.exports = { };',
+  '/home/mflorence99/lintel/src/app/.eslintrc.yml': `
+parserOptions:
+  ecmaFeatures:
+    globalReturn: true # turn it on
+env:
+  browser: true
+rules:
+  accessor-pairs: "warn"
+  `,
   '/home/mflorence99/lintel/src/app/.eslintrc.yaml': `
 parserOptions:
   ecmaFeatures:

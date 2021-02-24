@@ -257,13 +257,13 @@ export class FilesState extends NgxsDataRepository<FilesStateModel> {
     }
 
     parse(_: string, source: string): any {
-      return jsyaml.safeLoad(source);
+      return jsyaml.load(source);
     }
 
     save(fileName: string): void {
       const indent = this.superThis.indents[fileName];
       const object = this.superThis.objects[fileName];
-      const source = jsyaml.safeDump(object, { indent: indent.amount });
+      const source = jsyaml.dump(object, { indent: indent.amount });
       lintelVSCodeAPI.postMessage({ command: 'saveFile', fileName, source });
     }
   })(this);
