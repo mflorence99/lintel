@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3.4
+
+Thanks to @RaddishIoW , fix #31.
+
 ## 1.3.3
 
 Thanks to @jerone, fix #26 and #28.
